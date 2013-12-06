@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="grudgeApp">
   <head>
     <meta charset="utf-8">
     <title>Iron Web</title>
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
   </head>
-  <body>
+  <body ng-controller="mainCtrl">
     <nav class="navbar navbar-default">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">
@@ -31,58 +31,30 @@
           <th class="visible-lg">Event</th>
           <th>Result</th>
         </tr>
-        <tr class="danger">
-          <td class="hidden-xs">2013/10/13</td>
+        <tr ng-repeat="battle in battles">
+          <td class="hidden-xs">
+            {{battle.date.year}} /
+            {{battle.date.month}} /
+            {{battle.date.day}}
+          </td>
           <td>
-            <img width="30" alt="LoE" src="img/legion-of-everblight.png" />
-            Vayl2
+            <img width="35"
+                 alt="{{battle.my_army.faction}}"
+                 src="img/{{factions[battle.my_army.faction].icon}}" />
+            {{battle.my_army.caster | capitalise}}
           </td>
-          <td>Kevin</td>
+          <td>{{battle.opponent.name | capitalise}}</td>
           <td>
-            <img width="30" alt="Cryx" src="img/cryx.png" />
-            Gaspy2
+            <img width="35"
+                 alt="{{battle.opponent.faction}}"
+                 src="img/{{factions[battle.opponent.faction].icon}}" />
+            {{battle.opponent.caster | capitalise}}
           </td>
-          <td class="hidden-xs">50</td>
-          <td class="visible-lg">Process of elimination</td>
-          <td class="visible-lg">baf131020</td>
-          <td class="text-danger">
-            <img width="35" alt="Clock Defeat" src="img/assassination-defeat.png" />
-          </td>
-        </tr>
-        <tr class="warning">
-          <td class="hidden-xs">2013/10/20</td>
-          <td>
-            <img width="30" alt="LoE" src="img/legion-of-everblight.png" />
-            Kallus
-          </td>
-          <td>Wood</td>
-          <td>
-            <img width="30" alt="Scyrah" src="img/the-retribution-of-scyrah.png" />
-            Rahn
-          </td>
-          <td class="hidden-xs">35</td>
-          <td class="visible-lg">Chemical reaction</td>
-          <td class="visible-lg">Amical</td>
-          <td class="text-warning">
-            <img width="50" alt="Draw" src="img/draw.png" />
-          </td>
-        </tr>
-        <tr class="success">
-          <td class="hidden-xs">2013/10/20</td>
-          <td>
-            <img width="30" alt="LoE" src="img/legion-of-everblight.png" />
-            Vayl1
-          </td>
-          <td>Fred</td>
-          <td>
-            <img width="30" alt="Skorne" src="img/skorne.png" />
-            Hexeris2
-          </td>
-          <td class="hidden-xs">50</td>
-          <td class="visible-lg">Incoming</td>
-          <td class="visible-lg">Amical</td>
-          <td class="text-success">
-            <img width="50" alt="Scenario victory" src="img/scenario-victory.png" />
+          <td class="hidden-xs">{{battle.setup.size}}</td>
+          <td class="visible-lg">{{scenarios[battle.setup.scenario].name}}</td>
+          <td class="visible-lg">{{battle.setup.event}}</td>
+          <td class="{{battle.score.result | scoreResultColor}}">
+            <strong class="score-result">{{battle.score.type | scoreTypeLetter}}</strong>
           </td>
         </tr>
       </table>
@@ -94,39 +66,21 @@
         </tr>
         <tr>
           <td rowspan="2">
-            <img class="pull-left" width="50" alt="LoE" src="img/legion-of-everblight.png" />
+            <img class="pull-left"
+                 width="50"
+                 alt="{{battle.my_army.faction}}"
+                 src="img/{{factions[battle.my_army.faction].icon}}" />
           </td>
           <td>
-            <select>
-              <option value="cryx">Cryx</option>
-              <option value="cygnar">Cygnar</option>
-              <option value="menoth">Protectorate of Menoth</option>
-              <option value="khador">Khador</option>
-              <option value="ros">Retribution of Scyrah</option>
-              <option value="coc">Convergence of Cyriss</option>
-              <option value="mercs">Mercenaries</option>
-              <option value="loe" selected="selected">Legion of Everblight</option>
-              <option value="trolls">Trollbloods</option>
-              <option value="circle">Circle of Oroboros</option>
-              <option value="skorne">Skorne</option>
-              <option value="minion">Minion</option>
+            <select ng-model="battle.my_army.faction"
+                    ng-options="id as f.name for (id, f) in factions">
             </select>
           </td>
         </tr>
         <tr>
           <td>
-            <select>
-              <option value="absylonia1">Absylonia</option>
-              <option value="bethayne1">Bethayne</option>
-              <option value="lylyth1">Lylyth 1</option>
-              <option value="lylyth2">Lylyth 2</option>
-              <option value="lylyth3">Lylyth 3</option>
-              <option value="rhyas">Rhyas</option>
-              <option value="saeryn">Saeryn</option>
-              <option value="thags1">Thagrosh 1</option>
-              <option value="thags2">Thagrosh 2</option>
-              <option value="vayl1">Vayl 1</option>
-              <option value="vayl2" selected="selected">Vayl 2</option>
+            <select ng-model="battle.my_army.caster"
+                    ng-options="id as c.name for (id, c) in factions[battle.my_army.faction].casters">
             </select>
           </td>
         </tr>
@@ -137,52 +91,31 @@
         </tr>
         <tr>
           <td rowspan="3">
-            <img class="pull-left" width="50" alt="Cryx" src="img/cryx.png" />
+            <img class="pull-left"
+                 width="50"
+                 alt="{{battle.opponent.faction}}"
+                 src="img/{{factions[battle.opponent.faction].icon}}" />
           </td>
           <td>
-            <select>
-              <option value="kevin" selected="selected">Kevin</option>
-              <option value="fred">Fred</option>
-              <option value="wood">Wood</option>
-              <option value="q2">Q2</option>
+            <select ng-model="battle.opponent.name"
+                    ng-options="o as o|capitalise for o in opponents">
+            </select>
+            <button class="btn btn-xs">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select ng-model="battle.opponent.faction"
+                    ng-options="id as f.name for (id, f) in factions">
             </select>
           </td>
         </tr>
         <tr>
           <td>
-            <select>
-              <option value="cryx" selected="selected">Cryx</option>
-              <option value="cygnar">Cygnar</option>
-              <option value="menoth">Protectorate of Menoth</option>
-              <option value="khador">Khador</option>
-              <option value="ros">Retribution of Scyrah</option>
-              <option value="coc">Convergence of Cyriss</option>
-              <option value="mercs">Mercenaries</option>
-              <option value="loe">Legion of Everblight</option>
-              <option value="trolls">Trollbloods</option>
-              <option value="circle">Circle of Oroboros</option>
-              <option value="skorne">Skorne</option>
-              <option value="minion">Minion</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <select>
-              <option value="gaspy1">Asphyxious 1</option>
-              <option value="gaspy2" selected="selected">Asphyxious 2</option>
-              <option value="gaspy3">Asphyxious 3</option>
-              <option value="denny1">Deneghra 1</option>
-              <option value="denny2">Deneghra 2</option>
-              <option value="gore1">Goreshade 1</option>
-              <option value="gore2">Goreshade 2</option>
-              <option value="morty1">Mortenebra</option>
-              <option value="scavy1">Scaverous</option>
-              <option value="skarre1">Skarre 1</option>
-              <option value="skarre2">Skarre 2</option>
-              <option value="termy1">Terminus</option>
-              <option value="veny1">Venethrax</option>
-              <option value="coven">The Witch Coven of Garlghast</option>
+            <select ng-model="battle.opponent.caster"
+                    ng-options="id as c.name for (id, c) in factions[battle.opponent.faction].casters">
             </select>
           </td>
         </tr>
@@ -194,61 +127,48 @@
         <tr>
           <td>Date</td>
           <td>
-            <input type="number" placeholder="2013" style="width:4em;" />/
-            <input type="number" placeholder="11" style="width:2em;" />/
-            <input type="number" placeholder="13" style="width:2em;" />
+            <input type="number" ng-model="battle.date.year" style="width:4em;" />/
+            <input type="number" ng-model="battle.date.month" style="width:2em;" />/
+            <input type="number" ng-model="battle.date.day" style="width:2em;" />
           </td>
         </tr>
         <tr>
           <td>Event</td>
           <td>
-            <select>
-              <option value="amical">amical</option>
-              <option value="baf131020" selected="selected">baf 131020</option>
-              <option value="gme2013">GME 2013</option>
+            <select ng-model="battle.setup.event"
+                    ng-options="e for e in events">
             </select>
+            <button class="btn btn-xs">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
           </td>
         </tr>
         <tr>
           <td>Scenario</td>
           <td>
-            <select>
-              <option value="sr13des">Destruction</option>
-              <option value="sr13sad">Supply & Demand</option>
-              <option value="sr13cq">Close Quarters</option>
-              <option value="sr13ar">Ammunition Run</option>
-              <option value="sr13inc">Incursion</option>
-              <option value="sr13cr">Chemical Reaction</option>
-              <option value="sr13out">Outflank</option>
-              <option value="sr13inc">Incoming</option>
-              <option value="sr13itb">Into the Breach</option>
-              <option value="sr13rp">Rally Point</option>
-              <option value="sr13poe" selected="selected">Process of elimination</option>
-              <option value="sr13fs">Fire Support</option>
+            <select ng-model="battle.setup.scenario"
+                    ng-options="id as s.name for (id, s) in scenarios">
             </select>
           </td>
         </tr>
         <tr>
           <td>Army size</td>
           <td>
-            <input type="number" placeholder="50" style="width:3em;" />
+            <input type="number" ng-model="battle.setup.size" style="width:3em;" />
           </td>
         </tr>
       </table>
       <table class="col-sm-6">
         <tr>
           <th>Game result :</th>
-          <th colspan="2">
-            <select>
-              <option value="vs">Scenario Victory</option>
-              <option value="va">Assassination Victory</option>
-              <option value="vc">Clock Victory</option>
-              <option value="dr">Draw</option>
-              <option value="ds">Scenario Defeat</option>
-              <option value="da">Assassination Defeat</option>
-              <option value="dc">Clock Defeat</option>
+          <td>
+            <select ng-model="battle.score"
+                    ng-options="s as s.type | capitalise group by s.result | capitalise for s in scores">
             </select>
-          </th>
+            <strong class="{{battle.score.result | scoreResultColor}}">
+              {{ battle.score.result | capitalise }}
+            </strong>
+          </td>
         </tr>
         <tr>
           <td></td>
@@ -258,19 +178,19 @@
         <tr>
           <td>Control Points</td>
           <td>
-            <input type="number" placeholder="1" style="width:3em;" />
+            <input type="number" ng-model="battle.points.my_army.scenario" style="width:3em;" />
           </td>
           <td>
-            <input type="number" placeholder="3" style="width:3em;" />
+            <input type="number" ng-model="battle.points.opponent.scenario" style="width:3em;" />
           </td>
         </tr>
         <tr>
           <td>Kill Points</td>
           <td>
-            <input type="number" placeholder="10" style="width:3em;" />
+            <input type="number" ng-model="battle.points.my_army.army" style="width:3em;" />
           </td>
           <td>
-            <input type="number" placeholder="35" style="width:3em;" />
+            <input type="number" ng-model="battle.points.opponent.army" style="width:3em;" />
           </td>
         </tr>
       </table>
@@ -280,7 +200,7 @@
         </tr>
         <tr>
           <td>
-            <textarea style="width:100%;">Cryx, c'est fume.</textarea>
+            <textarea style="width:100%;" ng-model="battle.comment"></textarea>
           </td>
         </tr>
       </table>
@@ -296,12 +216,18 @@
         </tr>
         <tr>
           <td rowspan="2">
-            <img class="pull-left" width="50" alt="LoE" src="img/legion-of-everblight.png" />
+            <img class="pull-left"
+                 width="50"
+                 alt="{{battle.my_army.faction}}"
+                 src="img/{{factions[battle.my_army.faction].icon}}" />
           </td>
-          <td>Legion of Everblight</td>
+          <td>{{factions[battle.my_army.faction].name}}</td>
         </tr>
         <tr>
-          <td>Vayl, Consul of Everblight (vayl2)</td>
+          <td>
+            {{factions[battle.my_army.faction].casters[battle.my_army.caster].name}}
+            ({{battle.my_army.caster}})
+          </td>
         </tr>
       </table>
       <table class="col-sm-6">
@@ -310,15 +236,21 @@
         </tr>
         <tr>
           <td rowspan="3">
-            <img class="pull-left" width="50" alt="Cryx" src="img/cryx.png" />
+            <img class="pull-left" 
+                 width="50" 
+                 alt="{{battle.opponent.faction}}"
+                 src="img/{{factions[battle.opponent.faction].icon}}" />
           </td>
-          <td>Kevin</td>
+          <td>{{battle.opponent.name | capitalise}}</td>
         </tr>
         <tr>
-          <td>Cryx</td>
+          <td>{{factions[battle.opponent.faction].name}}</td>
         </tr>
         <tr>
-          <td>Lich Lord Asphyxious (gaspy2)</td>
+          <td>
+            {{factions[battle.opponent.faction].casters[battle.opponent.caster].name}}
+            ({{battle.opponent.caster}})
+          </td>
         </tr>
       </table>
       <table class="col-sm-6">
@@ -327,25 +259,36 @@
         </tr>
         <tr>
           <td>Date</td>
-          <td>2013/10/13</td>
+          <td>
+            {{battle.date.year}}
+            /
+            {{battle.date.month}}
+            /
+            {{battle.date.day}}
+          </td>
         </tr>
         <tr>
           <td>Event</td>
-          <td>Amical</td>
+          <td>{{battle.setup.event}}</td>
         </tr>
         <tr>
           <td>Scenario</td>
-          <td>Process of elimination</td>
+          <td>{{scenarios[battle.setup.scenario].name}}</td>
         </tr>
         <tr>
           <td>Army size</td>
-          <td>50</td>
+          <td>{{battle.setup.size}}</td>
         </tr>
       </table>
       <table class="col-sm-6">
         <tr>
           <th>Game result :</th>
-          <th colspan="2" class="text-danger">Clock Defeat</th>
+          <td colspan="2">
+            <strong class="{{battle.score.result | scoreResultColor}}">
+              {{battle.score.type | capitalise}}
+              {{battle.score.result | capitalise}}
+            </strong>
+          </td>
         </tr>
         <tr>
           <td></td>
@@ -354,13 +297,13 @@
         </tr>
         <tr>
           <td>Control Points</td>
-          <td>3</td>
-          <td>1</td>
+          <td>{{battle.points.my_army.scenario}}</td>
+          <td>{{battle.points.opponent.scenario}}</td>
         </tr>
         <tr>
           <td>Kill Points</td>
-          <td>10</td>
-          <td>35</td>
+          <td>{{battle.points.my_army.army}}</td>
+          <td>{{battle.points.opponent.army}}</td>
         </tr>
       </table>
       <table class="col-sm-12">
@@ -368,7 +311,7 @@
           <th>Comment :</th>
         </tr>
         <tr>
-          <td>Cryx, c'est fume.</td>
+          <td>{{battle.comment}}</td>
         </tr>
       </table>
       <p class="text-center">
@@ -377,5 +320,11 @@
         <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Close</button>
       </p>
     </div>
-  </body>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-ui-router.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/mainCtrl.js"></script> 
+    <script src="js/filters/scoreResultColorFilter.js"></script>
+    <script src="js/filters/capitaliseFilter.js"></script>
+ </body>
 </html>

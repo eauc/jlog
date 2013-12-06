@@ -3,3 +3,6 @@ table.result td {
     vertical-align:middle !important;
     text-align:center;
 }
+.score-result {
+    font-size: 1.5em;
+}
