@@ -1,0 +1,115 @@
+<div class="container">
+  <table class="col-sm-6">
+    <tr>
+      <th colspan="2">My army :</th>
+    </tr>
+    <tr>
+      <td rowspan="2">
+        <img class="pull-left"
+             width="50"
+             alt="{{battle.my_army.faction}}"
+             src="img/{{factions[battle.my_army.faction].icon}}" />
+      </td>
+      <td>{{factions[battle.my_army.faction].name}}</td>
+    </tr>
+    <tr>
+      <td>
+        {{factions[battle.my_army.faction].casters[battle.my_army.caster].name}}
+        ({{battle.my_army.caster}})
+      </td>
+    </tr>
+  </table>
+  <table class="col-sm-6">
+    <tr>
+      <th colspan="2">Opponent :</th>
+    </tr>
+    <tr>
+      <td rowspan="3">
+        <img class="pull-left" 
+             width="50" 
+             alt="{{battle.opponent.faction}}"
+             src="img/{{factions[battle.opponent.faction].icon}}" />
+      </td>
+      <td>{{battle.opponent.name | capitalise}}</td>
+    </tr>
+    <tr>
+      <td>{{factions[battle.opponent.faction].name}}</td>
+    </tr>
+    <tr>
+      <td>
+        {{factions[battle.opponent.faction].casters[battle.opponent.caster].name}}
+        ({{battle.opponent.caster}})
+      </td>
+    </tr>
+  </table>
+  <table class="col-sm-6">
+    <tr>
+      <th colspan="2">Settings :</th>
+    </tr>
+    <tr>
+      <td>Date</td>
+      <td>
+        {{battle.date.year}}
+        /
+        {{battle.date.month}}
+        /
+        {{battle.date.day}}
+      </td>
+    </tr>
+    <tr>
+      <td>Event</td>
+      <td>{{battle.setup.event}}</td>
+    </tr>
+    <tr>
+      <td>Scenario</td>
+      <td>{{scenarios[battle.setup.scenario].name}}</td>
+    </tr>
+    <tr>
+      <td>Army size</td>
+      <td>{{battle.setup.size}}</td>
+    </tr>
+  </table>
+  <table class="col-sm-6">
+    <tr>
+      <th>Game result :</th>
+      <td colspan="2">
+        <strong class="{{battle.score.result | scoreResultColor}}">
+          {{battle.score.type | capitalise}}
+          {{battle.score.result | capitalise}}
+        </strong>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>My Army</td>
+      <td>Opponent</td>
+    </tr>
+    <tr>
+      <td>Control Points</td>
+      <td>{{battle.points.my_army.scenario}}</td>
+      <td>{{battle.points.opponent.scenario}}</td>
+    </tr>
+    <tr>
+      <td>Kill Points</td>
+      <td>{{battle.points.my_army.army}}</td>
+      <td>{{battle.points.opponent.army}}</td>
+    </tr>
+  </table>
+  <table class="col-sm-12">
+    <tr>
+      <th>Comment :</th>
+    </tr>
+    <tr>
+      <td>{{battle.comment}}</td>
+    </tr>
+  </table>
+  <p class="text-center">
+    <button class="btn btn-primary" ng-click="editBattle()">
+      <span class="glyphicon glyphicon-edit"></span> Edit
+    </button>
+    <button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+    <button class="btn btn-default" ng-click="close()">
+      <span class="glyphicon glyphicon-remove"></span> Close
+    </button>
+  </p>
+</div>

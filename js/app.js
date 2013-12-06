@@ -11,16 +11,20 @@ angular.module('grudgeApp', [
     'grudgeApp.filters',
     'grudgeApp.services',
     'grudgeApp.directives'
-]);
-    // .config(['$routeProvider', function($routeProvider) {
-    //     $routeProvider
-    //         .when('/', {
-    //             templateUrl: 'partials/home.html',
-    //             controller: 'homeCtrl'
-    //         })
-    //         // .when('/clock/:id', {
-    //         //     templateUrl: 'partials/clock.html',
-    //         //     controller: 'clockCtrl'
-    //         // })
-    //         .otherwise({redirectTo: '/'});
-    // }]);
+]).config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/list');
+    $stateProvider
+        .state('list', {
+            url: '/list',
+            templateUrl: 'partials/battle_list.html'
+        })
+        .state('edit', {
+            url: '/edit',
+            templateUrl: 'partials/battle_edit.html'
+        })
+        .state('view', {
+            url: '/view',
+            templateUrl: 'partials/battle_view.html'
+        });
+});
+

@@ -3,7 +3,8 @@
 angular.module('grudgeApp.controllers')
     .controller('mainCtrl', [
         '$scope',
-        function($scope) {
+        '$state',
+        function($scope, $state) {
 
             console.log('init mainCtrl');
             $scope.factions = {
@@ -92,6 +93,9 @@ angular.module('grudgeApp.controllers')
                         },
                         bethayne1: {
                             name: 'Bethayne'
+                        },
+                        kallus1: {
+                            name: 'Kallus'
                         },
                         lylyth1: {
                             name: 'Lylyth 1'
@@ -313,6 +317,17 @@ angular.module('grudgeApp.controllers')
                     }
                 }
             ];
-            $scope.battle = $scope.battles[0];
 
+            $scope.viewBattle = function viewBattle(index) {
+                console.log('view battle ' + index);
+                $scope.battle = $scope.battles[index];
+                $state.go('view');
+            };
+            $scope.editBattle = function editBattle(index) {
+                $state.go('edit');
+            };
+            $scope.close = function close() {
+                $state.go('list');
+            };
+                
         }]);
