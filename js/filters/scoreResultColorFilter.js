@@ -5,9 +5,10 @@ angular.module('grudgeApp.filters')
 
         return function(input) 
         {
-            return (input == 'victory') ? 'text-success' : 
-                ((input == 'defeat') ? 'text-danger' : 
-                 'text-warning');
+            return typeof(input) === 'string' ? input : 
+                ((input == 'victory') ? 'text-success' : 
+                 ((input == 'defeat') ? 'text-danger' : 
+                  'text-warning'));
         }
 
     }])
@@ -15,7 +16,7 @@ angular.module('grudgeApp.filters')
 
         return function(input) 
         {
-            return input.charAt(0).toUpperCase();
+            return typeof(input) === 'string' ? input.charAt(0).toUpperCase() : input;
         }
 
     }]);
