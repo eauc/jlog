@@ -1,16 +1,43 @@
 <div class="container">
+  <form class="visible-xs">
+    <label for="sort-by">Sort by</label>
+    <select id="sort-by"
+            ng-model="sort.type"
+            ng-options="id as t.name for (id, t) in sort_types">
+    </select>
+    <input id="sort-reverse" type="checkbox" ng-model="sort.reverse" />
+    <label for="sort-reverse" class="clickable">reverse</label>
+  </form>
   <table class="table result">
     <tr>
-      <th class="hidden-xs">Date</th>
-      <th>Caster</th>
-      <th>Opponent</th>
-      <th>Caster</th>
-      <th class="hidden-xs">Size</th>
-      <th class="visible-lg">Scenario</th>
-      <th class="visible-lg">Event</th>
-      <th>Result</th>
+      <th class="hidden-xs" sortable="date" sort="sort">
+        Date
+      </th>
+      <th sortable="my_caster" sort="sort">
+        Caster
+      </th>
+      <th sortable="opponent" sort="sort">
+        Opponent
+      </th>
+      <th sortable="opp_caster" sort="sort">
+        Caster
+      </th>
+      <th class="hidden-xs" sortable="size" sort="sort">
+        Size
+      </th>
+      <th class="visible-lg" sortable="scenario" sort="sort">
+        Scenario
+      </th>
+      <th class="visible-lg" sortable="event" sort="sort">
+        Event
+      </th>
+      <th sortable="result" sort="sort">
+        Result
+      </th>
     </tr>
-    <tr class="clickable" ng-repeat="battle in battles" ng-click="viewBattle(battle.index)">
+    <tr class="clickable"
+        ng-repeat="battle in battles | orderBy:sort_types[sort.type].key:sort.reverse"
+        ng-click="viewBattle(battle.index)">
       <td class="hidden-xs">
         {{battle.date.year}} /
         {{battle.date.month}} /

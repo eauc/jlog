@@ -12,3 +12,12 @@ table.result td {
 tr.clickable:hover {
     background-color: #DDD;
 }
+
+.hidden-xs-inline {
+  display: inline;
+}
+@media (max-width: 767px) {
+  .hidden-xs-inline {
+    display: none;
+  }
+}

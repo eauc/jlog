@@ -39,7 +39,7 @@ angular.module('grudgeApp.services')
             'date': {
                 year: 2013,
                 month: 10,
-                day: 20
+                day: 25
             },
             'my_army': {
                 faction: 'loe',

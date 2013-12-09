@@ -10,7 +10,8 @@ angular.module('grudgeApp.controllers')
         'scenarios',
         'scores',
         'battles',
-        function($scope, $state, factions, opponents, events, scenarios, scores, battles) {
+        'sort_types',
+        function($scope, $state, factions, opponents, events, scenarios, scores, battles, sort_types) {
 
             var buildIndex = function buildIndex(array) {
                 var i = 0;
@@ -26,6 +27,7 @@ angular.module('grudgeApp.controllers')
             $scope.scores = scores;
             $scope.battles = battles;
             buildIndex($scope.battles);
+            $scope.sort_types = sort_types;
 
             $scope.addBattle = function addBattle() {
                 $scope.battle_index = $scope.battles.length;
@@ -65,4 +67,17 @@ angular.module('grudgeApp.controllers')
                 $state.go('list');
             };
 
+            $scope.sort = {
+                type: 'date',
+                reverse: false,
+                sortBy: function sortBy(type) {
+                    if($scope.sort.type === type) {
+                        $scope.sort.reverse = !$scope.sort.reverse;
+                    }
+                    else {
+                        $scope.sort.type = type;
+                        $scope.sort.reverse = false;
+                    }
+                }
+            };
         }]);
