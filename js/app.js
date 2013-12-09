@@ -19,11 +19,11 @@ angular.module('grudgeApp', [
             templateUrl: 'partials/battle_list.html'
         })
         .state('edit', {
-            url: '/edit',
+            // url: '/edit',
             templateUrl: 'partials/battle_edit.html'
         })
         .state('view', {
-            url: '/view',
+            // url: '/view',
             templateUrl: 'partials/battle_view.html'
         });
 });
