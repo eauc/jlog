@@ -188,36 +188,36 @@ angular.module('grudgeApp.controllers')
                     name: 'SR13 Fire Support'
                 }
             };
-            $scope.scores = [
-                {
+            $scope.scores = {
+                va: {
                     result: 'victory',
                     type: 'assassination'
                 },
-                {
+                vc: {
                     result: 'victory',
                     type: 'clock'
                 },
-                {
+                vs: {
                     result: 'victory',
                     type: 'scenario'
                 },
-                {
+                dd: {
                     result: 'draw',
                     type: 'dice down'
                 },
-                {
+                da: {
                     result: 'defeat',
                     type: 'assassination'
                 },
-                {
+                dc: {
                     result: 'defeat',
                     type: 'clock'
                 },
-                {
+                ds: {
                     result: 'defeat',
                     type: 'scenario'
                 }
-            ];
+            };
             $scope.battles = [
                 {
                     'date': {
@@ -239,7 +239,7 @@ angular.module('grudgeApp.controllers')
                         scenario: 'sr13poe',
                         event: 'baf131020'
                     },
-                    'score': $scope.scores[4],
+                    'score': 'da',
                     'points': {
                         my_army: {
                             scenario: 1,
@@ -272,7 +272,7 @@ angular.module('grudgeApp.controllers')
                         scenario: 'sr13cr',
                         event: 'amical'
                     },
-                    'score': $scope.scores[3],
+                    'score': 'dd',
                     'points': {
                         my_army: {
                             scenario: 2,
@@ -304,7 +304,7 @@ angular.module('grudgeApp.controllers')
                         scenario: 'sr13inco',
                         event: 'amical'
                     },
-                    'score': $scope.scores[2],
+                    'score': 'vs',
                     'points': {
                         my_army: {
                             scenario: 5,
@@ -318,13 +318,37 @@ angular.module('grudgeApp.controllers')
                 }
             ];
 
+            $scope.addBattle = function viewBattle(index) {
+                $scope.battle_index = $scope.battles.length;
+                $scope.battle = {};
+                $state.go('edit');
+            };
             $scope.viewBattle = function viewBattle(index) {
                 console.log('view battle ' + index);
+                $scope.battle_index = index;
                 $scope.battle = $scope.battles[index];
                 $state.go('view');
             };
-            $scope.editBattle = function editBattle(index) {
+            $scope.editBattle = function editBattle() {
+                $scope.battle = angular.copy($scope.battle);
                 $state.go('edit');
+            };
+            $scope.deleteBattle = function deleteBattle() {
+                $scope.battles.splice($scope.battle_index, 1);
+                $state.go('list');
+            };
+            $scope.saveBattle = function saveBattle() {
+                if($scope.battles.length > $scope.battle_index) {
+
+                    $scope.battles[$scope.battle_index] = $scope.battle;
+
+                }
+                else {
+
+                    $scope.battles.push($scope.battle);
+
+                }
+                $state.go('list');
             };
             $scope.close = function close() {
                 $state.go('list');

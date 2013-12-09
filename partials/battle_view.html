@@ -73,9 +73,9 @@
     <tr>
       <th>Game result :</th>
       <td colspan="2">
-        <strong class="{{battle.score.result | scoreResultColor}}">
-          {{battle.score.type | capitalise}}
-          {{battle.score.result | capitalise}}
+        <strong class="{{scores[battle.score].result | scoreResultColor}}">
+          {{scores[battle.score].type | capitalise}}
+          {{scores[battle.score].result | capitalise}}
         </strong>
       </td>
     </tr>
@@ -107,7 +107,9 @@
     <button class="btn btn-primary" ng-click="editBattle()">
       <span class="glyphicon glyphicon-edit"></span> Edit
     </button>
-    <button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+    <button class="btn btn-danger" ng-click="deleteBattle()">
+      <span class="glyphicon glyphicon-trash"></span> Delete
+    </button>
     <button class="btn btn-default" ng-click="close()">
       <span class="glyphicon glyphicon-remove"></span> Close
     </button>

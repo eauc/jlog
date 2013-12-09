@@ -32,13 +32,13 @@
       <td class="hidden-xs">{{battle.setup.size}}</td>
       <td class="visible-lg">{{scenarios[battle.setup.scenario].name}}</td>
       <td class="visible-lg">{{battle.setup.event}}</td>
-      <td class="{{battle.score.result | scoreResultColor}}">
-        <strong class="score-result">{{battle.score.type | scoreTypeLetter}}</strong>
+      <td class="{{scores[battle.score].result | scoreResultColor}}">
+        <strong class="score-result">{{scores[battle.score].type | scoreTypeLetter}}</strong>
       </td>
     </tr>
   </table>
   <p class="text-center">
-    <button class="btn btn-primary">
+    <button class="btn btn-primary" ng-click="addBattle()">
       <span class="glyphicon glyphicon-plus"></span> Add
     </button>
   </p>

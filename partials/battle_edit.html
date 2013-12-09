@@ -102,10 +102,10 @@
       <th>Game result :</th>
       <td>
         <select ng-model="battle.score"
-                ng-options="s as s.type | capitalise group by s.result | capitalise for s in scores">
+                ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores">
         </select>
-        <strong class="{{battle.score.result | scoreResultColor}}">
-          {{ battle.score.result | capitalise }}
+        <strong class="{{scores[battle.score].result | scoreResultColor}}">
+          {{ scores[battle.score].result | capitalise }}
         </strong>
       </td>
     </tr>
@@ -144,7 +144,7 @@
     </tr>
   </table>
   <p class="text-center">
-    <button class="btn btn-success">
+    <button class="btn btn-success" ng-click="saveBattle()">
       <span class="glyphicon glyphicon-save"></span> Save
     </button>
     <button class="btn btn-default" ng-click="close()">
