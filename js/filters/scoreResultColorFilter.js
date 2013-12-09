@@ -5,7 +5,7 @@ angular.module('grudgeApp.filters')
 
         return function(input) 
         {
-            return typeof(input) === 'string' ? input : 
+            return typeof(input) !== 'string' ? input : 
                 ((input == 'victory') ? 'text-success' : 
                  ((input == 'defeat') ? 'text-danger' : 
                   'text-warning'));
