@@ -12,6 +12,12 @@ angular.module('grudgeApp.controllers')
         'battles',
         function($scope, $state, factions, opponents, events, scenarios, scores, battles) {
 
+            var buildIndex = function buildIndex(array) {
+                var i = 0;
+                for(i = 0 ; i < array.length ; i++) {
+                    array[i].index = i;
+                }
+            }
             console.log('init mainCtrl');
             $scope.factions = factions;
             $scope.opponents = opponents;
@@ -19,6 +25,7 @@ angular.module('grudgeApp.controllers')
             $scope.scenarios = scenarios;
             $scope.scores = scores;
             $scope.battles = battles;
+            buildIndex($scope.battles);
 
             $scope.addBattle = function addBattle() {
                 $scope.battle_index = $scope.battles.length;
@@ -37,6 +44,7 @@ angular.module('grudgeApp.controllers')
             };
             $scope.deleteBattle = function deleteBattle() {
                 $scope.battles.splice($scope.battle_index, 1);
+                buildIndex($scope.battles);
                 $state.go('list');
             };
             $scope.saveBattle = function saveBattle() {
@@ -50,6 +58,7 @@ angular.module('grudgeApp.controllers')
                     $scope.battles.push($scope.battle);
 
                 }
+                buildIndex($scope.battles);
                 $state.go('list');
             };
             $scope.close = function close() {
