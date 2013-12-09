@@ -1,6 +1,58 @@
 'use strict';
 
 angular.module('grudgeApp.services')
+    .factory('battle', [function() {
+        var dateIsValid = function dateIsValid(date) {
+            return angular.isObject(date)
+                && typeof(date.year) === 'number'
+                && date.year > 1999
+                && date.year < 2050
+                && typeof(date.month) === 'number'
+                && date.month > 0
+                && date.month < 13
+                && typeof(date.day) === 'number'
+                && date.day > 0
+                && date.day < 32;
+        };
+        var myArmyIsValid = function myArmyIsValid(my_army) {
+            return angular.isObject(my_army)
+                && typeof(my_army.faction) === 'string'
+                && my_army.faction.length > 0
+                && typeof(my_army.caster) === 'string'
+                && my_army.caster.length > 0;
+        };
+        var opponentIsValid = function opponentIsValid(opponent) {
+            return angular.isObject(opponent)
+                && typeof(opponent.name) === 'string'
+                && opponent.name.length > 0
+                && typeof(opponent.faction) === 'string'
+                && opponent.faction.length > 0
+                && typeof(opponent.caster) === 'string'
+                && opponent.caster.length > 0;
+        };
+        var scoreIsValid = function scoreIsValid(score) {
+            return typeof(score) === 'string'
+                && score.length > 0;
+        };
+        return {
+            create: function battleCreate() {
+                var today = new Date();
+                return {
+                    'date': {
+                        year: today.getFullYear(),
+                        month: today.getMonth()+1,
+                        day: today.getDate()
+                    }
+                };
+            },
+            isValid: function battleIsValid(battle) {
+                return dateIsValid(battle.date)
+                    && myArmyIsValid(battle.my_army)
+                    && opponentIsValid(battle.opponent)
+                    && scoreIsValid(battle.score);
+            }
+        };
+    }])
     .value('battles', [
         {
             'date': {

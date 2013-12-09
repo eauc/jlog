@@ -12,14 +12,16 @@
       </td>
       <td>
         <select ng-model="battle.my_army.faction"
-                ng-options="id as f.name for (id, f) in factions">
+                ng-options="id as f.name for (id, f) in factions"
+                ng-change="battleIsValid()">
         </select>
       </td>
     </tr>
     <tr>
       <td>
         <select ng-model="battle.my_army.caster"
-                ng-options="id as c.name for (id, c) in factions[battle.my_army.faction].casters">
+                ng-options="id as c.name for (id, c) in factions[battle.my_army.faction].casters"
+                ng-change="battleIsValid()">
         </select>
       </td>
     </tr>
@@ -37,7 +39,8 @@
       </td>
       <td>
         <select ng-model="battle.opponent.name"
-                ng-options="o as o|capitalise for o in opponents">
+                ng-options="o as o|capitalise for o in opponents"
+                ng-change="battleIsValid()">
         </select>
         <button class="btn btn-xs">
           <span class="glyphicon glyphicon-plus"></span>
@@ -47,14 +50,16 @@
     <tr>
       <td>
         <select ng-model="battle.opponent.faction"
-                ng-options="id as f.name for (id, f) in factions">
+                ng-options="id as f.name for (id, f) in factions"
+                ng-change="battleIsValid()">
         </select>
       </td>
     </tr>
     <tr>
       <td>
         <select ng-model="battle.opponent.caster"
-                ng-options="id as c.name for (id, c) in factions[battle.opponent.faction].casters">
+                ng-options="id as c.name for (id, c) in factions[battle.opponent.faction].casters"
+                ng-change="battleIsValid()">
         </select>
       </td>
     </tr>
@@ -66,9 +71,18 @@
     <tr>
       <td>Date</td>
       <td>
-        <input type="number" ng-model="battle.date.year" style="width:4em;" />/
-        <input type="number" ng-model="battle.date.month" style="width:2em;" />/
-        <input type="number" ng-model="battle.date.day" style="width:2em;" />
+        <input type="number"
+               ng-model="battle.date.year"
+               style="width:4em;" 
+               ng-change="battleIsValid()"/>/
+        <input type="number"
+               ng-model="battle.date.month"
+               style="width:2em;" 
+               ng-change="battleIsValid()"/>/
+        <input type="number"
+               ng-model="battle.date.day"
+               style="width:2em;" 
+               ng-change="battleIsValid()"/>
       </td>
     </tr>
     <tr>
@@ -102,7 +116,8 @@
       <th>Game result :</th>
       <td>
         <select ng-model="battle.score"
-                ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores">
+                ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
+                ng-change="battleIsValid()">
         </select>
         <strong class="{{scores[battle.score].result | scoreResultColor}}">
           {{ scores[battle.score].result | capitalise }}
@@ -144,7 +159,9 @@
     </tr>
   </table>
   <p class="text-center">
-    <button class="btn btn-success" ng-click="saveBattle()">
+    <button class="btn btn-success"
+            ng-disabled="!battle_is_valid"
+            ng-click="saveBattle()">
       <span class="glyphicon glyphicon-save"></span> Save
     </button>
     <button class="btn btn-default" ng-click="close()">
