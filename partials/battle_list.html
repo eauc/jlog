@@ -1,4 +1,16 @@
 <div class="container">
+  <p>
+    <button class="btn btn-primary" ng-click="addBattle()">
+      <span class="glyphicon glyphicon-plus"></span>
+      Add Battle
+    </button>
+    <button class="btn btn-default" ng-click="filter.active = !filter.active">
+      <span class="glyphicon glyphicon-search"></span>
+      <span ng-hide="filter.active">Enable</span>
+      <span ng-show="filter.active">Disable</span>
+      Filter
+    </button>
+  </p>
   <form class="visible-xs">
     <label for="sort-by">Sort by</label>
     <select id="sort-by"
@@ -36,7 +48,7 @@
       </th>
     </tr>
     <tr class="clickable"
-        ng-repeat="battle in battles | orderBy:sort_types[sort.type].key:sort.reverse"
+        ng-repeat="battle in battles | filterBattle:filter | orderBy:sort_types[sort.type].key:sort.reverse"
         ng-click="viewBattle(battle.index)">
       <td class="hidden-xs">
         {{battle.date.year}} /
@@ -64,9 +76,4 @@
       </td>
     </tr>
   </table>
-  <p class="text-center">
-    <button class="btn btn-primary" ng-click="addBattle()">
-      <span class="glyphicon glyphicon-plus"></span> Add
-    </button>
-  </p>
 </div>

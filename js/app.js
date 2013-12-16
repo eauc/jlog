@@ -25,6 +25,10 @@ angular.module('grudgeApp', [
         .state('view', {
             // url: '/view',
             templateUrl: 'partials/battle_view.html'
+        })
+        .state('filter', {
+            url: '/filter',
+            templateUrl: 'partials/filter.html'
         });
 });
 

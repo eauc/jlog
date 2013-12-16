@@ -1,0 +1,220 @@
+<div class="container">
+  <form class="form-horizontal">
+    <fieldset>
+      <legend>  
+        <span class="glyphicon glyphicon-search"></span>
+        Filter
+      </legend>
+      <div class="form-group filter-group col-lg-6 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-date"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.date.active" />
+          <label class="control-label"
+                 for="filter-date">
+            Date
+          </label>
+        </div>
+        <div ng-show="filter.date.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.date.is">
+            <option value="0">==</option>
+            <option value="1">!=</option>
+            <option value="2">&gt;</option>
+            <option value="3">&gt;=</option>
+            <option value="4">&lt;</option>
+            <option value="5">&lt;=</option>
+          </select>
+          <input type="number"
+                 class="form-control filter-input-4"
+                 ng-model="filter.date.year" />
+          <input type="number"
+                 class="form-control filter-input-3"
+                 ng-model="filter.date.month" />
+          <input type="number"
+                 class="form-control filter-input-3"
+                 ng-model="filter.date.day" />
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-6 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-my-army"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.my_army.active" />
+          <label class="control-label"
+                 for="filter-my-army">
+            My caster
+          </label>
+        </div>
+        <div ng-show="filter.my_army.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.my_army.is">
+            <option value="true" selected="selected">is</option>
+            <option value="false">is not</option>
+          </select>
+          <select class="form-control filter-select"
+                  ng-model="filter.my_army.faction"
+                  ng-options="id as f.name for (id, f) in factions">
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.my_army.caster"
+                  ng-options="id as c.name for (id, c) in factions[filter.my_army.faction].casters"
+                  multiple>
+          </select>
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-6 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-opp-name"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.opp_name.active" />
+          <label class="control-label"
+                 for="filter-opp-name">
+            Opponent
+          </label>
+        </div>
+        <div ng-show="filter.opp_name.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.opp_name.is">
+            <option value="true">is</option>
+            <option value="false">is not</option>
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.opp_name.value"
+                  ng-options="o as o|capitalise for o in opponents"
+                  multiple>
+          </select>
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-6 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-opponent"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.opp_caster.active" />
+          <label class="control-label"
+                 for="filter-opponent">
+            Opp. caster
+          </label>
+        </div>
+        <div ng-show="filter.opp_caster.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.opp_caster.is">
+            <option value="true" selected="selected">is</option>
+            <option value="false">is not</option>
+          </select>
+          <select class="form-control filter-select"
+                  ng-model="filter.opp_caster.faction"
+                  ng-options="id as f.name for (id, f) in factions">
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.opp_caster.caster"
+                  ng-options="id as c.name for (id, c) in factions[filter.opp_caster.faction].casters"
+                  multiple>
+          </select>
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-6 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-result"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.result.active" />
+          <label class="control-label"
+                 for="filter-result">
+            Result
+          </label>
+        </div>
+        <div ng-show="filter.result.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.result.is">
+            <option value="true">is</option>
+            <option value="false">is not</option>
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.result.value"
+                  ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
+                  multiple>
+          </select>
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-6 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-scenario"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.scenario.active" />
+          <label class="control-label"
+                 for="filter-scenario">
+            Scenario
+          </label>
+        </div>
+        <div ng-show="filter.scenario.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.scenario.is">
+            <option value="true">is</option>
+            <option value="false">is not</option>
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.scenario.name"
+                  ng-options="id as s.name for (id, s) in scenarios"
+                  multiple>
+          </select>
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-7 col-xs-12">
+        <div class="col-lg-2">
+          <input id="filter-size"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.size.active" />
+          <label class="control-label"
+                 for="filter-size">
+            Size
+          </label>
+        </div>
+        <div ng-show="filter.size.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.size.is">
+            <option value="0">==</option>
+            <option value="1">!=</option>
+            <option value="2">&gt;</option>
+            <option value="3">&gt;=</option>
+            <option value="4">&lt;</option>
+            <option value="5">&lt;=</option>
+          </select>
+          <input type="number"
+                 class="form-control filter-input-3"
+                 ng-model="filter.size.value" />
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-5 col-lg-pull-1 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-event"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.event.active" />
+          <label class="control-label"
+                 for="filter-event">
+            Event
+          </label>
+        </div>
+        <div ng-show="filter.event.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.event.is">
+            <option value="true">is</option>
+            <option value="false">is not</option>
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.event.value"
+                  ng-options="e for e in events"
+                  multiple>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>

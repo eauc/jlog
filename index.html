@@ -15,8 +15,18 @@
         </a>
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">BattleList</a></li>
-        <li><a href="#">Statistics</a></li>
+        <li>
+          <a ui-sref="list">
+            <span class="glyphicon glyphicon-list"></span>
+            BattleList
+          </a>
+        </li>
+        <li>
+          <a ui-sref="filter">
+            <span class="glyphicon glyphicon-edit"></span>
+            Edit Filter
+          </a>
+        </li>
       </ul>
     </nav>
     <div ui-view></div>
@@ -32,8 +42,10 @@
     <script src="js/services/scores.js"></script> 
     <script src="js/services/battle.js"></script> 
     <script src="js/services/sortTypes.js"></script> 
+    <script src="js/services/filter.js"></script> 
     <script src="js/directives/sortable.js"></script> 
     <script src="js/filters/scoreResultColorFilter.js"></script>
     <script src="js/filters/capitaliseFilter.js"></script>
+    <script src="js/filters/filterBattleFilter.js"></script>
  </body>
 </html>

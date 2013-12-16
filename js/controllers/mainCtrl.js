@@ -12,6 +12,7 @@ angular.module('grudgeApp.controllers')
         'battle',
         'battles',
         'sort_types',
+        'filter',
         function($scope,
                  $state,
                  factions,
@@ -21,7 +22,8 @@ angular.module('grudgeApp.controllers')
                  scores,
                  battle,
                  battles,
-                 sort_types) {
+                 sort_types,
+                 filter) {
 
             var buildIndex = function buildIndex(array) {
                 var i = 0;
@@ -38,6 +40,7 @@ angular.module('grudgeApp.controllers')
             $scope.battles = battles;
             buildIndex($scope.battles);
             $scope.sort_types = sort_types;
+            $scope.filter = filter.create();
 
             $scope.addBattle = function addBattle() {
                 $scope.battle_index = $scope.battles.length;
