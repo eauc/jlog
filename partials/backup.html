@@ -1,0 +1,35 @@
+<div class="container">
+  <form>
+    <fieldset>
+      <legend>  
+        <span class="glyphicon glyphicon-import"></span>
+        Import
+      </legend>
+      <div class="form-group">
+        <label class="control-label"
+               for="import-file">
+          Choose file
+        </label>
+        <input id="import-file"
+               type="file"
+               onchange="angular.element(this).scope().readBackupFile(this.files[0])" />
+      </div>
+      <strong ng-show="backup.read_result === 'loaded file'"
+              class="text-success">{{backup.read_result | capitalise}}</strong>
+      <strong ng-show="backup.read_result !== 'loaded file'"
+              class="text-danger">{{backup.read_result | capitalise}}</strong>
+    </fieldset>
+    <fieldset>
+      <legend>  
+        <span class="glyphicon glyphicon-export"></span>
+        Export
+      </legend>
+      <button class="btn btn-primary"
+              ng-click="backup.generate(battles)">
+        Generate
+      </button>
+      <a ng-show="backup.save_url !== null"
+         href="{{backup.save_url}}" download="{{backup.save_name}}">Download File</a>
+    </fieldset>
+  </form>
+</div>

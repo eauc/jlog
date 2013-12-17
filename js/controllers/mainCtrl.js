@@ -13,6 +13,7 @@ angular.module('grudgeApp.controllers')
         'battles',
         'sort_types',
         'filter',
+        'backup',
         function($scope,
                  $state,
                  factions,
@@ -23,7 +24,8 @@ angular.module('grudgeApp.controllers')
                  battle,
                  battles,
                  sort_types,
-                 filter) {
+                 filter,
+                 backup) {
 
             var buildIndex = function buildIndex(array) {
                 var i = 0;
@@ -41,6 +43,7 @@ angular.module('grudgeApp.controllers')
             buildIndex($scope.battles);
             $scope.sort_types = sort_types;
             $scope.filter = filter.create();
+            $scope.backup = backup;
 
             $scope.addBattle = function addBattle() {
                 $scope.battle_index = $scope.battles.length;
@@ -97,4 +100,15 @@ angular.module('grudgeApp.controllers')
                     }
                 }
             };
+
+            $scope.readBackupFile = function readBackupFile(file) {
+                $scope.backup.read(file, function(data) {
+                    $scope.battles = data;
+                    buildIndex($scope.battles);
+                    $scope.$apply("backup.read_result = 'loaded file'");
+                }, function(error) {
+                    $scope.$apply("backup.read_result = '" + error + "'");
+                });
+            };
+
         }]);
