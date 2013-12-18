@@ -36,6 +36,11 @@ angular.module('grudgeApp', [
             .state('backup', {
                 url: '/backup',
                 templateUrl: 'partials/backup.html'
+            })
+            .state('stats', {
+                url: '/stats',
+                templateUrl: 'partials/stats.html',
+                controller: 'statsCtrl'
             });
     }
 ]).config([

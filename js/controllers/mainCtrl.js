@@ -14,6 +14,7 @@ angular.module('grudgeApp.controllers')
         'sort_types',
         'filter',
         'backup',
+        'stats',
         function($scope,
                  $state,
                  factions,
@@ -25,7 +26,8 @@ angular.module('grudgeApp.controllers')
                  battles,
                  sort_types,
                  filter,
-                 backup) {
+                 backup, 
+                 stats) {
 
             var buildIndex = function buildIndex(array) {
                 var i = 0;
@@ -111,4 +113,7 @@ angular.module('grudgeApp.controllers')
                 });
             };
 
+            $scope.toggleFilter = function toggleFilter() {
+                $scope.filter.active = !$scope.filter.active;
+            }
         }]);
