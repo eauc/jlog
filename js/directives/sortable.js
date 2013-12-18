@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.directives')
+angular.module('jlogApp.directives')
     .directive('sortable', function() {
         return {
             restrict: 'A',

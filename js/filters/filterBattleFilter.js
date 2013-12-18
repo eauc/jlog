@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.filters')
+angular.module('jlogApp.filters')
     .filter('filterBattle', [function() {
         return function(input, filter) {
             return angular.isArray(input) ? input.filter(function(battle) {

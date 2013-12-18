@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.filters')
+angular.module('jlogApp.filters')
     .filter('capitalise', [function() {
 
         return function(text) 

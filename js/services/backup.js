@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.services')
+angular.module('jlogApp.services')
     .factory('backup', [function() {
         return {
             read_result: null,

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.services')
+angular.module('jlogApp.services')
     .factory('filter', [function() {
         var compareDate = function filterCompareDate(date1, date2) {
             if(date1.year > date2.year) return 1;

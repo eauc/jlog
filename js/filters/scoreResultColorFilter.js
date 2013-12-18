@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.filters')
+angular.module('jlogApp.filters')
     .filter('scoreResultColor', [function() {
 
         return function(input) 

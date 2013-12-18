@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.controllers')
+angular.module('jlogApp.controllers')
     .controller('statsCtrl', [
         '$scope',
         'stats',

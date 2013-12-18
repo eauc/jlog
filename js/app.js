@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('grudgeApp.services', [])
+angular.module('jlogApp.services', [])
     .value('version', '0.1');
-angular.module('grudgeApp.filters', []);
-angular.module('grudgeApp.controllers', []);
-angular.module('grudgeApp.directives', []);
-angular.module('grudgeApp', [
+angular.module('jlogApp.filters', []);
+angular.module('jlogApp.controllers', []);
+angular.module('jlogApp.directives', []);
+angular.module('jlogApp', [
     'ui.router',
-    'grudgeApp.controllers',
-    'grudgeApp.filters',
-    'grudgeApp.services',
-    'grudgeApp.directives'
+    'jlogApp.controllers',
+    'jlogApp.filters',
+    'jlogApp.services',
+    'jlogApp.directives'
 ]).config([
     '$stateProvider',
     '$urlRouterProvider',

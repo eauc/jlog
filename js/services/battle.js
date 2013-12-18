@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('grudgeApp.services')
+angular.module('jlogApp.services')
     .factory('battle', [function() {
         var dateIsValid = function dateIsValid(date) {
             return angular.isObject(date)
