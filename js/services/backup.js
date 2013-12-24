@@ -34,14 +34,16 @@ angular.module('jlogApp.services')
                 reader.readAsText(file);
             },
             generate: function backupGenerate(data) {
+                console.log('generate backup file');
                 var old_url = this.save_url;
                 this.save_url = null;
                 if(old_url !== null) {
                     URL.revokeObjectURL(old_url);
                 }
                 var string = JSON.stringify(data);
-                var blob = new Blob([string]);
-                var url = URL.createObjectURL(blob, { type: 'text/plain' });
+                var blob = new Blob([string], {type: 'application/octet-stream'});
+                window.URL = window.URL || window.webkitURL;
+                var url = window.URL.createObjectURL(blob);
                 var today = new Date();
                 this.save_name = 'battle_list_' + today.getTime() + '.txt';
                 this.save_url = url;
