@@ -19,15 +19,18 @@ angular.module('jlogApp', [
         $stateProvider
             .state('list', {
                 url: '/list',
-                templateUrl: 'partials/battle_list.html'
+                templateUrl: 'partials/battle_list.html',
+                controller: 'listCtrl'
             })
-            .state('edit', {
-                // url: '/edit',
-                templateUrl: 'partials/battle_edit.html'
-            })
-            .state('view', {
+            .state('list.view', {
                 // url: '/view',
-                templateUrl: 'partials/battle_view.html'
+                templateUrl: 'partials/battle_view.html',
+                controller: 'listViewCtrl'
+            })
+            .state('list.edit', {
+                // url: '/edit',
+                templateUrl: 'partials/battle_edit.html',
+                controller: 'listEditCtrl'
             })
             .state('filter', {
                 url: '/filter',
@@ -35,7 +38,8 @@ angular.module('jlogApp', [
             })
             .state('backup', {
                 url: '/backup',
-                templateUrl: 'partials/backup.html'
+                templateUrl: 'partials/backup.html',
+                controller: 'backupCtrl'
             })
             .state('stats', {
                 url: '/stats',

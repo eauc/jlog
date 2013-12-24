@@ -24,12 +24,11 @@
         <span class="glyphicon glyphicon-export"></span>
         Export
       </legend>
-      <button class="btn btn-primary"
-              ng-click="backup.generate(battles)">
-        Generate
-      </button>
       <a ng-show="backup.save_url !== null"
-         href="{{backup.save_url}}" download="{{backup.save_name}}">Download File</a>
+         href="{{backup.save_url}}"
+         download="{{backup.save_name}}">
+        Download File
+      </a>
     </fieldset>
   </form>
 </div>

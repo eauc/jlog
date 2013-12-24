@@ -3,31 +3,25 @@
 angular.module('jlogApp.controllers')
     .controller('mainCtrl', [
         '$scope',
-        '$state',
         'factions',
         'opponents',
         'events',
         'scenarios',
         'scores',
-        'battle',
         'battles',
         'sort_types',
         'filter',
-        'backup',
-        'stats',
         function($scope,
-                 $state,
                  factions,
                  opponents,
                  events,
                  scenarios,
                  scores,
-                 battle,
                  battles,
                  sort_types,
-                 filter,
-                 backup, 
-                 stats) {
+                 filter) {
+
+            console.log('init mainCtrl');
 
             var buildIndex = function buildIndex(array) {
                 var i = 0;
@@ -35,83 +29,21 @@ angular.module('jlogApp.controllers')
                     array[i].index = i;
                 }
             }
-            console.log('init mainCtrl');
+            $scope.rebuildBattlesIndex = function rebuildBattlesIndex() {
+                buildIndex($scope.battles);
+            };
+            $scope.newBattles = function newBattles(data) {
+                $scope.battles = data;
+                buildIndex($scope.battles);
+                $scope.opponents = opponents($scope.battles);
+                $scope.events = events($scope.battles);
+                $scope.scenarios = scenarios($scope.battles);
+            };
+            $scope.newBattles(battles);
             $scope.factions = factions;
-            $scope.opponents = opponents;
-            $scope.events = events;
-            $scope.scenarios = scenarios;
             $scope.scores = scores;
-            $scope.battles = battles;
-            buildIndex($scope.battles);
             $scope.sort_types = sort_types;
             $scope.filter = filter.create();
-            $scope.backup = backup;
-
-            $scope.addBattle = function addBattle() {
-                $scope.battle_index = $scope.battles.length;
-                $scope.battle = battle.create();
-                $scope.battleIsValid();
-                $state.go('edit');
-            };
-            $scope.viewBattle = function viewBattle(index) {
-                console.log('view battle ' + index);
-                $scope.battle_index = index;
-                $scope.battle = $scope.battles[index];
-                $state.go('view');
-            };
-            $scope.editBattle = function editBattle() {
-                $scope.battle = angular.copy($scope.battle);
-                $scope.battleIsValid();
-                $state.go('edit');
-            };
-            $scope.deleteBattle = function deleteBattle() {
-                $scope.battles.splice($scope.battle_index, 1);
-                buildIndex($scope.battles);
-                $state.go('list');
-            };
-            $scope.saveBattle = function saveBattle() {
-                if($scope.battles.length > $scope.battle_index) {
-
-                    $scope.battles[$scope.battle_index] = $scope.battle;
-
-                }
-                else {
-
-                    $scope.battles.push($scope.battle);
-
-                }
-                buildIndex($scope.battles);
-                $state.go('list');
-            };
-            $scope.close = function close() {
-                $state.go('list');
-            };
-            $scope.battleIsValid = function battleIsValid() {
-                $scope.battle_is_valid = battle.isValid($scope.battle);
-            };
-            $scope.sort = {
-                type: 'date',
-                reverse: false,
-                sortBy: function sortBy(type) {
-                    if($scope.sort.type === type) {
-                        $scope.sort.reverse = !$scope.sort.reverse;
-                    }
-                    else {
-                        $scope.sort.type = type;
-                        $scope.sort.reverse = false;
-                    }
-                }
-            };
-
-            $scope.readBackupFile = function readBackupFile(file) {
-                $scope.backup.read(file, function(data) {
-                    $scope.battles = data;
-                    buildIndex($scope.battles);
-                    $scope.$apply("backup.read_result = 'loaded file'");
-                }, function(error) {
-                    $scope.$apply("backup.read_result = '" + error + "'");
-                });
-            };
 
             $scope.toggleFilter = function toggleFilter() {
                 $scope.filter.active = !$scope.filter.active;

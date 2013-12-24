@@ -95,17 +95,18 @@ angular.module('jlogApp.services')
                             
                             this.all.add(battle.score);
                             
-                            var my_caster = battle.my_army.caster;
-                            if(undefined === this.my_army.caster[my_caster]) {
-                                this.my_army.caster[my_caster] = statEntry();
-                            }
-                            this.my_army.caster[my_caster].add(battle.score);
-                            
                             var my_faction = battle.my_army.faction;
                             if(undefined === this.my_army.faction[my_faction]) {
                                 this.my_army.faction[my_faction] = statEntry();
                             }
                             this.my_army.faction[my_faction].add(battle.score);
+                            
+                            var my_caster = battle.my_army.caster;
+                            if(undefined === this.my_army.caster[my_caster]) {
+                                this.my_army.caster[my_caster] = statEntry();
+                                this.my_army.caster[my_caster].faction = my_faction;
+                            }
+                            this.my_army.caster[my_caster].add(battle.score);
                             
                             var opp_name = battle.opponent.name;
                             if(undefined === this.opponent.name[opp_name]) {
@@ -122,6 +123,7 @@ angular.module('jlogApp.services')
                             var opp_caster = battle.opponent.caster;
                             if(undefined === this.opponent.caster[opp_caster]) {
                                 this.opponent.caster[opp_caster] = statEntry();
+                                this.opponent.caster[opp_caster].faction = opp_faction;
                             }
                             this.opponent.caster[opp_caster].add(battle.score);
                             

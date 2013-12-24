@@ -60,7 +60,7 @@
     <tbody ng-repeat="(name, f) in stats.my_army.faction">
       <tr class="clickable"
           ng-click="f.show = !f.show">
-        <td rowspan="4">{{name}}</td>
+        <td rowspan="4">{{factions[name].name}}</td>
         <td>Total</td>
         <td class="text-success">{{f.win.total}}</td>
         <td class="text-warning">{{f.draw.total}}</td>
@@ -102,7 +102,10 @@
     <tbody ng-repeat="(name, c) in stats.my_army.caster">
       <tr class="clickable"
           ng-click="c.show = !c.show">
-        <td rowspan="4">{{name}}</td>
+        <td rowspan="4">
+          {{factions[c.faction].casters[name].name}}
+          ({{name | capitalise}})
+        </td>
         <td>Total</td>
         <td class="text-success">{{c.win.total}}</td>
         <td class="text-warning">{{c.draw.total}}</td>
@@ -144,7 +147,7 @@
     <tbody ng-repeat="(name, n) in stats.opponent.name">
       <tr class="clickable"
           ng-click="n.show = !n.show">
-        <td rowspan="4">{{name}}</td>
+        <td rowspan="4">{{name | capitalise}}</td>
         <td>Total</td>
         <td class="text-success">{{n.win.total}}</td>
         <td class="text-warning">{{n.draw.total}}</td>
@@ -186,7 +189,7 @@
     <tbody ng-repeat="(name, f) in stats.opponent.faction">
       <tr class="clickable"
           ng-click="f.show = !f.show">
-        <td rowspan="4">{{name}}</td>
+        <td rowspan="4">{{factions[name].name}}</td>
         <td>Total</td>
         <td class="text-success">{{f.win.total}}</td>
         <td class="text-warning">{{f.draw.total}}</td>
@@ -228,7 +231,10 @@
     <tbody ng-repeat="(name, c) in stats.opponent.caster">
       <tr class="clickable"
           ng-click="c.show = !c.show">
-        <td rowspan="4">{{name}}</td>
+        <td rowspan="4">
+          {{factions[c.faction].casters[name].name}}
+          ({{name | capitalise}})
+        </td>
         <td>Total</td>
         <td class="text-success">{{c.win.total}}</td>
         <td class="text-warning">{{c.draw.total}}</td>
@@ -270,7 +276,7 @@
     <tbody ng-repeat="(name, s) in stats.scenario">
       <tr class="clickable"
           ng-click="s.show = !s.show">
-        <td rowspan="4">{{name}}</td>
+        <td rowspan="4">{{scenarios[name].name}}</td>
         <td>Total</td>
         <td class="text-success">{{s.win.total}}</td>
         <td class="text-warning">{{s.draw.total}}</td>
@@ -312,7 +318,7 @@
     <tbody ng-repeat="(name, e) in stats.event">
       <tr class="clickable"
           ng-click="e.show = !e.show">
-        <td rowspan="4">{{name}}</td>
+        <td rowspan="4">{{name | capitalise}}</td>
         <td>Total</td>
         <td class="text-success">{{e.win.total}}</td>
         <td class="text-warning">{{e.draw.total}}</td>
