@@ -11,6 +11,11 @@ angular.module('jlogApp.services')
             if(date1.day < date2.day) return -1;
             return 0;
         };
+        var compareSize = function filterCompareSize(size1, size2) {
+            if(size1 > size2) return 1;
+            if(size1 < size2) return -1;
+            return 0;
+        };
         var matchComp = function filterMatchComp(type, comp) {
             if(type === 0) return (comp === 0);
             if(type === 1) return (comp !== 0);
@@ -26,6 +31,14 @@ angular.module('jlogApp.services')
             var match = matchComp(type, comp);
             // console.log(comp + ' ' + type + ' ' + match);
             return !filter.date.active
+                || match;
+        };
+        var matchSize = function filterMatchSize(filter, battle) {
+            var comp = compareSize(filter.size.value, battle.setup.size);
+            var type = parseInt(filter.size.is, 10);
+            var match = matchComp(type, comp);
+            // console.log(comp + ' ' + type + ' ' + match);
+            return !filter.size.active
                 || match;
         };
         var matchMyArmy = function filterMatchMyArmy(filter, battle) {
@@ -49,9 +62,30 @@ angular.module('jlogApp.services')
                 && (0 == filter.opp_caster.caster.length
                     || 0 <= filter.opp_caster.caster.indexOf(battle.opponent.caster)
                    );
-            console.log(filter.opp_caster.is + ' ' + match);
+            // console.log(filter.opp_caster.is + ' ' + match);
             return !filter.opp_caster.active
                 || (filter.opp_caster.is === 'true' ? match : !match);
+        };
+        var matchResult = function filterMatchResult(filter, battle) {
+            var match = (0 == filter.result.value.length
+                         || 0 <= filter.result.value.indexOf(battle.score));
+            // console.log(filter.result.is + ' ' + match);
+            return !filter.result.active
+                || (filter.result.is === 'true' ? match : !match);
+        };
+        var matchScenario = function filterMatchScenario(filter, battle) {
+            var match = (0 == filter.scenario.name.length
+                         || 0 <= filter.scenario.name.indexOf(battle.setup.scenario));
+            // console.log(filter.scenario.is + ' ' + match);
+            return !filter.scenario.active
+                || (filter.scenario.is === 'true' ? match : !match);
+        };
+        var matchEvent = function filterMatchEvent(filter, battle) {
+            var match = (0 == filter.event.value.length
+                         || 0 <= filter.event.value.indexOf(battle.setup.event));
+            // console.log(filter.event.is + ' ' + match);
+            return !filter.event.active
+                || (filter.event.is === 'true' ? match : !match);
         };
         return {
             create: function filterCreate() {
@@ -107,7 +141,11 @@ angular.module('jlogApp.services')
                             || ( matchDate(this, battle)
                                  && matchMyArmy(this, battle)
                                  && matchOpponentName(this, battle)
-                                 && matchOpponentCaster(this, battle) );
+                                 && matchOpponentCaster(this, battle)
+                                 && matchResult(this, battle)
+                                 && matchScenario(this, battle)
+                                 && matchSize(this, battle)
+                                 && matchEvent(this, battle) );
                     }
                 };
             },
