@@ -20,7 +20,7 @@
     <tr>
       <td>
         <select ng-model="battle.my_army.caster"
-                ng-options="id as c.name for (id, c) in factions[battle.my_army.faction].casters"
+                ng-options="id as id | capitalise for (id, c) in factions[battle.my_army.faction].casters"
                 ng-change="battleIsValid()">
         </select>
       </td>
@@ -58,7 +58,7 @@
     <tr>
       <td>
         <select ng-model="battle.opponent.caster"
-                ng-options="id as c.name for (id, c) in factions[battle.opponent.faction].casters"
+                ng-options="id as id | capitalise for (id, c) in factions[battle.opponent.faction].casters"
                 ng-change="battleIsValid()">
         </select>
       </td>

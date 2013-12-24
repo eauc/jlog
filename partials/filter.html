@@ -60,7 +60,7 @@
           </select>
           <select class="form-control filter-select-multiple"
                   ng-model="filter.my_army.caster"
-                  ng-options="id as c.name for (id, c) in factions[filter.my_army.faction].casters"
+                  ng-options="id as id | capitalise for (id, c) in factions[filter.my_army.faction].casters"
                   multiple>
           </select>
         </div>
@@ -112,7 +112,7 @@
           </select>
           <select class="form-control filter-select-multiple"
                   ng-model="filter.opp_caster.caster"
-                  ng-options="id as c.name for (id, c) in factions[filter.opp_caster.faction].casters"
+                  ng-options="id as id | capitalise for (id, c) in factions[filter.opp_caster.faction].casters"
                   multiple>
           </select>
         </div>

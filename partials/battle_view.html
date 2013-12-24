@@ -15,7 +15,7 @@
     <tr>
       <td>
         {{factions[battle.my_army.faction].casters[battle.my_army.caster].name}}
-        ({{battle.my_army.caster}})
+        ({{battle.my_army.caster | capitalise}})
       </td>
     </tr>
   </table>
@@ -38,7 +38,7 @@
     <tr>
       <td>
         {{factions[battle.opponent.faction].casters[battle.opponent.caster].name}}
-        ({{battle.opponent.caster}})
+        ({{battle.opponent.caster | capitalise}})
       </td>
     </tr>
   </table>
