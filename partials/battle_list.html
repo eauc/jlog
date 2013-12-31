@@ -60,14 +60,14 @@
       <td>
         <img width="35"
              alt="{{battle.my_army.faction}}"
-             src="img/{{factions[battle.my_army.faction].icon}}" />
+             ng-src="img/{{factions[battle.my_army.faction].icon}}" />
         {{battle.my_army.caster | capitalise}}
       </td>
       <td>{{battle.opponent.name | capitalise}}</td>
       <td>
         <img width="35"
              alt="{{battle.opponent.faction}}"
-             src="img/{{factions[battle.opponent.faction].icon}}" />
+             ng-src="img/{{factions[battle.opponent.faction].icon}}" />
         {{battle.opponent.caster | capitalise}}
       </td>
       <td class="hidden-xs">{{battle.setup.size}}</td>

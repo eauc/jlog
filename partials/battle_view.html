@@ -8,7 +8,7 @@
         <img class="pull-left"
              width="50"
              alt="{{battle.my_army.faction}}"
-             src="img/{{factions[battle.my_army.faction].icon}}" />
+             ng-src="img/{{factions[battle.my_army.faction].icon}}" />
       </td>
       <td>{{factions[battle.my_army.faction].name}}</td>
     </tr>
@@ -28,7 +28,7 @@
         <img class="pull-left" 
              width="50" 
              alt="{{battle.opponent.faction}}"
-             src="img/{{factions[battle.opponent.faction].icon}}" />
+             ng-src="img/{{factions[battle.opponent.faction].icon}}" />
       </td>
       <td>{{battle.opponent.name | capitalise}}</td>
     </tr>

@@ -8,7 +8,7 @@
         <img class="pull-left"
              width="50"
              alt="{{battle.my_army.faction}}"
-             src="img/{{factions[battle.my_army.faction].icon}}" />
+             ng-src="img/{{factions[battle.my_army.faction].icon}}" />
       </td>
       <td>
         <select ng-model="battle.my_army.faction"
@@ -35,7 +35,7 @@
         <img class="pull-left"
              width="50"
              alt="{{battle.opponent.faction}}"
-             src="img/{{factions[battle.opponent.faction].icon}}" />
+             ng-src="img/{{factions[battle.opponent.faction].icon}}" />
       </td>
       <td>
         <select ng-model="battle.opponent.name"
