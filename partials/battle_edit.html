@@ -1,171 +1,187 @@
 <div class="container">
-  <table class="col-sm-6">
-    <tr>
-      <th colspan="2">My army :</th>
-    </tr>
-    <tr>
-      <td rowspan="2">
-        <img class="pull-left"
-             width="50"
-             alt="{{battle.my_army.faction}}"
-             ng-src="img/{{factions[battle.my_army.faction].icon}}" />
-      </td>
-      <td>
-        <select ng-model="battle.my_army.faction"
-                ng-options="id as f.name for (id, f) in factions"
-                ng-change="battleIsValid()">
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <select ng-model="battle.my_army.caster"
-                ng-options="id as id | capitalise for (id, c) in factions[battle.my_army.faction].casters"
-                ng-change="battleIsValid()">
-        </select>
-      </td>
-    </tr>
-  </table>
-  <table class="col-sm-6">
-    <tr>
-      <th colspan="2">Opponent :</th>
-    </tr>
-    <tr>
-      <td rowspan="3">
-        <img class="pull-left"
-             width="50"
-             alt="{{battle.opponent.faction}}"
-             ng-src="img/{{factions[battle.opponent.faction].icon}}" />
-      </td>
-      <td>
-        <select ng-model="battle.opponent.name"
-                ng-options="o as o|capitalise for o in opponents"
-                ng-change="battleIsValid()">
-        </select>
-        <button class="btn btn-xs">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <select ng-model="battle.opponent.faction"
-                ng-options="id as f.name for (id, f) in factions"
-                ng-change="battleIsValid()">
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <select ng-model="battle.opponent.caster"
-                ng-options="id as id | capitalise for (id, c) in factions[battle.opponent.faction].casters"
-                ng-change="battleIsValid()">
-        </select>
-      </td>
-    </tr>
-  </table>
-  <table class="col-sm-6">
-    <tr>
-      <th colspan="2">Settings :</th>
-    </tr>
-    <tr>
-      <td>Date</td>
-      <td>
-        <input type="number"
-               ng-model="battle.date.year"
-               style="width:4em;" 
-               ng-change="battleIsValid()"/>/
-        <input type="number"
-               ng-model="battle.date.month"
-               style="width:2em;" 
-               ng-change="battleIsValid()"/>/
-        <input type="number"
-               ng-model="battle.date.day"
-               style="width:2em;" 
-               ng-change="battleIsValid()"/>
-      </td>
-    </tr>
-    <tr>
-      <td>Event</td>
-      <td>
-        <select ng-model="battle.setup.event"
-                ng-options="e for e in events">
-        </select>
-        <button class="btn btn-xs">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td>Scenario</td>
-      <td>
-        <select ng-model="battle.setup.scenario"
-                ng-options="id as s.name for (id, s) in scenarios">
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Army size</td>
-      <td>
-        <input type="number" ng-model="battle.setup.size" style="width:3em;" />
-      </td>
-    </tr>
-  </table>
-  <table class="col-sm-6">
-    <tr>
-      <th>Game result :</th>
-      <td>
-        <select ng-model="battle.score"
-                ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
-                ng-change="battleIsValid()">
-        </select>
-        <strong class="{{scores[battle.score].result | scoreResultColor}}">
-          {{ scores[battle.score].result | capitalise }}
-        </strong>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>My Army</td>
-      <td>Opponent</td>
-    </tr>
-    <tr>
-      <td>Control Points</td>
-      <td>
-        <input type="number" ng-model="battle.points.my_army.scenario" style="width:3em;" />
-      </td>
-      <td>
-        <input type="number" ng-model="battle.points.opponent.scenario" style="width:3em;" />
-      </td>
-    </tr>
-    <tr>
-      <td>Kill Points</td>
-      <td>
-        <input type="number" ng-model="battle.points.my_army.army" style="width:3em;" />
-      </td>
-      <td>
-        <input type="number" ng-model="battle.points.opponent.army" style="width:3em;" />
-      </td>
-    </tr>
-  </table>
-  <table class="col-sm-12">
-    <tr>
-      <th>Comment :</th>
-    </tr>
-    <tr>
-      <td>
-        <textarea style="width:100%;" ng-model="battle.comment"></textarea>
-      </td>
-    </tr>
-  </table>
-  <p class="text-center">
-    <button class="btn btn-success"
-            ng-disabled="!battle_is_valid"
-            ng-click="saveBattle()">
-      <span class="glyphicon glyphicon-save"></span> Save
-    </button>
-    <button class="btn btn-default" ng-click="close()">
-      <span class="glyphicon glyphicon-remove"></span> Cancel
-    </button>
-  </p>
+  <form name="battle_edit">
+    <table class="col-sm-6">
+      <tr>
+        <th colspan="2">My army :</th>
+      </tr>
+      <tr>
+        <td rowspan="2">
+          <img class="pull-left"
+               width="50"
+               alt="{{battle.my_army.faction}}"
+               ng-src="img/{{factions[battle.my_army.faction].icon}}" />
+        </td>
+        <td>
+          <select ng-model="battle.my_army.faction"
+                  ng-options="id as f.name for (id, f) in factions"
+                  required>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <select ng-model="battle.my_army.caster"
+                  ng-options="id as id | capitalise for (id, c) in factions[battle.my_army.faction].casters"
+                  required>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <table class="col-sm-6">
+      <tr>
+        <th colspan="2">Opponent :</th>
+      </tr>
+      <tr>
+        <td rowspan="3">
+          <img class="pull-left"
+               width="50"
+               alt="{{battle.opponent.faction}}"
+               ng-src="img/{{factions[battle.opponent.faction].icon}}" />
+        </td>
+        <td>
+          <select ng-model="battle.opponent.name"
+                  ng-options="o as o|capitalise for o in opponents"
+                  required>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <select ng-model="battle.opponent.faction"
+                  ng-options="id as f.name for (id, f) in factions"
+                  required>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <select ng-model="battle.opponent.caster"
+                  ng-options="id as id | capitalise for (id, c) in factions[battle.opponent.faction].casters"
+                  required>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <table class="col-sm-6">
+      <tr>
+        <th colspan="2">Settings :</th>
+      </tr>
+      <tr>
+        <td>Date</td>
+        <td>
+          <input type="number"
+                 ng-model="battle.date.year"
+                 style="width:4em;" 
+                 required 
+                 min="1999"
+                 max="2050" />/
+          <input type="number"
+                 ng-model="battle.date.month"
+                 style="width:2em;" 
+                 required
+                 min="1"
+                 max="12" />/
+          <input type="number"
+                 ng-model="battle.date.day"
+                 style="width:2em;" 
+                 required
+                 min="1"
+                 max="31" />
+        </td>
+      </tr>
+      <tr>
+        <td>Event</td>
+        <td>
+          <select ng-model="battle.setup.event"
+                  ng-options="e for e in events">
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Scenario</td>
+        <td>
+          <select ng-model="battle.setup.scenario"
+                  ng-options="id as s.name for (id, s) in scenarios">
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Army size</td>
+        <td>
+          <input type="number" 
+                 ng-model="battle.setup.size" 
+                 style="width:3em;" />
+        </td>
+      </tr>
+    </table>
+    <table class="col-sm-6">
+      <tr>
+        <th>Game result :</th>
+        <td>
+          <select ng-model="battle.score"
+                  ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
+                  required>
+          </select>
+          <strong class="{{scores[battle.score].result | scoreResultColor}}">
+            {{ scores[battle.score].result | capitalise }}
+          </strong>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>My Army</td>
+        <td>Opponent</td>
+      </tr>
+      <tr>
+        <td>Control Points</td>
+        <td>
+          <input type="number" 
+                 ng-model="battle.points.my_army.scenario" 
+                 style="width:3em;" />
+        </td>
+        <td>
+          <input type="number" 
+                 ng-model="battle.points.opponent.scenario" 
+                 style="width:3em;" />
+        </td>
+      </tr>
+      <tr>
+        <td>Kill Points</td>
+        <td>
+          <input type="number" 
+                 ng-model="battle.points.my_army.army" 
+                 style="width:3em;" />
+        </td>
+        <td>
+          <input type="number" 
+                 ng-model="battle.points.opponent.army" 
+                 style="width:3em;" />
+        </td>
+      </tr>
+    </table>
+    <br />
+    <table class="col-sm-12">
+      <tr>
+        <th>Comment :</th>
+      </tr>
+      <tr>
+        <td>
+          <textarea style="width:100%;" 
+                    ng-model="battle.comment"></textarea>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <p class="text-center">
+      <button class="btn btn-success"
+              ng-disabled="battle_edit.$invalid"
+              ng-click="saveBattle()">
+        <span class="glyphicon glyphicon-save"></span> Save
+      </button>
+      <button class="btn btn-default" 
+              ng-click="close()">
+        <span class="glyphicon glyphicon-remove"></span> Cancel
+      </button>
+    </p>
+  </form>
 </div>

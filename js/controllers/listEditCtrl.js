@@ -25,10 +25,6 @@ angular.module('jlogApp.controllers')
                 $scope.rebuildBattlesIndex();
                 $scope.close();
             };
-            $scope.battleIsValid = function battleIsValid() {
-                $scope.battle_is_valid = battle.isValid($scope.battle);
-            };
 
             $scope.battle = angular.copy($scope.battle);
-            $scope.battleIsValid();
         }]);
