@@ -31,6 +31,7 @@ angular.module('jlogApp.controllers')
             }
             $scope.rebuildBattlesIndex = function rebuildBattlesIndex() {
                 buildIndex($scope.battles);
+                $scope.filter.clearCache();
             };
             $scope.newBattles = function newBattles(data) {
                 $scope.battles = data;
@@ -43,9 +44,13 @@ angular.module('jlogApp.controllers')
             $scope.factions = factions;
             $scope.scores = scores;
             $scope.sort_types = sort_types;
+            $scope.filter_active = false;
             $scope.filter = filter.create();
+            $scope.$watch('filter', function() {
+                $scope.filter.clearCache();
+            }, true);
 
             $scope.toggleFilter = function toggleFilter() {
-                $scope.filter.active = !$scope.filter.active;
+                $scope.filter_active = !$scope.filter_active;
             }
         }]);

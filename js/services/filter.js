@@ -90,8 +90,8 @@ angular.module('jlogApp.services')
         return {
             create: function filterCreate() {
                 var today = new Date();
+                var cache = {};
                 return {
-                    active: false,
                     date: {
                         active: false,
                         is: '0',
@@ -137,15 +137,27 @@ angular.module('jlogApp.services')
                         value: []
                     },
                     match: function filterMatch(battle) {
-                        return !this.active
-                            || ( matchDate(this, battle)
-                                 && matchMyArmy(this, battle)
-                                 && matchOpponentName(this, battle)
-                                 && matchOpponentCaster(this, battle)
-                                 && matchResult(this, battle)
-                                 && matchScenario(this, battle)
-                                 && matchSize(this, battle)
-                                 && matchEvent(this, battle) );
+                        if(!cache.hasOwnProperty(battle.index)) {
+                            cache[battle.index] = matchDate(this, battle)
+                                && matchMyArmy(this, battle)
+                                && matchOpponentName(this, battle)
+                                && matchOpponentCaster(this, battle)
+                                && matchResult(this, battle)
+                                && matchScenario(this, battle)
+                                && matchSize(this, battle)
+                                && matchEvent(this, battle);
+                            console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
+                        }
+                        return cache[battle.index];
+                    },
+                    clearCache: function filterClearCache(index) {
+                        console.log('filter clearCache ' + index);
+                        if(undefined === index) {
+                            cache = {};
+                        }
+                        else {
+                            delete cache[index];
+                        }
                     }
                 };
             },

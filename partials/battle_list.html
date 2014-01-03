@@ -8,8 +8,8 @@
     </button>
     <button class="btn btn-default" ng-click="toggleFilter()">
       <span class="glyphicon glyphicon-search"></span>
-      <span ng-hide="filter.active">Enable</span>
-      <span ng-show="filter.active">Disable</span>
+      <span ng-hide="filter_active">Enable</span>
+      <span ng-show="filter_active">Disable</span>
       Filter
     </button>
   </p>
@@ -50,7 +50,7 @@
       </th>
     </tr>
     <tr class="clickable"
-        ng-repeat="battle in battles | filterBattle:filter | orderBy:sort_types[sort.type].key:sort.reverse"
+        ng-repeat="battle in battles | filterBattle:filter:filter_active | orderBy:sort_types[sort.type].key:sort.reverse"
         ng-click="viewBattle(battle.index)">
       <td class="hidden-xs">
         {{battle.date.year}} /

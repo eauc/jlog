@@ -6,15 +6,12 @@ angular.module('jlogApp.controllers')
         'stats',
         function($scope, 
                  stats) {
-
             console.log('init statsCtrl');
+
             $scope.stats = stats;
             $scope.stats.refresh($scope.battles, $scope.filter);
 
-            var old_toggleFilter = $scope.toggleFilter;
-            $scope.toggleFilter = function statsToggleFilter() {
-                old_toggleFilter();
-                $scope.stats.refresh($scope.battles, $scope.filter);
-            }
-
+            $scope.$watch('filter_active', function() {
+                $scope.stats.refresh($scope.battles, $scope.filter, $scope.filter_active);
+            });
         }]);

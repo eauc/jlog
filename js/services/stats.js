@@ -74,7 +74,7 @@ angular.module('jlogApp.services')
         'statEntry',
         function(statEntry) {
             return {
-                refresh: function statsRefresh(battles, filter) {
+                refresh: function statsRefresh(battles, filter, active) {
                     var battle, i;
                     this.all = statEntry();
                     this.my_army = {
@@ -91,7 +91,8 @@ angular.module('jlogApp.services')
                     for(i=0 ; i < battles.length ; i++) {
                         battle = battles[i];
                         
-                        if(filter.match(battle)) {
+                        if(!active ||
+                           filter.match(battle)) {
                             
                             this.all.add(battle.score);
                             
