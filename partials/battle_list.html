@@ -58,14 +58,14 @@
         {{battle.date.day}}
       </td>
       <td>
-        <img width="35"
+        <img class="faction-icon"
              alt="{{battle.my_army.faction}}"
              ng-src="img/{{factions[battle.my_army.faction].icon}}" />
         {{battle.my_army.caster | capitalise}}
       </td>
       <td>{{battle.opponent.name | capitalise}}</td>
       <td>
-        <img width="35"
+        <img class="faction-icon"
              alt="{{battle.opponent.faction}}"
              ng-src="img/{{factions[battle.opponent.faction].icon}}" />
         {{battle.opponent.caster | capitalise}}
