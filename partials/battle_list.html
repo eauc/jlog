@@ -50,31 +50,39 @@
       </th>
     </tr>
     <tr class="clickable"
+        bindonce
         ng-repeat="battle in battles | filterBattle:filter:filter_active | orderBy:sort_types[sort.type].key:sort.reverse"
         ng-click="viewBattle(battle.index)">
       <td class="hidden-xs">
-        {{battle.date.year}} /
-        {{battle.date.month}} /
-        {{battle.date.day}}
+        <span bo-text="battle.date.year+' / '+battle.date.month+' / '+battle.date.day">
+        </span>
       </td>
       <td>
         <img class="faction-icon"
-             alt="{{battle.my_army.faction}}"
-             ng-src="img/{{factions[battle.my_army.faction].icon}}" />
-        {{battle.my_army.caster | capitalise}}
+             bo-src="'img/'+factions[battle.my_army.faction].icon" />
+        <span bo-text="battle.my_army.caster | capitalise"></span>
       </td>
-      <td>{{battle.opponent.name | capitalise}}</td>
+      <td>
+        <span bo-text="battle.opponent.name | capitalise"></span>
+      </td>
       <td>
         <img class="faction-icon"
-             alt="{{battle.opponent.faction}}"
-             ng-src="img/{{factions[battle.opponent.faction].icon}}" />
-        {{battle.opponent.caster | capitalise}}
+             bo-src="'img/'+factions[battle.opponent.faction].icon" />
+        <span bo-text="battle.opponent.caster | capitalise"></span>
       </td>
-      <td class="hidden-xs">{{battle.setup.size}}</td>
-      <td class="visible-lg">{{scenarios[battle.setup.scenario].name}}</td>
-      <td class="visible-lg">{{battle.setup.event}}</td>
-      <td class="{{scores[battle.score].result | scoreResultColor}}">
-        <strong class="score-result">{{scores[battle.score].type | scoreTypeLetter}}</strong>
+      <td class="hidden-xs">
+        <span bo-text="battle.setup.size"></span>
+      </td>
+      <td class="visible-lg">
+        <span bo-text="scenarios[battle.setup.scenario].name"></span>
+      </td>
+      <td class="visible-lg">
+        <span bo-text="battle.setup.event"></span>
+      </td>
+      <td bo-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}">
+        <strong class="score-result"
+                bo-text="scores[battle.score].type | scoreTypeLetter">
+        </strong>
       </td>
     </tr>
   </table>

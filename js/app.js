@@ -7,6 +7,7 @@ angular.module('jlogApp.controllers', []);
 angular.module('jlogApp.directives', []);
 angular.module('jlogApp', [
     'ui.router',
+    'pasvaz.bindonce',
     'jlogApp.controllers',
     'jlogApp.filters',
     'jlogApp.services',
