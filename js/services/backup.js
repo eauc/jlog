@@ -41,7 +41,7 @@ angular.module('jlogApp.services')
                     URL.revokeObjectURL(old_url);
                 }
                 var string = JSON.stringify(data);
-                var blob = new Blob([string], {type: 'application/octet-stream'});
+                var blob = new Blob([string], {type: 'text/plain'});
                 window.URL = window.URL || window.webkitURL;
                 var url = window.URL.createObjectURL(blob);
                 var today = new Date();
