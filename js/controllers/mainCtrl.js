@@ -28,6 +28,7 @@ angular.module('jlogApp.controllers')
 
             console.log('init mainCtrl');
 
+            $scope.collapse_navbar = true;
             $scope.factions = factions;
             $scope.scores = scores;
             $scope.filter_active = false;
