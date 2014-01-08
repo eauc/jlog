@@ -51,7 +51,7 @@
     </tr>
     <tr class="clickable"
         bindonce
-        ng-repeat="battle in battles | filterBattle:filter:filter_active | orderBy:sort_types[sort.type].key:sort.reverse"
+        ng-repeat="battle in list_display.battles"
         ng-click="viewBattle(battle.index)">
       <td class="hidden-xs">
         <span bo-text="battle.date.year+' / '+battle.date.month+' / '+battle.date.day">
@@ -86,4 +86,11 @@
       </td>
     </tr>
   </table>
+</div>
+<div class="text-center clickable" 
+     ng-show="show_list && list_display.more" 
+     ng-click="list_display.showMore()" 
+     style="background-color:#DDD" 
+     when-scrolled="list_display.showMore()">
+  More...
 </div>

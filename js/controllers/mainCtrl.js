@@ -12,6 +12,7 @@ angular.module('jlogApp.controllers')
         'battle_sort',
         'filter',
         'stats',
+        'battle_list_display',
         function($scope,
                  factions,
                  opponents,
@@ -21,7 +22,8 @@ angular.module('jlogApp.controllers')
                  battles,
                  battle_sort,
                  filter,
-                 stats
+                 stats,
+                 battle_list_display
                 ) {
 
             console.log('init mainCtrl');
@@ -31,6 +33,7 @@ angular.module('jlogApp.controllers')
             $scope.filter_active = false;
             $scope.filter = filter.create();
             $scope.stats = stats;
+            $scope.list_display = battle_list_display;
             $scope.sort = battle_sort();
 
             var buildIndex = function buildIndex(array) {
@@ -39,8 +42,12 @@ angular.module('jlogApp.controllers')
                     array[i].index = i;
                 }
             }
-            $scope.rebuildBattlesIndex = function rebuildBattlesIndex() {
+            $scope.rebuildBattlesIndex = function rebuildBattlesIndex() { 
                 buildIndex($scope.battles);
+                $scope.list_display.reset($scope.battles,
+                                          $scope.filter,
+                                          $scope.filter_active,
+                                          $scope.sort);
                 $scope.filter.clearCache();
                 $scope.stats.reset();
             };

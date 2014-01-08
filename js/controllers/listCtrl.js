@@ -27,5 +27,18 @@ angular.module('jlogApp.controllers')
                 $state.go('list');
             };
 
+            $scope.$watch('filter_active', function() {
+                $scope.list_display.reset($scope.battles,
+                                          $scope.filter,
+                                          $scope.filter_active,
+                                          $scope.sort);
+            });
+            $scope.$watch('sort', function() {
+                $scope.list_display.reset($scope.battles,
+                                          $scope.filter,
+                                          $scope.filter_active,
+                                          $scope.sort);
+            }, true);
+
             $scope.show_list = true;
         }]);
