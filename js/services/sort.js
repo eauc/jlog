@@ -35,20 +35,23 @@ angular.module('jlogApp.services')
             key: ['score', 'index']
         }
     })
-    .factory('battle_sort', [function() {
-        return function() {
-            return {
-                type: 'date',
-                reverse: true,
-                sortBy: function sortBy(type) {
-                    if(this.type === type) {
-                        this.reverse = !this.reverse;
+    .factory('battle_sort', [
+        'sort_types',
+        function(sort_types) {
+            return function() {
+                return {
+                    types: sort_types,
+                    type: 'date',
+                    reverse: true,
+                    sortBy: function sortBy(type) {
+                        if(this.type === type) {
+                            this.reverse = !this.reverse;
+                        }
+                        else {
+                            this.type = type;
+                            this.reverse = false;
+                        }
                     }
-                    else {
-                        this.type = type;
-                        this.reverse = false;
-                    }
-                }
-            };
+                };
         };
     }]);

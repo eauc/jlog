@@ -17,7 +17,7 @@
     <label for="sort-by">Sort by</label>
     <select id="sort-by"
             ng-model="sort.type"
-            ng-options="id as t.name for (id, t) in sort_types">
+            ng-options="id as t.name for (id, t) in sort.types">
     </select>
     <input id="sort-reverse" type="checkbox" ng-model="sort.reverse" />
     <label for="sort-reverse" class="clickable">reverse</label>
