@@ -70,79 +70,187 @@ angular.module('jlogApp.services')
                 }
             };
         };
-    }]).factory('stats', [
+    }]).factory('statCollection', [
         'statEntry',
         function(statEntry) {
-            return {
-                refresh: function statsRefresh(battles, filter, active) {
-                    var battle, i;
+            function dummyRefresh() {};
+            function refreshAll(battle) {
+                if(undefined === this.all.win) {
                     this.all = statEntry();
-                    this.my_army = {
+                }
+                this.all.add(battle.score);
+            };
+            function refreshMyFaction(battle) {
+                var my_faction = battle.my_army.faction;
+                if(undefined === this.my_army.faction[my_faction]) {
+                    this.my_army.faction[my_faction] = statEntry();
+                }
+                this.my_army.faction[my_faction].add(battle.score);
+            };
+            function refreshMyCaster(battle) {
+                var my_faction = battle.my_army.faction;
+                var my_caster = battle.my_army.caster;
+                if(undefined === this.my_army.caster[my_caster]) {
+                    this.my_army.caster[my_caster] = statEntry();
+                    this.my_army.caster[my_caster].faction = my_faction;
+                }
+                this.my_army.caster[my_caster].add(battle.score);
+            };
+            function refreshOppName(battle) {
+                var opp_name = battle.opponent.name;
+                if(undefined === this.opponent.name[opp_name]) {
+                    this.opponent.name[opp_name] = statEntry();
+                }
+                this.opponent.name[opp_name].add(battle.score);
+            };
+            function refreshOppFaction(battle) {
+                var opp_faction = battle.opponent.faction;
+                if(undefined === this.opponent.faction[opp_faction]) {
+                    this.opponent.faction[opp_faction] = statEntry();
+                }
+                this.opponent.faction[opp_faction].add(battle.score);
+            };
+            function refreshOppCaster(battle) {
+                var opp_faction = battle.opponent.faction;
+                var opp_caster = battle.opponent.caster;
+                if(undefined === this.opponent.caster[opp_caster]) {
+                    this.opponent.caster[opp_caster] = statEntry();
+                    this.opponent.caster[opp_caster].faction = opp_faction;
+                }
+                this.opponent.caster[opp_caster].add(battle.score);
+            };
+            function refreshScenario(battle) {
+                var scenario = battle.setup.scenario;
+                if(undefined === this.scenario[scenario]) {
+                    this.scenario[scenario] = statEntry();
+                }
+                this.scenario[scenario].add(battle.score);
+            };
+            function refreshEvent(battle) {
+                var event = battle.setup.event;
+                if(undefined === this.event[event]) {
+                    this.event[event] = statEntry();
+                }
+                this.event[event].add(battle.score);
+            };
+            function isEmpty(object) {
+                var key;
+                for(key in object) {
+                    if(object.hasOwnProperty(key)) return false;
+                }
+                return true;
+            };
+            return function() {
+                return {
+                    all: {},
+                    my_army: {
                         caster: {},
                         faction: {}
-                    };
-                    this.opponent = {
+                    },
+                    opponent: {
                         name: {},
                         faction: {},
                         caster: {}
-                    };
-                    this.event = {};
-                    this.scenario = {};
-                    for(i=0 ; i < battles.length ; i++) {
-                        battle = battles[i];
+                    },
+                    event: {},
+                    scenario: {},
+                    reset: function statCollectionReset() {
+                        this.all = {};
+                        this.my_army = {
+                            caster: {},
+                            faction: {}
+                        };
+                        this.opponent = {
+                            name: {},
+                            faction: {},
+                            caster: {}
+                        };
+                        this.event = {};
+                        this.scenario = {};
+                    },
+                    refresh: function statCollectionRefresh(battles, filter, show) {
+                        var battle, i;
                         
-                        if(!active ||
-                           filter.match(battle)) {
+                        this.refreshAll = (show.all && 
+                                           undefined === this.all.win) ? 
+                            refreshAll : dummyRefresh;
+                        this.refreshMyFaction = (show.my_army.faction && 
+                                                 isEmpty(this.my_army.faction)) ? 
+                            refreshMyFaction : dummyRefresh;
+                        this.refreshMyCaster = (show.my_army.caster &&
+                                                isEmpty(this.my_army.caster)) ?
+                            refreshMyCaster : dummyRefresh;
+                        this.refreshOppName = (show.opponent.name &&
+                                               isEmpty(this.opponent.name)) ?
+                            refreshOppName : dummyRefresh;
+                        this.refreshOppFaction = (show.opponent.faction &&
+                                                  isEmpty(this.opponent.faction)) ?
+                            refreshOppFaction : dummyRefresh;
+                        this.refreshOppCaster = (show.opponent.caster &&
+                                                 isEmpty(this.opponent.caster)) ? 
+                            refreshOppCaster : dummyRefresh;
+                        this.refreshScenario = (show.scenario &&
+                                                isEmpty(this.scenario)) ?
+                            refreshScenario : dummyRefresh;
+                        this.refreshEvent = (show.event &&
+                                             isEmpty(this.event)) ?
+                            refreshEvent : dummyRefresh;
+
+                        for(i = 0 ; i < battles.length ; i++) {
+                            battle = battles[i];
                             
-                            this.all.add(battle.score);
-                            
-                            var my_faction = battle.my_army.faction;
-                            if(undefined === this.my_army.faction[my_faction]) {
-                                this.my_army.faction[my_faction] = statEntry();
+                            if(filter.match(battle)) {
+
+                                this.refreshAll(battle);                            
+                                this.refreshMyFaction(battle);                            
+                                this.refreshMyCaster(battle);                            
+                                this.refreshOppName(battle);                            
+                                this.refreshOppFaction(battle);                            
+                                this.refreshOppCaster(battle);                            
+                                this.refreshScenario(battle);                            
+                                this.refreshEvent(battle);                            
+                                
                             }
-                            this.my_army.faction[my_faction].add(battle.score);
-                            
-                            var my_caster = battle.my_army.caster;
-                            if(undefined === this.my_army.caster[my_caster]) {
-                                this.my_army.caster[my_caster] = statEntry();
-                                this.my_army.caster[my_caster].faction = my_faction;
-                            }
-                            this.my_army.caster[my_caster].add(battle.score);
-                            
-                            var opp_name = battle.opponent.name;
-                            if(undefined === this.opponent.name[opp_name]) {
-                                this.opponent.name[opp_name] = statEntry();
-                            }
-                            this.opponent.name[opp_name].add(battle.score);
-                            
-                            var opp_faction = battle.opponent.faction;
-                            if(undefined === this.opponent.faction[opp_faction]) {
-                                this.opponent.faction[opp_faction] = statEntry();
-                            }
-                            this.opponent.faction[opp_faction].add(battle.score);
-                            
-                            var opp_caster = battle.opponent.caster;
-                            if(undefined === this.opponent.caster[opp_caster]) {
-                                this.opponent.caster[opp_caster] = statEntry();
-                                this.opponent.caster[opp_caster].faction = opp_faction;
-                            }
-                            this.opponent.caster[opp_caster].add(battle.score);
-                            
-                            var scenario = battle.setup.scenario;
-                            if(undefined === this.scenario[scenario]) {
-                                this.scenario[scenario] = statEntry();
-                            }
-                            this.scenario[scenario].add(battle.score);
-                            
-                            var event = battle.setup.event;
-                            if(undefined === this.event[event]) {
-                                this.event[event] = statEntry();
-                            }
-                            this.event[event].add(battle.score);
-                            
+
                         }
-                        
+
                     }
                 }
             };
-        }]);
+        }]).factory('stats', [
+            'statCollection',
+            function(statCollection) {
+                var dummy_filter = {
+                    match: function() {
+                        return true;
+                    }
+                };
+                return {
+                    show: {
+                        all: false,
+                        my_army: {
+                            caster: false,
+                            faction: false
+                        },
+                        opponent: {
+                            name: false,
+                            caster: false,
+                            faction: false
+                        },
+                        event: false,
+                        scenario: false
+                    },
+                    raw: statCollection(),
+                    filtered: statCollection(),
+                    reset: function statsReset() {
+                        this.raw.reset();
+                        this.filtered.reset();
+                    },
+                    refresh: function statsRefresh(battles, filter, active) {
+                        this.active = active ? this.filtered : this.raw;
+                        var active_filter = active ? filter : dummy_filter;
+                        this.active.refresh(battles, active_filter, this.show);
+                    }
+                };
+            }]);
+

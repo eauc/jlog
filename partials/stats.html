@@ -20,27 +20,27 @@
     <tboby>
       <tr>
         <td>Total</td>
-        <td class="text-success">{{stats.all.win.total}}</td>
-        <td class="text-warning">{{stats.all.draw.total}}</td>
-        <td class="text-danger">{{stats.all.loss.total}}</td>
+        <td class="text-success">{{stats.active.all.win.total}}</td>
+        <td class="text-warning">{{stats.active.all.draw.total}}</td>
+        <td class="text-danger">{{stats.active.all.loss.total}}</td>
       </tr>
       <tr>
         <td>Assassination</td>
-        <td class="text-success">{{stats.all.win.assassination}}</td>
-        <td class="text-warning">{{stats.all.draw.assassination}}</td>
-        <td class="text-danger">{{stats.all.loss.assassination}}</td>
+        <td class="text-success">{{stats.active.all.win.assassination}}</td>
+        <td class="text-warning">{{stats.active.all.draw.assassination}}</td>
+        <td class="text-danger">{{stats.active.all.loss.assassination}}</td>
       </tr>
       <tr>
         <td>Clock</td>
-        <td class="text-success">{{stats.all.win.clock}}</td>
-        <td class="text-warning">{{stats.all.draw.clock}}</td>
-        <td class="text-danger">{{stats.all.loss.clock}}</td>
+        <td class="text-success">{{stats.active.all.win.clock}}</td>
+        <td class="text-warning">{{stats.active.all.draw.clock}}</td>
+        <td class="text-danger">{{stats.active.all.loss.clock}}</td>
       </tr>
       <tr>
         <td>Scenario</td>
-        <td class="text-success">{{stats.all.win.scenario}}</td>
-        <td class="text-warning">{{stats.all.draw.scenario}}</td>
-        <td class="text-danger">{{stats.all.loss.scenario}}</td>
+        <td class="text-success">{{stats.active.all.win.scenario}}</td>
+        <td class="text-warning">{{stats.active.all.draw.scenario}}</td>
+        <td class="text-danger">{{stats.active.all.loss.scenario}}</td>
       </tr>
     </tboby>
   </table>
@@ -57,7 +57,7 @@
       <th class="text-warning">Draw</th>
       <th class="text-danger">Loss</th>
     </tr>
-    <tbody ng-repeat="(name, f) in stats.my_army.faction">
+    <tbody ng-repeat="(name, f) in stats.active.my_army.faction">
       <tr class="clickable"
           ng-click="f.show = !f.show">
         <td rowspan="4">{{factions[name].name}}</td>
@@ -99,7 +99,7 @@
       <th class="text-warning">Draw</th>
       <th class="text-danger">Loss</th>
     </tr>
-    <tbody ng-repeat="(name, c) in stats.my_army.caster">
+    <tbody ng-repeat="(name, c) in stats.active.my_army.caster">
       <tr class="clickable"
           ng-click="c.show = !c.show">
         <td rowspan="4">
@@ -144,7 +144,7 @@
       <th class="text-warning">Draw</th>
       <th class="text-danger">Loss</th>
     </tr>
-    <tbody ng-repeat="(name, n) in stats.opponent.name">
+    <tbody ng-repeat="(name, n) in stats.active.opponent.name">
       <tr class="clickable"
           ng-click="n.show = !n.show">
         <td rowspan="4">{{name | capitalise}}</td>
@@ -186,7 +186,7 @@
       <th class="text-warning">Draw</th>
       <th class="text-danger">Loss</th>
     </tr>
-    <tbody ng-repeat="(name, f) in stats.opponent.faction">
+    <tbody ng-repeat="(name, f) in stats.active.opponent.faction">
       <tr class="clickable"
           ng-click="f.show = !f.show">
         <td rowspan="4">{{factions[name].name}}</td>
@@ -228,7 +228,7 @@
       <th class="text-warning">Draw</th>
       <th class="text-danger">Loss</th>
     </tr>
-    <tbody ng-repeat="(name, c) in stats.opponent.caster">
+    <tbody ng-repeat="(name, c) in stats.active.opponent.caster">
       <tr class="clickable"
           ng-click="c.show = !c.show">
         <td rowspan="4">
@@ -273,7 +273,7 @@
       <th class="text-warning">Draw</th>
       <th class="text-danger">Loss</th>
     </tr>
-    <tbody ng-repeat="(name, s) in stats.scenario">
+    <tbody ng-repeat="(name, s) in stats.active.scenario">
       <tr class="clickable"
           ng-click="s.show = !s.show">
         <td rowspan="4">{{scenarios[name].name}}</td>
@@ -315,7 +315,7 @@
       <th class="text-warning">Draw</th>
       <th class="text-danger">Loss</th>
     </tr>
-    <tbody ng-repeat="(name, e) in stats.event">
+    <tbody ng-repeat="(name, e) in stats.active.event">
       <tr class="clickable"
           ng-click="e.show = !e.show">
         <td rowspan="4">{{name | capitalise}}</td>
