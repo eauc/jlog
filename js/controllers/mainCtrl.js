@@ -9,7 +9,7 @@ angular.module('jlogApp.controllers')
         'scenarios',
         'scores',
         'battles',
-        'sort_types',
+        'battle_sort',
         'filter',
         function($scope,
                  factions,
@@ -18,10 +18,17 @@ angular.module('jlogApp.controllers')
                  scenarios,
                  scores,
                  battles,
-                 sort_types,
-                 filter) {
+                 battle_sort,
+                 filter
+                ) {
 
             console.log('init mainCtrl');
+
+            $scope.factions = factions;
+            $scope.scores = scores;
+            $scope.filter_active = false;
+            $scope.filter = filter.create();
+            $scope.sort = battle_sort();
 
             var buildIndex = function buildIndex(array) {
                 var i = 0;
@@ -35,22 +42,19 @@ angular.module('jlogApp.controllers')
             };
             $scope.newBattles = function newBattles(data) {
                 $scope.battles = data;
-                buildIndex($scope.battles);
                 $scope.opponents = opponents($scope.battles);
                 $scope.events = events($scope.battles);
                 $scope.scenarios = scenarios($scope.battles);
+                $scope.rebuildBattlesIndex();
             };
             $scope.newBattles(battles);
-            $scope.factions = factions;
-            $scope.scores = scores;
-            $scope.sort_types = sort_types;
-            $scope.filter_active = false;
-            $scope.filter = filter.create();
+
             $scope.$watch('filter', function() {
                 $scope.filter.clearCache();
             }, true);
 
             $scope.toggleFilter = function toggleFilter() {
                 $scope.filter_active = !$scope.filter_active;
-            }
+            };
+
         }]);

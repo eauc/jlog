@@ -26,19 +26,6 @@ angular.module('jlogApp.controllers')
                 $scope.show_list = true;
                 $state.go('list');
             };
-            $scope.sort = {
-                type: 'date',
-                reverse: true,
-                sortBy: function sortBy(type) {
-                    if($scope.sort.type === type) {
-                        $scope.sort.reverse = !$scope.sort.reverse;
-                    }
-                    else {
-                        $scope.sort.type = type;
-                        $scope.sort.reverse = false;
-                    }
-                }
-            };
 
             $scope.show_list = true;
         }]);

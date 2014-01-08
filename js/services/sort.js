@@ -34,5 +34,21 @@ angular.module('jlogApp.services')
             name: 'Result',
             key: ['score', 'index']
         }
-    });
-
+    })
+    .factory('battle_sort', [function() {
+        return function() {
+            return {
+                type: 'date',
+                reverse: true,
+                sortBy: function sortBy(type) {
+                    if(this.type === type) {
+                        this.reverse = !this.reverse;
+                    }
+                    else {
+                        this.type = type;
+                        this.reverse = false;
+                    }
+                }
+            };
+        };
+    }]);
