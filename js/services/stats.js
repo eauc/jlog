@@ -230,15 +230,22 @@ angular.module('jlogApp.services')
                         all: false,
                         my_army: {
                             caster: false,
-                            faction: false
+                            faction: false,
+                            casters: {},
+                            factions: {}
                         },
                         opponent: {
                             name: false,
                             caster: false,
-                            faction: false
+                            faction: false,
+                            names: {},
+                            casters: {},
+                            factions: {}
                         },
                         event: false,
-                        scenario: false
+                        events: {},
+                        scenario: false,
+                        scenarios: {},
                     },
                     raw: statCollection(),
                     filtered: statCollection(),

@@ -2,11 +2,13 @@
 <div class="container"
      ng-show="show_list">
   <p>
-    <button class="btn btn-primary" ng-click="addBattle()">
+    <button class="btn btn-primary"
+            ng-click="addBattle()">
       <span class="glyphicon glyphicon-plus"></span>
       Add Battle
     </button>
-    <button class="btn btn-default" ng-click="toggleFilter()">
+    <button class="btn btn-default"
+            ng-click="toggleFilter()">
       <span class="glyphicon glyphicon-search"></span>
       <span ng-hide="filter_active">Enable</span>
       <span ng-show="filter_active">Disable</span>

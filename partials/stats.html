@@ -59,26 +59,26 @@
     </tr>
     <tbody ng-repeat="(name, f) in stats.active.my_army.faction">
       <tr class="clickable"
-          ng-click="f.show = !f.show">
+          ng-click="stats.show.my_army.factions[name] = !stats.show.my_army.factions[name]">
         <td rowspan="4">{{factions[name].name}}</td>
         <td>Total</td>
         <td class="text-success">{{f.win.total}}</td>
         <td class="text-warning">{{f.draw.total}}</td>
         <td class="text-danger">{{f.loss.total}}</td>
       </tr>
-      <tr ng-show="f.show">
+      <tr ng-show="stats.show.my_army.factions[name]">
         <td>Assassination</td>
         <td class="text-success">{{f.win.assassination}}</td>
         <td class="text-warning">{{f.draw.assassination}}</td>
         <td class="text-danger">{{f.loss.assassination}}</td>
       </tr>
-      <tr ng-show="f.show">
+      <tr ng-show="stats.show.my_army.factions[name]">
         <td>Clock</td>
         <td class="text-success">{{f.win.clock}}</td>
         <td class="text-warning">{{f.draw.clock}}</td>
         <td class="text-danger">{{f.loss.clock}}</td>
       </tr>
-      <tr ng-show="f.show">
+      <tr ng-show="stats.show.my_army.factions[name]">
         <td>Scenario</td>
         <td class="text-success">{{f.win.scenario}}</td>
         <td class="text-warning">{{f.draw.scenario}}</td>
@@ -101,7 +101,7 @@
     </tr>
     <tbody ng-repeat="(name, c) in stats.active.my_army.caster">
       <tr class="clickable"
-          ng-click="c.show = !c.show">
+          ng-click="stats.show.my_army.casters[name] = !stats.show.my_army.casters[name]">
         <td rowspan="4">
           {{factions[c.faction].casters[name].name}}
           ({{name | capitalise}})
@@ -111,19 +111,19 @@
         <td class="text-warning">{{c.draw.total}}</td>
         <td class="text-danger">{{c.loss.total}}</td>
       </tr>
-      <tr ng-show="c.show">
+      <tr ng-show="stats.show.my_army.casters[name]">
         <td>Assassination</td>
         <td class="text-success">{{c.win.assassination}}</td>
         <td class="text-warning">{{c.draw.assassination}}</td>
         <td class="text-danger">{{c.loss.assassination}}</td>
       </tr>
-      <tr ng-show="c.show">
+      <tr ng-show="stats.show.my_army.casters[name]">
         <td>Clock</td>
         <td class="text-success">{{c.win.clock}}</td>
         <td class="text-warning">{{c.draw.clock}}</td>
         <td class="text-danger">{{c.loss.clock}}</td>
       </tr>
-      <tr ng-show="c.show">
+      <tr ng-show="stats.show.my_army.casters[name]">
         <td>Scenario</td>
         <td class="text-success">{{c.win.scenario}}</td>
         <td class="text-warning">{{c.draw.scenario}}</td>
@@ -146,26 +146,26 @@
     </tr>
     <tbody ng-repeat="(name, n) in stats.active.opponent.name">
       <tr class="clickable"
-          ng-click="n.show = !n.show">
+          ng-click="stats.show.opponent.names[name] = !stats.show.opponent.names[name]">
         <td rowspan="4">{{name | capitalise}}</td>
         <td>Total</td>
         <td class="text-success">{{n.win.total}}</td>
         <td class="text-warning">{{n.draw.total}}</td>
         <td class="text-danger">{{n.loss.total}}</td>
       </tr>
-      <tr ng-show="n.show">
+      <tr ng-show="stats.show.opponent.names[name]">
         <td>Assassination</td>
         <td class="text-success">{{n.win.assassination}}</td>
         <td class="text-warning">{{n.draw.assassination}}</td>
         <td class="text-danger">{{n.loss.assassination}}</td>
       </tr>
-      <tr ng-show="n.show">
+      <tr ng-show="stats.show.opponent.names[name]">
         <td>Clock</td>
         <td class="text-success">{{n.win.clock}}</td>
         <td class="text-warning">{{n.draw.clock}}</td>
         <td class="text-danger">{{n.loss.clock}}</td>
       </tr>
-      <tr ng-show="n.show">
+      <tr ng-show="stats.show.opponent.names[name]">
         <td>Scenario</td>
         <td class="text-success">{{n.win.scenario}}</td>
         <td class="text-warning">{{n.draw.scenario}}</td>
@@ -188,26 +188,26 @@
     </tr>
     <tbody ng-repeat="(name, f) in stats.active.opponent.faction">
       <tr class="clickable"
-          ng-click="f.show = !f.show">
+          ng-click="stats.show.opponent.factions[name] = !stats.show.opponent.factions[name]">
         <td rowspan="4">{{factions[name].name}}</td>
         <td>Total</td>
         <td class="text-success">{{f.win.total}}</td>
         <td class="text-warning">{{f.draw.total}}</td>
         <td class="text-danger">{{f.loss.total}}</td>
       </tr>
-      <tr ng-show="f.show">
+      <tr ng-show="stats.show.opponent.factions[name]">
         <td>Assassination</td>
         <td class="text-success">{{f.win.assassination}}</td>
         <td class="text-warning">{{f.draw.assassination}}</td>
         <td class="text-danger">{{f.loss.assassination}}</td>
       </tr>
-      <tr ng-show="f.show">
+      <tr ng-show="stats.show.opponent.factions[name]">
         <td>Clock</td>
         <td class="text-success">{{f.win.clock}}</td>
         <td class="text-warning">{{f.draw.clock}}</td>
         <td class="text-danger">{{f.loss.clock}}</td>
       </tr>
-      <tr ng-show="f.show">
+      <tr ng-show="stats.show.opponent.factions[name]">
         <td>Scenario</td>
         <td class="text-success">{{f.win.scenario}}</td>
         <td class="text-warning">{{f.draw.scenario}}</td>
@@ -230,7 +230,7 @@
     </tr>
     <tbody ng-repeat="(name, c) in stats.active.opponent.caster">
       <tr class="clickable"
-          ng-click="c.show = !c.show">
+          ng-click="stats.show.opponent.factions[name] = !stats.show.opponent.factions[name]">
         <td rowspan="4">
           {{factions[c.faction].casters[name].name}}
           ({{name | capitalise}})
@@ -240,19 +240,19 @@
         <td class="text-warning">{{c.draw.total}}</td>
         <td class="text-danger">{{c.loss.total}}</td>
       </tr>
-      <tr ng-show="c.show">
+      <tr ng-show="stats.show.opponent.factions[name]">
         <td>Assassination</td>
         <td class="text-success">{{c.win.assassination}}</td>
         <td class="text-warning">{{c.draw.assassination}}</td>
         <td class="text-danger">{{c.loss.assassination}}</td>
       </tr>
-      <tr ng-show="c.show">
+      <tr ng-show="stats.show.opponent.factions[name]">
         <td>Clock</td>
         <td class="text-success">{{c.win.clock}}</td>
         <td class="text-warning">{{c.draw.clock}}</td>
         <td class="text-danger">{{c.loss.clock}}</td>
       </tr>
-      <tr ng-show="c.show">
+      <tr ng-show="stats.show.opponent.factions[name]">
         <td>Scenario</td>
         <td class="text-success">{{c.win.scenario}}</td>
         <td class="text-warning">{{c.draw.scenario}}</td>
@@ -275,26 +275,26 @@
     </tr>
     <tbody ng-repeat="(name, s) in stats.active.scenario">
       <tr class="clickable"
-          ng-click="s.show = !s.show">
+          ng-click="stats.show.scenarios[name] = !stats.show.scenarios[name]">
         <td rowspan="4">{{scenarios[name].name}}</td>
         <td>Total</td>
         <td class="text-success">{{s.win.total}}</td>
         <td class="text-warning">{{s.draw.total}}</td>
         <td class="text-danger">{{s.loss.total}}</td>
       </tr>
-      <tr ng-show="s.show">
+      <tr ng-show="stats.show.scenarios[name]">
         <td>Assassination</td>
         <td class="text-success">{{s.win.assassination}}</td>
         <td class="text-warning">{{s.draw.assassination}}</td>
         <td class="text-danger">{{s.loss.assassination}}</td>
       </tr>
-      <tr ng-show="s.show">
+      <tr ng-show="stats.show.scenarios[name]">
         <td>Clock</td>
         <td class="text-success">{{s.win.clock}}</td>
         <td class="text-warning">{{s.draw.clock}}</td>
         <td class="text-danger">{{s.loss.clock}}</td>
       </tr>
-      <tr ng-show="s.show">
+      <tr ng-show="stats.show.scenarios[name]">
         <td>Scenario</td>
         <td class="text-success">{{s.win.scenario}}</td>
         <td class="text-warning">{{s.draw.scenario}}</td>
@@ -317,26 +317,26 @@
     </tr>
     <tbody ng-repeat="(name, e) in stats.active.event">
       <tr class="clickable"
-          ng-click="e.show = !e.show">
+          ng-click="stats.show.events[name] = !stats.show.events[name]">
         <td rowspan="4">{{name | capitalise}}</td>
         <td>Total</td>
         <td class="text-success">{{e.win.total}}</td>
         <td class="text-warning">{{e.draw.total}}</td>
         <td class="text-danger">{{e.loss.total}}</td>
       </tr>
-      <tr ng-show="e.show">
+      <tr ng-show="stats.show.events[name]">
         <td>Assassination</td>
         <td class="text-success">{{e.win.assassination}}</td>
         <td class="text-warning">{{e.draw.assassination}}</td>
         <td class="text-danger">{{e.loss.assassination}}</td>
       </tr>
-      <tr ng-show="e.show">
+      <tr ng-show="stats.show.events[name]">
         <td>Clock</td>
         <td class="text-success">{{e.win.clock}}</td>
         <td class="text-warning">{{e.draw.clock}}</td>
         <td class="text-danger">{{e.loss.clock}}</td>
       </tr>
-      <tr ng-show="e.show">
+      <tr ng-show="stats.show.events[name]">
         <td>Scenario</td>
         <td class="text-success">{{e.win.scenario}}</td>
         <td class="text-warning">{{e.draw.scenario}}</td>
