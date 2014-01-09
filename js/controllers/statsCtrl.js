@@ -13,6 +13,11 @@ angular.module('jlogApp.controllers')
             $scope.$watch('stats.show', function() {
                 $scope.stats.refresh($scope.battles, $scope.filter, $scope.filter_active);
             }, true);
+            $scope.$watch('stats.percent', function() {
+                $scope.stats.refresh($scope.battles,
+                                     $scope.filter,
+                                     $scope.filter_active);
+            });
             $scope.$watch('filter_active', function() {
                 $scope.stats.refresh($scope.battles, $scope.filter, $scope.filter_active);
             });

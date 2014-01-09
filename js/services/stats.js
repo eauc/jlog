@@ -22,7 +22,36 @@ angular.module('jlogApp.services')
                     scenario: 0,
                     clock: 0
                 },
-                add: function(score) {
+                toPercent: function statEntryToPercent() {
+                    var total = this.win.total + this.draw.total + this.loss.total;
+                    var assassination = this.win.assassination + this.draw.assassination + this.loss.assassination;
+                    var scenario = this.win.scenario + this.draw.scenario + this.loss.scenario;
+                    var clock = this.win.clock + this.draw.clock + this.loss.clock;
+                    var win = {
+                        total: (100 * this.win.total / total) >> 0,
+                        assassination: (100 * this.win.assassination / assassination) >> 0,
+                        scenario: (100 * this.win.scenario / scenario) >> 0,
+                        clock: (100 * this.win.clock / clock) >> 0
+                    };
+                    var draw = {
+                        total: (100 * this.draw.total / total) >> 0,
+                        assassination: (100 * this.draw.assassination / assassination) >> 0,
+                        scenario: (100 * this.draw.scenario / scenario) >> 0,
+                        clock: (100 * this.draw.clock / clock) >> 0
+                    };
+                    var loss = {
+                        total: 0 === total ? 0 : 100 - win.total - draw.total,
+                        assassination: 0 === assassination ? 0 : 100 - win.assassination - draw.assassination,
+                        scenario: 0 === scenario ? 0 : 100 - win.scenario - draw.assassination,
+                        clock: 0 === clock ? 0 : 100 - win.clock - draw.clock
+                    };
+                    return {
+                        win : win,
+                        draw: draw,
+                        loss: loss
+                    };
+                },
+                add: function statEntryAdd(score) {
                     switch(score) {
                     case 'va':
                         {
@@ -168,6 +197,61 @@ angular.module('jlogApp.services')
                         this.event = {};
                         this.scenario = {};
                     },
+                    toPercent: function statCollectionToPercent() {
+                        var result = {
+                            all: 'function' === typeof this.all.toPercent ? this.all.toPercent() : {},
+                            my_army: {
+                                caster: {},
+                                faction: {}
+                            },
+                            opponent: {
+                                name: {},
+                                faction: {},
+                                caster: {}
+                            },
+                            event: {},
+                            scenario: {}
+                        };
+                        var key;
+                        for(key in this.my_army.faction) {
+                            if(this.my_army.faction.hasOwnProperty(key)) {
+                                result.my_army.faction[key] = this.my_army.faction[key].toPercent();
+                            }
+                        }
+                        for(key in this.my_army.caster) {
+                            if(this.my_army.caster.hasOwnProperty(key)) {
+                                result.my_army.caster[key] = this.my_army.caster[key].toPercent();
+                                result.my_army.caster[key].faction = this.my_army.caster[key].faction;
+                            }
+                        }
+                        for(key in this.opponent.name) {
+                            if(this.opponent.name.hasOwnProperty(key)) {
+                                result.opponent.name[key] = this.opponent.name[key].toPercent();
+                            }
+                        }
+                        for(key in this.opponent.faction) {
+                            if(this.opponent.faction.hasOwnProperty(key)) {
+                                result.opponent.faction[key] = this.opponent.faction[key].toPercent();
+                            }
+                        }
+                        for(key in this.opponent.caster) {
+                            if(this.opponent.caster.hasOwnProperty(key)) {
+                                result.opponent.caster[key] = this.opponent.caster[key].toPercent();
+                                result.opponent.caster[key].faction = this.opponent.caster[key].faction;
+                            }
+                        }
+                        for(key in this.event) {
+                            if(this.event.hasOwnProperty(key)) {
+                                result.event[key] = this.event[key].toPercent();
+                            }
+                        }
+                        for(key in this.scenario) {
+                            if(this.scenario.hasOwnProperty(key)) {
+                                result.scenario[key] = this.scenario[key].toPercent();
+                            }
+                        }
+                        return result;
+                    },
                     refresh: function statCollectionRefresh(battles, filter, show) {
                         var battle, i;
                         
@@ -254,10 +338,12 @@ angular.module('jlogApp.services')
                         this.filtered.reset();
                     },
                     refresh: function statsRefresh(battles, filter, active) {
-                        this.active = active ? this.filtered : this.raw;
+                        var active_collection = active ? this.filtered : this.raw;
                         var active_filter = active ? filter : dummy_filter;
-                        this.active.refresh(battles, active_filter, this.show);
-                    }
+                        active_collection.refresh(battles, active_filter, this.show);
+                        active_collection.percent = active_collection.toPercent();
+                        this.active = this.percent ? active_collection.percent : active_collection;
+                    },
                 };
             }]);
 
