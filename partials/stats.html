@@ -11,6 +11,14 @@
     <span ng-show="filter_active">Disable</span>
     Filter
   </button>
+  <button class="btn btn-default"
+          ng-click="invertFilter()"
+          ng-show="filter_active">
+    <span class="glyphicon glyphicon-random"></span>
+    <span ng-hide="filter_invert">Invert</span>
+    <span ng-show="filter_invert">Restore</span>
+    Filter
+  </button>
   <legend class="clickable"
           ng-click="stats.show.all = !stats.show.all">
     All

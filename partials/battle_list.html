@@ -14,6 +14,14 @@
       <span ng-show="filter_active">Disable</span>
       Filter
     </button>
+    <button class="btn btn-default"
+            ng-click="invertFilter()"
+            ng-show="filter_active">
+      <span class="glyphicon glyphicon-random"></span>
+      <span ng-hide="filter.invert">Invert</span>
+      <span ng-show="filter.invert">Restore</span>
+      Filter
+    </button>
   </p>
   <form class="visible-xs">
     <label for="sort-by">Sort by</label>

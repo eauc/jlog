@@ -31,12 +31,21 @@ angular.module('jlogApp.controllers')
                 $scope.list_display.reset($scope.battles,
                                           $scope.filter,
                                           $scope.filter_active,
+                                          $scope.filter_invert,
+                                          $scope.sort);
+            });
+            $scope.$watch('filter_invert', function() {
+                $scope.list_display.reset($scope.battles,
+                                          $scope.filter,
+                                          $scope.filter_active,
+                                          $scope.filter_invert,
                                           $scope.sort);
             });
             $scope.$watch('sort', function() {
                 $scope.list_display.reset($scope.battles,
                                           $scope.filter,
                                           $scope.filter_active,
+                                          $scope.filter_invert,
                                           $scope.sort);
             }, true);
 

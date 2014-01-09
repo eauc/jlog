@@ -136,7 +136,7 @@ angular.module('jlogApp.services')
                         is: 'true',
                         value: []
                     },
-                    match: function filterMatch(battle) {
+                    match: function filterMatch(battle, invert) {
                         if(!cache.hasOwnProperty(battle.index)) {
                             cache[battle.index] = matchDate(this, battle)
                                 && matchMyArmy(this, battle)
@@ -148,7 +148,7 @@ angular.module('jlogApp.services')
                                 && matchEvent(this, battle);
                             console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
                         }
-                        return cache[battle.index];
+                        return invert ? !cache[battle.index] : cache[battle.index];
                     },
                     clearCache: function filterClearCache(index) {
                         console.log('filter clearCache ' + index);

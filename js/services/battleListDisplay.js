@@ -16,8 +16,8 @@ angular.module('jlogApp.services')
                 this.last_index += this.slice;
                 this.more = (this.last_index < this.sorted_battles.length);
             };
-            function sortBattles(battles, filter, active, sort) {
-                this.sorted_battles = filterBattleFilter(battles, filter, active);
+            function sortBattles(battles, filter, active, invert, sort) {
+                this.sorted_battles = filterBattleFilter(battles, filter, active, invert);
                 this.sorted_battles = orderByFilter(this.sorted_battles,
                                                     sort_types[sort.type].key,
                                                     sort.reverse);
@@ -27,13 +27,13 @@ angular.module('jlogApp.services')
                 sorted_battles: [],
                 slice: 15,
                 last_index: 0,
-                reset: function displayBattleListReset(battles, filter, active, sort) {
+                reset: function displayBattleListReset(battles, filter, active, invert, sort) {
                     this.battles = [];
                     this.sorted_battles = [];
                     this.slice = 15;
                     this.last_index = 0;
                     this.more = false;
-                    sortBattles.call(this, battles, filter, active, sort);
+                    sortBattles.call(this, battles, filter, active, invert, sort);
                     more.call(this);
                 },
                 showMore: function displayBattleListShowMore() {

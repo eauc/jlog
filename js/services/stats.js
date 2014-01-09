@@ -252,7 +252,7 @@ angular.module('jlogApp.services')
                         }
                         return result;
                     },
-                    refresh: function statCollectionRefresh(battles, filter, show) {
+                    refresh: function statCollectionRefresh(battles, filter, invert, show) {
                         var battle, i;
                         
                         this.refreshAll = (show.all && 
@@ -283,7 +283,7 @@ angular.module('jlogApp.services')
                         for(i = 0 ; i < battles.length ; i++) {
                             battle = battles[i];
                             
-                            if(filter.match(battle)) {
+                            if(filter.match(battle, invert)) {
 
                                 this.refreshAll(battle);                            
                                 this.refreshMyFaction(battle);                            
@@ -331,16 +331,17 @@ angular.module('jlogApp.services')
                         scenario: false,
                         scenarios: {},
                     },
+                    percent: false,
                     raw: statCollection(),
                     filtered: statCollection(),
                     reset: function statsReset() {
                         this.raw.reset();
                         this.filtered.reset();
                     },
-                    refresh: function statsRefresh(battles, filter, active) {
+                    refresh: function statsRefresh(battles, filter, active, invert) {
                         var active_collection = active ? this.filtered : this.raw;
                         var active_filter = active ? filter : dummy_filter;
-                        active_collection.refresh(battles, active_filter, this.show);
+                        active_collection.refresh(battles, active_filter, invert, this.show);
                         active_collection.percent = active_collection.toPercent();
                         this.active = this.percent ? active_collection.percent : active_collection;
                     },
