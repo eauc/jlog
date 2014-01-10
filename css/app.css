@@ -2,6 +2,21 @@
     body {
         font-size:10px;
     }
+    .btn-primary,
+    .btn-default,
+    .btn-danger,
+    .btn-warning,
+    .btn-success {
+        padding: 4px 8px;
+        font-size: 10px;
+        border-radius: 2px;
+    }
+    .navbar-nav {
+        font-size:14px;
+    }
+    legend {
+        font-size:16px;
+    }
 }
 
 table.result th,
