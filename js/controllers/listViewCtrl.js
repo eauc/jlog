@@ -14,7 +14,7 @@ angular.module('jlogApp.controllers')
             };
             $scope.deleteBattle = function deleteBattle() {
                 $scope.battles.splice($scope.battle_index, 1);
-                $scope.rebuildBattlesIndex();
+                $scope.updateBattles();
                 $scope.close();
             };
         }]);

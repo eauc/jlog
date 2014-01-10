@@ -38,14 +38,7 @@ angular.module('jlogApp.controllers')
             $scope.list_display = battle_list_display;
             $scope.sort = battle_sort();
 
-            var buildIndex = function buildIndex(array) {
-                var i = 0;
-                for(i = 0 ; i < array.length ; i++) {
-                    array[i].index = i;
-                }
-            }
-            $scope.rebuildBattlesIndex = function rebuildBattlesIndex() { 
-                buildIndex($scope.battles);
+            var onBattlesUpdate = function() {
                 $scope.list_display.reset($scope.battles,
                                           $scope.filter,
                                           $scope.filter_active,
@@ -54,14 +47,21 @@ angular.module('jlogApp.controllers')
                 $scope.filter.clearCache();
                 $scope.stats.reset();
             };
-            $scope.newBattles = function newBattles(data) {
-                $scope.battles = data;
-                $scope.opponents = opponents($scope.battles);
-                $scope.events = events($scope.battles);
-                $scope.scenarios = scenarios($scope.battles);
-                $scope.rebuildBattlesIndex();
+            $scope.updateBattles = function updateBattles() {
+                battles.update($scope.battles);
+                onBattlesUpdate();
             };
-            $scope.newBattles(battles);
+            $scope.newBattles = function newBattles(data) {
+                $scope.battles = battles.create(data);
+                $scope.opponents = opponents.create($scope.battles);
+                $scope.events = events.create($scope.battles);
+                $scope.scenarios = scenarios.create($scope.battles);
+            };
+            $scope.battles = battles.init();
+            $scope.opponents = opponents.init($scope.battles);
+            $scope.events = events.init($scope.battles);
+            $scope.scenarios = scenarios.init($scope.battles);
+            onBattlesUpdate();
 
             $scope.$watch('filter', function() {
                 $scope.filter.clearCache();

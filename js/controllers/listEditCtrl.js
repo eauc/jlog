@@ -22,7 +22,7 @@ angular.module('jlogApp.controllers')
                     $scope.battles.push($scope.battle);
 
                 }
-                $scope.rebuildBattlesIndex();
+                $scope.updateBattles();
                 $scope.close();
             };
 

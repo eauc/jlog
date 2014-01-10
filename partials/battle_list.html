@@ -61,7 +61,7 @@
     </tr>
     <tr class="clickable"
         bindonce
-        ng-repeat="battle in list_display.battles"
+        ng-repeat="battle in list_display.battles track by battle.index"
         ng-click="viewBattle(battle.index)">
       <td class="hidden-xs">
         <span bo-text="battle.date.year+' / '+battle.date.month+' / '+battle.date.day">
