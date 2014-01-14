@@ -33,7 +33,7 @@ angular.module('jlogApp.controllers')
             $scope.scores = scores;
             $scope.filter_active = false;
             $scope.filter_invert = false;
-            $scope.filter = filter.create();
+            $scope.filter = filter.init();
             $scope.stats = stats;
             $scope.list_display = battle_list_display;
             $scope.sort = battle_sort();
@@ -66,6 +66,7 @@ angular.module('jlogApp.controllers')
             $scope.$watch('filter', function() {
                 $scope.filter.clearCache();
                 $scope.stats.filtered.reset();
+                $scope.filter.update();
             }, true);
             $scope.$watch('filter_invert', function() {
                 $scope.stats.filtered.reset();

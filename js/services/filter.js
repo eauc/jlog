@@ -2,6 +2,19 @@
 
 angular.module('jlogApp.services')
     .factory('filter', [function() {
+        var storage_filter_key = 'jlog_filter';
+        var store = function filterStore(list) {
+            console.log('save filter in localStorage');
+            localStorage[storage_filter_key] = JSON.stringify(list);
+        };
+        var load = function filterLoad() {
+            console.log('load filter from localStorage');
+            return JSON.parse(localStorage[storage_filter_key]);
+        };
+        var storageContainsFilter = function filterStorageContainsFilter() {
+            return 'string' === typeof localStorage[storage_filter_key];
+        };
+
         var compareDate = function filterCompareDate(date1, date2) {
             if(date1.year > date2.year) return 1;
             if(date1.year < date1.year) return -1;
@@ -87,79 +100,95 @@ angular.module('jlogApp.services')
             return !filter.event.active
                 || (filter.event.is === 'true' ? match : !match);
         };
+
+        var create = function filterCreate() {
+            var today = new Date();
+            return {
+                date: {
+                    active: false,
+                    is: '0',
+                    year: today.getFullYear(),
+                    month: today.getMonth()+1,
+                    day: today.getDate()
+                },
+                my_army: {
+                    active: false,
+                    is: 'true',
+                    faction: null,
+                    caster: []
+                },
+                opp_name: {
+                    active: false,
+                    is: 'true',
+                    value: []
+                },
+                opp_caster: {
+                    active: false,
+                    is: 'true',
+                    faction: null,
+                    caster: []
+                },
+                result: {
+                    active: false,
+                    is: 'true',
+                    value: []
+                },
+                scenario: {
+                    active: false,
+                    is: 'true',
+                    name: []
+                },
+                size: {
+                    active: false,
+                    is: '0',
+                    value: 50
+                },
+                event: {
+                    active: false,
+                    is: 'true',
+                    value: []
+                }
+            };
+        };
+        
         return {
-            create: function filterCreate() {
-                var today = new Date();
+            init: function filterInit() {
                 var cache = {};
-                return {
-                    date: {
-                        active: false,
-                        is: '0',
-                        year: today.getFullYear(),
-                        month: today.getMonth()+1,
-                        day: today.getDate()
-                    },
-                    my_army: {
-                        active: false,
-                        is: 'true',
-                        faction: null,
-                        caster: []
-                    },
-                    opp_name: {
-                        active: false,
-                        is: 'true',
-                        value: []
-                    },
-                    opp_caster: {
-                        active: false,
-                        is: 'true',
-                        faction: null,
-                        caster: []
-                    },
-                    result: {
-                        active: false,
-                        is: 'true',
-                        value: []
-                    },
-                    scenario: {
-                        active: false,
-                        is: 'true',
-                        name: []
-                    },
-                    size: {
-                        active: false,
-                        is: '0',
-                        value: 50
-                    },
-                    event: {
-                        active: false,
-                        is: 'true',
-                        value: []
-                    },
-                    match: function filterMatch(battle, invert) {
-                        if(!cache.hasOwnProperty(battle.index)) {
-                            cache[battle.index] = matchDate(this, battle)
-                                && matchMyArmy(this, battle)
-                                && matchOpponentName(this, battle)
-                                && matchOpponentCaster(this, battle)
-                                && matchResult(this, battle)
-                                && matchScenario(this, battle)
-                                && matchSize(this, battle)
-                                && matchEvent(this, battle);
-                            console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
-                        }
-                        return invert ? !cache[battle.index] : cache[battle.index];
-                    },
-                    clearCache: function filterClearCache(index) {
-                        console.log('filter clearCache ' + index);
-                        if(undefined === index) {
-                            cache = {};
-                        }
-                        else {
-                            delete cache[index];
-                        }
+                var instance;
+                if(storageContainsFilter()) {
+                    instance = load();
+                }
+                else {
+                    instance = create();
+                    store(instance);
+                }
+                instance.match = function filterMatch(battle, invert) {
+                    if(!cache.hasOwnProperty(battle.index)) {
+                        cache[battle.index] = matchDate(this, battle)
+                            && matchMyArmy(this, battle)
+                            && matchOpponentName(this, battle)
+                            && matchOpponentCaster(this, battle)
+                            && matchResult(this, battle)
+                            && matchScenario(this, battle)
+                            && matchSize(this, battle)
+                            && matchEvent(this, battle);
+                        console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
+                    }
+                    return invert ? !cache[battle.index] : cache[battle.index];
+                };
+                instance.clearCache = function filterClearCache(index) {
+                    console.log('filter clearCache ' + index);
+                    if(undefined === index) {
+                        cache = {};
+                    }
+                    else {
+                        delete cache[index];
                     }
                 };
-            },
+                instance.update = function filterUpdate() {
+                    store(this);
+                };
+                return instance;
+            }
         };
     }]);
