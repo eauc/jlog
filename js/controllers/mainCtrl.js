@@ -39,12 +39,12 @@ angular.module('jlogApp.controllers')
             $scope.sort = battle_sort();
 
             var onBattlesUpdate = function() {
+                $scope.filter.clearCache();
                 $scope.list_display.reset($scope.battles,
                                           $scope.filter,
                                           $scope.filter_active,
                                           $scope.filter_invert,
                                           $scope.sort);
-                $scope.filter.clearCache();
                 $scope.stats.reset();
             };
             $scope.updateBattles = function updateBattles() {
