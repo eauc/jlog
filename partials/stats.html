@@ -19,6 +19,27 @@
     <span ng-show="filter_invert">Restore</span>
     Filter
   </button>
+  <span class="export">
+    <span export-link
+          name="stats"
+          type="csv"
+          source="stats">
+      Export to csv
+    </span>,
+    <span export-link
+          name="stats"
+          type="json"
+          source="stats">
+      json
+    </span>,
+    <span export-link
+          name="stats"
+          type="bb"
+          source="stats">
+      bbCode
+    </span>
+  </span>
+  </p>
   <legend class="clickable"
           ng-click="stats.show.all = !stats.show.all">
     All

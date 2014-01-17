@@ -309,6 +309,169 @@ angular.module('jlogApp.services')
                         return true;
                     }
                 };
+                function exportCsvKeys() {
+                    var key;
+                    var result = 'type';
+                    result += ',win total';
+                    result += ',draw total';
+                    result += ',loss total';
+                    result += ',win assassination';
+                    result += ',draw assassination';
+                    result += ',loss assassination';
+                    result += ',win scenario';
+                    result += ',draw scenario';
+                    result += ',loss scenario';
+                    result += ',win clock';
+                    result += ',draw clock';
+                    result += ',loss clock';
+                    result += '\r\n';
+                    return result;
+                };
+                function exportBbKeys() {
+                    var key;
+                    var result = '[tr]';
+                    result += '[th][/th]';
+                    result += '[th]win\r\ntotal[/th]';
+                    result += '[th]draw\r\ntotal[/th]';
+                    result += '[th]loss\r\ntotal[/th]';
+                    result += '[th]win\r\nassassination[/th]';
+                    result += '[th]draw\r\nassassination[/th]';
+                    result += '[th]loss\r\nassassination[/th]';
+                    result += '[th]win\r\nscenario[/th]';
+                    result += '[th]draw\r\nscenario[/th]';
+                    result += '[th]loss\r\nscenario[/th]';
+                    result += '[th]win\r\nclock[/th]';
+                    result += '[th]draw\r\nclock[/th]';
+                    result += '[th]loss\r\nclock[/th]';
+                    result += '[/tr]\r\n';
+                    return result;
+                };
+                function exportCsvStatEntry(type, entry) {
+                    var key;
+                    var result = type;
+                    result += ',' + entry.win.total;
+                    result += ',' + entry.draw.total;
+                    result += ',' + entry.loss.total;
+                    result += ',' + entry.win.assassination;
+                    result += ',' + entry.draw.assassination;
+                    result += ',' + entry.loss.assassination;
+                    result += ',' + entry.win.scenario;
+                    result += ',' + entry.draw.scenario;
+                    result += ',' + entry.loss.scenario;
+                    result += ',' + entry.win.clock;
+                    result += ',' + entry.draw.clock;
+                    result += ',' + entry.loss.clock;
+                    result += '\r\n';
+                    return result;
+                };
+                function exportBbStatEntry(type, entry) {
+                    var key;
+                    var result = '[tr]';
+                    result += '[td colspan=2]' + type + '[/td]';
+                    result += '[td]' + entry.win.total + '[/td]';
+                    result += '[td]' + entry.draw.total + '[/td]';
+                    result += '[td]' + entry.loss.total + '[/td]';
+                    result += '[td]' + entry.win.assassination + '[/td]';
+                    result += '[td]' + entry.draw.assassination + '[/td]';
+                    result += '[td]' + entry.loss.assassination + '[/td]';
+                    result += '[td]' + entry.win.scenario + '[/td]';
+                    result += '[td]' + entry.draw.scenario + '[/td]';
+                    result += '[td]' + entry.loss.scenario + '[/td]';
+                    result += '[td]' + entry.win.clock + '[/td]';
+                    result += '[td]' + entry.draw.clock + '[/td]';
+                    result += '[td]' + entry.loss.clock + '[/td]';
+                    result += '[/tr]\r\n';
+                    return result;
+                };
+                function exportCsvStats(list, show) {
+                    var result = '';
+                    result += exportCsvKeys();
+                    if(show.all) {
+                        result += exportCsvStatEntry('all', list.all);
+                    }
+                    var key;
+                    if(show.my_army.faction) {
+                        for(key in list.my_army.faction) {
+                            result += exportCsvStatEntry(key, list.my_army.faction[key]);
+                        }
+                    }
+                    if(show.my_army.caster) {
+                        for(key in list.my_army.caster) {
+                            result += exportCsvStatEntry(key, list.my_army.caster[key]);
+                        }
+                    }
+                    if(show.opponent.name) {
+                        for(key in list.opponent.name) {
+                            result += exportCsvStatEntry(key, list.opponent.name[key]);
+                        }
+                    }
+                    if(show.opponent.faction) {
+                        for(key in list.opponent.faction) {
+                            result += exportCsvStatEntry(key, list.opponent.faction[key]);
+                        }
+                    }
+                    if(show.opponent.caster) {
+                        for(key in list.opponent.caster) {
+                            result += exportCsvStatEntry(key, list.opponent.caster[key]);
+                        }
+                    }
+                    if(show.scenario) {
+                        for(key in list.scenario) {
+                            result += exportCsvStatEntry(key, list.scenario[key]);
+                        }
+                    }
+                    if(show.event) {
+                        for(key in list.event) {
+                            result += exportCsvStatEntry(key, list.event[key]);
+                        }
+                    }
+                    return result;
+                };
+                function exportBbStats(list, show) {
+                    var result = '[table]\r\n';
+                    result += exportBbKeys();
+                    if(show.all) {
+                        result += exportBbStatEntry('all', list.all);
+                    }
+                    var key;
+                    if(show.my_army.faction) {
+                        for(key in list.my_army.faction) {
+                            result += exportBbStatEntry(key, list.my_army.faction[key]);
+                        }
+                    }
+                    if(show.my_army.caster) {
+                        for(key in list.my_army.caster) {
+                            result += exportBbStatEntry(key, list.my_army.caster[key]);
+                        }
+                    }
+                    if(show.opponent.name) {
+                        for(key in list.opponent.name) {
+                            result += exportBbStatEntry(key, list.opponent.name[key]);
+                        }
+                    }
+                    if(show.opponent.faction) {
+                        for(key in list.opponent.faction) {
+                            result += exportBbStatEntry(key, list.opponent.faction[key]);
+                        }
+                    }
+                    if(show.opponent.caster) {
+                        for(key in list.opponent.caster) {
+                            result += exportBbStatEntry(key, list.opponent.caster[key]);
+                        }
+                    }
+                    if(show.scenario) {
+                        for(key in list.scenario) {
+                            result += exportBbStatEntry(key, list.scenario[key]);
+                        }
+                    }
+                    if(show.event) {
+                        for(key in list.event) {
+                            result += exportBbStatEntry(key, list.event[key]);
+                        }
+                    }
+                    result += '[/table]\r\n';
+                    return result;
+                };
                 return {
                     show: {
                         all: false,
@@ -345,6 +508,34 @@ angular.module('jlogApp.services')
                         active_collection.percent = active_collection.toPercent();
                         this.active = this.percent ? active_collection.percent : active_collection;
                     },
+                    export: function displayBattleExport(format) {
+                        var result = '';
+                        var list = this.active;
+                        switch(format) {
+                        case 'csv':
+                            {
+                                result += exportCsvStats(list, this.show);
+                                break;
+                            }
+                        case 'bb':
+                            {
+                                result += exportBbStats(list, this.show);
+                                break;
+                            }
+                        case 'json':
+                            {
+                                result += JSON.stringify(list);
+                                break;
+                            }
+                        default:
+                            {
+                                console.log('displayBattleListExport unknown format ' + format);
+                                break;
+                            }
+                        };
+                        console.log(result);
+                        return result;
+                    }
                 };
             }]);
 
