@@ -22,6 +22,26 @@
       <span ng-show="filter.invert">Restore</span>
       Filter
     </button>
+    <span class="export">
+      <span export-link
+            name="battle_list"
+            type="csv"
+            source="list_display">
+        Export to csv
+      </span>,
+      <span export-link
+            name="battle_list"
+            type="json"
+            source="list_display">
+        json
+      </span>,
+      <span export-link
+            name="battle_list"
+            type="bb"
+            source="list_display">
+        bbCode
+      </span>
+    </span>
   </p>
   <form class="visible-xs">
     <label for="sort-by">Sort by</label>
