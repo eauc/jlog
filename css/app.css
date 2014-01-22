@@ -121,3 +121,9 @@ tr.clickable:hover {
     color:#622;
     text-align:right;
 }
+
+@media (max-width: 530px) {
+    .hidden-xxs {
+        display:none !important;
+    }
+}
