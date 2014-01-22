@@ -18,6 +18,10 @@ angular.module('jlogApp.controllers')
                  scenarios) {
             console.log('init listEditCtrl ' + $scope.battle_index);
             console.log($scope.battle);
+                
+            if(undefined === $scope.battle) {
+                $state.go('battle.list');
+            }
 
             $scope.saveBattle = function saveBattle() {
                 if($scope.battles.length > $scope.battle_index) {

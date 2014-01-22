@@ -9,8 +9,12 @@ angular.module('jlogApp.controllers')
             console.log('init listViewCtrl ' + $scope.battle_index);
             console.log($scope.battle);
 
+            if(undefined === $scope.battle) {
+                $state.go('battle.list');
+            }
+
             $scope.editBattle = function editBattle() {
-                $state.go('list.edit');
+                $state.go('battle.edit');
             };
             $scope.deleteBattle = function deleteBattle() {
                 $scope.battles.splice($scope.battle_index, 1);

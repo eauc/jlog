@@ -13,18 +13,16 @@ angular.module('jlogApp.controllers')
             $scope.addBattle = function addBattle() {
                 $scope.battle_index = $scope.battles.length;
                 $scope.battle = battle.create();
-                $scope.show_list = false;
-                $state.go('list.edit');
+                $state.go('battle.edit');
             };
             $scope.viewBattle = function viewBattle(index) {
                 $scope.battle_index = index;
                 $scope.battle = $scope.battles[index];
-                $scope.show_list = false;
-                $state.go('list.view');
+                $state.go('battle.view');
             };
             $scope.close = function close() {
                 $scope.show_list = true;
-                $state.go('list');
+                $state.go('battle.list');
             };
 
             $scope.$watch('filter_active', function() {

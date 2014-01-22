@@ -16,20 +16,24 @@ angular.module('jlogApp', [
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/list');
+        $urlRouterProvider.otherwise('/battle/list');
         $stateProvider
-            .state('list', {
-                url: '/list',
-                templateUrl: 'partials/battle_list.html',
+            .state('battle', {
+                url: '/battle',
+                template: '<div ui-view></div>',
                 controller: 'listCtrl'
             })
-            .state('list.view', {
-                // url: '/view',
+            .state('battle.list', {
+                url: '/list',
+                templateUrl: 'partials/battle_list.html',
+            })
+            .state('battle.view', {
+                url: '/view',
                 templateUrl: 'partials/battle_view.html',
                 controller: 'listViewCtrl'
             })
-            .state('list.edit', {
-                // url: '/edit',
+            .state('battle.edit', {
+                url: '/edit',
                 templateUrl: 'partials/battle_edit.html',
                 controller: 'listEditCtrl'
             })
