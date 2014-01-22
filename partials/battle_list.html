@@ -22,6 +22,20 @@
       <span ng-show="filter_invert">Restore</span>
       Filter
     </button>
+  </p>
+  <form class="visible-xs">
+    <label for="sort-by">Sort by</label>
+    <select class="form-control list-edit-form"
+            id="sort-by"
+            ng-model="sort.type"
+            ng-options="id as t.name for (id, t) in sort.types">
+    </select>
+    <input class="form-control list-edit-form"
+           id="sort-reverse" 
+           type="checkbox" 
+           ng-model="sort.reverse" />
+    <label for="sort-reverse" class="clickable">reverse</label>
+  </form>
     <span class="export">
       <span export-link
             name="battle_list"
@@ -42,16 +56,6 @@
         bbCode
       </span>
     </span>
-  </p>
-  <form class="visible-xs">
-    <label for="sort-by">Sort by</label>
-    <select id="sort-by"
-            ng-model="sort.type"
-            ng-options="id as t.name for (id, t) in sort.types">
-    </select>
-    <input id="sort-reverse" type="checkbox" ng-model="sort.reverse" />
-    <label for="sort-reverse" class="clickable">reverse</label>
-  </form>
   <table class="table result">
     <tr>
       <th class="hidden-xs" sortable="date" sort="sort">
@@ -80,38 +84,37 @@
       </th>
     </tr>
     <tr class="clickable"
-        bindonce
         ng-repeat="battle in list_display.battles track by battle.index"
         ng-click="viewBattle(battle.index)">
-      <td class="hidden-xs">
-        <span bo-text="battle.date.year+' / '+battle.date.month+' / '+battle.date.day">
+      <td class="hidden-xxs">
+        <span>{{battle.date.year+' / '+battle.date.month+' / '+battle.date.day}}
         </span>
       </td>
       <td>
         <img class="faction-icon"
-             bo-src="'img/'+factions[battle.my_army.faction].icon" />
-        <span bo-text="battle.my_army.caster | capitalise"></span>
+             ng-src="{{'img/'+factions[battle.my_army.faction].icon}}" />
+        <span>{{battle.my_army.caster | capitalise}}</span>
       </td>
       <td>
-        <span bo-text="battle.opponent.name | capitalise"></span>
+        <span>{{battle.opponent.name | capitalise}}</span>
       </td>
       <td>
         <img class="faction-icon"
-             bo-src="'img/'+factions[battle.opponent.faction].icon" />
-        <span bo-text="battle.opponent.caster | capitalise"></span>
-      </td>
-      <td class="hidden-xs">
-        <span bo-text="battle.setup.size"></span>
+             ng-src="{{'img/'+factions[battle.opponent.faction].icon}}" />
+        <span>{{battle.opponent.caster | capitalise}}</span>
       </td>
       <td class="visible-lg">
-        <span bo-text="scenarios[battle.setup.scenario].name"></span>
+        <span>{{battle.setup.size}}</span>
       </td>
       <td class="visible-lg">
-        <span bo-text="battle.setup.event"></span>
+        <span>{{scenarios[battle.setup.scenario].name}}</span>
       </td>
-      <td bo-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}">
-        <strong class="score-result"
-                bo-text="scores[battle.score].type | scoreTypeLetter">
+      <td class="hidden-xxs">
+        <span>{{battle.setup.event}}</span>
+      </td>
+      <td ng-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}">
+        <strong class="score-result">
+          {{scores[battle.score].type | scoreTypeLetter}}
         </strong>
       </td>
     </tr>
