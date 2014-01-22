@@ -506,6 +506,7 @@ angular.module('jlogApp.services')
                         var active_filter = active ? filter : dummy_filter;
                         active_collection.refresh(battles, active_filter, invert, this.show);
                         active_collection.percent = active_collection.toPercent();
+                        this.active_percent = active_collection.percent;
                         this.active = this.percent ? active_collection.percent : active_collection;
                     },
                     export: function displayBattleExport(format) {

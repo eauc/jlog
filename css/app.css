@@ -102,3 +102,22 @@ tr.clickable:hover {
     float:right;
     margin-top:0.5em;
 }
+
+.bar {
+    display:inline-block;
+}
+.bar-win {
+    background:linear-gradient(#AFA,#7C7);
+    color:#262;
+    text-align:left;
+}
+.bar-draw {
+    background:linear-gradient(#FEA,#CB7);
+    color:#652;
+    text-align:center;
+}
+.bar-loss {
+    background:linear-gradient(#FAA,#C77);
+    color:#622;
+    text-align:right;
+}

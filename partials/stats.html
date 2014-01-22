@@ -46,36 +46,54 @@
   </legend>
   <table class="table"
          ng-show="stats.show.all">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th></th>
     </tr>
     <tboby>
       <tr>
         <td>Total</td>
-        <td class="text-success">{{stats.active.all.win.total}}</td>
+        <td stat-bar="stats.active.all"
+            percent="stats.active_percent.all"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{stats.active.all.win.total}}</td>
         <td class="text-warning">{{stats.active.all.draw.total}}</td>
-        <td class="text-danger">{{stats.active.all.loss.total}}</td>
+        <td class="text-danger">{{stats.active.all.loss.total}}</td> -->
       </tr>
       <tr>
         <td>Assassination</td>
-        <td class="text-success">{{stats.active.all.win.assassination}}</td>
+        <td stat-bar="stats.active.all"
+            percent="stats.active_percent.all"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{stats.active.all.win.assassination}}</td>
         <td class="text-warning">{{stats.active.all.draw.assassination}}</td>
-        <td class="text-danger">{{stats.active.all.loss.assassination}}</td>
+        <td class="text-danger">{{stats.active.all.loss.assassination}}</td> -->
       </tr>
       <tr>
         <td>Clock</td>
-        <td class="text-success">{{stats.active.all.win.clock}}</td>
+        <td stat-bar="stats.active.all"
+            percent="stats.active_percent.all"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{stats.active.all.win.clock}}</td>
         <td class="text-warning">{{stats.active.all.draw.clock}}</td>
-        <td class="text-danger">{{stats.active.all.loss.clock}}</td>
+        <td class="text-danger">{{stats.active.all.loss.clock}}</td> -->
       </tr>
       <tr>
         <td>Scenario</td>
-        <td class="text-success">{{stats.active.all.win.scenario}}</td>
+        <td stat-bar="stats.active.all"
+            percent="stats.active_percent.all"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{stats.active.all.win.scenario}}</td>
         <td class="text-warning">{{stats.active.all.draw.scenario}}</td>
-        <td class="text-danger">{{stats.active.all.loss.scenario}}</td>
+        <td class="text-danger">{{stats.active.all.loss.scenario}}</td> -->
       </tr>
     </tboby>
   </table>
@@ -85,39 +103,58 @@
   </legend>
   <table class="table"
          ng-show="stats.show.my_army.faction">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Faction</th>
       <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th></th>
     </tr>
     <tbody ng-repeat="(name, f) in stats.active.my_army.faction">
       <tr class="clickable"
           ng-click="stats.show.my_army.factions[name] = !stats.show.my_army.factions[name]">
         <td rowspan="4">{{factions[name].name}}</td>
         <td>Total</td>
-        <td class="text-success">{{f.win.total}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.my_army.faction[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{f.win.total}}</td>
         <td class="text-warning">{{f.draw.total}}</td>
-        <td class="text-danger">{{f.loss.total}}</td>
+        <td class="text-danger">{{f.loss.total}}</td> -->
       </tr>
       <tr ng-show="stats.show.my_army.factions[name]">
         <td>Assassination</td>
-        <td class="text-success">{{f.win.assassination}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.my_army.faction[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{f.win.assassination}}</td>
         <td class="text-warning">{{f.draw.assassination}}</td>
-        <td class="text-danger">{{f.loss.assassination}}</td>
+        <td class="text-danger">{{f.loss.assassination}}</td> -->
       </tr>
       <tr ng-show="stats.show.my_army.factions[name]">
         <td>Clock</td>
-        <td class="text-success">{{f.win.clock}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.my_army.faction[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{f.win.clock}}</td>
         <td class="text-warning">{{f.draw.clock}}</td>
-        <td class="text-danger">{{f.loss.clock}}</td>
+        <td class="text-danger">{{f.loss.clock}}</td> -->
       </tr>
       <tr ng-show="stats.show.my_army.factions[name]">
         <td>Scenario</td>
-        <td class="text-success">{{f.win.scenario}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.my_army.faction[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{f.win.scenario}}</td>
         <td class="text-warning">{{f.draw.scenario}}</td>
-        <td class="text-danger">{{f.loss.scenario}}</td>
+        <td class="text-danger">{{f.loss.scenario}}</td> -->
       </tr>
     </tbody>
   </table>
@@ -125,14 +162,17 @@
           ng-click="stats.show.my_army.caster = !stats.show.my_army.caster">
     My Caster
   </legend>
-  <table class="table"
+  <table class="table"  style="table-layout: fixed; width: 100%;"
          ng-show="stats.show.my_army.caster">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Caster</th>
-      <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th>Type</th> 
+      <th></th>
     </tr>
     <tbody ng-repeat="(name, c) in stats.active.my_army.caster">
       <tr class="clickable"
@@ -142,27 +182,43 @@
           ({{name | capitalise}})
         </td>
         <td>Total</td>
-        <td class="text-success">{{c.win.total}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.my_army.caster[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{c.win.total}}</td>
         <td class="text-warning">{{c.draw.total}}</td>
-        <td class="text-danger">{{c.loss.total}}</td>
+        <td class="text-danger">{{c.loss.total}}</td> -->
       </tr>
       <tr ng-show="stats.show.my_army.casters[name]">
         <td>Assassination</td>
-        <td class="text-success">{{c.win.assassination}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.my_army.caster[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{c.win.assassination}}</td>
         <td class="text-warning">{{c.draw.assassination}}</td>
-        <td class="text-danger">{{c.loss.assassination}}</td>
+        <td class="text-danger">{{c.loss.assassination}}</td> -->
       </tr>
       <tr ng-show="stats.show.my_army.casters[name]">
         <td>Clock</td>
-        <td class="text-success">{{c.win.clock}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.my_army.caster[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{c.win.clock}}</td>
         <td class="text-warning">{{c.draw.clock}}</td>
-        <td class="text-danger">{{c.loss.clock}}</td>
+        <td class="text-danger">{{c.loss.clock}}</td> -->
       </tr>
       <tr ng-show="stats.show.my_army.casters[name]">
         <td>Scenario</td>
-        <td class="text-success">{{c.win.scenario}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.my_army.caster[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{c.win.scenario}}</td>
         <td class="text-warning">{{c.draw.scenario}}</td>
-        <td class="text-danger">{{c.loss.scenario}}</td>
+        <td class="text-danger">{{c.loss.scenario}}</td> -->
       </tr>
     </tbody>
   </table>
@@ -172,39 +228,58 @@
   </legend>
   <table class="table"
          ng-show="stats.show.opponent.name">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Name</th>
       <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th></th>
     </tr>
     <tbody ng-repeat="(name, n) in stats.active.opponent.name">
       <tr class="clickable"
           ng-click="stats.show.opponent.names[name] = !stats.show.opponent.names[name]">
         <td rowspan="4">{{name | capitalise}}</td>
         <td>Total</td>
-        <td class="text-success">{{n.win.total}}</td>
+        <td stat-bar="n"
+            percent="stats.active_percent.opponent.name[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{n.win.total}}</td>
         <td class="text-warning">{{n.draw.total}}</td>
-        <td class="text-danger">{{n.loss.total}}</td>
+        <td class="text-danger">{{n.loss.total}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.names[name]">
         <td>Assassination</td>
-        <td class="text-success">{{n.win.assassination}}</td>
+        <td stat-bar="n"
+            percent="stats.active_percent.opponent.name[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{n.win.assassination}}</td>
         <td class="text-warning">{{n.draw.assassination}}</td>
-        <td class="text-danger">{{n.loss.assassination}}</td>
+        <td class="text-danger">{{n.loss.assassination}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.names[name]">
         <td>Clock</td>
-        <td class="text-success">{{n.win.clock}}</td>
+        <td stat-bar="n"
+            percent="stats.active_percent.opponent.name[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{n.win.clock}}</td>
         <td class="text-warning">{{n.draw.clock}}</td>
-        <td class="text-danger">{{n.loss.clock}}</td>
+        <td class="text-danger">{{n.loss.clock}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.names[name]">
         <td>Scenario</td>
-        <td class="text-success">{{n.win.scenario}}</td>
+        <td stat-bar="n"
+            percent="stats.active_percent.opponent.name[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{n.win.scenario}}</td>
         <td class="text-warning">{{n.draw.scenario}}</td>
-        <td class="text-danger">{{n.loss.scenario}}</td>
+        <td class="text-danger">{{n.loss.scenario}}</td> -->
       </tr>
     </tbody>
   </table>
@@ -214,39 +289,58 @@
   </legend>
   <table class="table"
          ng-show="stats.show.opponent.faction">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Faction</th>
       <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th></th>
     </tr>
     <tbody ng-repeat="(name, f) in stats.active.opponent.faction">
       <tr class="clickable"
           ng-click="stats.show.opponent.factions[name] = !stats.show.opponent.factions[name]">
         <td rowspan="4">{{factions[name].name}}</td>
         <td>Total</td>
-        <td class="text-success">{{f.win.total}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.opponent.faction[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{f.win.total}}</td>
         <td class="text-warning">{{f.draw.total}}</td>
-        <td class="text-danger">{{f.loss.total}}</td>
+        <td class="text-danger">{{f.loss.total}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.factions[name]">
         <td>Assassination</td>
-        <td class="text-success">{{f.win.assassination}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.opponent.faction[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{f.win.assassination}}</td>
         <td class="text-warning">{{f.draw.assassination}}</td>
-        <td class="text-danger">{{f.loss.assassination}}</td>
+        <td class="text-danger">{{f.loss.assassination}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.factions[name]">
         <td>Clock</td>
-        <td class="text-success">{{f.win.clock}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.opponent.faction[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{f.win.clock}}</td>
         <td class="text-warning">{{f.draw.clock}}</td>
-        <td class="text-danger">{{f.loss.clock}}</td>
+        <td class="text-danger">{{f.loss.clock}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.factions[name]">
         <td>Scenario</td>
-        <td class="text-success">{{f.win.scenario}}</td>
+        <td stat-bar="f"
+            percent="stats.active_percent.opponent.faction[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{f.win.scenario}}</td>
         <td class="text-warning">{{f.draw.scenario}}</td>
-        <td class="text-danger">{{f.loss.scenario}}</td>
+        <td class="text-danger">{{f.loss.scenario}}</td> -->
       </tr>
     </tbody>
   </table>
@@ -256,12 +350,15 @@
   </legend>
   <table class="table"
          ng-show="stats.show.opponent.caster">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Caster</th>
       <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th></th>
     </tr>
     <tbody ng-repeat="(name, c) in stats.active.opponent.caster">
       <tr class="clickable"
@@ -271,27 +368,43 @@
           ({{name | capitalise}})
         </td>
         <td>Total</td>
-        <td class="text-success">{{c.win.total}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.opponent.caster[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{c.win.total}}</td>
         <td class="text-warning">{{c.draw.total}}</td>
-        <td class="text-danger">{{c.loss.total}}</td>
+        <td class="text-danger">{{c.loss.total}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.factions[name]">
         <td>Assassination</td>
-        <td class="text-success">{{c.win.assassination}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.opponent.caster[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{c.win.assassination}}</td>
         <td class="text-warning">{{c.draw.assassination}}</td>
-        <td class="text-danger">{{c.loss.assassination}}</td>
+        <td class="text-danger">{{c.loss.assassination}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.factions[name]">
         <td>Clock</td>
-        <td class="text-success">{{c.win.clock}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.opponent.caster[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{c.win.clock}}</td>
         <td class="text-warning">{{c.draw.clock}}</td>
-        <td class="text-danger">{{c.loss.clock}}</td>
+        <td class="text-danger">{{c.loss.clock}}</td> -->
       </tr>
       <tr ng-show="stats.show.opponent.factions[name]">
         <td>Scenario</td>
-        <td class="text-success">{{c.win.scenario}}</td>
+        <td stat-bar="c"
+            percent="stats.active_percent.opponent.caster[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{c.win.scenario}}</td>
         <td class="text-warning">{{c.draw.scenario}}</td>
-        <td class="text-danger">{{c.loss.scenario}}</td>
+        <td class="text-danger">{{c.loss.scenario}}</td> -->
       </tr>
     </tbody>
   </table>
@@ -301,39 +414,58 @@
   </legend>
   <table class="table"
          ng-show="stats.show.scenario">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Scenario</th>
       <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th></th>
     </tr>
     <tbody ng-repeat="(name, s) in stats.active.scenario">
       <tr class="clickable"
           ng-click="stats.show.scenarios[name] = !stats.show.scenarios[name]">
         <td rowspan="4">{{scenarios[name].name}}</td>
         <td>Total</td>
-        <td class="text-success">{{s.win.total}}</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.scenario[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{s.win.total}}</td>
         <td class="text-warning">{{s.draw.total}}</td>
-        <td class="text-danger">{{s.loss.total}}</td>
+        <td class="text-danger">{{s.loss.total}}</td> -->
       </tr>
       <tr ng-show="stats.show.scenarios[name]">
         <td>Assassination</td>
-        <td class="text-success">{{s.win.assassination}}</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.scenario[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{s.win.assassination}}</td>
         <td class="text-warning">{{s.draw.assassination}}</td>
-        <td class="text-danger">{{s.loss.assassination}}</td>
+        <td class="text-danger">{{s.loss.assassination}}</td> -->
       </tr>
       <tr ng-show="stats.show.scenarios[name]">
         <td>Clock</td>
-        <td class="text-success">{{s.win.clock}}</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.scenario[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{s.win.clock}}</td>
         <td class="text-warning">{{s.draw.clock}}</td>
-        <td class="text-danger">{{s.loss.clock}}</td>
+        <td class="text-danger">{{s.loss.clock}}</td> -->
       </tr>
       <tr ng-show="stats.show.scenarios[name]">
         <td>Scenario</td>
-        <td class="text-success">{{s.win.scenario}}</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.scenario[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{s.win.scenario}}</td>
         <td class="text-warning">{{s.draw.scenario}}</td>
-        <td class="text-danger">{{s.loss.scenario}}</td>
+        <td class="text-danger">{{s.loss.scenario}}</td> -->
       </tr>
     </tbody>
   </table>
@@ -343,39 +475,58 @@
   </legend>
   <table class="table"
          ng-show="stats.show.event">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
     <tr>
       <th>Event</th>
       <th>Type</th>
-      <th class="text-success">Win</th>
-      <th class="text-warning">Draw</th>
-      <th class="text-danger">Loss</th>
+      <th></th>
     </tr>
     <tbody ng-repeat="(name, e) in stats.active.event">
       <tr class="clickable"
           ng-click="stats.show.events[name] = !stats.show.events[name]">
         <td rowspan="4">{{name | capitalise}}</td>
         <td>Total</td>
-        <td class="text-success">{{e.win.total}}</td>
+        <td stat-bar="e"
+            percent="stats.active_percent.event[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{e.win.total}}</td>
         <td class="text-warning">{{e.draw.total}}</td>
-        <td class="text-danger">{{e.loss.total}}</td>
+        <td class="text-danger">{{e.loss.total}}</td> -->
       </tr>
       <tr ng-show="stats.show.events[name]">
         <td>Assassination</td>
-        <td class="text-success">{{e.win.assassination}}</td>
+        <td stat-bar="e"
+            percent="stats.active_percent.event[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{e.win.assassination}}</td>
         <td class="text-warning">{{e.draw.assassination}}</td>
-        <td class="text-danger">{{e.loss.assassination}}</td>
+        <td class="text-danger">{{e.loss.assassination}}</td> -->
       </tr>
       <tr ng-show="stats.show.events[name]">
         <td>Clock</td>
-        <td class="text-success">{{e.win.clock}}</td>
+        <td stat-bar="e"
+            percent="stats.active_percent.event[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{e.win.clock}}</td>
         <td class="text-warning">{{e.draw.clock}}</td>
-        <td class="text-danger">{{e.loss.clock}}</td>
+        <td class="text-danger">{{e.loss.clock}}</td> -->
       </tr>
       <tr ng-show="stats.show.events[name]">
         <td>Scenario</td>
-        <td class="text-success">{{e.win.scenario}}</td>
+        <td stat-bar="e"
+            percent="stats.active_percent.event[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{e.win.scenario}}</td>
         <td class="text-warning">{{e.draw.scenario}}</td>
-        <td class="text-danger">{{e.loss.scenario}}</td>
+        <td class="text-danger">{{e.loss.scenario}}</td> -->
       </tr>
     </tbody>
   </table>
