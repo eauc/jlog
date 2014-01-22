@@ -10,6 +10,13 @@ angular.module('jlogApp.services')
                         year: today.getFullYear(),
                         month: today.getMonth()+1,
                         day: today.getDate()
+                    },
+                    opponent: {
+                        name: null,
+                    },
+                    setup: {
+                        event: null,
+                        scenario: null
                     }
                 };
             },

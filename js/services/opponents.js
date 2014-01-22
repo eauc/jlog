@@ -39,6 +39,7 @@ angular.module('jlogApp.services')
                 else {
                     return this.create(battles);
                 }
-            }
+            },
+            store: store
         };
     }]);

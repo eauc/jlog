@@ -12,7 +12,8 @@
                ng-src="img/{{factions[battle.my_army.faction].icon}}" />
         </td>
         <td>
-          <select ng-model="battle.my_army.faction"
+          <select class="form-control list-edit-form"
+                  ng-model="battle.my_army.faction"
                   ng-options="id as f.name for (id, f) in factions"
                   required>
           </select>
@@ -20,7 +21,8 @@
       </tr>
       <tr>
         <td>
-          <select ng-model="battle.my_army.caster"
+          <select class="form-control list-edit-form"
+                  ng-model="battle.my_army.caster"
                   ng-options="id as id | capitalise for (id, c) in factions[battle.my_army.faction].casters"
                   required>
           </select>
@@ -39,15 +41,25 @@
                ng-src="img/{{factions[battle.opponent.faction].icon}}" />
         </td>
         <td>
-          <select ng-model="battle.opponent.name"
+          <button class="btn btn-sm btn-default"
+                  ng-click="addOpponent()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <select class="form-control list-edit-form"
+                  ng-model="battle.opponent.name"
                   ng-options="o as o|capitalise for o in opponents"
                   required>
           </select>
+          <button class="btn btn-sm btn-default"
+                  ng-click="del('opp')">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
         </td>
       </tr>
       <tr>
         <td>
-          <select ng-model="battle.opponent.faction"
+          <select class="form-control list-edit-form"
+                  ng-model="battle.opponent.faction"
                   ng-options="id as f.name for (id, f) in factions"
                   required>
           </select>
@@ -55,7 +67,8 @@
       </tr>
       <tr>
         <td>
-          <select ng-model="battle.opponent.caster"
+          <select class="form-control list-edit-form"
+                  ng-model="battle.opponent.caster"
                   ng-options="id as id | capitalise for (id, c) in factions[battle.opponent.faction].casters"
                   required>
           </select>
@@ -69,21 +82,24 @@
       <tr>
         <td>Date</td>
         <td>
-          <input type="number"
+          <input class="form-control list-edit-form"
+                 type="number"
                  ng-model="battle.date.year"
-                 style="width:4em;" 
+                 style="width:5em;" 
                  required 
                  min="1999"
-                 max="2050" />/
-          <input type="number"
+                 max="2050" /> /
+          <input class="form-control list-edit-form"
+                 type="number"
                  ng-model="battle.date.month"
-                 style="width:2em;" 
+                 style="width:3em;" 
                  required
                  min="1"
-                 max="12" />/
-          <input type="number"
+                 max="12" /> /
+          <input class="form-control list-edit-form"
+                 type="number"
                  ng-model="battle.date.day"
-                 style="width:2em;" 
+                 style="width:3em;" 
                  required
                  min="1"
                  max="31" />
@@ -92,23 +108,42 @@
       <tr>
         <td>Event</td>
         <td>
-          <select ng-model="battle.setup.event"
+          <button class="btn btn-sm btn-default"
+                  ng-click="addEvent()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <select class="form-control list-edit-form"
+                  ng-model="battle.setup.event"
                   ng-options="e for e in events">
           </select>
+          <button class="btn btn-sm btn-default"
+                  ng-click="del('event')">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
         </td>
       </tr>
       <tr>
         <td>Scenario</td>
         <td>
-          <select ng-model="battle.setup.scenario"
+          <button class="btn btn-sm btn-default"
+                  ng-click="addScenario()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <select class="form-control list-edit-form"
+                  ng-model="battle.setup.scenario"
                   ng-options="id as s.name for (id, s) in scenarios">
           </select>
+          <button class="btn btn-sm btn-default"
+                  ng-click="del('scenario')">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
         </td>
       </tr>
       <tr>
         <td>Army size</td>
         <td>
-          <input type="number" 
+          <input class="form-control list-edit-form"
+                 type="number" 
                  ng-model="battle.setup.size" 
                  style="width:3em;" />
         </td>
@@ -118,7 +153,8 @@
       <tr>
         <th>Game result :</th>
         <td>
-          <select ng-model="battle.score"
+          <select class="form-control list-edit-form"
+                  ng-model="battle.score"
                   ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
                   required>
           </select>
@@ -135,12 +171,14 @@
       <tr>
         <td>Control Points</td>
         <td>
-          <input type="number" 
+          <input class="form-control list-edit-form"
+                 type="number" 
                  ng-model="battle.points.my_army.scenario" 
                  style="width:3em;" />
         </td>
         <td>
-          <input type="number" 
+          <input class="form-control list-edit-form"
+                 type="number" 
                  ng-model="battle.points.opponent.scenario" 
                  style="width:3em;" />
         </td>
@@ -148,12 +186,14 @@
       <tr>
         <td>Kill Points</td>
         <td>
-          <input type="number" 
+          <input class="form-control list-edit-form"
+                 type="number" 
                  ng-model="battle.points.my_army.army" 
                  style="width:3em;" />
         </td>
         <td>
-          <input type="number" 
+          <input class="form-control list-edit-form"
+                 type="number" 
                  ng-model="battle.points.opponent.army" 
                  style="width:3em;" />
         </td>
@@ -166,7 +206,7 @@
       </tr>
       <tr>
         <td>
-          <textarea style="width:100%;" 
+          <textarea class="form-control list-edit-form"
                     ng-model="battle.comment"></textarea>
         </td>
       </tr>

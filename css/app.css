@@ -122,6 +122,21 @@ tr.clickable:hover {
     text-align:right;
 }
 
+.list-edit-form {
+    width: auto;
+    display:inline;
+}
+textarea.list-edit-form {
+    width: 100%;
+}
+@media (max-width: 767px) {
+    .list-edit-form {
+        font-size:10px;
+        padding: 3px 6px;
+        height:24px;
+    }
+}
+
 @media (max-width: 530px) {
     .hidden-xxs {
         display:none !important;
