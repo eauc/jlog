@@ -2,6 +2,42 @@
 
 angular.module('jlogApp.services')
     .value('default_scenarios', {
+        sr14des: {
+            name: 'SR14 Destruction'
+        },
+        sr14sad: {
+            name: 'SR14 Supply & Demand'
+        },
+        sr14bop: {
+            name: 'SR14 Balance of Power'
+        },
+        sr14poe: {
+            name: 'SR14 Process of Elimination'
+        },
+        sr14cq: {
+            name: 'SR14 Close Quarters'
+        },
+        sr14tf: {
+            name: 'SR14 Two Fronts'
+        },
+        sr14inco: {
+            name: 'SR14 Incoming'
+        },
+        sr14rp: {
+            name: 'SR14 Rally Point'
+        },
+        sr14incu: {
+            name: 'SR14 Incursion'
+        },
+        sr14out: {
+            name: 'SR14 Outflank'
+        },
+        sr14itb: {
+            name: 'SR14 Into the Breach'
+        },
+        sr14fs: {
+            name: 'SR14 Fire Support'
+        },
         sr13des: {
             name: 'SR13 Destruction'
         },
