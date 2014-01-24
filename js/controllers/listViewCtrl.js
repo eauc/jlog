@@ -17,6 +17,8 @@ angular.module('jlogApp.controllers')
                 $state.go('battle.edit');
             };
             $scope.deleteBattle = function deleteBattle() {
+                var confirm = window.confirm('You sure you wanna delete this battle ?');
+                if(!confirm) return;
                 $scope.battles.splice($scope.battle_index, 1);
                 $scope.updateBattles();
                 $scope.close();
