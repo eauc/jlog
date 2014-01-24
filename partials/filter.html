@@ -215,8 +215,39 @@
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-6 col-xs-12">
-        <div class="col-lg-2">
+      <div class="form-group filter-group col-lg-7 col-xs-12">
+        <div class="col-lg-3">
+          <input id="filter-initiative"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.initiative.active" />
+          <label class="control-label"
+                 for="filter-initiative">
+            Initiative
+          </label>
+        </div>
+        <div ng-show="filter.initiative.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.initiative.is">
+            <option value="true">is</option>
+            <option value="false">is not</option>
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.initiative.won_roll">
+            <option selected value=""></option>
+            <option selected value="true">Won roll</option>
+            <option selected value="false">Lost roll</option>
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.initiative.started">
+            <option selected value=""></option>
+            <option selected value="true">started game</option>
+            <option selected value="false">chose side</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group filter-group col-lg-5 col-lg-pull-1 col-xs-12">
+        <div class="col-lg-3">
           <input id="filter-tags"
                  class="form-control filter-active-chk"
                  type="checkbox"

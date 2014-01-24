@@ -470,6 +470,67 @@
     </tbody>
   </table>
   <legend class="clickable"
+          ng-click="stats.show.initiative = !stats.show.initiative">
+    Initiative
+  </legend>
+  <table class="table"
+         ng-show="stats.show.initiative">
+    <colgroup>
+        <col style="width:auto">
+        <col style="width:15%;">
+        <col style="width:50%;">
+    </colgroup>
+    <tr>
+      <th>Initiative</th>
+      <th>Type</th>
+      <th></th>
+    </tr>
+    <tbody ng-repeat="(name, s) in stats.active.initiative">
+      <tr class="clickable"
+          ng-click="stats.show.initiatives[name] = !stats.show.initiatives[name]">
+        <td rowspan="4">{{name}}</td>
+        <td>Total</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.initiative[name]"
+            type="total">
+        </td>
+        <!-- <td class="text-success">{{s.win.total}}</td>
+        <td class="text-warning">{{s.draw.total}}</td>
+        <td class="text-danger">{{s.loss.total}}</td> -->
+      </tr>
+      <tr ng-show="stats.show.initiatives[name]">
+        <td>Assassination</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.initiative[name]"
+            type="assassination">
+        </td>
+        <!-- <td class="text-success">{{s.win.assassination}}</td>
+        <td class="text-warning">{{s.draw.assassination}}</td>
+        <td class="text-danger">{{s.loss.assassination}}</td> -->
+      </tr>
+      <tr ng-show="stats.show.initiatives[name]">
+        <td>Clock</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.initiative[name]"
+            type="clock">
+        </td>
+        <!-- <td class="text-success">{{s.win.clock}}</td>
+        <td class="text-warning">{{s.draw.clock}}</td>
+        <td class="text-danger">{{s.loss.clock}}</td> -->
+      </tr>
+      <tr ng-show="stats.show.initiatives[name]">
+        <td>Scenario</td>
+        <td stat-bar="s"
+            percent="stats.active_percent.initiative[name]"
+            type="scenario">
+        </td>
+        <!-- <td class="text-success">{{s.win.scenario}}</td>
+        <td class="text-warning">{{s.draw.scenario}}</td>
+        <td class="text-danger">{{s.loss.scenario}}</td> -->
+      </tr>
+    </tbody>
+  </table>
+  <legend class="clickable"
           ng-click="stats.show.event = !stats.show.event">
     Event
   </legend>

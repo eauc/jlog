@@ -155,6 +155,27 @@ angular.module('jlogApp.services')
                 }
                 this.scenario[scenario].add(battle.score);
             };
+            function refreshInitiative(battle) {
+                var init = battle.setup.initiative;
+                if(undefined === this.initiative["Roll won"]) {
+                    this.initiative["Roll won"] = statEntry();
+                }
+                if(undefined === this.initiative["Roll lost"]) {
+                    this.initiative["Roll lost"] = statEntry();
+                }
+                if(undefined === this.initiative["Started first"]) {
+                    this.initiative["Started first"] = statEntry();
+                }
+                if(undefined === this.initiative["Started second"]) {
+                    this.initiative["Started second"] = statEntry();
+                }
+                if(undefined !== init) {
+                    this.initiative[('false' === init.won_roll) ?
+                                     "Roll lost" : "Roll won"].add(battle.score);
+                    this.initiative[('false' === init.started) ?
+                                     "Started first" : "Started second"].add(battle.score);
+                }
+            };
             function refreshEvent(battle) {
                 var event = battle.setup.event;
                 if(undefined === this.event[event]) {
@@ -183,6 +204,7 @@ angular.module('jlogApp.services')
                     },
                     event: {},
                     scenario: {},
+                    initiative: {},
                     reset: function statCollectionReset() {
                         this.all = {};
                         this.my_army = {
@@ -196,6 +218,7 @@ angular.module('jlogApp.services')
                         };
                         this.event = {};
                         this.scenario = {};
+                        this.initiative = {};
                     },
                     toPercent: function statCollectionToPercent() {
                         var result = {
@@ -210,7 +233,8 @@ angular.module('jlogApp.services')
                                 caster: {}
                             },
                             event: {},
-                            scenario: {}
+                            scenario: {},
+                            initiative: {}
                         };
                         var key;
                         for(key in this.my_army.faction) {
@@ -250,6 +274,11 @@ angular.module('jlogApp.services')
                                 result.scenario[key] = this.scenario[key].toPercent();
                             }
                         }
+                        for(key in this.initiative) {
+                            if(this.initiative.hasOwnProperty(key)) {
+                                result.initiative[key] = this.initiative[key].toPercent();
+                            }
+                        }
                         return result;
                     },
                     refresh: function statCollectionRefresh(battles, filter, invert, show) {
@@ -279,6 +308,9 @@ angular.module('jlogApp.services')
                         this.refreshEvent = (show.event &&
                                              isEmpty(this.event)) ?
                             refreshEvent : dummyRefresh;
+                        this.refreshInitiative = (show.initiative &&
+                                                isEmpty(this.initiative)) ?
+                            refreshInitiative : dummyRefresh;
 
                         for(i = 0 ; i < battles.length ; i++) {
                             battle = battles[i];
@@ -292,6 +324,7 @@ angular.module('jlogApp.services')
                                 this.refreshOppFaction(battle);                            
                                 this.refreshOppCaster(battle);                            
                                 this.refreshScenario(battle);                            
+                                this.refreshInitiative(battle);                            
                                 this.refreshEvent(battle);                            
                                 
                             }
@@ -420,6 +453,11 @@ angular.module('jlogApp.services')
                             result += exportCsvStatEntry(key, list.scenario[key]);
                         }
                     }
+                    if(show.initiative) {
+                        for(key in list.initiative) {
+                            result += exportCsvStatEntry(key, list.initiative[key]);
+                        }
+                    }
                     if(show.event) {
                         for(key in list.event) {
                             result += exportCsvStatEntry(key, list.event[key]);
@@ -464,6 +502,11 @@ angular.module('jlogApp.services')
                             result += exportBbStatEntry(key, list.scenario[key]);
                         }
                     }
+                    if(show.initiative) {
+                        for(key in list.initiative) {
+                            result += exportBbStatEntry(key, list.initiative[key]);
+                        }
+                    }
                     if(show.event) {
                         for(key in list.event) {
                             result += exportBbStatEntry(key, list.event[key]);
@@ -493,6 +536,8 @@ angular.module('jlogApp.services')
                         events: {},
                         scenario: false,
                         scenarios: {},
+                        initiative: false,
+                        initiatives: {},
                     },
                     percent: false,
                     raw: statCollection(),

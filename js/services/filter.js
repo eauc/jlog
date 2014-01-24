@@ -100,8 +100,20 @@ angular.module('jlogApp.services')
             return !filter.event.active
                 || (filter.event.is === 'true' ? match : !match);
         };
+        var matchInitiative = function filterMatchInitiative(filter, battle) {
+            var match = angular.isObject(battle.setup.initiative)
+                && (0 == filter.initiative.won_roll.length
+                    || filter.initiative.won_roll === battle.setup.initiative.won_roll)
+                && (0 == filter.initiative.started.length
+                    || filter.initiative.started === battle.setup.initiative.started);
+            console.log(filter.scenario.is + ' ' + match);
+            return !filter.initiative.active
+                || (filter.initiative.is === 'true' ? match : !match);
+        };
         var matchTags = function filterMatchTags(filter, battle) {
-            if(0 === filter.tags.value.length) return true;
+            if(undefined === filter.tags ||
+               !filter.tags.active ||
+               0 === filter.tags.value.length) return true;
             if(!angular.isArray(battle.tags) ||
                0 === battle.tags.length) {
                 return 'none' === filter.tags.is
@@ -164,6 +176,12 @@ angular.module('jlogApp.services')
                     is: 'true',
                     name: []
                 },
+                initiative: {
+                    active: false,
+                    is: 'true',
+                    won_roll: '',
+                    started: ''
+                },
                 size: {
                     active: false,
                     is: '0',
@@ -203,6 +221,7 @@ angular.module('jlogApp.services')
                             && matchScenario(this, battle)
                             && matchSize(this, battle)
                             && matchEvent(this, battle)
+                            && matchInitiative(this, battle)
                             && matchTags(this, battle);
                         console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
                     }

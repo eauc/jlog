@@ -148,6 +148,21 @@
                  style="width:3em;" />
         </td>
       </tr>
+      <tr>
+        <td>Initiative</td>
+        <td>
+          <select class="form-control list-edit-form"
+                  ng-model="battle.setup.initiative.won_roll">
+            <option selected value="true">Won roll</option>
+            <option selected value="false">Lost roll</option>
+          </select>
+          <select class="form-control list-edit-form"
+                  ng-model="battle.setup.initiative.started">
+            <option selected value="true">started game</option>
+            <option selected value="false">chose side</option>
+          </select>
+        </td>
+      </tr>
     </table>
     <table class="col-sm-6">
       <tr>
