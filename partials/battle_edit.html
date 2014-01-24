@@ -202,6 +202,28 @@
     <br />
     <table class="col-sm-12">
       <tr>
+        <th>Tags :</th>
+      </tr>
+      <tr>
+        <td>
+          <button class="btn btn-sm btn-default"
+                  ng-click="addTag()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <select class="form-control filter-select-multiple"
+                  ng-model="battle.tags"
+                  ng-options="t for t in tags"
+                  multiple>
+          </select>
+          <button class="btn btn-sm btn-default"
+                  ng-click="delTag()">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
+        </td>
+      </tr>
+    </table>
+    <table class="col-sm-12">
+      <tr>
         <th>Comment :</th>
       </tr>
       <tr>

@@ -215,6 +215,32 @@
           </select>
         </div>
       </div>
+      <div class="form-group filter-group col-lg-6 col-xs-12">
+        <div class="col-lg-2">
+          <input id="filter-tags"
+                 class="form-control filter-active-chk"
+                 type="checkbox"
+                 ng-model="filter.tags.active" />
+          <label class="control-label"
+                 for="filter-tags">
+            Tags
+          </label>
+        </div>
+        <div ng-show="filter.tags.active">
+          <select class="form-control filter-select"
+                  ng-model="filter.tags.is">
+            <option value="any">include any of</option>
+            <option value="all">include all of</option>
+            <option value="not_all">do not include all of</option>
+            <option value="none">include none of</option>
+          </select>
+          <select class="form-control filter-select-multiple"
+                  ng-model="filter.tags.value"
+                  ng-options="t for t in tags"
+                  multiple>
+          </select>
+        </div>
+      </div>
     </fieldset>
   </form>
 </div>

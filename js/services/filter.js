@@ -100,6 +100,32 @@ angular.module('jlogApp.services')
             return !filter.event.active
                 || (filter.event.is === 'true' ? match : !match);
         };
+        var matchTags = function filterMatchTags(filter, battle) {
+            if(0 === filter.tags.value.length) return true;
+            if(!angular.isArray(battle.tags) ||
+               0 === battle.tags.length) {
+                return 'none' === filter.tags.is
+                    || 'not_all' === filter.tags.is;
+            }
+            var i, and = true, or = false, found;
+            for(i = 0 ; i < filter.tags.value.length ; i++) {
+                found = (0 <= battle.tags.indexOf(filter.tags.value[i]));
+                and = (and && found);
+                or = (or || found);
+            }
+            switch(filter.tags.is) {
+            case 'any':
+                return or;
+            case 'all':
+                return and;
+            case 'not_all':
+                return !and;
+            case 'none':
+                return !or;
+            default:
+                return false;
+            }
+        };
 
         var create = function filterCreate() {
             var today = new Date();
@@ -147,6 +173,11 @@ angular.module('jlogApp.services')
                     active: false,
                     is: 'true',
                     value: []
+                },
+                tags: {
+                    active: false,
+                    is: 'any',
+                    value: []
                 }
             };
         };
@@ -171,7 +202,8 @@ angular.module('jlogApp.services')
                             && matchResult(this, battle)
                             && matchScenario(this, battle)
                             && matchSize(this, battle)
-                            && matchEvent(this, battle);
+                            && matchEvent(this, battle)
+                            && matchTags(this, battle);
                         console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
                     }
                     return invert ? !cache[battle.index] : cache[battle.index];

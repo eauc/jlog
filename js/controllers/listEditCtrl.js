@@ -9,13 +9,15 @@ angular.module('jlogApp.controllers')
         'opponents',
         'events',
         'scenarios',
+        'tags',
         function($scope,
                  $state,
                  $window,
                  battle,
                  opponents,
                  events,
-                 scenarios) {
+                 scenarios,
+                 tags) {
             console.log('init listEditCtrl ' + $scope.battle_index);
             console.log($scope.battle);
                 
@@ -66,6 +68,19 @@ angular.module('jlogApp.controllers')
                     $scope.scenarios[key] = { name: name };
                     scenarios.store($scope.scenarios);
                     $scope.battle.setup.scenario = key;
+                }
+            };
+            $scope.addTag = function() {
+                var name = $window.prompt("Enter new tag name :");
+                name = (name != null) ? name.trim() : "";
+                if(0 < name.length) {
+                    $scope.tags.push(name);
+                    $scope.tags.sort();
+                    tags.store($scope.tags);
+                    $scope.battle.tags = angular.isArray($scope.battle.tags) ? 
+                        $scope.battle.tags : [];
+                    $scope.battle.tags.push(name);
+                    $scope.battle.tags.sort();
                 }
             };
 
@@ -139,5 +154,40 @@ angular.module('jlogApp.controllers')
 
                 del_key[type].remove_from_list(name);
             };
+            $scope.delTag = function() {
+                var tags = $scope.battle.tags;
+                if(!angular.isArray(tags) ||
+                   tags.length <= 0) return;
+
+                var confirm_msg = 'Forget everything about these tags ?\r\n';
+                var i;
+                for(i = 0 ; i < tags.length ; i++) {
+                    confirm_msg += '\t' + tags[i] + '\r\n';
+                }
+                var confirm = $window.confirm(confirm_msg);
+                if(!confirm) return;
+
+                $scope.battle.tags = [];
+                var index;
+                var t,b, tag, battle;
+                for(t = 0 ; t < tags.length ; t++) {
+                    tag = tags[t];
+                    for(b = 0 ; b < $scope.battles.length ; b++) {
+                        battle = $scope.battles[b];
+                        if(angular.isArray(battle.tags)) {
+                            while(0 <= (index = battle.tags.indexOf(tag))) {
+                                battle.tags.splice(index, 1);
+                            }
+                        }
+                    }
+                }
+                $scope.updateBattles();
+
+                for(i = 0 ; i < tags.length ; i++) {
+                    while(0 <= (index = $scope.tags.indexOf(tags[i]))) {
+                        $scope.tags.splice(index, 1);
+                    }
+                }
+            }
             $scope.battle = angular.copy($scope.battle);
         }]);

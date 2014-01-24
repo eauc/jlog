@@ -7,6 +7,7 @@ angular.module('jlogApp.controllers')
         'opponents',
         'events',
         'scenarios',
+        'tags',
         'scores',
         'battles',
         'battle_sort',
@@ -18,6 +19,7 @@ angular.module('jlogApp.controllers')
                  opponents,
                  events,
                  scenarios,
+                 tags,
                  scores,
                  battles,
                  battle_sort,
@@ -61,6 +63,7 @@ angular.module('jlogApp.controllers')
             $scope.opponents = opponents.init($scope.battles);
             $scope.events = events.init($scope.battles);
             $scope.scenarios = scenarios.init($scope.battles);
+            $scope.tags = tags.init($scope.battles);
             onBattlesUpdate();
 
             $scope.$watch('filter', function() {
