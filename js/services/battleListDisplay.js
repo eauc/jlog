@@ -55,6 +55,7 @@ angular.module('jlogApp.services')
                                 result += 'size' + ',';
                                 result += 'scenario' + ',';
                                 result += 'event' + ','; 
+                                result += 'initiative' + ','; 
                                 break;
                             }
                         case 'initiative':
@@ -109,6 +110,7 @@ angular.module('jlogApp.services')
                                 result += '[th]' + 'size' + '[/th]';
                                 result += '[th]' + 'scenario' + '[/th]';
                                 result += '[th]' + 'event' + '[/th]'; 
+                                result += '[th]' + 'initiative' + '[/th]'; 
                                 break;
                             }
                         case 'initiative':
@@ -166,6 +168,15 @@ angular.module('jlogApp.services')
                             result += entry.size + ',';
                             result += entry.scenario + ',';
                             result += entry.event + ',';
+                            if(angular.isObject(entry.initiative)) {
+                                result += ('true' === entry.initiative.won_roll ?
+                                           'Won roll' : 'Lost roll') + ' - ';
+                                result += ('true' === entry.initiative.started ?
+                                           'Started game' : 'Chose side') + ',';
+                            }
+                            else {
+                                result += ',';
+                            }
                             break;
                         }
                     case 'initiative':
@@ -222,6 +233,15 @@ angular.module('jlogApp.services')
                             result += '[td]' + entry.size + '[/td]';
                             result += '[td]' + entry.scenario + '[/td]';
                             result += '[td]' + entry.event + '[/td]';
+                            if(angular.isObject(entry.initiative)) {
+                                result += '[td]' + (entry.initiative.won_roll ?
+                                                    'Won roll' : 'Lost roll') + ' - ';
+                                result += (entry.initiative.started ?
+                                           'Started game' : 'Chose side') + '[/td]';
+                            }
+                            else {
+                                result += '[td][/td]';
+                            }
                             break;
                         }
                     case 'initiative':
