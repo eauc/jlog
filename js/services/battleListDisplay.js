@@ -136,6 +136,7 @@ angular.module('jlogApp.services')
                 for(j= 0 ; j < keys.length ; j++) {
                     key = keys[j];
                     var entry = battle[key];
+                    if(undefined === entry) continue;
                     switch(key) {
                     case 'date':
                         {
@@ -201,6 +202,7 @@ angular.module('jlogApp.services')
                 for(j= 0 ; j < keys.length ; j++) {
                     key = keys[j];
                     var entry = battle[key];
+                    if(undefined === entry) continue;
                     switch(key) {
                     case 'date':
                         {
@@ -260,7 +262,7 @@ angular.module('jlogApp.services')
                 result += '[/tr]\r\n';
                 return result;
             };
-            var instance= {
+            var instance = {
                 battles: [],
                 sorted_battles: [],
                 slice: 15,
