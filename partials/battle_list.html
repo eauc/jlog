@@ -1,5 +1,19 @@
 <div class="container">
   <p>
+    <form class="visible-xs pull-right"
+            style="margin-top:0.2em">
+      <label for="sort-by">Sort by</label>
+      <select class="form-control list-edit-form"
+              id="sort-by"
+              ng-model="sort.type"
+              ng-options="id as t.name for (id, t) in sort.types">
+      </select>
+      <input class="form-control list-edit-form"
+             id="sort-reverse" 
+             type="checkbox" 
+             ng-model="sort.reverse" />
+      <label for="sort-reverse" class="clickable">reverse</label>
+    </form>
     <button class="btn btn-primary"
             ng-click="addBattle()">
       <span class="glyphicon glyphicon-plus"></span>
@@ -21,19 +35,18 @@
       Filter
     </button>
   </p>
-  <form class="visible-xs">
-    <label for="sort-by">Sort by</label>
-    <select class="form-control list-edit-form"
-            id="sort-by"
-            ng-model="sort.type"
-            ng-options="id as t.name for (id, t) in sort.types">
-    </select>
-    <input class="form-control list-edit-form"
-           id="sort-reverse" 
-           type="checkbox" 
-           ng-model="sort.reverse" />
-    <label for="sort-reverse" class="clickable">reverse</label>
-  </form>
+  <p style="font-size:16px">
+    Selection :
+    <button class="btn btn-xs btn-default"
+            style="margin-left:10px"
+            ng-click="selection.show = !selection.show">
+      <span class="glyphicon glyphicon-edit"></span>
+    </button>
+    <button class="btn btn-xs btn-default"
+            style="margin-left:10px"
+            ng-click="selectionRemove()">
+      <span class="glyphicon glyphicon-trash"></span>
+    </button>
     <span class="export">
       <span export-link
             name="battle_list"
@@ -54,8 +67,15 @@
         bbCode
       </span>
     </span>
+  </p>
+  <div ng-include="'partials/selection_edit.html'"></div>
   <table class="table result">
     <tr>
+      <th>
+        <input type="checkbox"
+               ng-model="selection.full"
+               ng-click="selection.toggleFull(battles)">
+      </th>
       <th class="hidden-xxs" sortable="date" sort="sort">
         Date
       </th>
@@ -82,35 +102,44 @@
       </th>
     </tr>
     <tr class="clickable"
-        ng-repeat="battle in list_display.battles track by battle.index"
-        ng-click="viewBattle(battle.index)">
-      <td class="hidden-xxs">
+        ng-repeat="battle in list_display.battles track by battle.index">
+      <td>
+        <input type="checkbox"
+               name="selectionBattles[]"
+               ng-model="battle.selected">
+      </td>
+      <td class="hidden-xxs"
+          ng-click="viewBattle(battle.index)">
         <span>{{battle.date.year+' / '+battle.date.month+' / '+battle.date.day}}
         </span>
       </td>
-      <td>
+      <td ng-click="viewBattle(battle.index)">
         <img class="faction-icon"
              ng-src="{{'img/'+factions[battle.my_army.faction].icon}}" />
         <span>{{battle.my_army.caster | capitalise}}</span>
       </td>
-      <td>
+      <td ng-click="viewBattle(battle.index)">
         <span>{{battle.opponent.name | capitalise}}</span>
       </td>
-      <td>
+      <td ng-click="viewBattle(battle.index)">
         <img class="faction-icon"
              ng-src="{{'img/'+factions[battle.opponent.faction].icon}}" />
         <span>{{battle.opponent.caster | capitalise}}</span>
       </td>
-      <td class="visible-lg">
+      <td class="visible-lg"
+          ng-click="viewBattle(battle.index)">
         <span>{{battle.setup.size}}</span>
       </td>
-      <td class="visible-lg">
+      <td class="visible-lg"
+          ng-click="viewBattle(battle.index)">
         <span>{{scenarios[battle.setup.scenario].name}}</span>
       </td>
-      <td class="hidden-xxs">
+      <td class="hidden-xxs"
+          ng-click="viewBattle(battle.index)">
         <span>{{battle.setup.event}}</span>
       </td>
-      <td ng-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}">
+      <td ng-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}"
+          ng-click="viewBattle(battle.index)">
         <strong class="score-result">
           {{scores[battle.score].type | scoreTypeLetter}}
         </strong>

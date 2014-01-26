@@ -5,10 +5,15 @@ angular.module('jlogApp.controllers')
         '$scope',
         '$state',
         'battle',
+        'selection',
         function($scope,
                  $state,
-                 battle) {
+                 battle,
+                 selection) {
             console.log('init listCtrl');
+
+            $scope.show_list = true;
+            $scope.selection = selection;
 
             $scope.addBattle = function addBattle() {
                 $scope.battle_index = $scope.battles.length;
@@ -23,6 +28,22 @@ angular.module('jlogApp.controllers')
             $scope.close = function close() {
                 $scope.show_list = true;
                 $state.go('battle.list');
+            };
+
+            $scope.selectionRemove = function() {
+                if($scope.selection.remove($scope.battles)) {
+                    $scope.updateBattles();
+                }
+            };
+            $scope.selectionSet = function(type) {
+                if($scope.selection.set(type, $scope.battles)) {
+                    $scope.updateBattles();
+                }
+            };
+            $scope.selectionUnset = function(type) {
+                if($scope.selection.unset(type, $scope.battles)) {
+                    $scope.updateBattles();
+                }
             };
 
             $scope.$watch('filter_active', function() {
@@ -47,5 +68,9 @@ angular.module('jlogApp.controllers')
                                           $scope.sort);
             }, true);
 
-            $scope.show_list = true;
+            $scope.$watch('list_display.sorted_battles|filter:{selected:true}', function(nv) {
+                selection.update(nv);
+            }, true);
+
+            $scope.selection.reset($scope.battles);
         }]);

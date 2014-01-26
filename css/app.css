@@ -100,7 +100,7 @@ tr.clickable:hover {
 
 .export {
     float:right;
-    margin-top:0.5em;
+    /* margin-top:0.5em; */
 }
 
 .bar {

@@ -1,0 +1,301 @@
+<div ng-show="selection.show">
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        My Army
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <select class="form-control list-edit-form"
+                ng-model="selection.my_army.faction"
+                ng-options="id as f.name for (id, f) in factions">
+          <option value=""></option>
+        </select><br/>
+        <select class="form-control list-edit-form"
+                ng-model="selection.my_army.caster"
+                ng-options="id as id | capitalise for (id, c) in factions[selection.my_army.faction].casters">
+          <option value=""></option>
+        </select>
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('my_army')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('my_army')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        Opponent
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <select class="form-control list-edit-form"
+                ng-model="selection.opponent.name"
+                ng-options="o as o|capitalise for o in opponents">
+          <option value=""></option>
+        </select><br/>
+        <select class="form-control list-edit-form"
+                ng-model="selection.opponent.faction"
+                ng-options="id as f.name for (id, f) in factions">
+          <option value=""></option>
+        </select><br/>
+        <select class="form-control list-edit-form"
+                ng-model="selection.opponent.caster"
+                ng-options="id as id | capitalise for (id, c) in factions[selection.opponent.faction].casters">
+          <option value=""></option>
+        </select>
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('opponent')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('opponent')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <table style="display:inline">
+    <tr>
+      <th colspan="4">
+        Points
+      </th>
+    </tr>
+    <tr>
+      <td></td>
+      <td>My Army</td>
+      <td>Opp.</td>
+      <td rowspan="3"
+          style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('points')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('points')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Control Points</td>
+      <td>
+        <input class="form-control list-edit-form"
+               type="number" 
+               ng-model="selection.points.my_army.scenario" 
+               style="width:3em;" />
+      </td>
+      <td>
+        <input class="form-control list-edit-form"
+               type="number" 
+               ng-model="selection.points.opponent.scenario" 
+               style="width:3em;" />
+      </td>
+    </tr>
+    <tr>
+      <td>Kill Points</td>
+      <td>
+        <input class="form-control list-edit-form"
+               type="number" 
+               ng-model="selection.points.my_army.army" 
+               style="width:3em;" />
+      </td>
+      <td>
+        <input class="form-control list-edit-form"
+               type="number" 
+               ng-model="selection.points.opponent.army" 
+               style="width:3em;" />
+      </td>
+    </tr>
+  </table>
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        Tags
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <select class="form-control filter-select-multiple"
+                ng-model="selection.tags"
+                ng-options="t for t in tags"
+                multiple>
+        </select>
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('tags')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('addTags')">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('tags')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('addTags')">
+          <span class="glyphicon glyphicon-minus"></span>
+        </button>
+      </td>
+    </tr>
+  </table><br/>
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        Date
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <input class="form-control list-edit-form"
+               type="number"
+               ng-model="selection.date.year"
+               style="width:5em;" 
+               min="1999"
+               max="2050" /> /
+        <input class="form-control list-edit-form"
+               type="number"
+               ng-model="selection.date.month"
+               style="width:3em;" 
+               min="1"
+               max="12" /> /
+        <input class="form-control list-edit-form"
+               type="number"
+               ng-model="selection.date.day"
+               style="width:3em;" 
+               min="1"
+               max="31" />
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('date')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('date')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        Scenario
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <select class="form-control list-edit-form"
+                ng-model="selection.setup.scenario"
+                ng-options="id as s.name for (id, s) in scenarios">
+          <option value=""></option>
+        </select>
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('scenario')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('scenario')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        Size
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <input class="form-control list-edit-form"
+               type="number" 
+               ng-model="selection.setup.size" 
+               style="width:3em;" />
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('size')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('size')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        Event
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <select class="form-control list-edit-form"
+                ng-model="selection.setup.event"
+                ng-options="e for e in events">
+          <option value=""></option>
+        </select>
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('event')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('event')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+  <table style="display:inline">
+    <tr>
+      <th colspan="2">
+        Result
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <select class="form-control list-edit-form"
+                ng-model="selection.score"
+                ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores">
+          <option value=""></option>
+        </select><br/>
+        <strong class="{{scores[selection.score].result | scoreResultColor}}">
+          {{ scores[selection.score].result | capitalise }}
+        </strong>
+      </td>
+      <td style="vertical-align:top">
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionSet('score')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button><br/>
+        <button class="btn btn-xs btn-default"
+                ng-click="selectionUnset('score')">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
