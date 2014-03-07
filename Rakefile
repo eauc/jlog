@@ -25,7 +25,7 @@ end
 js_linter = {
   command: 'gjslint',
   options: [ '--max_line_length 100', 
-             '--disable 0120,0130'
+             '--disable 0120,0130,0001'
            ],
 }
 js_compiler = {

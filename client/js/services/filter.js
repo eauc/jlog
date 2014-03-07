@@ -16,26 +16,26 @@ angular.module('jlogApp.services')
         };
 
         var compareDate = function filterCompareDate(date1, date2) {
-            if(date1.year > date2.year) return 1;
-            if(date1.year < date1.year) return -1;
-            if(date1.month > date2.month) return 1;
-            if(date1.month < date2.month) return -1;
-            if(date1.day > date2.day) return 1;
-            if(date1.day < date2.day) return -1;
+            if (date1.year > date2.year) return 1;
+            if (date1.year < date1.year) return -1;
+            if (date1.month > date2.month) return 1;
+            if (date1.month < date2.month) return -1;
+            if (date1.day > date2.day) return 1;
+            if (date1.day < date2.day) return -1;
             return 0;
         };
         var compareSize = function filterCompareSize(size1, size2) {
-            if(size1 > size2) return 1;
-            if(size1 < size2) return -1;
+            if (size1 > size2) return 1;
+            if (size1 < size2) return -1;
             return 0;
         };
         var matchComp = function filterMatchComp(type, comp) {
-            if(type === 0) return (comp === 0);
-            if(type === 1) return (comp !== 0);
-            if(type === 2) return (comp === -1);
-            if(type === 3) return (comp !== 1);
-            if(type === 4) return (comp === 1);
-            if(type === 5) return (comp !== -1);
+            if (type === 0) return (comp === 0);
+            if (type === 1) return (comp !== 0);
+            if (type === 2) return (comp === -1);
+            if (type === 3) return (comp !== 1);
+            if (type === 4) return (comp === 1);
+            if (type === 5) return (comp !== -1);
             return false;
         };
         var matchDate = function filterMatchDate(filter, battle) {
@@ -111,21 +111,21 @@ angular.module('jlogApp.services')
                 || (filter.initiative.is === 'true' ? match : !match);
         };
         var matchTags = function filterMatchTags(filter, battle) {
-            if(undefined === filter.tags ||
+            if (undefined === filter.tags ||
                !filter.tags.active ||
                0 === filter.tags.value.length) return true;
-            if(!angular.isArray(battle.tags) ||
+            if (!angular.isArray(battle.tags) ||
                0 === battle.tags.length) {
                 return 'none' === filter.tags.is
                     || 'not_all' === filter.tags.is;
             }
             var i, and = true, or = false, found;
-            for(i = 0 ; i < filter.tags.value.length ; i++) {
+            for (i = 0 ; i < filter.tags.value.length ; i++) {
                 found = (0 <= battle.tags.indexOf(filter.tags.value[i]));
                 and = (and && found);
                 or = (or || found);
             }
-            switch(filter.tags.is) {
+            switch (filter.tags.is) {
             case 'any':
                 return or;
             case 'all':
@@ -146,7 +146,7 @@ angular.module('jlogApp.services')
                     active: false,
                     is: '0',
                     year: today.getFullYear(),
-                    month: today.getMonth()+1,
+                    month: today.getMonth() + 1,
                     day: today.getDate()
                 },
                 my_army: {
@@ -204,7 +204,7 @@ angular.module('jlogApp.services')
             init: function filterInit() {
                 var cache = {};
                 var instance;
-                if(storageContainsFilter()) {
+                if (storageContainsFilter()) {
                     instance = load();
                 }
                 else {
@@ -212,7 +212,7 @@ angular.module('jlogApp.services')
                     store(instance);
                 }
                 instance.match = function filterMatch(battle, invert) {
-                    if(!cache.hasOwnProperty(battle.index)) {
+                    if (!cache.hasOwnProperty(battle.index)) {
                         cache[battle.index] = matchDate(this, battle)
                             && matchMyArmy(this, battle)
                             && matchOpponentName(this, battle)
@@ -229,7 +229,7 @@ angular.module('jlogApp.services')
                 };
                 instance.clearCache = function filterClearCache(index) {
                     console.log('filter clearCache ' + index);
-                    if(undefined === index) {
+                    if (undefined === index) {
                         cache = {};
                     }
                     else {

@@ -4,7 +4,7 @@ angular.module('jlogApp.directives')
             var raw = elm[0];
 
             var funCheckBounds = function(evt) {
-                console.log("event fired: " + evt.type);
+                console.log('event fired: ' + evt.type);
                 var rectObject = raw.getBoundingClientRect();
                 if (rectObject.bottom === window.innerHeight) {
                     scope.$apply(attr.whenScrolled);

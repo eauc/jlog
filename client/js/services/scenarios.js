@@ -92,11 +92,11 @@ angular.module('jlogApp.services')
             };
             var build = function scenariosBuild(battles) {
                 var i, temp = default_scenarios;
-                for(i = 0 ; i < battles.length ; i++) {
-                    if(undefined === temp[battles[i].setup.scenario]) {
+                for (i = 0 ; i < battles.length ; i++) {
+                    if (undefined === temp[battles[i].setup.scenario]) {
                         temp[battles[i].setup.scenario] = {
                             name: battles[i].setup.scenario
-                        }
+                        };
                     }
                 }
                 return temp;
@@ -108,7 +108,7 @@ angular.module('jlogApp.services')
                     return list;
                 },
                 init: function scenariosInit(battles) {
-                    if(storageContainsScenarios()) {
+                    if (storageContainsScenarios()) {
                         return load();
                     }
                     else {

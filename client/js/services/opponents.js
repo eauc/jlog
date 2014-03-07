@@ -17,11 +17,11 @@ angular.module('jlogApp.services')
         var build = function opponentsBuild(battles) {
             var i, battle, opp, temp = {};
             var result = [];
-            for(i = 0 ; i < battles.length ; i++) {
+            for (i = 0 ; i < battles.length ; i++) {
                 battle = battles[i];
                 temp[battle.opponent.name] = true;
             }
-            for(opp in temp) {
+            for (opp in temp) {
                 result.push(opp);
             }
             return result.sort();
@@ -33,7 +33,7 @@ angular.module('jlogApp.services')
                 return list;
             },
             init: function opponentsInit(battles) {
-                if(storageContainsOpponents()) {
+                if (storageContainsOpponents()) {
                     return load();
                 }
                 else {

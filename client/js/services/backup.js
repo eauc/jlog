@@ -21,7 +21,7 @@ angular.module('jlogApp.services')
                         data = JSON.parse(e.target.result);
                         success_cbk_(data);
                     }
-                    catch(e) {
+                    catch (e) {
                         error_cbk_('invalid file');
                     }
                 };
@@ -37,7 +37,7 @@ angular.module('jlogApp.services')
                 console.log('generate backup file');
                 var old_url = this.save_url;
                 this.save_url = null;
-                if(old_url !== null) {
+                if (old_url !== null) {
                     URL.revokeObjectURL(old_url);
                 }
                 var string = JSON.stringify(data);

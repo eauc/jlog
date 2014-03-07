@@ -23,10 +23,18 @@ angular.module('jlogApp.services')
                     clock: 0
                 },
                 toPercent: function statEntryToPercent() {
-                    var total = this.win.total + this.draw.total + this.loss.total;
-                    var assassination = this.win.assassination + this.draw.assassination + this.loss.assassination;
-                    var scenario = this.win.scenario + this.draw.scenario + this.loss.scenario;
-                    var clock = this.win.clock + this.draw.clock + this.loss.clock;
+                    var total = this.win.total
+                        + this.draw.total
+                        + this.loss.total;
+                    var assassination = this.win.assassination
+                        + this.draw.assassination
+                        + this.loss.assassination;
+                    var scenario = this.win.scenario
+                        + this.draw.scenario
+                        + this.loss.scenario;
+                    var clock = this.win.clock
+                        + this.draw.clock
+                        + this.loss.clock;
                     var win = {
                         total: (100 * this.win.total / total) >> 0,
                         assassination: (100 * this.win.assassination / assassination) >> 0,
@@ -41,7 +49,8 @@ angular.module('jlogApp.services')
                     };
                     var loss = {
                         total: 0 === total ? 0 : 100 - win.total - draw.total,
-                        assassination: 0 === assassination ? 0 : 100 - win.assassination - draw.assassination,
+                        assassination: 0 === assassination ?
+                            0 : 100 - win.assassination - draw.assassination,
                         scenario: 0 === scenario ? 0 : 100 - win.scenario - draw.assassination,
                         clock: 0 === clock ? 0 : 100 - win.clock - draw.clock
                     };
@@ -52,7 +61,7 @@ angular.module('jlogApp.services')
                     };
                 },
                 add: function statEntryAdd(score) {
-                    switch(score) {
+                    switch (score) {
                     case 'va':
                         {
                             this.win.assassination++;
@@ -104,14 +113,14 @@ angular.module('jlogApp.services')
         function(statEntry) {
             function dummyRefresh() {};
             function refreshAll(battle) {
-                if(undefined === this.all.win) {
+                if (undefined === this.all.win) {
                     this.all = statEntry();
                 }
                 this.all.add(battle.score);
             };
             function refreshMyFaction(battle) {
                 var my_faction = battle.my_army.faction;
-                if(undefined === this.my_army.faction[my_faction]) {
+                if (undefined === this.my_army.faction[my_faction]) {
                     this.my_army.faction[my_faction] = statEntry();
                 }
                 this.my_army.faction[my_faction].add(battle.score);
@@ -119,7 +128,7 @@ angular.module('jlogApp.services')
             function refreshMyCaster(battle) {
                 var my_faction = battle.my_army.faction;
                 var my_caster = battle.my_army.caster;
-                if(undefined === this.my_army.caster[my_caster]) {
+                if (undefined === this.my_army.caster[my_caster]) {
                     this.my_army.caster[my_caster] = statEntry();
                     this.my_army.caster[my_caster].faction = my_faction;
                 }
@@ -127,14 +136,14 @@ angular.module('jlogApp.services')
             };
             function refreshOppName(battle) {
                 var opp_name = battle.opponent.name;
-                if(undefined === this.opponent.name[opp_name]) {
+                if (undefined === this.opponent.name[opp_name]) {
                     this.opponent.name[opp_name] = statEntry();
                 }
                 this.opponent.name[opp_name].add(battle.score);
             };
             function refreshOppFaction(battle) {
                 var opp_faction = battle.opponent.faction;
-                if(undefined === this.opponent.faction[opp_faction]) {
+                if (undefined === this.opponent.faction[opp_faction]) {
                     this.opponent.faction[opp_faction] = statEntry();
                 }
                 this.opponent.faction[opp_faction].add(battle.score);
@@ -142,7 +151,7 @@ angular.module('jlogApp.services')
             function refreshOppCaster(battle) {
                 var opp_faction = battle.opponent.faction;
                 var opp_caster = battle.opponent.caster;
-                if(undefined === this.opponent.caster[opp_caster]) {
+                if (undefined === this.opponent.caster[opp_caster]) {
                     this.opponent.caster[opp_caster] = statEntry();
                     this.opponent.caster[opp_caster].faction = opp_faction;
                 }
@@ -150,43 +159,43 @@ angular.module('jlogApp.services')
             };
             function refreshScenario(battle) {
                 var scenario = battle.setup.scenario;
-                if(undefined === this.scenario[scenario]) {
+                if (undefined === this.scenario[scenario]) {
                     this.scenario[scenario] = statEntry();
                 }
                 this.scenario[scenario].add(battle.score);
             };
             function refreshInitiative(battle) {
                 var init = battle.setup.initiative;
-                if(undefined === this.initiative["Roll won"]) {
-                    this.initiative["Roll won"] = statEntry();
+                if (undefined === this.initiative['Roll won']) {
+                    this.initiative['Roll won'] = statEntry();
                 }
-                if(undefined === this.initiative["Roll lost"]) {
-                    this.initiative["Roll lost"] = statEntry();
+                if (undefined === this.initiative['Roll lost']) {
+                    this.initiative['Roll lost'] = statEntry();
                 }
-                if(undefined === this.initiative["Started first"]) {
-                    this.initiative["Started first"] = statEntry();
+                if (undefined === this.initiative['Started first']) {
+                    this.initiative['Started first'] = statEntry();
                 }
-                if(undefined === this.initiative["Started second"]) {
-                    this.initiative["Started second"] = statEntry();
+                if (undefined === this.initiative['Started second']) {
+                    this.initiative['Started second'] = statEntry();
                 }
-                if(undefined !== init) {
+                if (undefined !== init) {
                     this.initiative[('false' === init.won_roll) ?
-                                     "Roll lost" : "Roll won"].add(battle.score);
+                                     'Roll lost' : 'Roll won'].add(battle.score);
                     this.initiative[('false' === init.started) ?
-                                     "Started first" : "Started second"].add(battle.score);
+                                     'Started first' : 'Started second'].add(battle.score);
                 }
             };
             function refreshEvent(battle) {
                 var event = battle.setup.event;
-                if(undefined === this.event[event]) {
+                if (undefined === this.event[event]) {
                     this.event[event] = statEntry();
                 }
                 this.event[event].add(battle.score);
             };
             function isEmpty(object) {
                 var key;
-                for(key in object) {
-                    if(object.hasOwnProperty(key)) return false;
+                for (key in object) {
+                    if (object.hasOwnProperty(key)) return false;
                 }
                 return true;
             };
@@ -222,7 +231,8 @@ angular.module('jlogApp.services')
                     },
                     toPercent: function statCollectionToPercent() {
                         var result = {
-                            all: 'function' === typeof this.all.toPercent ? this.all.toPercent() : {},
+                            all: 'function' === typeof this.all.toPercent ?
+                                this.all.toPercent() : {},
                             my_army: {
                                 caster: {},
                                 faction: {}
@@ -237,45 +247,49 @@ angular.module('jlogApp.services')
                             initiative: {}
                         };
                         var key;
-                        for(key in this.my_army.faction) {
-                            if(this.my_army.faction.hasOwnProperty(key)) {
-                                result.my_army.faction[key] = this.my_army.faction[key].toPercent();
+                        for (key in this.my_army.faction) {
+                            if (this.my_army.faction.hasOwnProperty(key)) {
+                                result.my_army.faction[key]
+                                    = this.my_army.faction[key].toPercent();
                             }
                         }
-                        for(key in this.my_army.caster) {
-                            if(this.my_army.caster.hasOwnProperty(key)) {
+                        for (key in this.my_army.caster) {
+                            if (this.my_army.caster.hasOwnProperty(key)) {
                                 result.my_army.caster[key] = this.my_army.caster[key].toPercent();
-                                result.my_army.caster[key].faction = this.my_army.caster[key].faction;
+                                result.my_army.caster[key].faction
+                                    = this.my_army.caster[key].faction;
                             }
                         }
-                        for(key in this.opponent.name) {
-                            if(this.opponent.name.hasOwnProperty(key)) {
+                        for (key in this.opponent.name) {
+                            if (this.opponent.name.hasOwnProperty(key)) {
                                 result.opponent.name[key] = this.opponent.name[key].toPercent();
                             }
                         }
-                        for(key in this.opponent.faction) {
-                            if(this.opponent.faction.hasOwnProperty(key)) {
-                                result.opponent.faction[key] = this.opponent.faction[key].toPercent();
+                        for (key in this.opponent.faction) {
+                            if (this.opponent.faction.hasOwnProperty(key)) {
+                                result.opponent.faction[key]
+                                    = this.opponent.faction[key].toPercent();
                             }
                         }
-                        for(key in this.opponent.caster) {
-                            if(this.opponent.caster.hasOwnProperty(key)) {
+                        for (key in this.opponent.caster) {
+                            if (this.opponent.caster.hasOwnProperty(key)) {
                                 result.opponent.caster[key] = this.opponent.caster[key].toPercent();
-                                result.opponent.caster[key].faction = this.opponent.caster[key].faction;
+                                result.opponent.caster[key].faction
+                                    = this.opponent.caster[key].faction;
                             }
                         }
-                        for(key in this.event) {
-                            if(this.event.hasOwnProperty(key)) {
+                        for (key in this.event) {
+                            if (this.event.hasOwnProperty(key)) {
                                 result.event[key] = this.event[key].toPercent();
                             }
                         }
-                        for(key in this.scenario) {
-                            if(this.scenario.hasOwnProperty(key)) {
+                        for (key in this.scenario) {
+                            if (this.scenario.hasOwnProperty(key)) {
                                 result.scenario[key] = this.scenario[key].toPercent();
                             }
                         }
-                        for(key in this.initiative) {
-                            if(this.initiative.hasOwnProperty(key)) {
+                        for (key in this.initiative) {
+                            if (this.initiative.hasOwnProperty(key)) {
                                 result.initiative[key] = this.initiative[key].toPercent();
                             }
                         }
@@ -312,10 +326,10 @@ angular.module('jlogApp.services')
                                                 isEmpty(this.initiative)) ?
                             refreshInitiative : dummyRefresh;
 
-                        for(i = 0 ; i < battles.length ; i++) {
+                        for (i = 0 ; i < battles.length ; i++) {
                             battle = battles[i];
                             
-                            if(filter.match(battle, invert)) {
+                            if (filter.match(battle, invert)) {
 
                                 this.refreshAll(battle);                            
                                 this.refreshMyFaction(battle);                            
@@ -332,7 +346,7 @@ angular.module('jlogApp.services')
                         }
 
                     }
-                }
+                };
             };
         }]).factory('stats', [
             'statCollection',
@@ -419,47 +433,47 @@ angular.module('jlogApp.services')
                 function exportCsvStats(list, show) {
                     var result = '';
                     result += exportCsvKeys();
-                    if(show.all) {
+                    if (show.all) {
                         result += exportCsvStatEntry('all', list.all);
                     }
                     var key;
-                    if(show.my_army.faction) {
-                        for(key in list.my_army.faction) {
+                    if (show.my_army.faction) {
+                        for (key in list.my_army.faction) {
                             result += exportCsvStatEntry(key, list.my_army.faction[key]);
                         }
                     }
-                    if(show.my_army.caster) {
-                        for(key in list.my_army.caster) {
+                    if (show.my_army.caster) {
+                        for (key in list.my_army.caster) {
                             result += exportCsvStatEntry(key, list.my_army.caster[key]);
                         }
                     }
-                    if(show.opponent.name) {
-                        for(key in list.opponent.name) {
+                    if (show.opponent.name) {
+                        for (key in list.opponent.name) {
                             result += exportCsvStatEntry(key, list.opponent.name[key]);
                         }
                     }
-                    if(show.opponent.faction) {
-                        for(key in list.opponent.faction) {
+                    if (show.opponent.faction) {
+                        for (key in list.opponent.faction) {
                             result += exportCsvStatEntry(key, list.opponent.faction[key]);
                         }
                     }
-                    if(show.opponent.caster) {
-                        for(key in list.opponent.caster) {
+                    if (show.opponent.caster) {
+                        for (key in list.opponent.caster) {
                             result += exportCsvStatEntry(key, list.opponent.caster[key]);
                         }
                     }
-                    if(show.scenario) {
-                        for(key in list.scenario) {
+                    if (show.scenario) {
+                        for (key in list.scenario) {
                             result += exportCsvStatEntry(key, list.scenario[key]);
                         }
                     }
-                    if(show.initiative) {
-                        for(key in list.initiative) {
+                    if (show.initiative) {
+                        for (key in list.initiative) {
                             result += exportCsvStatEntry(key, list.initiative[key]);
                         }
                     }
-                    if(show.event) {
-                        for(key in list.event) {
+                    if (show.event) {
+                        for (key in list.event) {
                             result += exportCsvStatEntry(key, list.event[key]);
                         }
                     }
@@ -468,47 +482,47 @@ angular.module('jlogApp.services')
                 function exportBbStats(list, show) {
                     var result = '[table]\r\n';
                     result += exportBbKeys();
-                    if(show.all) {
+                    if (show.all) {
                         result += exportBbStatEntry('all', list.all);
                     }
                     var key;
-                    if(show.my_army.faction) {
-                        for(key in list.my_army.faction) {
+                    if (show.my_army.faction) {
+                        for (key in list.my_army.faction) {
                             result += exportBbStatEntry(key, list.my_army.faction[key]);
                         }
                     }
-                    if(show.my_army.caster) {
-                        for(key in list.my_army.caster) {
+                    if (show.my_army.caster) {
+                        for (key in list.my_army.caster) {
                             result += exportBbStatEntry(key, list.my_army.caster[key]);
                         }
                     }
-                    if(show.opponent.name) {
-                        for(key in list.opponent.name) {
+                    if (show.opponent.name) {
+                        for (key in list.opponent.name) {
                             result += exportBbStatEntry(key, list.opponent.name[key]);
                         }
                     }
-                    if(show.opponent.faction) {
-                        for(key in list.opponent.faction) {
+                    if (show.opponent.faction) {
+                        for (key in list.opponent.faction) {
                             result += exportBbStatEntry(key, list.opponent.faction[key]);
                         }
                     }
-                    if(show.opponent.caster) {
-                        for(key in list.opponent.caster) {
+                    if (show.opponent.caster) {
+                        for (key in list.opponent.caster) {
                             result += exportBbStatEntry(key, list.opponent.caster[key]);
                         }
                     }
-                    if(show.scenario) {
-                        for(key in list.scenario) {
+                    if (show.scenario) {
+                        for (key in list.scenario) {
                             result += exportBbStatEntry(key, list.scenario[key]);
                         }
                     }
-                    if(show.initiative) {
-                        for(key in list.initiative) {
+                    if (show.initiative) {
+                        for (key in list.initiative) {
                             result += exportBbStatEntry(key, list.initiative[key]);
                         }
                     }
-                    if(show.event) {
-                        for(key in list.event) {
+                    if (show.event) {
+                        for (key in list.event) {
                             result += exportBbStatEntry(key, list.event[key]);
                         }
                     }
@@ -537,7 +551,7 @@ angular.module('jlogApp.services')
                         scenario: false,
                         scenarios: {},
                         initiative: false,
-                        initiatives: {},
+                        initiatives: {}
                     },
                     percent: false,
                     raw: statCollection(),
@@ -554,10 +568,10 @@ angular.module('jlogApp.services')
                         this.active_percent = active_collection.percent;
                         this.active = this.percent ? active_collection.percent : active_collection;
                     },
-                    export: function displayBattleExport(format) {
+                    'export': function displayBattleExport(format) {
                         var result = '';
                         var list = this.active;
-                        switch(format) {
+                        switch (format) {
                         case 'csv':
                             {
                                 result += exportCsvStats(list, this.show);
@@ -578,7 +592,7 @@ angular.module('jlogApp.services')
                                 console.log('displayBattleListExport unknown format ' + format);
                                 break;
                             }
-                        };
+                        }
                         console.log(result);
                         return result;
                     }

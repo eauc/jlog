@@ -31,17 +31,17 @@ angular.module('jlogApp.controllers')
             };
 
             $scope.selectionRemove = function() {
-                if($scope.selection.remove($scope.battles)) {
+                if ($scope.selection.remove($scope.battles)) {
                     $scope.updateBattles();
                 }
             };
             $scope.selectionSet = function(type) {
-                if($scope.selection.set(type, $scope.battles)) {
+                if ($scope.selection.set(type, $scope.battles)) {
                     $scope.updateBattles();
                 }
             };
             $scope.selectionUnset = function(type) {
-                if($scope.selection.unset(type, $scope.battles)) {
+                if ($scope.selection.unset(type, $scope.battles)) {
                     $scope.updateBattles();
                 }
             };

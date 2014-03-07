@@ -9,7 +9,7 @@ angular.module('jlogApp.controllers')
             console.log('init listViewCtrl ' + $scope.battle_index);
             console.log($scope.battle);
 
-            if(undefined === $scope.battle) {
+            if (undefined === $scope.battle) {
                 $state.go('battle.list');
             }
 
@@ -18,7 +18,7 @@ angular.module('jlogApp.controllers')
             };
             $scope.deleteBattle = function deleteBattle() {
                 var confirm = window.confirm('You sure you wanna delete this battle ?');
-                if(!confirm) return;
+                if (!confirm) return;
                 $scope.battles.splice($scope.battle_index, 1);
                 $scope.updateBattles();
                 $scope.close();

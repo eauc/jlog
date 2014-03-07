@@ -8,18 +8,18 @@ angular.module('jlogApp.services')
                 return {
                     'date': {
                         year: today.getFullYear(),
-                        month: today.getMonth()+1,
+                        month: today.getMonth() + 1,
                         day: today.getDate()
                     },
                     opponent: {
-                        name: null,
+                        name: null
                     },
                     setup: {
                         event: null,
                         scenario: null
                     }
                 };
-            },
+            }
         };
     }])
     .service('battles', [function() {
@@ -37,7 +37,7 @@ angular.module('jlogApp.services')
         };
         var buildIndex = function buildIndex(array) {
             var i = 0;
-            for(i = 0 ; i < array.length ; i++) {
+            for (i = 0 ; i < array.length ; i++) {
                 array[i].index = i;
             }
         };
@@ -51,7 +51,7 @@ angular.module('jlogApp.services')
                 return list;
             },
             init: function battlesInit() {
-                if(storageContainsBattles()) {
+                if (storageContainsBattles()) {
                     return load();
                 }
                 else {

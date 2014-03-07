@@ -25,7 +25,7 @@ angular.module('jlogApp', [
             })
             .state('battle.list', {
                 url: '/list',
-                templateUrl: 'partials/battle_list.html',
+                templateUrl: 'partials/battle_list.html'
             })
             .state('battle.view', {
                 url: '/view',

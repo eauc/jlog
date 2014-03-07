@@ -15,15 +15,15 @@ angular.module('jlogApp.services')
             return 'string' === typeof localStorage[storage_tags_key];
         };
         var build = function tagsBuild(battles) {
-            var i,j, temp = {}, event, result = [];
-            for(i = 0 ; i < battles.length ; i++) {
-                if(angular.isArray(battles[i].tags)) {
-                   for(j =0 ; j < battles[i].tags.length ; j++) { 
+            var i, j, temp = {}, event, result = [];
+            for (i = 0 ; i < battles.length ; i++) {
+                if (angular.isArray(battles[i].tags)) {
+                   for (j = 0 ; j < battles[i].tags.length ; j++) {
                        temp[battles[i].tags[j]] = true;
                    }
                 }
             }
-            for(tag in temp) {
+            for (tag in temp) {
                 result.push(tag);
             }
             return result.sort();
@@ -35,7 +35,7 @@ angular.module('jlogApp.services')
                 return list;
             },
             init: function tagsInit(battles) {
-                if(storageContainsTags()) {
+                if (storageContainsTags()) {
                     return load();
                 }
                 else {

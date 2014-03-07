@@ -44,7 +44,7 @@ angular.module('jlogApp.services')
                     type: 'date',
                     reverse: true,
                     sortBy: function sortBy(type) {
-                        if(this.type === type) {
+                        if (this.type === type) {
                             this.reverse = !this.reverse;
                         }
                         else {

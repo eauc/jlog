@@ -9,7 +9,7 @@ angular.module('jlogApp.services')
                  orderByFilter,
                  sort_types) {
             function more() {
-                console.log("display_battle_list more");
+                console.log('display_battle_list more');
                 var more_battles = this.sorted_battles.slice(this.last_index,
                                                              this.last_index + this.slice);
                 this.battles = this.battles.concat(more_battles);
@@ -25,10 +25,10 @@ angular.module('jlogApp.services')
             function exportCsvKeys(battle, keys) {
                 var key;
                 var result = '';
-                for(key in battle) {
-                    if( battle.hasOwnProperty(key) &&
-                        '$' !== key[0] ) {
-                        switch(key) {
+                for (key in battle) {
+                    if ( battle.hasOwnProperty(key) &&
+                         '$' !== key[0] ) {
+                        switch (key) {
                         case 'my_army':
                             {
                                 result += 'my_army_faction' + ',';
@@ -73,17 +73,17 @@ angular.module('jlogApp.services')
                         keys.push(key);
                     }
                 }
-                result = result.slice(0, result.length-1);
+                result = result.slice(0, result.length - 1);
                 result += '\r\n';
                 return result;
             };
             function exportBbKeys(battle, keys) {
                 var key;
                 var result = '[tr]';
-                for(key in battle) {
-                    if( battle.hasOwnProperty(key) &&
-                        '$' !== key[0] ) {
-                        switch(key) {
+                for (key in battle) {
+                    if ( battle.hasOwnProperty(key) &&
+                         '$' !== key[0] ) {
+                        switch (key) {
                         case 'my_army':
                             {
                                 result += '[th]' + 'my_army_faction' + '[/th]';
@@ -132,12 +132,12 @@ angular.module('jlogApp.services')
                 return result;
             };
             function exportCsvValues(battle, keys) {
-                var key, j, result='';
-                for(j= 0 ; j < keys.length ; j++) {
+                var key, j, result = '';
+                for (j = 0 ; j < keys.length ; j++) {
                     key = keys[j];
                     var entry = battle[key];
-                    if(undefined === entry) continue;
-                    switch(key) {
+                    if (undefined === entry) continue;
+                    switch (key) {
                     case 'date':
                         {
                             result += entry.year + '/'
@@ -169,7 +169,7 @@ angular.module('jlogApp.services')
                             result += entry.size + ',';
                             result += entry.scenario + ',';
                             result += entry.event + ',';
-                            if(angular.isObject(entry.initiative)) {
+                            if (angular.isObject(entry.initiative)) {
                                 result += ('true' === entry.initiative.won_roll ?
                                            'Won roll' : 'Lost roll') + ' - ';
                                 result += ('true' === entry.initiative.started ?
@@ -193,17 +193,17 @@ angular.module('jlogApp.services')
                         }
                     }
                 }
-                result = result.slice(0, result.length-1);
+                result = result.slice(0, result.length - 1);
                 result += '\r\n';
                 return result;
             };
             function exportBbValues(battle, keys) {
-                var key, j, result='[tr]';
-                for(j= 0 ; j < keys.length ; j++) {
+                var key, j, result = '[tr]';
+                for (j = 0 ; j < keys.length ; j++) {
                     key = keys[j];
                     var entry = battle[key];
-                    if(undefined === entry) continue;
-                    switch(key) {
+                    if (undefined === entry) continue;
+                    switch (key) {
                     case 'date':
                         {
                             result += '[td]' + entry.year + '/'
@@ -235,7 +235,7 @@ angular.module('jlogApp.services')
                             result += '[td]' + entry.size + '[/td]';
                             result += '[td]' + entry.scenario + '[/td]';
                             result += '[td]' + entry.event + '[/td]';
-                            if(angular.isObject(entry.initiative)) {
+                            if (angular.isObject(entry.initiative)) {
                                 result += '[td]' + (entry.initiative.won_roll ?
                                                     'Won roll' : 'Lost roll') + ' - ';
                                 result += (entry.initiative.started ?
@@ -277,22 +277,22 @@ angular.module('jlogApp.services')
                     more.call(this);
                 },
                 showMore: function displayBattleListShowMore() {
-                    console.log("display_battle_list showMore");
-                    if(this.more) {
+                    console.log('display_battle_list showMore');
+                    if (this.more) {
                         more.call(this);
                     }
                 },
-                export: function displayBattleExport(format) {
+                'export': function displayBattleExport(format) {
                     var result = '';
-                    if(0 >= instance.sorted_battles.length) return result;
+                    if (0 >= instance.sorted_battles.length) return result;
                     var list = instance.sorted_battles;
-                    switch(format) {
+                    switch (format) {
                     case 'csv':
                         {
                             var keys = [];
                             result += exportCsvKeys(list[0], keys);
                             var i;
-                            for(i = 0 ; i<list.length ; i++) {
+                            for (i = 0 ; i < list.length ; i++) {
                                 result += exportCsvValues(list[i], keys);
                             }
                             break;
@@ -303,7 +303,7 @@ angular.module('jlogApp.services')
                             result += '[table]\r\n';
                             result += exportBbKeys(list[0], keys);
                             var i;
-                            for(i = 0 ; i<list.length ; i++) {
+                            for (i = 0 ; i < list.length ; i++) {
                                 result += exportBbValues(list[i], keys);
                             }
                             result += '[/table]\r\n';
@@ -319,7 +319,7 @@ angular.module('jlogApp.services')
                             console.log('displayBattleListExport unknown format ' + format);
                             break;
                         }
-                    };
+                    }
                     console.log(result);
                     return result;
                 }

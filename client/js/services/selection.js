@@ -4,19 +4,19 @@ angular.module('jlogApp.services')
     .factory('selection', [function() {
         var setMyArmy = function selectionSetMyArmy(battles) {
             var i, modified = false;
-            if('string' === typeof(this.my_army.faction) &&
+            if ('string' === typeof(this.my_army.faction) &&
                0 < this.my_army.faction.length) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].my_army.faction =
                         this.my_army.faction;
                     battles[this.battles[i]].my_army.caster = '';
                 }
             }
-            if('string' === typeof(this.my_army.caster) &&
+            if ('string' === typeof(this.my_army.caster) &&
                0 < this.my_army.caster.length) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].my_army.caster =
                         this.my_army.caster;
                 }
@@ -25,27 +25,27 @@ angular.module('jlogApp.services')
         };
         var setOpponent = function selectionSetOpponent(battles) {
             var i, modified = false;
-            if('string' === typeof(this.opponent.name) &&
+            if ('string' === typeof(this.opponent.name) &&
                0 < this.opponent.name.length) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].opponent.name =
                         this.opponent.name;
                 }
             }
-            if('string' === typeof(this.opponent.faction) &&
+            if ('string' === typeof(this.opponent.faction) &&
                0 < this.opponent.faction.length) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].opponent.faction =
                         this.opponent.faction;
                     battles[this.battles[i]].opponent.caster = '';
                 }
             }
-            if('string' === typeof(this.opponent.caster) &&
+            if ('string' === typeof(this.opponent.caster) &&
                0 < this.opponent.caster.length) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].opponent.caster =
                         this.opponent.caster;
                 }
@@ -54,8 +54,8 @@ angular.module('jlogApp.services')
         };
         var setPoints = function selectionSetPoints(battles) {
             var i, modified = false;
-            for(i = 0 ; i < this.battles.length ; i++) {
-                if(undefined === battles[this.battles[i]].points) {
+            for (i = 0 ; i < this.battles.length ; i++) {
+                if (undefined === battles[this.battles[i]].points) {
                     battles[this.battles[i]].points = {
                         my_army: {
                             scenario: null,
@@ -67,43 +67,43 @@ angular.module('jlogApp.services')
                         }
                     };
                 }
-                if(undefined === battles[this.battles[i]].points.my_army) {
+                if (undefined === battles[this.battles[i]].points.my_army) {
                     battles[this.battles[i]].points.my_army = {
                         scenario: null,
                         army: null
                     };
                 }
-                if(undefined === battles[this.battles[i]].points.opponent) {
+                if (undefined === battles[this.battles[i]].points.opponent) {
                     battles[this.battles[i]].points.opponent = {
                         scenario: null,
                         army: null
                     };
                 }
             }
-            if('number' === typeof(this.points.my_army.scenario)) {
+            if ('number' === typeof(this.points.my_army.scenario)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].points.my_army.scenario =
                         this.points.my_army.scenario;
                 }
             }
-            if('number' === typeof(this.points.my_army.army)) {
+            if ('number' === typeof(this.points.my_army.army)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].points.my_army.army =
                         this.points.my_army.army;
                 }
             }
-            if('number' === typeof(this.points.opponent.scenario)) {
+            if ('number' === typeof(this.points.opponent.scenario)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].points.opponent.scenario =
                         this.points.opponent.scenario;
                 }
             }
-            if('number' === typeof(this.points.opponent.army)) {
+            if ('number' === typeof(this.points.opponent.army)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].points.opponent.army =
                         this.points.opponent.army;
                 }
@@ -112,32 +112,32 @@ angular.module('jlogApp.services')
         };
         var setDate = function selectionSetDate(battles) {
             var i, modified = false;
-            for(i = 0 ; i < this.battles.length ; i++) {
-                if(undefined === battles[this.battles[i]].date) {
+            for (i = 0 ; i < this.battles.length ; i++) {
+                if (undefined === battles[this.battles[i]].date) {
                     battles[this.battles[i]].date = {
                         year: 2000,
                         month: 1,
-                        day:1
+                        day: 1
                     };
                 }
             }
-            if('number' === typeof(this.date.year)) {
+            if ('number' === typeof(this.date.year)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].date.year =
                         this.date.year;
                 }
             }
-            if('number' === typeof(this.date.month)) {
+            if ('number' === typeof(this.date.month)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].date.month =
                         this.date.month;
                 }
             }
-            if('number' === typeof(this.date.day)) {
+            if ('number' === typeof(this.date.day)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].date.day =
                         this.date.day;
                 }
@@ -146,8 +146,8 @@ angular.module('jlogApp.services')
         };
         var setScenario = function selectionSetScenario(battles) {
             var i, modified = false;
-            for(i = 0 ; i < this.battles.length ; i++) {
-                if(undefined === battles[this.battles[i]].setup) {
+            for (i = 0 ; i < this.battles.length ; i++) {
+                if (undefined === battles[this.battles[i]].setup) {
                     battles[this.battles[i]].setup = {
                         scenario: null,
                         event: null,
@@ -159,9 +159,9 @@ angular.module('jlogApp.services')
                     };
                 }
             }
-            if('string' === typeof(this.setup.scenario)) {
+            if ('string' === typeof(this.setup.scenario)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].setup.scenario =
                         this.setup.scenario;
                 }
@@ -170,8 +170,8 @@ angular.module('jlogApp.services')
         };
         var setSize = function selectionSetSize(battles) {
             var i, modified = false;
-            for(i = 0 ; i < this.battles.length ; i++) {
-                if(undefined === battles[this.battles[i]].setup) {
+            for (i = 0 ; i < this.battles.length ; i++) {
+                if (undefined === battles[this.battles[i]].setup) {
                     battles[this.battles[i]].setup = {
                         scenario: null,
                         event: null,
@@ -183,9 +183,9 @@ angular.module('jlogApp.services')
                     };
                 }
             }
-            if('number' === typeof(this.setup.size)) {
+            if ('number' === typeof(this.setup.size)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].setup.size =
                         this.setup.size;
                 }
@@ -194,8 +194,8 @@ angular.module('jlogApp.services')
         };
         var setEvent = function selectionSetEvent(battles) {
             var i, modified = false;
-            for(i = 0 ; i < this.battles.length ; i++) {
-                if(undefined === battles[this.battles[i]].setup) {
+            for (i = 0 ; i < this.battles.length ; i++) {
+                if (undefined === battles[this.battles[i]].setup) {
                     battles[this.battles[i]].setup = {
                         scenario: null,
                         event: null,
@@ -207,9 +207,9 @@ angular.module('jlogApp.services')
                     };
                 }
             }
-            if('string' === typeof(this.setup.event)) {
+            if ('string' === typeof(this.setup.event)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].setup.event =
                         this.setup.event;
                 }
@@ -218,9 +218,9 @@ angular.module('jlogApp.services')
         };
         var setScore = function selectionSetScore(battles) {
             var i, modified = false;
-            if('string' === typeof(this.score)) {
+            if ('string' === typeof(this.score)) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].score =
                         this.score;
                 }
@@ -229,9 +229,9 @@ angular.module('jlogApp.services')
         };
         var setTags = function selectionSetTags(battles) {
             var i, modified = false;
-            if(0 < this.tags.length) {
+            if (0 < this.tags.length) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     battles[this.battles[i]].tags =
                         this.tags.slice(0);
                 }
@@ -240,15 +240,15 @@ angular.module('jlogApp.services')
         };
         var addTags = function selectionAddTags(battles) {
             var i, modified = false;
-            if(0 < this.tags.length) {
+            if (0 < this.tags.length) {
                 modified = true;
-                for(i = 0 ; i < this.battles.length ; i++) {
+                for (i = 0 ; i < this.battles.length ; i++) {
                     var j;
-                    for(j = 0 ; j < this.tags.length ; j++) {
-                        if(undefined === battles[this.battles[i]].tags) {
+                    for (j = 0 ; j < this.tags.length ; j++) {
+                        if (undefined === battles[this.battles[i]].tags) {
                             battles[this.battles[i]].tags = [];
                         }
-                        if(0 > battles[this.battles[i]].tags.indexOf(this.tags[j])) {
+                        if (0 > battles[this.battles[i]].tags.indexOf(this.tags[j])) {
                             battles[this.battles[i]].tags.push(this.tags[j]);
                         }
                     }
@@ -258,7 +258,7 @@ angular.module('jlogApp.services')
         };
         var unsetMyArmy = function selectionUnsetMyArmy(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.my_army.faction = null;
                 this.my_army.caster = null;
                 battles[this.battles[i]].my_army.faction = null;
@@ -267,7 +267,7 @@ angular.module('jlogApp.services')
         };
         var unsetOpponent = function selectionUnsetOpponent(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.opponent.name = null;
                 this.opponent.faction = null;
                 this.opponent.caster = null;
@@ -278,7 +278,7 @@ angular.module('jlogApp.services')
         };
         var unsetPoints = function selectionUnsetPoints(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.points = {
                     my_army: {
                         scenario: null,
@@ -303,61 +303,61 @@ angular.module('jlogApp.services')
         };
         var unsetDate = function selectionUnsetDate(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.date = {
                     year: null,
                     month: null,
-                    day:null
+                    day: null
                 };
                 battles[this.battles[i]].date = {
                     year: 2000,
                     month: 1,
-                    day:1
+                    day: 1
                 };
             }
         };
         var unsetScenario = function selectionUnsetScenario(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.setup.scenario = null;
                 battles[this.battles[i]].setup.scenario = null;
             }
         };
         var unsetSize = function selectionUnsetSize(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.setup.size = null;
                 battles[this.battles[i]].setup.size = null;
             }
         };
         var unsetEvent = function selectionUnsetEvent(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.setup.event = null;
                 battles[this.battles[i]].setup.event = null;
             }
         };
         var unsetScore = function selectionUnsetScore(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.score = null;
                 battles[this.battles[i]].score = null;
             }
         };
         var unsetTags = function selectionUnsetTags(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 this.tags = [];
                 battles[this.battles[i]].tags = [];
             }
         };
         var unsetAddTags = function selectionUnsetAddTags(battles) {
             var i;
-            for(i = 0 ; i < this.battles.length ; i++) {
+            for (i = 0 ; i < this.battles.length ; i++) {
                 var j;
-                for(j = 0 ; j < this.tags.length ; j++) {
+                for (j = 0 ; j < this.tags.length ; j++) {
                     var index = battles[this.battles[i]].tags.indexOf(this.tags[j]);
-                    if(0 <= index) {
+                    if (0 <= index) {
                         battles[this.battles[i]].tags.splice(index, 1);
                     }
                 }
@@ -370,7 +370,7 @@ angular.module('jlogApp.services')
             full: false,
             toggleFull: function(list) {
                 var i;
-                for(i = 0 ; i < list.length ; i++) {
+                for (i = 0 ; i < list.length ; i++) {
                     list[i].selected = this.full;
                 }
             },
@@ -407,15 +407,15 @@ angular.module('jlogApp.services')
                     }
                 };
                 var i;
-                for(i = 0 ; i < battles.length ; i++) {
+                for (i = 0 ; i < battles.length ; i++) {
                     battles[i].selected = false;
                 }
             },
             remove: function(battles) {
                 var i;
                 this.battles.sort();
-                for(i = 0 ; i < this.battles.length ; i++) {
-                    battles.splice(this.battles[this.battles.length-i-1], 1);
+                for (i = 0 ; i < this.battles.length ; i++) {
+                    battles.splice(this.battles[this.battles.length - i - 1], 1);
                 }
                 var modified = (0 < this.battles.length);
                 this.battles = [];
@@ -427,9 +427,9 @@ angular.module('jlogApp.services')
                 });
             },
             set: function(type, battles) {
-                if(0 === this.battles.length) return false;
+                if (0 === this.battles.length) return false;
                 var modified = false;
-                switch(type) {
+                switch (type) {
                 case 'my_army':
                     {
                         modified = setMyArmy.call(this, battles);
@@ -484,9 +484,9 @@ angular.module('jlogApp.services')
                 return modified;
             },
             unset: function(type, battles) {
-                if(0 === this.battles.length) return false;
+                if (0 === this.battles.length) return false;
                 var i, modified = false;
-                switch(type) {
+                switch (type) {
                 case 'my_army':
                     {
                         modified = true;
@@ -549,6 +549,6 @@ angular.module('jlogApp.services')
                     }
                 }
                 return modified;
-            },
+            }
         };
     }]);

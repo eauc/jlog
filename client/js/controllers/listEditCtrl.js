@@ -21,12 +21,12 @@ angular.module('jlogApp.controllers')
             console.log('init listEditCtrl ' + $scope.battle_index);
             console.log($scope.battle);
                 
-            if(undefined === $scope.battle) {
+            if (undefined === $scope.battle) {
                 $state.go('battle.list');
             }
 
             $scope.saveBattle = function saveBattle() {
-                if($scope.battles.length > $scope.battle_index) {
+                if ($scope.battles.length > $scope.battle_index) {
 
                     $scope.battles[$scope.battle_index] = $scope.battle;
 
@@ -41,9 +41,9 @@ angular.module('jlogApp.controllers')
             };
 
             $scope.addOpponent = function() {
-                var name = $window.prompt("Enter new opponent name :");
-                name = (name != null) ? name.trim().toLowerCase() : "";
-                if(0 < name.length) {
+                var name = $window.prompt('Enter new opponent name :');
+                name = (name != null) ? name.trim().toLowerCase() : '';
+                if (0 < name.length) {
                     $scope.opponents.push(name);
                     $scope.opponents.sort();
                     opponents.store($scope.opponents);
@@ -51,9 +51,9 @@ angular.module('jlogApp.controllers')
                 }
             };
             $scope.addEvent = function() {
-                var name = $window.prompt("Enter new event name :");
-                name = (name != null) ? name.trim() : "";
-                if(0 < name.length) {
+                var name = $window.prompt('Enter new event name :');
+                name = (name != null) ? name.trim() : '';
+                if (0 < name.length) {
                     $scope.events.push(name);
                     $scope.events.sort();
                     events.store($scope.events);
@@ -61,19 +61,19 @@ angular.module('jlogApp.controllers')
                 }
             };
             $scope.addScenario = function() {
-                var name = $window.prompt("Enter new scenario name :");
-                name = (name != null) ? name.trim() : "";
+                var name = $window.prompt('Enter new scenario name :');
+                name = (name != null) ? name.trim() : '';
                 var key = name.toLowerCase();
-                if(0 < name.length) {
+                if (0 < name.length) {
                     $scope.scenarios[key] = { name: name };
                     scenarios.store($scope.scenarios);
                     $scope.battle.setup.scenario = key;
                 }
             };
             $scope.addTag = function() {
-                var name = $window.prompt("Enter new tag name :");
-                name = (name != null) ? name.trim() : "";
-                if(0 < name.length) {
+                var name = $window.prompt('Enter new tag name :');
+                name = (name != null) ? name.trim() : '';
+                if (0 < name.length) {
                     $scope.tags.push(name);
                     $scope.tags.sort();
                     tags.store($scope.tags);
@@ -86,11 +86,11 @@ angular.module('jlogApp.controllers')
 
             var remove_from_array = function(name, key, service) {
                 var pos = $scope[key].indexOf(name);
-                if(0 > pos) return;
+                if (0 > pos) return;
 
                 $scope[key].splice(pos, 1);
                 service.store($scope[key]);
-            }
+            };
             var del_key = {
                 opp: {
                     get: function(battle) {
@@ -124,7 +124,7 @@ angular.module('jlogApp.controllers')
                         battle.setup.scenario = val;
                     },
                     remove_from_list: function(name) {
-                        if(!$scope.scenarios.hasOwnProperty(name)) return;
+                        if (!$scope.scenarios.hasOwnProperty(name)) return;
                         
                         delete $scope.scenarios[name];
                         scenarios.store($scope.scenarios);
@@ -132,21 +132,21 @@ angular.module('jlogApp.controllers')
                 }
             };
             $scope.del = function(type) {
-                if(!del_key.hasOwnProperty(type)) return;
+                if (!del_key.hasOwnProperty(type)) return;
                 var get = del_key[type].get;
                 var set = del_key[type].set;
 
                 var name = get($scope.battle);
-                name = (name != null) ? name : "";
-                if(0 >= name.length) return;
+                name = (name != null) ? name : '';
+                if (0 >= name.length) return;
 
                 var confirm = $window.confirm('Forget everything about "' + name + '" ?');
-                if(!confirm) return;
+                if (!confirm) return;
 
                 set($scope.battle, null);
                 var i;
-                for(i = 0 ; i < $scope.battles.length ; i++) {
-                    if(name === get($scope.battles[i])) {
+                for (i = 0 ; i < $scope.battles.length ; i++) {
+                    if (name === get($scope.battles[i])) {
                         set($scope.battles[i], null);
                     }
                 }
@@ -156,26 +156,26 @@ angular.module('jlogApp.controllers')
             };
             $scope.delTag = function() {
                 var tags = $scope.battle.tags;
-                if(!angular.isArray(tags) ||
+                if (!angular.isArray(tags) ||
                    tags.length <= 0) return;
 
                 var confirm_msg = 'Forget everything about these tags ?\r\n';
                 var i;
-                for(i = 0 ; i < tags.length ; i++) {
+                for (i = 0 ; i < tags.length ; i++) {
                     confirm_msg += '\t' + tags[i] + '\r\n';
                 }
                 var confirm = $window.confirm(confirm_msg);
-                if(!confirm) return;
+                if (!confirm) return;
 
                 $scope.battle.tags = [];
                 var index;
-                var t,b, tag, battle;
-                for(t = 0 ; t < tags.length ; t++) {
+                var t, b, tag, battle;
+                for (t = 0 ; t < tags.length ; t++) {
                     tag = tags[t];
-                    for(b = 0 ; b < $scope.battles.length ; b++) {
+                    for (b = 0 ; b < $scope.battles.length ; b++) {
                         battle = $scope.battles[b];
-                        if(angular.isArray(battle.tags)) {
-                            while(0 <= (index = battle.tags.indexOf(tag))) {
+                        if (angular.isArray(battle.tags)) {
+                            while (0 <= (index = battle.tags.indexOf(tag))) {
                                 battle.tags.splice(index, 1);
                             }
                         }
@@ -183,11 +183,11 @@ angular.module('jlogApp.controllers')
                 }
                 $scope.updateBattles();
 
-                for(i = 0 ; i < tags.length ; i++) {
-                    while(0 <= (index = $scope.tags.indexOf(tags[i]))) {
+                for (i = 0 ; i < tags.length ; i++) {
+                    while (0 <= (index = $scope.tags.indexOf(tags[i]))) {
                         $scope.tags.splice(index, 1);
                     }
                 }
-            }
+            };
             $scope.battle = angular.copy($scope.battle);
         }]);

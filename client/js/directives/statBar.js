@@ -7,7 +7,7 @@ angular.module('jlogApp.directives')
             scope: {
                 statBar: '=',
                 type: '@',
-                percent: '=',
+                percent: '='
             },
             template: '\
 <div class="bar bar-win" \
@@ -20,6 +20,6 @@ angular.module('jlogApp.directives')
            style="width:{{percent.loss[type]}}%;"> \
   {{statBar.loss[type] ? statBar.loss[type] : ""}} \
 </div> \
-',
-        }
+'
+        };
     });

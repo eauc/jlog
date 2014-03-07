@@ -23,12 +23,12 @@ angular.module('jlogApp.directives')
                 $scope.file_name = $scope.name + '.' + $scope.type;
 
                 $scope.exportSource = function() {
-                    var data = $scope.source.export($scope.type);
+                    var data = $scope.source['export']($scope.type);
 
                     console.log('generate ' + $scope.type + ' file');
                     var old_url = $scope.file_url;
                     $scope.file_url = null;
-                    if(old_url !== null) {
+                    if (old_url !== null) {
                         URL.revokeObjectURL(old_url);
                     }
                     var blob = new Blob([data], {type: 'text/plain'});
@@ -53,5 +53,5 @@ angular.module('jlogApp.directives')
                     download_link.click();
                 };
             }
-        }
+        };
     });

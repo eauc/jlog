@@ -24,5 +24,5 @@ angular.module('jlogApp.directives')
             }],
             link: function(scope, iElement, iAttrs) {
             }
-        }
+        };
     });
