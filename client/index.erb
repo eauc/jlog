@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"
+      ng-app="jlogApp"
+      manifest="test.appcache">
+  <head>
+    <meta charset="utf-8">
+    <title>Journey Log</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% self.class.styles.each do |style| %>
+      <link rel="stylesheet" href="<%= style %>" />
+    <% end %>
+  </head>
+  <body ng-controller="mainCtrl">
+    <nav class="navbar navbar-default">
+      <div class="navbar-header">
+        <button class="btn navbar-btn navbar-toggle"
+                ng-click="collapse_navbar = !collapse_navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          Journey Log
+        </a>
+      </div>
+      <div class="navbar-collapse" collapse="collapse_navbar">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#/list"
+               ng-click="collapse_navbar=true">
+              <span class="glyphicon glyphicon-list"></span>
+              BattleList
+            </a>
+          </li>
+          <li>
+            <a href="#/stats"
+               ng-click="collapse_navbar=true">
+              <span class="glyphicon glyphicon-stats"></span>
+              Statistics
+            </a>
+          </li>
+          <li>
+            <a href="#/filter"
+               ng-click="collapse_navbar=true">
+              <span class="glyphicon glyphicon-filter"></span>
+              Edit Filter
+            </a>
+          </li>
+          <li>
+            <a href="#/backup"
+               ng-click="collapse_navbar=true">
+              <span class="glyphicon glyphicon-floppy-disk"></span>
+              Backup
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div ui-view></div>
+
+    <% self.class.scripts.each do |script| %>
+      <script src="<%= script %>"></script>
+    <% end %>
+ </body>
+</html>
