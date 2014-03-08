@@ -36,6 +36,7 @@ js/directives/export_link.js
 js/directives/statBar.js
 js/filters/scoreResultColorFilter.js
 js/filters/capitaliseFilter.js
+js/filters/initiativeFilter.js
 js/filters/filterBattleFilter.js
 partials/backup.html
 partials/battle_edit.html
