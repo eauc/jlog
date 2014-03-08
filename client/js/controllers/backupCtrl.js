@@ -20,5 +20,16 @@ angular.module('jlogApp.controllers')
                 });
             };
 
+            $scope.uploadData = function uploadData() {
+                $scope.backup.upload($scope.battles);
+            };
+            $scope.downloadData = function downloadData() {
+                $scope.backup.download(function(data) {
+                    $scope.newBattles(data.battles);
+                    backup.generate($scope.battles);
+                }, function(error) {
+                });
+            };
+
             backup.generate($scope.battles);
         }]);

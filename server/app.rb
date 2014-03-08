@@ -1,37 +1,37 @@
 require 'sinatra/base'
-# require 'json'
+require 'json'
 
-# require_relative './lib/clock_collection'
+require_relative './lib/log_collection'
 
 class JLogApp < Sinatra::Base
 
   class << self
     attr_accessor :styles, :scripts, :manifest
-    # attr_accessor :resources
+    attr_accessor :resources
   end
 
-  # @resources = {}
-  # @resources[:root] = {
-  #   href: 'api',
-  #   type: 'resource/api',
-  #   link: []
-  # }
-  # @resources[:status] = {
-  #   href: "#{@resources[:root][:href]}/status",
-  #   type: 'resource/status'
-  # }
-  # @resources[:root][:link] << {
-  #   rel: 'resource/status',
-  #   href: @resources[:status][:href]
-  # }
-  # @resources[:clock_collection] = {
-  #   href: "#{@resources[:root][:href]}/clock",
-  #   type: 'collection/clocks'
-  # }
-  # @resources[:root][:link] << {
-  #   rel: 'collection/clocks',
-  #   href: @resources[:clock_collection][:href]
-  # }
+  @resources = {}
+  @resources[:root] = {
+    href: 'api',
+    type: 'resource/api',
+    link: []
+  }
+  @resources[:status] = {
+    href: "#{@resources[:root][:href]}/status",
+    type: 'resource/status'
+  }
+  @resources[:root][:link] << {
+    rel: 'resource/status',
+    href: @resources[:status][:href]
+  }
+  @resources[:log_collection] = {
+    href: "#{@resources[:root][:href]}/log",
+    type: 'collection/logs'
+  }
+  @resources[:root][:link] << {
+    rel: 'collection/logs',
+    href: @resources[:log_collection][:href]
+  }
 
   configure do
     mime_type :manifest, 'text/cache-manifest'
@@ -102,11 +102,11 @@ class JLogApp < Sinatra::Base
     @manifest = '/development.appcache'
   end
 
-  # attr_reader :clocks
+  attr_reader :logs
 
   def initialize
     super
-  #   @clocks = ClockCollection.new
+    @logs = LogCollection.new
   end
 
   set :server, :thin
@@ -121,69 +121,41 @@ class JLogApp < Sinatra::Base
     erb :index
   end
 
-  # get "/#{resources[:root][:href]}" do
-  #   self.class.resources[:root].to_json
-  # end
+  get "/#{resources[:root][:href]}" do
+    self.class.resources[:root].to_json
+  end
 
-  # get "/#{resources[:status][:href]}" do
-  #   clocks.status.merge(self.class.resources[:status]).to_json
-  # end
+  get "/#{resources[:status][:href]}" do
+    logs.status.merge(self.class.resources[:status]).to_json
+  end
 
-  # get "/#{resources[:clock_collection][:href]}" do
-  #   JSON.pretty_generate clocks.list.merge(self.class.resources[:clock_collection])
-  # end
+  get "/#{resources[:log_collection][:href]}" do
+    JSON.pretty_generate logs.list.merge(self.class.resources[:clock_collection])
+  end
 
-  # def self.api_clock_resource id
-  #   {
-  #     href: "#{resources[:clock_collection][:href]}/#{id}",
-  #     type: 'resource/clock',
-  #     subscribe: {
-  #       href: "#{resources[:clock_collection][:href]}/#{id}/subscribe"
-  #     }
-  #   }
-  # end
+  def self.api_log_resource id
+    {
+      href: "#{resources[:log_collection][:href]}/#{id}",
+      type: 'resource/clock',
+    }
+  end
 
-  # post "/#{resources[:clock_collection][:href]}" do
-  #   data = JSON.parse request.body.read
-  #   id = clocks.create data
-  #   clocks[id].merge! self.class.api_clock_resource(id)
-  #   clocks[id].to_json
-  # end
+  post "/#{resources[:log_collection][:href]}" do
+    data = JSON.parse request.body.read
+    id = logs.create data
+    logs[id].merge! self.class.api_log_resource(id)
+    logs[id].to_json
+  end
 
-  # get "/#{resources[:clock_collection][:href]}/:id" do
-  #   id = params[:id]
-  #   if clocks.exists? id
-  #     data = clocks[id]
-  #     data.to_json
-  #   else
-  #     status 404
-  #   end
-  # end
-
-  # post "/#{resources[:clock_collection][:href]}/:id" do
-  #   id = params[:id]
-  #   if clocks.exists? id
-  #     data = JSON.parse request.body.read
-  #     data.merge! self.class.api_clock_resource(id)
-  #     clocks[id] = data
-  #     clocks[id].to_json
-  #   else
-  #     status 404
-  #   end
-  # end
-
-  # get "/#{resources[:clock_collection][:href]}/:id/subscribe", :provides => 'text/event-stream' do
-  #   id = params[:id]
-  #   if clocks.exists? id
-  #     stream(:keep_open) do |out| 
-  #       out.callback { clocks.removeConnection id, out }
-  #       out << "retry:0\n\n"
-  #       clocks.addConnection id, out
-  #     end
-  #   else
-  #     status 404
-  #   end
-  # end
+  get "/#{resources[:log_collection][:href]}/:id" do
+    id = params[:id]
+    if logs.exists? id
+      data = logs[id]
+      data.to_json
+    else
+      status 404
+    end
+  end
 
   get @manifest do
     content_type :manifest

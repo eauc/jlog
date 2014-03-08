@@ -1,6 +1,6 @@
 <div class="container">
-  <form>
-    <fieldset>
+  <form class="form-inline">
+    <fieldset style="margin-top:10px">
       <legend>  
         <span class="glyphicon glyphicon-import"></span>
         Import
@@ -19,7 +19,7 @@
       <strong ng-show="backup.read_result !== 'loaded file'"
               class="text-danger">{{backup.read_result | capitalise}}</strong>
     </fieldset>
-    <fieldset>
+    <fieldset style="margin-top:10px">
       <legend>  
         <span class="glyphicon glyphicon-export"></span>
         Export
@@ -29,6 +29,45 @@
          download="{{backup.save_name}}">
         Download File
       </a>
+    </fieldset>
+    <fieldset style="margin-top:10px">
+      <legend>  
+        <span class="glyphicon glyphicon-cloud-download"></span>
+        Download
+      </legend>
+      <button class="btn btn-primary"
+              ng-click="downloadData()">
+        Download From Server
+      </button>
+      <div class="form-group">
+        <label for="download-id">Id :</label>
+        <input id="download-id"
+               type="text"
+               class="form-control"
+               style="width:100px" 
+               ng-model="backup.download_id" />
+      </div>
+      <strong ng-show="backup.download_result === 'downloaded data'"
+              class="text-success">{{backup.download_result | capitalise}}</strong>
+      <strong ng-show="backup.download_result !== 'downloaded data'"
+              class="text-danger">{{backup.download_result | capitalise}}</strong>
+    </fieldset>
+    <fieldset style="margin-top:10px">
+      <legend>  
+        <span class="glyphicon glyphicon-cloud-upload"></span>
+        Upload
+      </legend>
+      <button class="btn btn-primary"
+              ng-click="uploadData()">
+        Upload To Server
+      </button>
+      <strong ng-show="backup.upload_result === 'uploaded data'">Id :</strong>
+      <span>{{backup.upload_id}}</span>
+      <br />
+      <strong ng-show="backup.upload_result === 'uploaded data'"
+              class="text-success">{{backup.upload_result | capitalise}}</strong>
+      <strong ng-show="backup.upload_result !== 'uploaded data'"
+              class="text-danger">{{backup.upload_result | capitalise}}</strong>
     </fieldset>
   </form>
 </div>
