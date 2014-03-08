@@ -52,7 +52,7 @@ angular.module('jlogApp.services')
                 var instance = this;
                 instance.upload_result = '';
                 instance.download_result = '';
-                $http.post('api/log', { battles: battles })
+                $http.post('/api/log', { battles: battles })
                     .success(function(data) {
                         instance.upload_result = 'uploaded data';
                         console.log(data);
@@ -72,7 +72,7 @@ angular.module('jlogApp.services')
                     function(error) { console.log(error); };
                 instance.upload_result = '';
                 instance.download_result = '';
-                $http.get('api/log/' + instance.download_id)
+                $http.get('/api/log/' + instance.download_id)
                     .success(function(data) {
                         instance.download_result = 'downloaded data';
                         success_cbk_(data);
