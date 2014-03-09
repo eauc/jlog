@@ -55,6 +55,6 @@ angular.module('jlogApp', [
 ]).config([
     '$compileProvider',
     function($compileProvider) {   
-        $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|blob):/);
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|blob):/);
     }
 ]);
