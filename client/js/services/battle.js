@@ -1,162 +1,105 @@
 'use strict';
 
 angular.module('jlogApp.services')
-    .service('battle', [function() {
-        return {
-            create: function battleCreate() {
-                var today = new Date();
-                return {
-                    'date': {
-                        year: today.getFullYear(),
-                        month: today.getMonth() + 1,
-                        day: today.getDate()
-                    },
-                    opponent: {
-                        name: null
-                    },
-                    setup: {
-                        event: null,
-                        scenario: null
-                    }
-                };
+    .factory('battle', [function() {
+        function normalizeCaster(caster) {
+            if (!angular.isString(caster)) return null;
+            var last_char = caster.charAt(caster.length - 1);
+            if ('0' > last_char || '9' < last_char) {
+                caster += '1';
             }
+            return caster;
+        };
+        return function(data) {
+            var today = new Date();
+            data = data || {};
+            var instance = angular.extend({
+                'date': {
+                    'year': today.getFullYear(),
+                    'month': today.getMonth() + 1,
+                    'day': today.getDate()
+                },
+                'my_army': {
+                    'caster': null,
+                    'faction': null
+                },
+                'opponent': {
+                    'name': null,
+                    'caster': null,
+                    'faction':null
+                },
+                'points': {
+                    'my_army': {
+                        'scenario': null,
+                        'army': null,
+                        'kill': null
+                    },
+                    'opponent': {
+                        'scenario': null,
+                        'army': null,
+                        'kill': null
+                    }
+                },
+                'setup': {
+                    'size': null,
+                    'scenario': null,
+                    'event': null,
+                },
+                'score': null,
+                'comment':null,
+                'initiative': {
+                    'dice': null,
+                    'start': null
+                }
+            }, data);
+            instance.my_army.caster = normalizeCaster(instance.my_army.caster);
+            instance.opponent.caster = normalizeCaster(instance.opponent.caster);
+            return instance;
         };
     }])
-    .service('battles', [function() {
+    .service('battles', [ 'battle', function(battle) {
+        var battles = {
+            'list': []
+        };
         var storage_battles_key = 'jlog_battles';
-        var store = function battlesStore(list) {
+        var store = function battlesStore() {
             console.log('save battles in localStorage');
-            localStorage[storage_battles_key] = JSON.stringify(list);
+            localStorage.setItem(storage_battles_key, battles.list);
         };
         var load = function battlesLoad() {
             console.log('load battles from localStorage');
-            return JSON.parse(localStorage[storage_battles_key]);
+            return JSON.parse(localStorage.getItem(storage_battles_key));
         };
         var storageContainsBattles = function battlesStorageContainsBattles() {
-            return 'string' === typeof localStorage[storage_battles_key];
+            return 'string' === typeof localStorage.getItem(storage_battles_key);
         };
-        var buildIndex = function buildIndex(array) {
+        var buildIndex = function buildIndex() {
             var i = 0;
-            for (i = 0 ; i < array.length ; i++) {
-                array[i].index = i;
+            for (i = 0 ; i < battles.list.length ; i++) {
+                battles.list[i].index = i;
             }
         };
-        return {
-            update: function battlesUpdate(list) {
-                buildIndex(list);
-                store(list);
-            },
-            create: function battlesCreate(list) {
-                this.update(list);
-                return list;
-            },
-            init: function battlesInit() {
-                if (storageContainsBattles()) {
-                    return load();
-                }
-                else {
-                    return this.create([]);
+        battles.update = function battlesUpdate() {
+            buildIndex();
+            store();
+        };
+        battles.create = function battlesCreate(list) {
+            this.list = [];
+            if (angular.isArray(list)) {
+                var i = 0;
+                for (i = 0 ; i < list.length ; i++) {
+                    this.list.push(battle(list[i]));
                 }
             }
+            this.update();
         };
+        battles.init = function battlesInit() {
+            if (storageContainsBattles()) {
+                this.create(load());
+            }
+            else {
+                this.create([]);
+            }
+        };
+        return battles;
     }]);
-//     .value('battles', [
-// {"date":{"year":2012,"month":12,"day":1},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"wood","caster":"feora2","faction":"menoth"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13incu","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2012,"month":12,"day":8},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"fred","caster":"vyros1","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":35,"scenario":"sacrifice","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2012,"month":12,"day":15},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"wood","caster":"testament","faction":"menoth"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":35,"scenario":"sr13incu","event":"amical"},"score":"va","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":1,"day":5},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"adrien","caster":"skarre1","faction":"cryx"},"points":{"my_army":{"scenario":3,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13incu","event":"amical"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":1,"day":12},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"yannick","caster":"barnabas","faction":"blindwater"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":35,"scenario":"bunkers","event":"amical"},"score":"da","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":1,"day":12},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"kevin","caster":"rasheth","faction":"skorne"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":35,"scenario":"sr13incu","event":"amical"},"score":"va","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":1,"day":19},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"kevin","caster":"terminus","faction":"cryx"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"noman's land","event":"amical"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":2},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"rémi","caster":"kraye","faction":"cygnar"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13sad","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":9},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"fred","caster":"ossyan","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":10},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"minidam","caster":"butcher1","faction":"khador"},"points":{"my_army":{"scenario":3,"army":28},"opponent":{"scenario":0,"army":2}},"setup":{"size":50,"scenario":"sr13cq","event":"hobby shop 130210"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":10},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"ludo ","caster":"nemo1","faction":"cygnar"},"points":{"my_army":{"scenario":0,"army":42},"opponent":{"scenario":1,"army":3}},"setup":{"size":50,"scenario":"sr13poe","event":"hobby shop 130210"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":10},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"shosse","caster":"magnus1","faction":"mercs"},"points":{"my_army":{"scenario":3,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13inco","event":"hobby shop 130210"},"score":"vs","comment":"galleon","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":16},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"kevin","caster":"skarre2","faction":"cryx"},"points":{"my_army":{"scenario":2,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13sad","event":"amical"},"score":"va","comment":"kraken","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":23},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"titi","caster":"stryker1","faction":"cygnar"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13fs","event":"imd 2013"},"score":"vs","comment":"stormwall","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":23},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"val","caster":"rasheth","faction":"skorne"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":5,"army":0}},"setup":{"size":35,"scenario":"sr13out","event":"imd 2013"},"score":"ds","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":23},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"spiff","caster":"butcher1","faction":"khador"},"points":{"my_army":{"scenario":4,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13ar","event":"imd 2013"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":24},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"fedman","caster":"feora1","faction":"menoth"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13rp","event":"imd 2013"},"score":"vs","comment":"judicator","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":2,"day":24},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"hudson","caster":"ravyn","faction":"scyrah"},"points":{"my_army":{"scenario":2,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13poe","event":"imd 2013"},"score":"va","comment":"hyperion","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":3,"day":10},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"wood","caster":"harbinger","faction":"menoth"},"points":{"my_army":{"scenario":2,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13des","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":3,"day":16},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"kevin","caster":"skarre1","faction":"cryx"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13ar","event":"amical"},"score":"va","comment":"kraken","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":3,"day":23},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"fred","caster":"garryth","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cq","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":3,"day":24},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"ronan","caster":"ossyan","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13itb","event":"hobby shop 130324"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":3,"day":24},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"faouzi","caster":"lylyth2","faction":"loe"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13rp","event":"hobby shop 130324"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":3,"day":24},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"vivien","caster":"caine1","faction":"cygnar"},"points":{"my_army":{"scenario":3,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"hobby shop 130324"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":3,"day":30},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"rémi","caster":"nemo3","faction":"cygnar"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13des","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":6},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"fred","caster":"grim1","faction":"troll"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"amical"},"score":"va","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":20},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"fred","caster":"ossyan","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":20},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"wood","caster":"feora2","faction":"menoth"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"amical"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":27},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"allan225","caster":"thagrosh1","faction":"loe"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"G&S 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":27},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"rem ","caster":"macbain","faction":"mercs"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cr","event":"G&S 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":27},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"skulgrim","caster":"deneghra1","faction":"cryx"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":3,"army":0}},"setup":{"size":50,"scenario":"sr13fs","event":"G&S 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":28},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"ronan","caster":"rahn","faction":"scyrah"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13inco","event":"G&S 2013"},"score":"va","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":4,"day":28},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"alfred","caster":"doomshaper2","faction":"troll"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13itb","event":"G&S 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":4},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"fred","caster":"zaal","faction":"skorne"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cq","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":5},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"val","caster":"morghoul1","faction":"skorne"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13cq","event":"vassal"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":18},"my_army":{"caster":"bethayne","faction":"loe"},"opponent":{"name":"kevin","caster":"asphyxious2","faction":"cryx"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13fs","event":"amical"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":25},"my_army":{"caster":"lylyth3","faction":"loe"},"opponent":{"name":"ju ","caster":"irusk2","faction":"khador"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"amical"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":25},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"ju ","caster":"vlad2","faction":"khador"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":4,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"amical"},"score":"vs","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":26},"my_army":{"caster":"absylonia","faction":"loe"},"opponent":{"name":"rico","caster":"makeda1","faction":"skorne"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13out","event":"baf130526"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":26},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"the boss ","caster":"caine1","faction":"cygnar"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13fs","event":"baf130526"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":5,"day":26},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"kaelis","caster":"magnus1","faction":"fourstar"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13poe","event":"baf130526"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":2},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"sechs","caster":"cassius","faction":"circle"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cr","event":"vassal"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":8},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"froutch","caster":"severius1","faction":"menoth"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cq","event":"open 2013"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":8},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"zergspirit","caster":"mortenebra","faction":"cryx"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13inco","event":"open 2013"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":8},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"q2","caster":"doomshaper1","faction":"troll"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":2,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"open 2013"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":9},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"marcus","caster":"makeda2","faction":"skorne"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13incu","event":"open 2013"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":9},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"triple1","caster":"doomshaper2","faction":"troll"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":35,"scenario":"sr13des","event":"open 2013"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":9},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"schlaf","caster":"kreoss2","faction":"menoth"},"points":{"my_army":{"scenario":3,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13rp","event":"open 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":15},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"ju ","caster":"the old witch","faction":"khador"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13des","event":"amical"},"score":"va","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":29},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"kevin","caster":"terminus","faction":"cryx"},"points":{"my_army":{"scenario":3,"army":0},"opponent":{"scenario":5,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"shb 2013"},"score":"ds","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":29},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"pivi","caster":"lylyth2","faction":"loe"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13ar","event":"shb 2013"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":29},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"spriggan","caster":"shae","faction":"talion"},"points":{"my_army":{"scenario":2,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"shb 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":30},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"lecorse","caster":"witch coven","faction":"cryx"},"points":{"my_army":{"scenario":7,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13fs","event":"shb 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":6,"day":30},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"fred","caster":"ossyan","faction":"scyrah"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cq","event":"shb 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":7,"day":2},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"xeti","caster":"terminus","faction":"cryx"},"points":{"my_army":{"scenario":3,"army":0},"opponent":{"scenario":5,"army":0}},"setup":{"size":50,"scenario":"sr13cr","event":"tvf6"},"score":"ds","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":7,"day":10},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"cush","caster":"haley2","faction":"cygnar"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13des","event":"tvf6"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":7,"day":21},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"cryxfactory","caster":"vyros2","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"tvf6"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":7},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"kevin","caster":"asphyxious2","faction":"cryx"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"amical"},"score":"ds","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":7},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"wood","caster":"rahn","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cr","event":"amical"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":14},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"nono","caster":"sorscha2","faction":"khador"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"masters 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":14},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"feyall","caster":"feora2","faction":"menoth"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"masters 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":14},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"q2","caster":"doomshaper1","faction":"troll"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13des","event":"masters 2013"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":15},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"fedman","caster":"reznik","faction":"menoth"},"points":{"my_army":{"scenario":2,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13itb","event":"masters 2013"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":15},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"aod","caster":"blaize","faction":"cygnar"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cq","event":"masters 2013"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":15},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"alris","caster":"siege","faction":"cygnar"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"masters 2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":21},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"fred","caster":"hexeris2","faction":"skorne"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cr","event":"amical"},"score":"vs","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":21},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"wood","caster":"kaelyssa","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13itb","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":9,"day":28},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"fred","caster":"hexeris2","faction":"skorne"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"amical"},"score":"dc","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":5},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"faouzi","caster":"madrak2","faction":"troll"},"points":{"my_army":{"scenario":6,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cr","event":"amical"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":5},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"kiki","caster":"shortname","faction":"cryx"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13des","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":12},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"rico","caster":"makeda2","faction":"skorne"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13fs","event":"amical"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":12},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"fred","caster":"hexeris1","faction":"skorne"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13fs","event":"amical"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":13},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"axel","caster":"grim2","faction":"troll"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"hobby shop 131013"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":13},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"ronan","caster":"vyros1","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13inco","event":"hobby shop 131013"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":13},"my_army":{"caster":"lylyth2","faction":"loe"},"opponent":{"name":"ben","caster":"ossrum","faction":"mercs"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"hobby shop 131013"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":19},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"fred","caster":"hexeris2","faction":"skorne"},"points":{"my_army":{"scenario":2,"army":0},"opponent":{"scenario":3,"army":0}},"setup":{"size":35,"scenario":"sr13poe","event":"amical"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":19},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"wood","caster":"rahn","faction":"scyrah"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13poe","event":"amical"},"score":"dc","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":20},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"kevin","caster":"asphyxious2","faction":"cryx"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":5,"army":0}},"setup":{"size":50,"scenario":"sr13sad","event":"baf131020"},"score":"ds","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":20},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"faouzi","caster":"madrak2","faction":"troll"},"points":{"my_army":{"scenario":4,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"baf131020"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":20},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"rico","caster":"rasheth","faction":"skorne"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"baf131020"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":10,"day":26},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"kevin","caster":"asphyxious2","faction":"cryx"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"amical"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":1},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"romain","caster":"grim1","faction":"troll"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13cq","event":"GME 2013 35"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":1},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"xeti","caster":"deneghra2","faction":"cryx"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13cr","event":"GME 2013 35"},"score":"ds","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":1},"my_army":{"caster":"kallus","faction":"loe"},"opponent":{"name":"boombo","caster":"vlad3","faction":"khador"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":35,"scenario":"sr13out","event":"GME 2013 35"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":2},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"val","caster":"zaal","faction":"skorne"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13ar","event":"GME 2013 50"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":2},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"ulysxxx","caster":"asphyxious1","faction":"cryx"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"GME 2013 50"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":2},"my_army":{"caster":"vayl2","faction":"loe"},"opponent":{"name":"kallan","caster":"caine2","faction":"cygnar"},"points":{"my_army":{"scenario":2,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"GME 2013 50"},"score":"dc","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":3},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"yannick","caster":"maelok","faction":"blindwater"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"GME 2013 50"},"score":"da","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":3},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"kallan","caster":"haley2","faction":"cygnar"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13itb","event":"GME 2013 50"},"score":"vc","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":3},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"pierro","caster":"xerxis","faction":"skorne"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13inco","event":"GME 2013 50"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":16},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"rémi","caster":"stryker2","faction":"cygnar"},"points":{"my_army":{"scenario":5,"army":30},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cq","event":"amical"},"score":"vs","comment":"tiers4","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":17},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"wood","caster":"kaelyssa","faction":"scyrah"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13fs","event":"amical"},"score":"vs","comment":"tiers 4","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":30},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"thunder_nico ","caster":"feora2","faction":"menoth"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13cq","event":"UC2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":30},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"cheveu ","caster":"deneghra1","faction":"cryx"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":1,"army":0}},"setup":{"size":50,"scenario":"sr13out","event":"UC2013"},"score":"va","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":30},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"vano","caster":"baldur2","faction":"circle"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13poe","event":"UC2013"},"score":"vs","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":11,"day":30},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"ju ","caster":"the old witch","faction":"khador"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13itb","event":"UC2013"},"score":"vs","comment":"","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":12,"day":1},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"feyall","caster":"reclaimer","faction":"menoth"},"points":{"my_army":{"scenario":1,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13sad","event":"UC2013"},"score":"dc","comment":"tiers4","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":12,"day":1},"my_army":{"caster":"saeryn","faction":"loe"},"opponent":{"name":"mc forestier ","caster":"scaverous","faction":"cryx"},"points":{"my_army":{"scenario":5,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13incu","event":"UC2013"},"score":"vs","comment":"tiers4","initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":12,"day":1},"my_army":{"caster":"vayl1","faction":"loe"},"opponent":{"name":"val","caster":"xerxis","faction":"skorne"},"points":{"my_army":{"scenario":4,"army":46},"opponent":{"scenario":4,"army":48}},"setup":{"size":50,"scenario":"sr13rp","event":"UC2013"},"score":"dc","comment":null,"initiative":{"dice":null,"start":null}},{"date":{"year":2013,"month":12,"day":14},"my_army":{"caster":"thagrosh1","faction":"loe"},"opponent":{"name":"maxou","caster":"kromac","faction":"circle"},"points":{"my_army":{"scenario":0,"army":0},"opponent":{"scenario":0,"army":0}},"setup":{"size":50,"scenario":"sr13des","event":"amical"},"score":"va","comment":null,"initiative":{"dice":true,"start":true}}
-//         {
-//             'date': {
-//                 year: 2013,
-//                 month: 10,
-//                 day: 13
-//             },
-//             'my_army': {
-//                 faction: 'loe',
-//                 caster: 'vayl2'
-//             },
-//             'opponent': {
-//                 name: 'kevin',
-//                 faction: 'cryx',
-//                 caster: 'gaspy2'
-//             },
-//             'setup': {
-//                 size: 50,
-//                 scenario: 'sr13poe',
-//                 event: 'baf131020'
-//             },
-//             'score': 'da',
-//             'points': {
-//                 my_army: {
-//                     scenario: 1,
-//                     army: 10
-//                 },
-//                 opponent: {
-//                     scenario: 3,
-//                     army: 35
-//                 }
-//             },
-//             'comment': 'Cryx c\'est fume.'
-//         },
-//         {
-//             'date': {
-//                 year: 2013,
-//                 month: 10,
-//                 day: 25
-//             },
-//             'my_army': {
-//                 faction: 'loe',
-//                 caster: 'kallus1'
-//             },
-//             'opponent': {
-//                 name: 'wood',
-//                 faction: 'scyrah',
-//                 caster: 'rahn1'
-//             },
-//             'setup': {
-//                 size: 35,
-//                 scenario: 'sr13cr',
-//                 event: 'amical'
-//             },
-//             'score': 'dd',
-//             'points': {
-//                 my_army: {
-//                     scenario: 2,
-//                     army: 30
-//                 },
-//                 opponent: {
-//                     scenario: 2,
-//                     army: 30
-//                 }
-//             }
-//         },
-//         {
-//             'date': {
-//                 year: 2013,
-//                 month: 10,
-//                 day: 20
-//             },
-//             'my_army': {
-//                 faction: 'loe',
-//                 caster: 'vayl1'
-//             },
-//             'opponent': {
-//                 name: 'fred',
-//                 faction: 'skorne',
-//                 caster: 'hexeris2'
-//             },
-//             'setup': {
-//                 size: 50,
-//                 scenario: 'sr13inco',
-//                 event: 'amical'
-//             },
-//             'score': 'vs',
-//             'points': {
-//                 my_army: {
-//                     scenario: 5,
-//                     army: 45
-//                 },
-//                 opponent: {
-//                     scenario: 0,
-//                     army: 20
-//                 }
-//             }
-//         }
-    // ]);
