@@ -57,7 +57,7 @@ helpers:
 #   - **/*[sS]pec.js
 #
 spec_files:
-  # - filters/*Spec.js
+  - filters/*Spec.js
   - services/*Spec.js
   # - controllers/*Spec.js
 
