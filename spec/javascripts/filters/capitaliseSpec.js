@@ -2,7 +2,7 @@
 
 describe('filter', function() {
 
-    beforeEach(module('clockApp.filters'));
+    beforeEach(module('jlogApp.filters'));
 
     describe('capitalise', function() {
 
