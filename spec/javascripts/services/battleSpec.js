@@ -96,7 +96,8 @@ describe('service', function() {
                 'initiative': {
                     'dice': true,
                     'start': false
-                }
+                },
+              'tags': []
             };
             var object = battle(data);
 

@@ -14,43 +14,44 @@ angular.module('jlogApp.services')
             var today = new Date();
             data = data || {};
             var instance = angular.extend({
-                'date': {
-                    'year': today.getFullYear(),
-                    'month': today.getMonth() + 1,
-                    'day': today.getDate()
-                },
+              'date': {
+                'year': today.getFullYear(),
+                'month': today.getMonth() + 1,
+                'day': today.getDate()
+              },
+              'my_army': {
+                'caster': null,
+                'faction': null
+              },
+              'opponent': {
+                'name': null,
+                'caster': null,
+                'faction':null
+              },
+              'points': {
                 'my_army': {
-                    'caster': null,
-                    'faction': null
+                  'scenario': null,
+                  'army': null,
+                  'kill': null
                 },
                 'opponent': {
-                    'name': null,
-                    'caster': null,
-                    'faction':null
-                },
-                'points': {
-                    'my_army': {
-                        'scenario': null,
-                        'army': null,
-                        'kill': null
-                    },
-                    'opponent': {
-                        'scenario': null,
-                        'army': null,
-                        'kill': null
-                    }
-                },
-                'setup': {
-                    'size': null,
-                    'scenario': null,
-                    'event': null,
-                },
-                'score': null,
-                'comment':null,
-                'initiative': {
-                    'dice': null,
-                    'start': null
+                  'scenario': null,
+                  'army': null,
+                  'kill': null
                 }
+              },
+              'setup': {
+                'size': null,
+                'scenario': null,
+                'event': null,
+              },
+              'score': null,
+              'comment':null,
+              'initiative': {
+                'dice': null,
+                'start': null
+              },
+              'tags': []
             }, data);
             instance.my_army.caster = normalizeCaster(instance.my_army.caster);
             instance.opponent.caster = normalizeCaster(instance.opponent.caster);
