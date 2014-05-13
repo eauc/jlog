@@ -14,6 +14,10 @@ angular.module('jlogApp.services')
             result: 'victory',
             type: 'scenario'
         },
+        vt: {
+            result: 'victory',
+            type: 'tiebreaker'
+        },
         dd: {
             result: 'draw',
             type: 'dice down'
@@ -29,5 +33,9 @@ angular.module('jlogApp.services')
         ds: {
             result: 'defeat',
             type: 'scenario'
+        },
+        dt: {
+            result: 'defeat',
+            type: 'tiebreaker'
         }
     });
