@@ -78,43 +78,51 @@ angular.module('jlogApp.services')
     .service('scenarios', [
         'default_scenarios',
         function(default_scenarios) {
+            var scenarios = {
+                'list': angular.copy(default_scenarios)
+            };
             var storage_scenarios_key = 'jlog_scenarios';
-            var store = function scenariosStore(list) {
+            var store = function scenariosStore() {
                 console.log('save scenarios in localStorage');
-                localStorage[storage_scenarios_key] = JSON.stringify(list);
+                localStorage.setItem(storage_scenarios_key, scenarios.list);
             };
             var load = function scenariosLoad() {
                 console.log('load scenarios from localStorage');
-                return JSON.parse(localStorage[storage_scenarios_key]);
+                return JSON.parse(localStorage.getItem(storage_scenarios_key));
             };
             var storageContainsScenarios = function scenariosStorageContainsScenarios() {
-                return 'string' === typeof localStorage[storage_scenarios_key];
+                return 'string' === typeof localStorage.getItem(storage_scenarios_key);
             };
             var build = function scenariosBuild(battles) {
-                var i, temp = default_scenarios;
+                scenarios.list = angular.copy(default_scenarios);
+                if (!angular.isArray(battles)) return;
+                var i, temp = {}, key;
                 for (i = 0 ; i < battles.length ; i++) {
-                    if (undefined === temp[battles[i].setup.scenario]) {
-                        temp[battles[i].setup.scenario] = {
-                            name: battles[i].setup.scenario
+                    if (angular.isObject(battles[i].setup) &&
+                        angular.isString(battles[i].setup.scenario)) {
+                        temp[battles[i].setup.scenario] = true;
+                    }
+                }
+                for (key in temp) {
+                    if (undefined === scenarios.list[key]) {
+                        scenarios.list[key] = {
+                            'name': key
                         };
                     }
                 }
-                return temp;
             };
-            return {
-                create: function scenariosCreate(battles) {
-                    var list = build(battles);
-                    store(list);
-                    return list;
-                },
-                init: function scenariosInit(battles) {
-                    if (storageContainsScenarios()) {
-                        return load();
-                    }
-                    else {
-                        return this.create(battles);
-                    }
-                },
-                store: store
+            scenarios.create = function scenariosCreate(battles) {
+                build(battles);
+                store();
             };
+            scenarios.init = function scenariosInit(battles) {
+                if (storageContainsScenarios()) {
+                    this.list = load();
+                }
+                else {
+                    this.create(battles);
+                }
+            };
+            scenarios.update = store;
+            return scenarios;
         }]);
