@@ -21,7 +21,7 @@ angular.module('jlogApp.services')
                     }
                 }
                 return result;
-            };
+            }
             function exportValues(object, keys) {
                 var key;
                 var result = '';
@@ -44,7 +44,7 @@ angular.module('jlogApp.services')
                     }
                 }
                 return result;
-            };
+            }
             return function exportCsv(battles_list)
             {
                 var result = '', keys = {};
@@ -76,7 +76,7 @@ angular.module('jlogApp.services')
                     }
                 }
                 return result;
-            };
+            }
             function exportValues(object, keys) {
                 var key;
                 var result = '';
@@ -100,7 +100,7 @@ angular.module('jlogApp.services')
                     }
                 }
                 return result;
-            };
+            }
             return function exportBB(battles_list)
             {
                 var result = '[table]\r\n', keys = {};

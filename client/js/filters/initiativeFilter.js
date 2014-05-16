@@ -12,6 +12,6 @@ angular.module('jlogApp.filters')
             result += ('true' === init.won_roll) ? 'Won roll, ' : 'Lost roll, ';
             result += ('true' === init.started) ? 'started game' : 'chose side';
             return result;
-        }
+        };
 
     }]);

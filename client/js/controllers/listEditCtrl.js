@@ -42,7 +42,7 @@ angular.module('jlogApp.controllers')
 
             $scope.addOpponent = function() {
                 var name = $window.prompt('Enter new opponent name :');
-                name = (name != null) ? name.trim().toLowerCase() : '';
+                name = (name !== null) ? name.trim().toLowerCase() : '';
                 if (0 < name.length) {
                     $scope.opponents.push(name);
                     $scope.opponents.sort();
@@ -52,7 +52,7 @@ angular.module('jlogApp.controllers')
             };
             $scope.addEvent = function() {
                 var name = $window.prompt('Enter new event name :');
-                name = (name != null) ? name.trim() : '';
+                name = (name !== null) ? name.trim() : '';
                 if (0 < name.length) {
                     $scope.events.push(name);
                     $scope.events.sort();
@@ -62,7 +62,7 @@ angular.module('jlogApp.controllers')
             };
             $scope.addScenario = function() {
                 var name = $window.prompt('Enter new scenario name :');
-                name = (name != null) ? name.trim() : '';
+                name = (name !== null) ? name.trim() : '';
                 var key = name.toLowerCase();
                 if (0 < name.length) {
                     $scope.scenarios[key] = { name: name };
@@ -72,7 +72,7 @@ angular.module('jlogApp.controllers')
             };
             $scope.addTag = function() {
                 var name = $window.prompt('Enter new tag name :');
-                name = (name != null) ? name.trim() : '';
+                name = (name !== null) ? name.trim() : '';
                 if (0 < name.length) {
                     $scope.tags.push(name);
                     $scope.tags.sort();
@@ -137,7 +137,7 @@ angular.module('jlogApp.controllers')
                 var set = del_key[type].set;
 
                 var name = get($scope.battle);
-                name = (name != null) ? name : '';
+                name = (name !== null) ? name : '';
                 if (0 >= name.length) return;
 
                 var confirm = $window.confirm('Forget everything about "' + name + '" ?');

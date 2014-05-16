@@ -9,7 +9,7 @@ angular.module('jlogApp.services')
                 caster += '1';
             }
             return caster;
-        };
+        }
         return function(data) {
             var today = new Date();
             data = data || {};
@@ -58,21 +58,24 @@ angular.module('jlogApp.services')
             return instance;
         };
     }])
-    .service('battles', [ 'battle', function(battle) {
+    .service('battles', [ 
+      '$window', 
+      'battle', 
+      function($window, battle) {
         var battles = {
             'list': []
         };
         var storage_battles_key = 'jlog_battles';
         var store = function battlesStore() {
             console.log('save battles in localStorage');
-            localStorage.setItem(storage_battles_key, battles.list);
+            $window.localStorage.setItem(storage_battles_key, battles.list);
         };
         var load = function battlesLoad() {
-            console.log('load battles from localStorage');
-            return JSON.parse(localStorage.getItem(storage_battles_key));
+            console.log('load battles from $window.localStorage');
+            return JSON.parse($window.localStorage.getItem(storage_battles_key));
         };
         var storageContainsBattles = function battlesStorageContainsBattles() {
-            return 'string' === typeof localStorage.getItem(storage_battles_key);
+            return 'string' === typeof $window.localStorage.getItem(storage_battles_key);
         };
         var buildIndex = function buildIndex() {
             var i = 0;

@@ -9,7 +9,7 @@ angular.module('jlogApp.filters')
                 ((input == 'victory') ? 'text-success' : 
                  ((input == 'defeat') ? 'text-danger' : 
                   'text-warning'));
-        }
+        };
 
     }])
     .filter('scoreTypeLetter', [function() {
@@ -17,6 +17,6 @@ angular.module('jlogApp.filters')
         return function(input) 
         {
             return typeof(input) === 'string' ? input.charAt(0).toUpperCase() : input;
-        }
+        };
 
     }]);

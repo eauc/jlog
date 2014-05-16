@@ -9,11 +9,11 @@ angular.module('jlogApp.services')
           is: 'true',
           value: [],
           match: function filterMatchOpponentName(battle) {
-            var match = ( 0 == this.value.length ||
+            var match = ( 0 === this.value.length ||
                           0 <= this.value.indexOf(get(battle)) );
             // console.log(filter.opp_name.is + ' ' + match);
-            return !this.active
-              || (this.is === 'true' ? match : !match);
+            return (!this.active ||
+                    (this.is === 'true' ? match : !match));
           }
         }, data);
       };
@@ -96,12 +96,12 @@ angular.module('jlogApp.services')
           faction: null,
           caster: [],
           match: function filterMatchCaster(battle) {
-            var match = this.faction === get(battle).faction
-              && ( 0 == this.caster.length || 
-                   0 <= this.caster.indexOf(get(battle).caster) );
+            var match = ( this.faction === get(battle).faction &&
+                          (0 === this.caster.length || 
+                           0 <= this.caster.indexOf(get(battle).caster)) );
             // console.log(filter.my_army.is + ' ' + match);
-            return !this.active
-              || (this.is === 'true' ? match : !match);
+            return (!this.active ||
+                    (this.is === 'true' ? match : !match));
           }
         }, data);
       };
@@ -188,13 +188,13 @@ angular.module('jlogApp.services')
           won_roll: '',
           started: '',
           match: function filterMatchInitiative(battle) {
-            var match = ( 0 == this.won_roll.length ||
-                          this.won_roll === battle.setup.initiative.won_roll)
-              && ( 0 == this.started.length  ||
-                   this.started === battle.setup.initiative.started);
+            var match = ( (0 === this.won_roll.length ||
+                           this.won_roll === battle.setup.initiative.won_roll) &&
+                          (0 === this.started.length  ||
+                           this.started === battle.setup.initiative.started) );
             // console.log(filter.scenario.is + ' ' + match);
-            return !this.active
-              || (this.is === 'true' ? match : !match);
+            return (!this.active || 
+                    (this.is === 'true' ? match : !match));
           }
         }, data);
       };
@@ -211,8 +211,8 @@ angular.module('jlogApp.services')
             if (!this.active ||
                 0 === this.value.length) return true;
             if (0 === battle.tags.length) {
-              return 'none' === this.is
-                || 'not_all' === this.is;
+              return ('none' === this.is ||
+                      'not_all' === this.is);
             }
             var i, and = true, or = false, found;
             for (i = 0 ; i < this.value.length ; i++) {
@@ -238,6 +238,7 @@ angular.module('jlogApp.services')
     }
   ])
   .factory('filter', [
+    '$window',
     'filterMatchSimple',
     'filterMatchDate',
     'filterMatchSize',
@@ -248,7 +249,8 @@ angular.module('jlogApp.services')
     // 'filterMatchEvent',
     'filterMatchInitiative',
     'filterMatchTags',
-    function(filterMatchSimple,
+    function($window,
+             filterMatchSimple,
              filterMatchDate,
              filterMatchSize,
              filterMatchCaster,
@@ -257,14 +259,14 @@ angular.module('jlogApp.services')
       var storage_filter_key = 'jlog_filter';
       var store = function filterStore(list) {
         console.log('save filter in localStorage');
-        localStorage.setItem(storage_filter_key, list);
+        $window.localStorage.setItem(storage_filter_key, list);
       };
       var load = function filterLoad() {
         console.log('load filter from localStorage');
-        return JSON.parse(localStorage.getItem(storage_filter_key));
+        return JSON.parse($window.localStorage.getItem(storage_filter_key));
       };
       var storageContainsFilter = function filterStorageContainsFilter() {
-        return 'string' === typeof localStorage.getItem(storage_filter_key);
+        return 'string' === typeof $window.localStorage.getItem(storage_filter_key);
       };
 
       var create = function filterCreate(data) {

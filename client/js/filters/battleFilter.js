@@ -6,5 +6,5 @@ angular.module('jlogApp.filters')
             return active && angular.isArray(input) ? input.filter(function(battle) {
                 return filter.match(battle, invert);
             }) : input;
-        }
+        };
     }]);

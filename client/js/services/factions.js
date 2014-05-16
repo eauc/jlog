@@ -11,7 +11,7 @@ angular.module('jlogApp.services')
                 caster += '1';
             }
             return caster;
-        };
+        }
         var factions = {};
         var faction_key, caster_key;
         for (faction_key in default_factions) {

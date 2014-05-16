@@ -14,13 +14,13 @@ angular.module('jlogApp.services')
                 this.display_list = this.display_list.concat(more_battles);
                 this.last_index += this.slice;
                 this.more = (this.last_index < this.sorted_list.length);
-            };
+            }
             function sortBattles(filter, active, invert, sort) {
                 this.sorted_list = battleFilter(this.list, filter, active, invert);
                 this.sorted_list = orderByFilter(this.sorted_list,
                                                  sort.types[sort.type].key,
                                                  sort.reverse);
-            };
+            }
             angular.extend(battles, {
                 sorted_list: [],
                 display_list: [],
