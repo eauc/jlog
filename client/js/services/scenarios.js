@@ -86,14 +86,16 @@ angular.module('jlogApp.services')
       var storage_scenarios_key = 'jlog_scenarios';
       var store = function scenariosStore() {
         console.log('save scenarios in localStorage');
-        $window.localStorage.setItem(storage_scenarios_key, scenarios.list);
+        $window.localStorage.setItem(storage_scenarios_key, JSON.stringify(scenarios.list));
       };
       var load = function scenariosLoad() {
         console.log('load scenarios from localStorage');
         return JSON.parse($window.localStorage.getItem(storage_scenarios_key));
       };
       var storageContainsScenarios = function scenariosStorageContainsScenarios() {
-        return 'string' === typeof $window.localStorage.getItem(storage_scenarios_key);
+        var data = $window.localStorage.getItem(storage_scenarios_key);
+        return ('string' === typeof data &&
+                data.length > 0);
       };
       var build = function scenariosBuild(battles) {
         scenarios.list = angular.copy(default_scenarios);

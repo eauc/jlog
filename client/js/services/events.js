@@ -10,14 +10,16 @@ angular.module('jlogApp.services')
       var storage_events_key = 'jlog_events';
       var store = function eventsStore() {
         console.log('save events in localStorage');
-        $window.localStorage.setItem(storage_events_key, events.list);
+        $window.localStorage.setItem(storage_events_key, JSON.stringify(events.list));
       };
       var load = function eventsLoad() {
         console.log('load events from localStorage');
         return JSON.parse($window.localStorage.getItem(storage_events_key));
       };
       var storageContainsEvents = function eventsStorageContainsEvents() {
-        return 'string' === typeof $window.localStorage.getItem(storage_events_key);
+        var data = $window.localStorage.getItem(storage_events_key);
+        return ('string' === typeof data &&
+                data.length > 0);
       };
       var build = function eventsBuild(battles) {
         events.list = [];

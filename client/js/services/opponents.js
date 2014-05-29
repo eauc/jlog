@@ -10,14 +10,16 @@ angular.module('jlogApp.services')
       var storage_opponents_key = 'jlog_opponents';
       var store = function opponentsStore() {
         console.log('save opponents in localStorage');
-        $window.localStorage.setItem(storage_opponents_key, opponents.list);
+        $window.localStorage.setItem(storage_opponents_key, JSON.stringify(opponents.list));
       };
       var load = function opponentsLoad() {
         console.log('load opponents from localStorage');
         return JSON.parse($window.localStorage.getItem(storage_opponents_key));
       };
       var storageContainsOpponents = function opponentsStorageContainsOpponents() {
-        return 'string' === typeof $window.localStorage.getItem(storage_opponents_key);
+        var data = $window.localStorage.getItem(storage_opponents_key);
+        return ('string' === typeof data &&
+                data.length > 0);
       };
       var build = function opponentsBuild(battles) {
         opponents.list = [];

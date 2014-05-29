@@ -45,11 +45,11 @@ describe('service', function() {
 
                 expect(storage.setItem)
                     .toHaveBeenCalledWith('jlog_scenarios',
-                                          {
+                                          JSON.stringify({
                                               'sr13inco': { name: 'SR2013 Incoming' },
                                               'sr13por': { name: 'SR2013 Point of Rally' },
                                               'sr13poe': { name: 'SR2013 Process of Elimination' },
-                                          });
+                                          }));
             });
 
         });
@@ -102,7 +102,7 @@ describe('service', function() {
                 ]);
 
                 expect(storage.setItem)
-                    .toHaveBeenCalledWith('jlog_scenarios', expected_scenarios);
+                    .toHaveBeenCalledWith('jlog_scenarios', JSON.stringify(expected_scenarios));
             });
 
         });

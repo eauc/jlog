@@ -39,7 +39,7 @@ describe('service', function() {
 
                 expect(storage.setItem)
                     .toHaveBeenCalledWith('jlog_tags',
-                                          [ 'amical', 'tournament', 'tiers4' ]);
+                                          JSON.stringify([ 'amical', 'tournament', 'tiers4' ]));
             });
 
         });
@@ -85,7 +85,7 @@ describe('service', function() {
 
                 expect(storage.setItem)
                     .toHaveBeenCalledWith('jlog_tags',
-                                          [ 'amical', 'tiers4', 'tournament' ]);
+                                          JSON.stringify([ 'amical', 'tiers4', 'tournament' ]));
             });
 
         });

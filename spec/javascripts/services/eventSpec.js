@@ -39,7 +39,7 @@ describe('service', function() {
 
                 expect(storage.setItem)
                     .toHaveBeenCalledWith('jlog_events',
-                                          [ 'amical', 'uc2013', 'imd2014' ]);
+                                          JSON.stringify([ 'amical', 'uc2013', 'imd2014' ]));
             });
 
         });
@@ -85,7 +85,7 @@ describe('service', function() {
 
                 expect(storage.setItem)
                     .toHaveBeenCalledWith('jlog_events',
-                                          [ 'amical', 'imd2014', 'uc2013' ]);
+                                          JSON.stringify([ 'amical', 'imd2014', 'uc2013' ]));
             });
 
         });

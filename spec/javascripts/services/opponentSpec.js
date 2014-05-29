@@ -39,7 +39,7 @@ describe('service', function() {
 
                 expect(storage.setItem)
                     .toHaveBeenCalledWith('jlog_opponents',
-                                          [ 'totot' , 'henri', 'alphonse' ]);
+                                          JSON.stringify([ 'totot' , 'henri', 'alphonse' ]));
             });
 
         });
@@ -85,7 +85,7 @@ describe('service', function() {
 
                 expect(storage.setItem)
                     .toHaveBeenCalledWith('jlog_opponents',
-                                          [ 'alphonse', 'henri', 'totot' ]);
+                                          JSON.stringify([ 'alphonse', 'henri', 'totot' ]));
             });
 
         });
