@@ -107,78 +107,78 @@ angular.module('jlogApp.services')
       };
     }
   ])
-  // .factory('filterMatchOpponent', [
-  //   function() {
-  //     return function(data) {
-  //       return angular.extend({
-  //         active: false,
-  //         is: 'true',
-  //         value: [],
-  //         match: function filterMatchOpponentName(battle) {
-  //           var match = ( 0 == this.value.length ||
-  //                         0 <= this.value.indexOf(battle.opponent.name) );
-  //           // console.log(filter.opp_name.is + ' ' + match);
-  //           return !this.active
-  //             || (this.is === 'true' ? match : !match);
-  //         }
-  //       }, data);
-  //     };
-  //   }
-  // ])
-  // .factory('filterMatchResult', [
-  //   function() {
-  //     return function(data) {
-  //       return angular.extend({
-  //         active: false,
-  //         is: 'true',
-  //         value: [],
-  //         match: function filterMatchResult(battle) {
-  //           var match = ( 0 == this.value.length ||
-  //                         0 <= this.value.indexOf(battle.score) );
-  //           // console.log(filter.result.is + ' ' + match);
-  //           return !this.active
-  //             || (this.is === 'true' ? match : !match);
-  //         }
-  //       }, data);
-  //     };
-  //   }
-  // ])
-  // .factory('filterMatchScenario', [
-  //   function() {
-  //     return function(data) {
-  //       return angular.extend({
-  //         active: false,
-  //         is: 'true',
-  //         name: [],
-  //         match: function filterMatchScenario(battle) {
-  //           var match = ( 0 == this.name.length ||
-  //                         0 <= this.scenario.name.indexOf(battle.setup.scenario) );
-  //           // console.log(filter.scenario.is + ' ' + match);
-  //           return !this.active
-  //             || (this.is === 'true' ? match : !match);
-  //         }
-  //       }, data);
-  //     };
-  //   }
-  // ])
-  // .factory('filterMatchEvent', [
-  //   function() {
-  //     return function(data) {
-  //       return angular.extend({
-  //         active: false,
-  //         is: 'true',
-  //         value: [],
-  //         match: function filterMatchEvent(battle) {
-  //           var match = ( 0 == this.value.length ||
-  //                         0 <= this.value.indexOf(battle.setup.event) );
-  //           // console.log(filter.event.is + ' ' + match);
-  //           return !this.active
-  //             || (this.is === 'true' ? match : !match);
-  //         }
-  //       }, data);
-  //     };
-  //   }
-  // ])
+// .factory('filterMatchOpponent', [
+//   function() {
+//     return function(data) {
+//       return angular.extend({
+//         active: false,
+//         is: 'true',
+//         value: [],
+//         match: function filterMatchOpponentName(battle) {
+//           var match = ( 0 == this.value.length ||
+//                         0 <= this.value.indexOf(battle.opponent.name) );
+//           // console.log(filter.opp_name.is + ' ' + match);
+//           return !this.active
+//             || (this.is === 'true' ? match : !match);
+//         }
+//       }, data);
+//     };
+//   }
+// ])
+// .factory('filterMatchResult', [
+//   function() {
+//     return function(data) {
+//       return angular.extend({
+//         active: false,
+//         is: 'true',
+//         value: [],
+//         match: function filterMatchResult(battle) {
+//           var match = ( 0 == this.value.length ||
+//                         0 <= this.value.indexOf(battle.score) );
+//           // console.log(filter.result.is + ' ' + match);
+//           return !this.active
+//             || (this.is === 'true' ? match : !match);
+//         }
+//       }, data);
+//     };
+//   }
+// ])
+// .factory('filterMatchScenario', [
+//   function() {
+//     return function(data) {
+//       return angular.extend({
+//         active: false,
+//         is: 'true',
+//         name: [],
+//         match: function filterMatchScenario(battle) {
+//           var match = ( 0 == this.name.length ||
+//                         0 <= this.scenario.name.indexOf(battle.setup.scenario) );
+//           // console.log(filter.scenario.is + ' ' + match);
+//           return !this.active
+//             || (this.is === 'true' ? match : !match);
+//         }
+//       }, data);
+//     };
+//   }
+// ])
+// .factory('filterMatchEvent', [
+//   function() {
+//     return function(data) {
+//       return angular.extend({
+//         active: false,
+//         is: 'true',
+//         value: [],
+//         match: function filterMatchEvent(battle) {
+//           var match = ( 0 == this.value.length ||
+//                         0 <= this.value.indexOf(battle.setup.event) );
+//           // console.log(filter.event.is + ' ' + match);
+//           return !this.active
+//             || (this.is === 'true' ? match : !match);
+//         }
+//       }, data);
+//     };
+//   }
+// ])
   .factory('filterMatchInitiative', [
     function() {
       return function(data) {

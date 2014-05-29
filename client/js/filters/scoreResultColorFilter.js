@@ -1,22 +1,22 @@
 'use strict';
 
 angular.module('jlogApp.filters')
-    .filter('scoreResultColor', [function() {
+  .filter('scoreResultColor', [function() {
 
-        return function(input) 
-        {
-            return typeof(input) !== 'string' ? '' : 
-                ((input == 'victory') ? 'text-success' : 
-                 ((input == 'defeat') ? 'text-danger' : 
-                  'text-warning'));
-        };
+    return function(input) 
+    {
+      return typeof(input) !== 'string' ? '' : 
+        ((input == 'victory') ? 'text-success' : 
+         ((input == 'defeat') ? 'text-danger' : 
+          'text-warning'));
+    };
 
-    }])
-    .filter('scoreTypeLetter', [function() {
+  }])
+  .filter('scoreTypeLetter', [function() {
 
-        return function(input) 
-        {
-            return typeof(input) === 'string' ? input.charAt(0).toUpperCase() : input;
-        };
+    return function(input) 
+    {
+      return typeof(input) === 'string' ? input.charAt(0).toUpperCase() : input;
+    };
 
-    }]);
+  }]);
