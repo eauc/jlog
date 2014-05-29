@@ -23,7 +23,7 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: "app/js/**/*.js",
+        files: "client/js/**/*.js",
         tasks: [ "jshint:scripts" ],
         options: {
           spawn: true
