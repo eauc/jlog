@@ -128,5 +128,20 @@ angular.module('jlogApp.services')
         }
       };
       scenarios.update = store;
+      scenarios.add = function scenariosAdd(name) {
+        var key = '';
+        if(0 < name.length) {
+          key = name.toLowerCase();
+          this.list[key] = { name: name };
+          store();
+        }
+        return key;
+      };
+      scenarios.remove = function scenariosRemove(name) {
+        if(this.list.hasOwnProperty(name)) {
+          delete this.list[name];
+          store();
+        }
+      };
       return scenarios;
     }]);

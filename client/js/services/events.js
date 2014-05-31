@@ -49,5 +49,19 @@ angular.module('jlogApp.services')
         }
       };
       events.update = store;
+      events.add = function eventsAdd(name) {
+        if(0 < name.length) {
+          this.list.push(name);
+          this.list.sort();
+          store();
+        }
+      };
+      events.remove = function eventsRemove(name) {
+        var index = this.list.indexOf(name);
+        if(0 <= index) {
+          this.list.splice(index, 1);
+          store();
+        }
+      };
       return events;
     }]);

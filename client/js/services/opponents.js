@@ -50,5 +50,20 @@ angular.module('jlogApp.services')
         }
       };
       opponents.update = store;
+      opponents.add = function opponentsAdd(name) {
+        if(0 < name.length) {
+          this.list.push(name);
+          this.list.sort();
+          store();
+        }
+      };
+      opponents.remove = function opponentsRemove(name) {
+        var index = this.list.indexOf(name);
+        if(0 <= index) {
+          this.list.splice(index, 1);
+          store();
+        }
+      };
+
       return opponents;
     }]);
