@@ -302,6 +302,7 @@ angular.module('jlogApp.services')
             this.list = create({});
             store(this.list);
           }
+          this.clearCache();
         },
         update: function filterUpdate() {
           store(this.list);
