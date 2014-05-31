@@ -1,84 +1,103 @@
 'use strict';
 
 angular.module('jlogApp.controllers')
-    .controller('mainCtrl', [
-        '$scope',
-        'factions',
-        'opponents',
-        'events',
-        'scenarios',
-        'tags',
-        'scores',
-        'battles',
-        'battle_sort',
-        'filter',
-        'stats',
-        'battle_list_display',
-        function($scope,
-                 factions,
-                 opponents,
-                 events,
-                 scenarios,
-                 tags,
-                 scores,
-                 battles,
-                 battle_sort,
-                 filter,
-                 stats,
-                 battle_list_display
-                ) {
+  .controller('mainCtrl', [
+    '$scope',
+    '$timeout',
+    'factions',
+    'opponents',
+    'events',
+    'scenarios',
+    'tags',
+    'scores',
+    'battles_display',
+    // 'battle_sort',
+    // 'filter',
+    // 'stats',
+    // 'battles_display',
+    function(
+      $scope,
+      $timeout,
+      factions,
+      opponents,
+      events,
+      scenarios,
+      tags,
+      scores,
+      battles_display
+      // battle_sort,
+      // filter,
+      // stats,
+      // battles_display
+    ) {
 
-            console.log('init mainCtrl');
+      console.log('init mainCtrl');
 
-            $scope.collapse_navbar = true;
-            $scope.factions = factions;
-            $scope.scores = scores;
-            $scope.filter_active = false;
-            $scope.filter_invert = false;
-            $scope.filter = filter.init();
-            $scope.stats = stats;
-            $scope.list_display = battle_list_display;
-            $scope.sort = battle_sort();
+      $scope.bottom_bar = {};
 
-            var onBattlesUpdate = function() {
-                $scope.filter.clearCache();
-                $scope.list_display.reset($scope.battles,
-                                          $scope.filter,
-                                          $scope.filter_active,
-                                          $scope.filter_invert,
-                                          $scope.sort);
-                $scope.stats.reset();
-            };
-            $scope.updateBattles = function updateBattles() {
-                battles.update($scope.battles);
-                onBattlesUpdate();
-            };
-            $scope.newBattles = function newBattles(data) {
-                $scope.battles = battles.create(data);
-                $scope.opponents = opponents.create($scope.battles);
-                $scope.events = events.create($scope.battles);
-                $scope.scenarios = scenarios.create($scope.battles);
-            };
-            $scope.battles = battles.init();
-            $scope.opponents = opponents.init($scope.battles);
-            $scope.events = events.init($scope.battles);
-            $scope.scenarios = scenarios.init($scope.battles);
-            $scope.tags = tags.init($scope.battles);
-            onBattlesUpdate();
+      battles_display.init();
+      opponents.init();
+      events.init();
+      scenarios.init();
+      tags.init();
 
-            $scope.$watch('filter', function() {
-                $scope.filter.clearCache();
-                $scope.stats.filtered.reset();
-                $scope.filter.update();
-            }, true);
-            $scope.$watch('filter_invert', function() {
-                $scope.stats.filtered.reset();
-            });
+      $scope.battles = battles_display;
+      $scope.factions = factions;
+      $scope.scenarios = scenarios.list;
+      $scope.scores = scores;
+      // $scope.collapse_navbar = true;
+      // $scope.factions = factions;
+      // $scope.scores = scores;
+      // $scope.filter_active = false;
+      // $scope.filter_invert = false;
+      // $scope.filter = filter.init();
+      // $scope.stats = stats;
+      // $scope.battles_display = battles_display;
+      // $scope.sort = battle_sort();
 
-            $scope.toggleFilter = function toggleFilter() {
-                $scope.filter_active = !$scope.filter_active;
-            };
-            $scope.invertFilter = function invertFilter() {
-                $scope.filter_invert = !$scope.filter_invert;
-            };
-        }]);
+      // var onBattlesUpdate = function() {
+      //     $scope.filter.clearCache();
+      //     $scope.list_display.reset($scope.battles,
+      //                               $scope.filter,
+      //                               $scope.filter_active,
+      //                               $scope.filter_invert,
+      //                               $scope.sort);
+      //     $scope.stats.reset();
+      // };
+      // $scope.updateBattles = function updateBattles() {
+      //     battles.update($scope.battles);
+      //     onBattlesUpdate();
+      // };
+      // $scope.newBattles = function newBattles(data) {
+      //     $scope.battles = battles.create(data);
+      //     $scope.opponents = opponents.create($scope.battles);
+      //     $scope.events = events.create($scope.battles);
+      //     $scope.scenarios = scenarios.create($scope.battles);
+      // };
+      // $scope.battles = battles.init();
+      // $scope.opponents = opponents.init($scope.battles);
+      // $scope.events = events.init($scope.battles);
+      // $scope.scenarios = scenarios.init($scope.battles);
+      // $scope.tags = tags.init($scope.battles);
+      // onBattlesUpdate();
+
+      // $scope.$watch('filter', function() {
+      //     $scope.filter.clearCache();
+      //     $scope.stats.filtered.reset();
+      //     $scope.filter.update();
+      // }, true);
+      // $scope.$watch('filter_invert', function() {
+      //     $scope.stats.filtered.reset();
+      // });
+
+      // $scope.toggleFilter = function toggleFilter() {
+      //     $scope.filter_active = !$scope.filter_active;
+      // };
+      // $scope.invertFilter = function invertFilter() {
+      //     $scope.filter_invert = !$scope.filter_invert;
+      // };
+      // $scope.screen = window.screen;
+      // $timeout(function() {
+      //   $('#battle-list-body').niceScroll();
+      // }, 500);
+    }]);
