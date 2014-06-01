@@ -1,133 +1,154 @@
-<div class="container">
-  <table class="col-sm-6">
-    <tr>
-      <th colspan="2">My army :</th>
-    </tr>
-    <tr>
-      <td rowspan="2">
-        <img class="pull-left"
-             width="50"
-             alt="{{battle.my_army.faction}}"
-             ng-src="img/{{factions[battle.my_army.faction].icon}}" />
-      </td>
-      <td>{{factions[battle.my_army.faction].name}}</td>
-    </tr>
-    <tr>
-      <td>
-        {{factions[battle.my_army.faction].casters[battle.my_army.caster].name}}
-        ({{battle.my_army.caster | capitalise}})
-      </td>
-    </tr>
-  </table>
-  <table class="col-sm-6">
-    <tr>
-      <th colspan="2">Opponent :</th>
-    </tr>
-    <tr>
-      <td rowspan="3">
-        <img class="pull-left" 
-             width="50" 
-             alt="{{battle.opponent.faction}}"
-             ng-src="img/{{factions[battle.opponent.faction].icon}}" />
-      </td>
-      <td>{{battle.opponent.name | capitalise}}</td>
-    </tr>
-    <tr>
-      <td>{{factions[battle.opponent.faction].name}}</td>
-    </tr>
-    <tr>
-      <td>
-        {{factions[battle.opponent.faction].casters[battle.opponent.caster].name}}
-        ({{battle.opponent.caster | capitalise}})
-      </td>
-    </tr>
-  </table>
-  <table class="col-sm-6">
-    <tr>
-      <th colspan="2">Settings :</th>
-    </tr>
-    <tr>
-      <td>Date</td>
-      <td>
-        {{battle.date.year}}
-        /
-        {{battle.date.month}}
-        /
-        {{battle.date.day}}
-      </td>
-    </tr>
-    <tr>
-      <td>Event</td>
-      <td>{{battle.setup.event}}</td>
-    </tr>
-    <tr>
-      <td>Scenario</td>
-      <td>{{scenarios[battle.setup.scenario].name}}</td>
-    </tr>
-    <tr>
-      <td>Army size</td>
-      <td>{{battle.setup.size}}</td>
-    </tr>
-    <tr>
-      <td>Initiative</td>
-      <td>{{battle.setup.initiative | initiative}}</td>
-    </tr>
-  </table>
-  <table class="col-sm-6">
-    <tr>
-      <th>Game result :</th>
-      <td colspan="2">
-        <strong class="{{scores[battle.score].result | scoreResultColor}}">
-          {{scores[battle.score].type | capitalise}}
-          {{scores[battle.score].result | capitalise}}
-        </strong>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>My Army</td>
-      <td>Opponent</td>
-    </tr>
-    <tr>
-      <td>Control Points</td>
-      <td>{{battle.points.my_army.scenario}}</td>
-      <td>{{battle.points.opponent.scenario}}</td>
-    </tr>
-    <tr>
-      <td>Kill Points</td>
-      <td>{{battle.points.my_army.army}}</td>
-      <td>{{battle.points.opponent.army}}</td>
-    </tr>
-  </table>
-  <table class="col-sm-12">
-    <tr>
-      <th>Tags :</th>
-    </tr>
-    <tr>
-      <td>
-        <ul>
-          <li ng-repeat="t in battle.tags">{{t}}</li>
-        </ul>
-      </td>
-    </tr>
-  </table>
-  <table class="col-sm-12">
-    <tr>
-      <th>Comment :</th>
-    </tr>
-    <tr>
-      <td>{{battle.comment}}</td>
-    </tr>
-  </table>
-  <p class="text-center">
-    <button class="btn btn-primary" ng-click="editBattle()">
-      <span class="glyphicon glyphicon-edit"></span> Edit
-    </button>
-    <button class="btn btn-danger" ng-click="deleteBattle()">
-      <span class="glyphicon glyphicon-trash"></span> Delete
-    </button>
-    <button class="btn btn-default" ng-click="close()">
-      <span class="glyphicon glyphicon-remove"></span> Close
-    </button>
-  </p>
+<div class="container"
+     id="battle-view">
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>My army</label>
+    </div>
+    <div class="col-xs-2">
+      <img class="faction-icon"
+           alt="{{battle.my_army.faction}}"
+           ng-src="img/{{factions[battle.my_army.faction].icon}}" />
+    </div>
+    <div class="col-xs-10">
+      <div class="row">
+        <div class="col-xs-3">
+          <em>Faction:</em>
+        </div>
+        <div class="col-xs-9">
+          {{factions[battle.my_army.faction].name}}
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-3">
+          <em>Caster:</em>
+        </div>
+        <div class="col-xs-9">
+          {{factions[battle.my_army.faction].casters[battle.my_army.caster].name}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>Opponent</label>
+    </div>
+    <div class="col-xs-2">
+      <img class="faction-icon"
+           alt="{{battle.opponent.faction}}"
+           ng-src="img/{{factions[battle.opponent.faction].icon}}" />
+    </div>
+    <div class="col-xs-10">
+      <div class="row">
+        <div class="col-xs-3">
+          <em>Name:</em>
+        </div>
+        <div class="col-xs-9">
+          {{battle.opponent.name|capitalise}}
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-3">
+          <em>Faction:</em>
+        </div>
+        <div class="col-xs-9">
+          {{factions[battle.opponent.faction].name}}
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-3">
+          <em>Caster:</em>
+        </div>
+        <div class="col-xs-9">
+          {{factions[battle.opponent.faction].casters[battle.opponent.caster].name}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>Settings</label>
+    </div>
+    <div class="col-xs-2"><em>Date:</em></div>
+    <div class="col-xs-10">
+      {{battle.date.year}} / {{battle.date.month}} / {{battle.date.day}}
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-2"><em>Event:</em></div>
+    <div class="col-xs-10">
+      {{battle.setup.event}}
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-2"><em>Scenario:</em></div>
+    <div class="col-xs-10">
+      {{scenarios[battle.setup.scenario].name}}
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-2"><em>Size:</em></div>
+    <div class="col-xs-10">
+      {{battle.setup.size}}
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-2"><em>Initiative:</em></div>
+    <div class="col-xs-10">
+      {{'true' === battle.setup.initiative.won_roll ? 'Won Roll' : 'Lost Roll'}}
+      -
+      {{'true' === battle.setup.initiative.started ? 'Started Game' : 'Chose Side'}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 section">
+      <div class="row">
+        <div class="col-xs-5">
+          <label>Game Result</label>
+        </div>
+        <div class="col-xs-7">
+          <strong  class="{{scores[battle.score].result | scoreResultColor}}">
+            {{scores[battle.score].type | capitalise}} {{scores[battle.score].result | capitalise}}
+          </strong>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-2"></div>
+    <div class="col-xs-5"><em>My Army</em></div>
+    <div class="col-xs-5"><em>Opponent</em></div>
+    <div class="clearfix"></div>
+    <div class="col-xs-2"><em>Control</em></div>
+    <div class="col-xs-5">
+      {{battle.points.my_army.scenario}}
+    </div>
+    <div class="col-xs-5">
+      {{battle.points.opponent.scenario}}
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-2"><em>Army</em></div>
+    <div class="col-xs-5">
+      {{battle.points.my_army.army}}
+    </div>
+    <div class="col-xs-5">
+      {{battle.points.opponent.army}}
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-2"><em>Kill</em></div>
+    <div class="col-xs-5">
+      {{battle.points.my_army.kill}}
+    </div>
+    <div class="col-xs-5">
+      {{battle.points.opponent.kill}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>Tags</label>
+    </div>
+    <div class="col-xs-12">
+      <ul>
+        <li ng-repeat="t in battle.tags">{{t}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>Comment</label>
+    </div>
+    <div class="col-xs-12">
+      {{battle.comment}}
+    </div>
+  </div>
 </div>

@@ -1,156 +1,87 @@
-<div class="container">
-  <p>
-    <form class="visible-xs pull-right"
-            style="margin-top:0.2em">
-      <label for="sort-by">Sort by</label>
-      <select class="form-control list-edit-form"
-              id="sort-by"
-              ng-model="sort.type"
-              ng-options="id as t.name for (id, t) in sort.types">
-      </select>
-      <input class="form-control list-edit-form"
-             id="sort-reverse" 
-             type="checkbox" 
-             ng-model="sort.reverse" />
-      <label for="sort-reverse" class="clickable">reverse</label>
-    </form>
-    <button class="btn btn-primary"
-            ng-click="addBattle()">
-      <span class="glyphicon glyphicon-plus"></span>
-      Add Battle
-    </button>
-    <button class="btn btn-default"
-            ng-click="toggleFilter()">
-      <span class="glyphicon glyphicon-filter"></span>
-      <span ng-hide="filter_active">Enable</span>
-      <span ng-show="filter_active">Disable</span>
-      Filter
-    </button>
-    <button class="btn btn-default"
-            ng-click="invertFilter()"
-            ng-show="filter_active">
-      <span class="glyphicon glyphicon-random"></span>
-      <span ng-hide="filter_invert">Invert</span>
-      <span ng-show="filter_invert">Restore</span>
-      Filter
-    </button>
-  </p>
-  <p style="font-size:16px">
-    Selection :
-    <button class="btn btn-xs btn-default"
-            style="margin-left:10px"
-            ng-click="selection.show = !selection.show">
-      <span class="glyphicon glyphicon-edit"></span>
-    </button>
-    <button class="btn btn-xs btn-default"
-            style="margin-left:10px"
-            ng-click="selectionRemove()">
-      <span class="glyphicon glyphicon-trash"></span>
-    </button>
-    <span class="export">
-      <span export-link
-            name="battle_list"
-            type="csv"
-            source="list_display">
-        Export to csv
-      </span>,
-      <span export-link
-            name="battle_list"
-            type="json"
-            source="list_display">
-        json
-      </span>,
-      <span export-link
-            name="battle_list"
-            type="bb"
-            source="list_display">
-        bbCode
-      </span>
-    </span>
-  </p>
-  <div ng-include="'partials/selection_edit.html'"></div>
-  <table class="table result">
-    <tr>
-      <th>
-        <input type="checkbox"
-               ng-model="selection.full"
-               ng-click="selection.toggleFull(battles)">
-      </th>
-      <th class="hidden-xxs" sortable="date" sort="sort">
+<div id="battle-list"
+     class="container">
+  <div class="table">
+    <div class="row text-center table-header">
+      <!-- <div>
+      <input type="checkbox"
+      ng-model="selection.full"
+      ng-click="selection.toggleFull(battles)">
+      </div> -->
+      <div class="hidden-xs col-sm-3" sortable="date" sort="sort">
         Date
-      </th>
-      <th sortable="my_caster" sort="sort">
-        Caster
-      </th>
-      <th sortable="opponent" sort="sort">
+      </div>
+      <div class="col-xs-4 col-sm-4" sortable="my_caster" sort="sort">
+        My Caster
+      </div>
+      <div class="col-xs-3 col-sm-3" sortable="opponent" sort="sort">
         Opponent
-      </th>
-      <th sortable="opp_caster" sort="sort">
+      </div>
+      <div class="col-xs-4 col-sm-4" sortable="opp_caster" sort="sort">
         Caster
-      </th>
-      <th class="visible-lg" sortable="size" sort="sort">
+      </div>
+      <div class="hidden-xs col-sm-1" sortable="size" sort="sort">
         Size
-      </th>
-      <th class="visible-lg" sortable="scenario" sort="sort">
+      </div>
+      <div class="hidden-xs col-sm-4" sortable="scenario" sort="sort">
         Scenario
-      </th>
-      <th class="hidden-xxs" sortable="event" sort="sort">
+      </div>
+      <div class="hidden-xs col-sm-2" sortable="event" sort="sort">
         Event
-      </th>
-      <th sortable="result" sort="sort">
-        Result
-      </th>
-    </tr>
-    <tr class="clickable"
-        ng-repeat="battle in list_display.battles track by battle.index">
-      <td>
-        <input type="checkbox"
-               name="selectionBattles[]"
-               ng-model="battle.selected">
-      </td>
-      <td class="hidden-xxs"
-          ng-click="viewBattle(battle.index)">
-        <span>{{battle.date.year+' / '+battle.date.month+' / '+battle.date.day}}
+      </div>
+      <div class="col-xs-1 col-sm-1" sortable="result" sort="sort">
+        R
+      </div>
+    </div>
+    <div id="battle-list-body"
+         class="table-body">
+      <div class="row text-center clickable table-row"
+           ng-repeat="battle in battles.list track by battle.index"
+           ng-click="onViewBattle(battle.index)">
+      <!-- <div>
+      <input type="checkbox"
+      name="selectionBattles[]"
+      ng-model="battle.selected">
+      </div> -->
+      <div class="hidden-xs col-sm-3">
+        <span>{{battle.date.year+'-'+battle.date.month+'-'+battle.date.day}}
         </span>
-      </td>
-      <td ng-click="viewBattle(battle.index)">
+      </div>
+      <div class="col-xs-4 col-sm-4">
         <img class="faction-icon"
              ng-src="{{'img/'+factions[battle.my_army.faction].icon}}" />
         <span>{{battle.my_army.caster | capitalise}}</span>
-      </td>
-      <td ng-click="viewBattle(battle.index)">
+      </div>
+      <div class="col-xs-3 col-sm-3">
         <span>{{battle.opponent.name | capitalise}}</span>
-      </td>
-      <td ng-click="viewBattle(battle.index)">
+      </div>
+      <div class="col-xs-4 col-sm-4">
         <img class="faction-icon"
              ng-src="{{'img/'+factions[battle.opponent.faction].icon}}" />
         <span>{{battle.opponent.caster | capitalise}}</span>
-      </td>
-      <td class="visible-lg"
-          ng-click="viewBattle(battle.index)">
+      </div>
+      <div class="hidden-xs col-sm-1">
         <span>{{battle.setup.size}}</span>
-      </td>
-      <td class="visible-lg"
-          ng-click="viewBattle(battle.index)">
+      </div>
+      <div class="hidden-xs col-sm-4">
         <span>{{scenarios[battle.setup.scenario].name}}</span>
-      </td>
-      <td class="hidden-xxs"
-          ng-click="viewBattle(battle.index)">
+      </div>
+      <div class="hidden-xs col-sm-2">
         <span>{{battle.setup.event}}</span>
-      </td>
-      <td ng-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}"
-          ng-click="viewBattle(battle.index)">
+      </div>
+      <div class="col-xs-1 col-sm-1"
+           ng-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}">
         <strong class="score-result">
           {{scores[battle.score].type | scoreTypeLetter}}
         </strong>
-      </td>
-    </tr>
-  </table>
+      </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="text-center clickable" 
-     ng-show="show_list && list_display.more" 
-     ng-click="list_display.showMore()" 
-     style="background-color:#DDD" 
-     when-scrolled="list_display.showMore()">
-  More...
-</div>
+<!-- <div class="text-center clickable" 
+ng-show="show_list && list_display.more" 
+ng-click="list_display.showMore()" 
+style="background-color:#DDD" 
+when-scrolled="list_display.showMore()">
+More...
+</div> -->

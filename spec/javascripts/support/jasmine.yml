@@ -59,7 +59,7 @@ helpers:
 spec_files:
   - filters/*Spec.js
   - services/*Spec.js
-  # - controllers/*Spec.js
+  - controllers/*Spec.js
 
 # src_dir
 #
