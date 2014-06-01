@@ -5,24 +5,27 @@ angular.module('jlogApp.controllers')
     '$scope',
     '$state',
     '$window',
+    'battles',
     function($scope,
              $state,
-             $window) {
-      console.log('init listViewCtrl ' + $scope.battle_index);
-      console.log($scope.battle);
-
-      if (undefined === $scope.battle) {
+             $window,
+             battles) {
+      if(undefined === $scope.battle) {
+        // $scope.battle_index = 1;
+        // $scope.battle = battles.list[1];
         $state.go('battle.list');
       }
 
-      $scope.editBattle = function editBattle() {
+      console.log('init listViewCtrl ' + $scope.battle_index);
+      console.log($scope.battle);
+
+      $scope.bottom_bar.onEditBattle = function onEditBattle() {
         $state.go('battle.edit');
       };
-      $scope.deleteBattle = function deleteBattle() {
+      $scope.bottom_bar.onDeleteBattle = function onDeleteBattle() {
         var confirm = $window.confirm('You sure you wanna delete this battle ?');
-        if (!confirm) return;
-        $scope.battles.splice($scope.battle_index, 1);
-        $scope.updateBattles();
-        $scope.close();
+        if(!confirm) return;
+        battles.remove($scope.battle_index);
+        $scope.bottom_bar.onClose();
       };
     }]);
