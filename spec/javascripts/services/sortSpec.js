@@ -13,7 +13,7 @@ describe('service', function() {
         beforeEach(inject([
             'battle_sort',
             function(_sort) {
-                sort = _sort();
+                sort = _sort;
             }]));
         
         it('should sort by reverse date by default', function() {
