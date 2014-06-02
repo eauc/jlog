@@ -11,7 +11,7 @@ angular.module('jlogApp.controllers')
     'tags',
     'scores',
     'battles_display',
-    // 'battle_sort',
+    'battle_sort',
     // 'filter',
     // 'stats',
     // 'battles_display',
@@ -24,8 +24,8 @@ angular.module('jlogApp.controllers')
       scenarios,
       tags,
       scores,
-      battles_display
-      // battle_sort,
+      battles_display,
+      battle_sort
       // filter,
       // stats,
       // battles_display
@@ -36,10 +36,10 @@ angular.module('jlogApp.controllers')
       $scope.bottom_bar = {};
 
       battles_display.init();
-      opponents.init();
-      events.init();
-      scenarios.init();
-      tags.init();
+      opponents.init(battles_display.list);
+      events.init(battles_display.list);
+      scenarios.init(battles_display.list);
+      tags.init(battles_display.list);
 
       $scope.battles = battles_display;
       $scope.factions = factions;
@@ -53,7 +53,7 @@ angular.module('jlogApp.controllers')
       // $scope.filter = filter.init();
       // $scope.stats = stats;
       // $scope.battles_display = battles_display;
-      // $scope.sort = battle_sort();
+      $scope.sort = battle_sort;
 
       // var onBattlesUpdate = function() {
       //     $scope.filter.clearCache();
@@ -100,4 +100,19 @@ angular.module('jlogApp.controllers')
       // $timeout(function() {
       //   $('#battle-list-body').niceScroll();
       // }, 500);
+
+      $scope.drop_down = {
+        state: null,
+        toggle: function(value, event) {
+          this.state = this.state === value ? null : value;
+          event.stopPropagation();
+        },
+        clear: function() {
+          this.state = null;
+        },
+        active: function(value) {
+          return this.state === value;
+        }
+      };
+            
     }]);

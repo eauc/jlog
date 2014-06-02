@@ -55,13 +55,12 @@ angular.module('jlogApp.controllers')
       //                               $scope.filter_invert,
       //                               $scope.sort);
       // });
-      // $scope.$watch('sort', function() {
-      //     $scope.list_display.reset($scope.battles,
-      //                               $scope.filter,
-      //                               $scope.filter_active,
-      //                               $scope.filter_invert,
-      //                               $scope.sort);
-      // }, true);
+      $scope.$watch('sort', function() {
+        $scope.battles.reset($scope.filter,
+                             $scope.filter_active,
+                             $scope.filter_invert,
+                             $scope.sort);
+      }, true);
 
       // $scope.$watch('list_display.sorted_battles|filter:{selected:true}', function(nv) {
       //     selection.update(nv);

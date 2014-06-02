@@ -19,7 +19,24 @@
     <span class="lbl">Export</span>
     <span class="caret"></span>
   </button>
-  <button class="btn btn-default dropup sort">
-    <span class="glyphicon glyphicon-sort"></span>
-  </button>
+  <div class="btn-group dropup sort"
+       ng-class="{ 'open': drop_down.active('battle_list_sort') }">
+    <button class="btn btn-default"
+            ng-click="drop_down.toggle('battle_list_sort', $event)">
+      <span class="glyphicon glyphicon-sort"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li class="dropdown-header">Sort By</li>
+      <!-- <li class="divider"></li> -->
+      <li ng-repeat="(type, val) in sort.types">
+        <a ng-click="sort.sortBy(type)">
+          <span class="glyphicon"
+                ng-class="{ 'glyphicon-collapse-down': sort.type === type && !sort.reverse, 'glyphicon-collapse-up': sort.type === type && sort.reverse }"
+                style="">
+          </span>
+          {{val.name}}
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>

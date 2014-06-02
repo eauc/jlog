@@ -57,6 +57,10 @@
     #bottom-bar button .caret {
         display: none;
     }
+    #bottom-bar .dropdown-menu {
+        font-size:14px;
+        text-align:left;
+    }
 }
 
 /******************************************************/
@@ -71,6 +75,12 @@
     height: 30px;
     line-height: 30px;
     background-color: #CCC;
+    white-space: nowrap;
+}
+@media (max-width: 767px) {
+    #battle-list .table-header .sort-indicator {
+        display: none;
+    }
 }
 @media (min-width: 768px) {
     #battle-list .table-header {
@@ -153,8 +163,12 @@
         display: none;
     }
 }
+#bottom-bar .sort .dropdown-menu {
+    left: auto;
+    right: 0px;
+}
 @media (min-width: 767px) {
-    #bottom-bar button.sort {
+    #bottom-bar .sort {
         display: none;
     }
 }

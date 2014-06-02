@@ -7,35 +7,35 @@
       ng-model="selection.full"
       ng-click="selection.toggleFull(battles)">
       </div> -->
-      <div class="hidden-xs col-sm-3" sortable="date" sort="sort">
+      <div class="hidden-xs col-sm-3" sort-by="date">
         Date
       </div>
-      <div class="col-xs-4 col-sm-4" sortable="my_caster" sort="sort">
+      <div class="col-xs-4 col-sm-4" sort-by="my_caster">
         My Caster
       </div>
-      <div class="col-xs-3 col-sm-3" sortable="opponent" sort="sort">
+      <div class="col-xs-3 col-sm-3" sort-by="opponent">
         Opponent
       </div>
-      <div class="col-xs-4 col-sm-4" sortable="opp_caster" sort="sort">
+      <div class="col-xs-4 col-sm-4" sort-by="opp_caster">
         Caster
       </div>
-      <div class="hidden-xs col-sm-1" sortable="size" sort="sort">
+      <div class="hidden-xs col-sm-1" sort-by="size">
         Size
       </div>
-      <div class="hidden-xs col-sm-4" sortable="scenario" sort="sort">
+      <div class="hidden-xs col-sm-4" sort-by="scenario">
         Scenario
       </div>
-      <div class="hidden-xs col-sm-2" sortable="event" sort="sort">
+      <div class="hidden-xs col-sm-2" sort-by="event">
         Event
       </div>
-      <div class="col-xs-1 col-sm-1" sortable="result" sort="sort">
+      <div class="col-xs-1 col-sm-1" sort-by="result">
         R
       </div>
     </div>
     <div id="battle-list-body"
          class="table-body">
       <div class="row text-center clickable table-row"
-           ng-repeat="battle in battles.list track by battle.index"
+           ng-repeat="battle in battles.sorted_list track by battle.index"
            ng-click="onViewBattle(battle.index)">
       <!-- <div>
       <input type="checkbox"
