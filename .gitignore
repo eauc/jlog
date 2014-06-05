@@ -1,4 +1,6 @@
 data/*.csv
 data/*.json
 data/*.txt
-node_modules
+node_modules/
+.grunt/
+SpecRunner.html
