@@ -4,6 +4,7 @@ angular.module('jlogApp.controllers')
   .controller('listEditCtrl', [
     '$scope',
     '$state',
+    '$stateParams',
     '$window',
     'battle',
     'battles',
@@ -13,6 +14,7 @@ angular.module('jlogApp.controllers')
     'tags',
     function($scope,
              $state,
+             $stateParams,
              $window,
              battle,
              battles,
@@ -20,25 +22,23 @@ angular.module('jlogApp.controllers')
              events,
              scenarios,
              tags) {
-      if(undefined === $scope.battle) {
-        $scope.battle_index = $scope.battles.list.length;
-        $scope.battle = battle();
+      var index;
+      if(0 > $stateParams.index) {
+        $state.current.data.index = battles.list.length;
+        $state.current.data.battle = battle();
       }
       else {
-        $scope.battle = angular.copy($scope.battle);
+        $state.current.data.index = $stateParams.index;
+        $state.current.data.battle = angular.copy(battles.list[$state.current.data.index]);
       }
-      console.log('init listEditCtrl ' + $scope.battle_index);
+      $scope.battle = $state.current.data.battle;
+      console.log('init listEditCtrl ' + $state.current.data.index);
       console.log($scope.battle);
 
-      $scope.bottom_bar.save_enable = false;
+      $state.current.data.save_enable = false;
       $scope.$watch('battle_edit.$valid', function(value) {
-        $scope.bottom_bar.save_enable = value;
+        $state.current.data.save_enable = value;
       });
-
-      $scope.bottom_bar.onSave = function onSave() {
-        battles.save($scope.battle_index, $scope.battle);
-        $scope.bottom_bar.onClose();
-      };
 
       $scope.opponents = opponents.list;
       $scope.onAddOpponent = function() {
@@ -145,4 +145,23 @@ angular.module('jlogApp.controllers')
           tags.remove(tags_to_delete[i]);
         }
       };
+    }])
+  .controller('listEditBottomCtrl', [
+    '$scope',
+    '$state',
+    'battles',
+    function($scope,
+             $state,
+             battles) {
+      console.log('init listEditBottomCtrl');
+
+      $scope.state = $state.current.data;
+      $scope.onSave = function onSave() {
+        battles.save($state.current.data.index, $state.current.data.battle);
+        $scope.onClose();
+      };
+      $scope.onClose = function onClose() {
+        $state.go('battle');
+      };
+
     }]);

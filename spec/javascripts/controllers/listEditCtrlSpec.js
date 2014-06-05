@@ -47,7 +47,9 @@ describe('controllers', function() {
         tags = _tags;
         $state = _$state;
 
+        $state.current.data = {};
         spyOn($state, 'go');
+        
         spyOn(battles, 'save');
         battles.list = [ battle(), battle(), battle() ];
 
@@ -57,29 +59,30 @@ describe('controllers', function() {
         scope.bottom_bar.onClose = jasmine.createSpy();
       }]));
 
-    describe('when scope.battle is undefined', function() {
+    describe('when $stateParams.index is < 0', function() {
 
       beforeEach(inject([ '$controller', function($controller) {
-        $controller('listEditCtrl', { '$scope': scope });
+        $controller('listEditCtrl', { '$scope': scope, '$stateParams': { index: -1 } });
       }]));
 
       it('should create a new battle', function() {
-        expect(scope.battle).toEqual(battle());
-        expect(scope.battle_index).toBe(3);
+        expect($state.current.data.battle).toEqual(battle());
+        expect($state.current.data.index).toBe(3);
       });
 
     });
 
-    describe('when scope.battle is defined', function() {
+    describe('when $stateParams.index is >= 0', function() {
 
       beforeEach(inject([ '$controller', function($controller) {
         scope.battle = battles.list[1];
-        $controller('listEditCtrl', { '$scope': scope });
+        $controller('listEditCtrl', { '$scope': scope, '$stateParams': { index: 1 }});
       }]));
 
       it('should clone the battle', function() {
-        expect(scope.battle).toEqual(battles.list[1]);
-        expect(scope.battle).not.toBe(battles.list[1]);
+        expect($state.current.data.index).toBe(1);
+        expect($state.current.data.battle).toEqual(battles.list[1]);
+        expect($state.current.data.battle).not.toBe(battles.list[1]);
       });
 
     });
@@ -102,17 +105,17 @@ describe('controllers', function() {
           
           scope.battle_index = index;
           scope.battle = battles.list[index];
-          $controller('listEditCtrl', { '$scope': scope });
+          $controller('listEditCtrl', { '$scope': scope, '$stateParams': { index: 1 } });
         }
       ]));
 
-      it('should initialize scope', function() {
-        expect(scope.bottom_bar.save_enable).toBe(false);
+      it('should initialize scope and state', function() {
+        expect(scope.battle).toBe($state.current.data.battle);
+        expect($state.current.data.save_enable).toBe(false);
+
         expect(scope.opponents).toBe(opponents.list);
         expect(scope.events).toBe(events.list);
         expect(scope.tags).toBe(tags.list);
-
-        expect(angular.isFunction(scope.bottom_bar.onSave)).toBeTruthy({});
 
         expect(angular.isFunction(scope.onAddOpponent)).toBeTruthy({});
         expect(angular.isFunction(scope.onAddEvent)).toBeTruthy({});
@@ -135,28 +138,12 @@ describe('controllers', function() {
           watcher = scope.$watch.calls.first().args[1];
         });
 
-        it('should set scope.bottom_bar.save_enable to the form validation state', function() {
+        it('should set $state.current.data.save_enable to the form validation state', function() {
           watcher(true);
-          expect(scope.bottom_bar.save_enable).toBe(true);
+          expect($state.current.data.save_enable).toBe(true);
 
           watcher(false);
-          expect(scope.bottom_bar.save_enable).toBe(false);
-        });
-
-      });
-
-      describe('onSave', function() {
-
-        beforeEach(function() {
-          scope.bottom_bar.onSave();
-        });
-
-        it('should save edited battle in battles', function() {
-          expect(battles.save).toHaveBeenCalledWith(index, scope.battle);
-        });
-
-        it('should close edit battle', function() {
-          expect(scope.bottom_bar.onClose).toHaveBeenCalled();
+          expect($state.current.data.save_enable).toBe(false);
         });
 
       });
@@ -510,6 +497,71 @@ describe('controllers', function() {
 
     });
 
+  });
+
+  describe('listEditBottomCtrl', function() {
+
+    var scope;
+    var battles;
+    var $state;
+
+    beforeEach(inject([
+      '$rootScope',
+      '$controller',
+      '$state',
+      'battles',
+      function($rootScope,
+               $controller,
+               _$state,
+               _battles) {
+        battles = _battles;
+        $state = _$state;
+
+        $state.current.data = { index: 'index', battle: 'battle' };
+        spyOn($state, 'go');
+        spyOn(battles, 'save');
+
+        scope = $rootScope.$new();
+        $controller('listEditBottomCtrl', { '$scope': scope });
+      }]));
+
+    it('should initialize scope and state', function() {
+      expect(scope.state).toBe($state.current.data);
+      
+      expect(angular.isFunction(scope.onSave)).toBeTruthy({});
+      expect(angular.isFunction(scope.onClose)).toBeTruthy({});
+    });
+    
+    describe('onSave', function() {
+      
+      beforeEach(function() {
+        spyOn(scope, 'onClose');
+
+        scope.onSave();
+      });
+      
+      it('should save edited battle in battles', function() {
+        expect(battles.save).toHaveBeenCalledWith('index', 'battle');
+      });
+      
+      it('should close edit battle', function() {
+        expect(scope.onClose).toHaveBeenCalled();
+      });
+      
+    });
+    
+    describe('onClose', function() {
+      
+      beforeEach(function() {
+        scope.onClose();
+      });
+      
+      it('should go to "battle" state', function() {
+        expect($state.go).toHaveBeenCalledWith('battle');
+      });
+      
+    });
+    
   });
 
 });

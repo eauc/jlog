@@ -22,45 +22,43 @@ angular.module('jlogApp', [
         url: '/battle',
         views: {
           'page': {
-            template: '<div ui-view></div>',
+            templateUrl: 'partials/battle_list.html',
             controller: 'listCtrl'
-          }
-        }
-      })
-      .state('battle.list', {
-        url: '/list',
-        views: {
-          '@battle': {
-            templateUrl: 'partials/battle_list.html'
           },
           'bottom-bar@': {
-            templateUrl: 'partials/battle_list_menu.html'
+            templateUrl: 'partials/battle_list_menu.html',
+            controller: 'listBottomCtrl'
           }
-        }
+        },
+        data: {}
       })
       .state('battle.view', {
-        url: '/view',
+        url: '/view/:index',
         views: {
-          '@battle': {
+          'battle': {
             templateUrl: 'partials/battle_view.html',
             controller: 'listViewCtrl'
           },
           'bottom-bar@': {
-            templateUrl: 'partials/battle_view_menu.html'
+            templateUrl: 'partials/battle_view_menu.html',
+            controller: 'listViewBottomCtrl'
           }
-        }
+        },
+        data: {}
       })
       .state('battle.edit', {
-        url: '/edit',
+        url: '/edit/:index',
         views: {
-          '@battle': {
+          'battle': {
             templateUrl: 'partials/battle_edit.html',
             controller: 'listEditCtrl'
           },
           'bottom-bar@': {
-            templateUrl: 'partials/battle_edit_menu.html'
+            templateUrl: 'partials/battle_edit_menu.html',
+            controller: 'listEditBottomCtrl'
           }
-        }
+        },
+        data: {}
       })
       .state('filter', {
         url: '/filter',

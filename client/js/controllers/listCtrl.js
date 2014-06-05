@@ -11,18 +11,8 @@ angular.module('jlogApp.controllers')
       // $scope.show_list = true;
       // $scope.selection = selection;
 
-      $scope.bottom_bar.onAddBattle = function onAddBattle() {
-        $state.go('battle.edit');
-      };
       $scope.onViewBattle = function onViewBattle(index) {
-        $scope.battle_index = index;
-        $scope.battle = $scope.battles.list[index];
-        $state.go('battle.view');
-      };
-      $scope.bottom_bar.onClose = function onClose() {
-        // $scope.show_list = true;
-        $scope.battle = undefined;
-        $state.go('battle.list');
+        $state.go('battle.view', { index: index });
       };
 
       // $scope.selectionRemove = function() {
@@ -55,16 +45,24 @@ angular.module('jlogApp.controllers')
       //                               $scope.filter_invert,
       //                               $scope.sort);
       // });
-      $scope.$watch('sort', function() {
-        $scope.battles.reset($scope.filter,
-                             $scope.filter_active,
-                             $scope.filter_invert,
-                             $scope.sort);
-      }, true);
-
       // $scope.$watch('list_display.sorted_battles|filter:{selected:true}', function(nv) {
       //     selection.update(nv);
       // }, true);
 
       // $scope.selection.reset($scope.battles);
+    }])
+  .controller('listBottomCtrl', [
+    '$scope',
+    '$state',
+    function($scope,
+             $state) {
+      console.log('init listBottomCtrl');
+
+      $scope.onAddBattle = function onAddBattle() {
+        $state.go('battle.edit', { index: -1 });
+      };
+      // $scope.onClose = function onClose() {
+      //   $state.go('battle');
+      // };
+
     }]);
