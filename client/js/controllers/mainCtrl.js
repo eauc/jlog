@@ -33,8 +33,6 @@ angular.module('jlogApp.controllers')
 
       console.log('init mainCtrl');
 
-      $scope.bottom_bar = {};
-
       battles_display.init();
       opponents.init(battles_display.list);
       events.init(battles_display.list);
@@ -43,7 +41,6 @@ angular.module('jlogApp.controllers')
 
       $scope.battles = battles_display;
       $scope.factions = factions;
-      $scope.scenarios = scenarios.list;
       $scope.scores = scores;
       // $scope.collapse_navbar = true;
       // $scope.factions = factions;

@@ -18,6 +18,7 @@ describe('controllers', function() {
     var scenarios;
     var scores;
     var tags;
+    var battle_sort;
 
     beforeEach(inject([
       '$rootScope',
@@ -29,6 +30,7 @@ describe('controllers', function() {
       'scenarios',
       'scores',
       'tags',
+      'battle_sort',
       function($rootScope,
                $controller,
                _battles,
@@ -37,7 +39,8 @@ describe('controllers', function() {
                _factions,
                _scenarios,
                _scores,
-               _tags) {
+               _tags,
+               _battle_sort) {
         battles_display = _battles;
         opponents = _opponents;
         events = _events;
@@ -45,6 +48,7 @@ describe('controllers', function() {
         scenarios = _scenarios;
         scores = _scores;
         tags = _tags;
+        battle_sort = _battle_sort;
 
         spyOn(battles_display, 'init');
         spyOn(opponents, 'init');
@@ -72,11 +76,9 @@ describe('controllers', function() {
     });
 
     it('should initialize scope', function() {
-      expect(scope.bottom_bar).toEqual({});
-
       expect(scope.battles).toBe(battles_display);
       expect(scope.factions).toBe(factions);
-      expect(scope.scenarios).toBe(scenarios.list);
+      expect(scope.sort).toBe(battle_sort);
       expect(scope.scores).toBe(scores);
     });
 

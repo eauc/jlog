@@ -4,17 +4,41 @@ angular.module('jlogApp.controllers')
   .controller('listCtrl', [
     '$scope',
     '$state',
+    '$timeout',
+    'scenarios',
     function($scope,
-             $state) {
+             $state,
+             $timeout,
+             scenarios) {
       console.log('init listCtrl');
 
-      // $scope.show_list = true;
-      // $scope.selection = selection;
+      $scope.scenarios = scenarios.list;
 
       $scope.onViewBattle = function onViewBattle(index) {
         $state.go('battle.view', { index: index });
       };
 
+      function showMore() {
+        $scope.battles.showMore();
+        if($scope.battles.more) {
+          $timeout(showMore, 100);
+        }
+      }
+      function resetListDisplay() {
+        $scope.battles.reset($scope.filter,
+                             $scope.filter_active,
+                             $scope.filter_invert,
+                             $scope.sort);
+        $timeout(showMore, 100);
+      }
+      resetListDisplay();
+      $scope.$watch('sort', resetListDisplay, true);
+
+      $scope.show_list = true;
+      $scope.$on('$stateChangeSuccess', 
+                 function(event, toState, toParams, fromState, fromParams) {
+                   $scope.show_list = ('battle' === toState.name);
+                 });
       // $scope.selectionRemove = function() {
       //     if ($scope.selection.remove($scope.battles)) {
       //         $scope.updateBattles();

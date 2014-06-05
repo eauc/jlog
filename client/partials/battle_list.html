@@ -1,5 +1,7 @@
+<div ui-view="battle"></div>
 <div id="battle-list"
-     class="container">
+     class="container"
+     ng-show="show_list">
   <div class="table">
     <div class="row text-center table-header">
       <!-- <div>
@@ -35,7 +37,7 @@
     <div id="battle-list-body"
          class="table-body">
       <div class="row text-center clickable table-row"
-           ng-repeat="battle in battles.sorted_list track by battle.index"
+           ng-repeat="battle in battles.display_list track by battle.index"
            ng-click="onViewBattle(battle.index)">
       <!-- <div>
       <input type="checkbox"
