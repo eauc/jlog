@@ -251,6 +251,30 @@
     }
 }
 
+/******************************************************/
+/* backup
+/******************************************************/
+
+#backup {
+    max-width:400px;
+}
+#backup .row {
+    margin-bottom: 10px;
+}
+#backup .section {
+    background-color: #CCC;
+    padding-top: 3px;
+    margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+    #backup .row {
+        margin-bottom: 5px;
+    }
+    #backup .section {
+        margin-bottom: 5px;
+    }
+}
+
 /* @media (max-width: 767px) { */
 /*     body { */
 /*         font-size:10px; */

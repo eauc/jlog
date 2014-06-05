@@ -68,8 +68,12 @@ angular.module('jlogApp', [
       })
       .state('backup', {
         url: '/backup',
-        templateUrl: 'partials/backup.html',
-        controller: 'backupCtrl'
+        views: {
+          'page': {
+            templateUrl: 'partials/backup.html',
+            controller: 'backupCtrl'
+          }
+        }
       })
       .state('stats', {
         url: '/stats',

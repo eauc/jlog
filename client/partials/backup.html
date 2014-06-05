@@ -1,73 +1,86 @@
-<div class="container">
-  <form class="form-inline">
-    <fieldset style="margin-top:10px">
-      <legend>  
-        <span class="glyphicon glyphicon-import"></span>
-        Import
-      </legend>
-      <div class="form-group">
-        <label class="control-label"
-               for="import-file">
-          Choose file
-        </label>
-        <input id="import-file"
-               type="file"
-               onchange="angular.element(this).scope().readBackupFile(this.files[0])" />
-      </div>
-      <strong ng-show="backup.read_result === 'loaded file'"
-              class="text-success">{{backup.read_result | capitalise}}</strong>
-      <strong ng-show="backup.read_result !== 'loaded file'"
-              class="text-danger">{{backup.read_result | capitalise}}</strong>
-    </fieldset>
-    <fieldset style="margin-top:10px">
-      <legend>  
-        <span class="glyphicon glyphicon-export"></span>
-        Export
-      </legend>
+<div class="container"
+     id="backup">
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>Import</label>
+    </div>
+    <div class="col-xs-6">
+      <label>Choose File :</label>
+    </div>
+    <div class="col-xs-6">
+      <strong ng-class="{ 'text-success': backup.read_result === 'loaded file', 'text-danger': backup.read_result !== 'loaded file' }">{{backup.read_result | capitalise}}</strong>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12">
+      <input id="import-file"
+             type="file"
+             onchange="angular.element(this).scope().readBackupFile(this.files[0])" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>Export</label>
+    </div>
+    <div class="col-xs-4">
+      <label>Download File</label>
+    </div>
+    <div class="col-xs-8">
       <a ng-show="backup.save_url !== null"
          ng-href="{{backup.save_url}}"
          download="{{backup.save_name}}">
-        Download File
+        {{backup.save_name}}
       </a>
+    </div>
+  </div>
+  <!-- </fieldset>
+  <fieldset style="margin-top:10px">
+  <legend>  
+  <span class="glyphicon glyphicon-export"></span>
+  Export
+  </legend>
+  <a ng-show="backup.save_url !== null"
+  ng-href="{{backup.save_url}}"
+  download="{{backup.save_name}}">
+  Download File
+  </a>
+  </fieldset> -->
+    <!-- <fieldset style="margin-top:10px">
+    <legend>  
+    <span class="glyphicon glyphicon-cloud-download"></span>
+    Download
+    </legend>
+    <button class="btn btn-primary"
+    ng-click="downloadData()">
+    Download From Server
+    </button>
+    <div class="form-group">
+    <label for="download-id">Id :</label>
+    <input id="download-id"
+    type="text"
+    class="form-control"
+    style="width:100px" 
+    ng-model="backup.download_id" />
+    </div>
+    <strong ng-show="backup.download_result === 'downloaded data'"
+    class="text-success">{{backup.download_result | capitalise}}</strong>
+    <strong ng-show="backup.download_result !== 'downloaded data'"
+    class="text-danger">{{backup.download_result | capitalise}}</strong>
     </fieldset>
     <fieldset style="margin-top:10px">
-      <legend>  
-        <span class="glyphicon glyphicon-cloud-download"></span>
-        Download
-      </legend>
-      <button class="btn btn-primary"
-              ng-click="downloadData()">
-        Download From Server
-      </button>
-      <div class="form-group">
-        <label for="download-id">Id :</label>
-        <input id="download-id"
-               type="text"
-               class="form-control"
-               style="width:100px" 
-               ng-model="backup.download_id" />
-      </div>
-      <strong ng-show="backup.download_result === 'downloaded data'"
-              class="text-success">{{backup.download_result | capitalise}}</strong>
-      <strong ng-show="backup.download_result !== 'downloaded data'"
-              class="text-danger">{{backup.download_result | capitalise}}</strong>
-    </fieldset>
-    <fieldset style="margin-top:10px">
-      <legend>  
-        <span class="glyphicon glyphicon-cloud-upload"></span>
-        Upload
-      </legend>
-      <button class="btn btn-primary"
-              ng-click="uploadData()">
-        Upload To Server
-      </button>
-      <strong ng-show="backup.upload_result === 'uploaded data'">Id :</strong>
-      <span>{{backup.upload_id}}</span>
-      <br />
-      <strong ng-show="backup.upload_result === 'uploaded data'"
-              class="text-success">{{backup.upload_result | capitalise}}</strong>
-      <strong ng-show="backup.upload_result !== 'uploaded data'"
-              class="text-danger">{{backup.upload_result | capitalise}}</strong>
-    </fieldset>
-  </form>
+    <legend>  
+    <span class="glyphicon glyphicon-cloud-upload"></span>
+    Upload
+    </legend>
+    <button class="btn btn-primary"
+    ng-click="uploadData()">
+    Upload To Server
+    </button>
+    <strong ng-show="backup.upload_result === 'uploaded data'">Id :</strong>
+    <span>{{backup.upload_id}}</span>
+    <br />
+    <strong ng-show="backup.upload_result === 'uploaded data'"
+    class="text-success">{{backup.upload_result | capitalise}}</strong>
+    <strong ng-show="backup.upload_result !== 'uploaded data'"
+    class="text-danger">{{backup.upload_result | capitalise}}</strong>
+    </fieldset> -->
 </div>

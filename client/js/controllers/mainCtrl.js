@@ -68,12 +68,13 @@ angular.module('jlogApp.controllers')
       //     battles.update($scope.battles);
       //     onBattlesUpdate();
       // };
-      // $scope.newBattles = function newBattles(data) {
-      //     $scope.battles = battles.create(data);
-      //     $scope.opponents = opponents.create($scope.battles);
-      //     $scope.events = events.create($scope.battles);
-      //     $scope.scenarios = scenarios.create($scope.battles);
-      // };
+      $scope.$on('newBattles', function(event, data) {
+        battles_display.create(data);
+        opponents.create($scope.battles.list);
+        events.create($scope.battles.list);
+        scenarios.create($scope.battles.list);
+        tags.create($scope.battles.list);
+      });
       // $scope.battles = battles.init();
       // $scope.opponents = opponents.init($scope.battles);
       // $scope.events = events.init($scope.battles);
