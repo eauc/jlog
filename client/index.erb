@@ -17,6 +17,19 @@
         <a class="navbar-brand" href="#">
           Journey Log
         </a>
+        <div id="menu"
+             class="btn-group"
+             ng-class="{ 'open': drop_down.active('menu') }">
+          <button class="btn btn-default navbar-btn"
+                  ng-click="drop_down.toggle('menu', $event)">
+            <span class="glyphicon glyphicon-th"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#/battle">Battle List</a></li>
+            <li><a href="#">Statistics</a></li>
+            <li><a href="#/backup">Backup</a></li>
+          </ul>
+        </div>
       </div>
     </nav>
     <div id="view-container" ui-view="page"></div>

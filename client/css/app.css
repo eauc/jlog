@@ -10,12 +10,29 @@
     margin-top:50px;
     margin-bottom: 50px;
 }
+#menu {
+    position: absolute;
+    right: 5px;
+}
+#menu .dropdown-menu {
+    left: auto;
+    right: 0px;
+    top: 45px;
+}
 @media (max-width: 767px) {
     .navbar {
         min-height: 40px;
     }
     .navbar-brand {
         padding: 10px;
+    }
+    #menu button {
+        font-size: 10px;
+        margin-top: 6px;
+        padding: 6px 10px;
+    }
+    #menu .dropdown-menu {
+        top: 35px;
     }
     #view-container {
         font-size: 10px;
