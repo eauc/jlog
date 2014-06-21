@@ -21,7 +21,7 @@ angular.module('jlogApp.services')
                                          sort.types[sort.type].key,
                                          sort.reverse);
       }
-      angular.extend(battles, {
+      _.extend(battles, {
         sorted_list: [],
         display_list: [],
         slice: 15,

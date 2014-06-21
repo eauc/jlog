@@ -23,17 +23,15 @@ angular.module('jlogApp.services')
       };
       var build = function eventsBuild(battles) {
         events.list = [];
-        if (!angular.isArray(battles)) return;
-        var i, temp = {}, event;
-        for (i = 0 ; i < battles.length ; i++) {
-          if (angular.isObject(battles[i].setup) &&
-              angular.isString(battles[i].setup.event)) {
-            temp[battles[i].setup.event] = true;
+        if (!_.isArray(battles)) return;
+        var temp = {};
+        _.each(battles, function(battle) {
+          if (_.isObject(battle.setup) &&
+              _.isString(battle.setup.event)) {
+            temp[battle.setup.event] = true;
           }
-        }
-        for (event in temp) {
-          events.list.push(event);
-        }
+        });
+        events.list = _.keys(temp);
         events.list.sort();
       };
       events.create = function eventsCreate(battles) {

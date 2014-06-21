@@ -130,20 +130,19 @@ angular.module('jlogApp.controllers')
         if(tags_to_delete.length <= 0) return;
 
         var confirm_msg = 'Forget everything about these tags ?\r\n';
-        var i;
-        for(i = 0 ; i < tags_to_delete.length ; i++) {
-          confirm_msg += '\t' + tags_to_delete[i] + '\r\n';
-        }
+        _.each(tags_to_delete, function(tag) {
+          confirm_msg += '\t' + tag + '\r\n';
+        });
         var confirm = $window.confirm(confirm_msg);
         if(!confirm) return;
 
         $scope.battle.tags = [];
-        for(i = 0 ; i < tags_to_delete.length ; i++) {
-          battles.clear(tags_to_delete[i],
+        _.each(tags_to_delete, function(tag) {
+          battles.clear(tag,
                         delete_key.tags.get,
                         delete_key.tags.clear);
-          tags.remove(tags_to_delete[i]);
-        }
+          tags.remove(tag);
+        });
       };
     }])
   .controller('listEditBottomCtrl', [

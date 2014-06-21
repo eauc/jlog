@@ -3,23 +3,23 @@
 angular.module('jlogApp.services')
   .factory('selection', [function() {
     var setMyArmy = function selectionSetMyArmy(battles) {
-      var i, modified = false;
+      var modified = false;
       if ('string' === typeof(this.my_army.faction) &&
           0 < this.my_army.faction.length) {
         modified = true;
-        for (i = 0 ; i < this.battles.length ; i++) {
-          battles[this.battles[i]].my_army.faction =
+        _.each(this.battles, function(battle) {
+          battles[battle].my_army.faction =
             this.my_army.faction;
-          battles[this.battles[i]].my_army.caster = '';
-        }
+          battles[battle].my_army.caster = '';
+        });
       }
       if ('string' === typeof(this.my_army.caster) &&
           0 < this.my_army.caster.length) {
         modified = true;
-        for (i = 0 ; i < this.battles.length ; i++) {
-          battles[this.battles[i]].my_army.caster =
+        _.each(this.battles, function(battle) {
+          battles[battle].my_army.caster =
             this.my_army.caster;
-        }
+        });
       }
       return modified;
     };

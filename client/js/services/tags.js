@@ -23,20 +23,18 @@ angular.module('jlogApp.services')
       };
       var build = function tagsBuild(battles) {
         tags.list = [];
-        if (!angular.isArray(battles)) return;
-        var i, j, temp = {}, tag;
-        for (i = 0 ; i < battles.length ; i++) {
-          if (angular.isArray(battles[i].tags)) {
-            for (j = 0 ; j < battles[i].tags.length ; j++) {
-              if (angular.isString(battles[i].tags[j])) {
-                temp[battles[i].tags[j]] = true;
+        if (!_.isArray(battles)) return;
+        var temp = {};
+        _.each(battles, function(battle) {
+          if (_.isArray(battle.tags)) {
+            _.each(battle.tags, function(tag) {
+              if (_.isString(tag)) {
+                temp[tag] = true;
               }
-            }
+            });
           }
-        }
-        for (tag in temp) {
-          tags.list.push(tag);
-        }
+        });
+        tags.list = _.keys(temp);
         tags.list.sort();
       };
       tags.create = function tagsCreate(battles) {

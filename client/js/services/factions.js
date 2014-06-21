@@ -13,20 +13,17 @@ angular.module('jlogApp.services')
       return caster;
     }
     var factions = {};
-    var faction_key, caster_key;
-    for (faction_key in default_factions) {
-      var faction = default_factions[faction_key];
+    _.each(default_factions, function(faction, faction_key) {
       factions[faction_key] = {
         'name': faction.name,
         'icon': faction.icon,
         'casters': {}
       };
-      for (caster_key in faction.casters) {
-        var caster = faction.casters[caster_key];
+      _.each(faction.casters, function(caster, caster_key) {
         var normed_caster_key = normaliseCaster(caster_key);
         factions[faction_key].casters[normed_caster_key] = caster;
-      }
-    }
+      });
+    });
     // console.log(factions);
     return factions;
   }]);

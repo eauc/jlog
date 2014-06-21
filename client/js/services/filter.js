@@ -4,7 +4,7 @@ angular.module('jlogApp.services')
   .factory('filterMatchSimple', [
     function() {
       return function(data, get) {
-        return angular.extend({
+        return _.extend({
           active: false,
           is: 'true',
           value: [],
@@ -46,7 +46,7 @@ angular.module('jlogApp.services')
       };
       return function(data) {
         var today = new Date();
-        return angular.extend({
+        return _.extend({
           active: false,
           is: '0',
           year: today.getFullYear(),
@@ -72,7 +72,7 @@ angular.module('jlogApp.services')
         return 0;
       };
       return function(data) {
-        return angular.extend({
+        return _.extend({
           active: false,
           is: '0',
           value: 50,
@@ -90,7 +90,7 @@ angular.module('jlogApp.services')
   .factory('filterMatchCaster', [
     function() {
       return function(data, get) {
-        return angular.extend({
+        return _.extend({
           active: false,
           is: 'true',
           faction: null,
@@ -107,82 +107,10 @@ angular.module('jlogApp.services')
       };
     }
   ])
-// .factory('filterMatchOpponent', [
-//   function() {
-//     return function(data) {
-//       return angular.extend({
-//         active: false,
-//         is: 'true',
-//         value: [],
-//         match: function filterMatchOpponentName(battle) {
-//           var match = ( 0 == this.value.length ||
-//                         0 <= this.value.indexOf(battle.opponent.name) );
-//           // console.log(filter.opp_name.is + ' ' + match);
-//           return !this.active
-//             || (this.is === 'true' ? match : !match);
-//         }
-//       }, data);
-//     };
-//   }
-// ])
-// .factory('filterMatchResult', [
-//   function() {
-//     return function(data) {
-//       return angular.extend({
-//         active: false,
-//         is: 'true',
-//         value: [],
-//         match: function filterMatchResult(battle) {
-//           var match = ( 0 == this.value.length ||
-//                         0 <= this.value.indexOf(battle.score) );
-//           // console.log(filter.result.is + ' ' + match);
-//           return !this.active
-//             || (this.is === 'true' ? match : !match);
-//         }
-//       }, data);
-//     };
-//   }
-// ])
-// .factory('filterMatchScenario', [
-//   function() {
-//     return function(data) {
-//       return angular.extend({
-//         active: false,
-//         is: 'true',
-//         name: [],
-//         match: function filterMatchScenario(battle) {
-//           var match = ( 0 == this.name.length ||
-//                         0 <= this.scenario.name.indexOf(battle.setup.scenario) );
-//           // console.log(filter.scenario.is + ' ' + match);
-//           return !this.active
-//             || (this.is === 'true' ? match : !match);
-//         }
-//       }, data);
-//     };
-//   }
-// ])
-// .factory('filterMatchEvent', [
-//   function() {
-//     return function(data) {
-//       return angular.extend({
-//         active: false,
-//         is: 'true',
-//         value: [],
-//         match: function filterMatchEvent(battle) {
-//           var match = ( 0 == this.value.length ||
-//                         0 <= this.value.indexOf(battle.setup.event) );
-//           // console.log(filter.event.is + ' ' + match);
-//           return !this.active
-//             || (this.is === 'true' ? match : !match);
-//         }
-//       }, data);
-//     };
-//   }
-// ])
   .factory('filterMatchInitiative', [
     function() {
       return function(data) {
-        return angular.extend({
+        return _.extend({
           active: false,
           is: 'true',
           won_roll: '',
@@ -203,7 +131,7 @@ angular.module('jlogApp.services')
   .factory('filterMatchTags', [
     function() {
       return function(data) {
-        return angular.extend({
+        return _.extend({
           active: false,
           is: 'any',
           value: [],
@@ -214,12 +142,12 @@ angular.module('jlogApp.services')
               return ('none' === this.is ||
                       'not_all' === this.is);
             }
-            var i, and = true, or = false, found;
-            for (i = 0 ; i < this.value.length ; i++) {
-              found = (0 <= battle.tags.indexOf(this.value[i]));
+            var and = true, or = false, found;
+            _.each(this.value, function(value) {
+              found = (0 <= battle.tags.indexOf(value));
               and = (and && found);
               or = (or || found);
-            }
+            });
             switch (this.is) {
             case 'any':
               return or;
@@ -243,10 +171,6 @@ angular.module('jlogApp.services')
     'filterMatchDate',
     'filterMatchSize',
     'filterMatchCaster',
-    // 'filterMatchOpponent',
-    // 'filterMatchResult',
-    // 'filterMatchScenario',
-    // 'filterMatchEvent',
     'filterMatchInitiative',
     'filterMatchTags',
     function($window,
@@ -271,22 +195,22 @@ angular.module('jlogApp.services')
 
       var create = function filterCreate(data) {
         return {
-          date: filterMatchDate(angular.isObject(data.date) ? data.date : {}),
-          my_army: filterMatchCaster(angular.isObject(data.my_army) ? data.my_army : {},
+          date: filterMatchDate(_.isObject(data.date) ? data.date : {}),
+          my_army: filterMatchCaster(_.isObject(data.my_army) ? data.my_army : {},
                                      function(battle) { return battle.my_army; }),
-          opp_name: filterMatchSimple(angular.isObject(data.opp_name) ? data.opp_name : {},
+          opp_name: filterMatchSimple(_.isObject(data.opp_name) ? data.opp_name : {},
                                       function(battle) { return battle.opponent.name; }),
-          opp_caster: filterMatchCaster(angular.isObject(data.opp_caster) ? data.opp_caster : {},
+          opp_caster: filterMatchCaster(_.isObject(data.opp_caster) ? data.opp_caster : {},
                                         function(battle) { return battle.opponent; }),
-          result: filterMatchSimple(angular.isObject(data.result) ? data.result : {},
+          result: filterMatchSimple(_.isObject(data.result) ? data.result : {},
                                     function(battle) { return battle.score; }),
-          scenario: filterMatchSimple(angular.isObject(data.scenario) ? data.scenario : {},
+          scenario: filterMatchSimple(_.isObject(data.scenario) ? data.scenario : {},
                                       function(battle) { return battle.setup.scenario; }),
-          initiative: filterMatchInitiative(angular.isObject(data.initiative) ? data.initiative : {}),
-          size: filterMatchSize(angular.isObject(data.size) ? data.size : {}),
-          event: filterMatchSimple(angular.isObject(data.event) ? data.event : {},
+          initiative: filterMatchInitiative(_.isObject(data.initiative) ? data.initiative : {}),
+          size: filterMatchSize(_.isObject(data.size) ? data.size : {}),
+          event: filterMatchSimple(_.isObject(data.event) ? data.event : {},
                                    function(battle) { return battle.setup.event; }),
-          tags: filterMatchTags(angular.isObject(data.tags) ? data.tags : {})
+          tags: filterMatchTags(_.isObject(data.tags) ? data.tags : {})
         };
       };
       
@@ -309,13 +233,9 @@ angular.module('jlogApp.services')
         },
         match: function filterMatch(battle, invert) {
           if (!cache.hasOwnProperty(battle.index)) {
-            cache[battle.index] = true;
-            var key;
-            for(key in this.list) {
-              if(this.list.hasOwnProperty(key)) {
-                cache[battle.index] = cache[battle.index] && this.list[key].match(battle);
-              }
-            }
+            cache[battle.index] = _.reduce(this.list, function(res, value, key) {
+              return res && value.match(battle);
+            }, true);
             console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
           }
           return invert ? !cache[battle.index] : cache[battle.index];

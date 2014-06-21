@@ -99,21 +99,21 @@ angular.module('jlogApp.services')
       };
       var build = function scenariosBuild(battles) {
         scenarios.list = angular.copy(default_scenarios);
-        if (!angular.isArray(battles)) return;
-        var i, temp = {}, key;
-        for (i = 0 ; i < battles.length ; i++) {
-          if (angular.isObject(battles[i].setup) &&
-              angular.isString(battles[i].setup.scenario)) {
-            temp[battles[i].setup.scenario] = true;
+        if (!_.isArray(battles)) return;
+        var temp = {};
+        _.each(battles, function(battle) {
+          if (_.isObject(battle.setup) &&
+              _.isString(battle.setup.scenario)) {
+            temp[battle.setup.scenario] = true;
           }
-        }
-        for (key in temp) {
+        });
+        _.each(temp, function(val, key) {
           if (undefined === scenarios.list[key]) {
             scenarios.list[key] = {
               'name': key
             };
           }
-        }
+        });
       };
       scenarios.create = function scenariosCreate(battles) {
         build(battles);

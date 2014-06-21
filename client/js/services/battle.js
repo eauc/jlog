@@ -3,7 +3,7 @@
 angular.module('jlogApp.services')
   .factory('battle', [function() {
     function normalizeCaster(caster) {
-      if (!angular.isString(caster)) return null;
+      if (!_.isString(caster)) return null;
       var last_char = caster.charAt(caster.length - 1);
       if ('0' > last_char || '9' < last_char) {
         caster += '1';
@@ -17,7 +17,7 @@ angular.module('jlogApp.services')
     return function(data) {
       var today = new Date();
       data = data || {};
-      var instance = angular.extend({
+      var instance = _.extend({
         'date': {
           'year': today.getFullYear(),
           'month': today.getMonth() + 1,
@@ -96,11 +96,8 @@ angular.module('jlogApp.services')
       };
       battles.create = function battlesCreate(list) {
         this.list = [];
-        if (angular.isArray(list)) {
-          var i = 0;
-          for (i = 0 ; i < list.length ; i++) {
-            this.list.push(battle(list[i]));
-          }
+        if (_.isArray(list)) {
+          this.list = _.map(list, battle);
         }
         this.update();
       };
@@ -122,12 +119,11 @@ angular.module('jlogApp.services')
         this.update();
       };
       battles.clear = function battlesClear(value, getter, clearer) {
-        var i;
-        for(i = 0 ; i < this.list.length ; i++) {
-          if(0 <= getter.call(this.list[i]).indexOf(value)) {
-            clearer.call(this.list[i], value);
+        _.each(this.list, function(battle) {
+          if(0 <= getter.call(battle).indexOf(value)) {
+            clearer.call(battle, value);
           }
-        }
+        });
         this.update();
       };
       battles.remove = function battlesRemove(index) {

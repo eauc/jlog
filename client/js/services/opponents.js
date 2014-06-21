@@ -23,18 +23,15 @@ angular.module('jlogApp.services')
       };
       var build = function opponentsBuild(battles) {
         opponents.list = [];
-        if (!angular.isArray(battles)) return;
-        var i, battle, opp, temp = {};
-        for (i = 0 ; i < battles.length ; i++) {
-          battle = battles[i];
-          if (angular.isObject(battle.opponent) &&
-              angular.isString(battle.opponent.name)) {
+        if (!_.isArray(battles)) return;
+        var opp, temp = {};
+        _.each(battles, function(battle) {
+          if (_.isObject(battle.opponent) &&
+              _.isString(battle.opponent.name)) {
             temp[battle.opponent.name] = true;
           }
-        }
-        for (opp in temp) {
-          opponents.list.push(opp);
-        }
+        });
+        opponents.list = _.keys(temp);
         opponents.list.sort();
       };
       opponents.create = function opponentsCreate(battles) {
