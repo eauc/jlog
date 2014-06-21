@@ -1,0 +1,18 @@
+{
+  "multistr": true,
+  "globals": {
+    "_": false,
+    "$": false,
+    "angular": false,
+    "console": false,
+    "describe": false,
+    "beforeEach": false,
+    "it": false,
+    "expect": false,
+    "module": false,
+    "inject": false,
+    "jasmine": false
+  },
+  "-W097": true, // "use strict function form"
+  "-W040": true // "possible strict violation"
+}

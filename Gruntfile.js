@@ -1,55 +1,39 @@
 module.exports = function(grunt) {
 
+  var js_src =  [ 'client/js/**/*.js', '!**/*.min.js' ];
+  var spec_js_src = [ 'spec/javascripts/**/*Spec.js' ];
+  var spec_js_helpers = [ 'spec/javascripts/helpers/*.js' ];
+  var spec_js = spec_js_src.concat(spec_js_helpers);
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      scripts: {
+      src: {
         options: {
-          multistr: true,
-          globals: {
-            'angular': false,
-            '$': false,
-            'console': false
-          },
-          ignores: [ '**/*.min.js' ],
-          '-W097': true, // 'use strict function form'
-          '-W040': true // 'possible strict violation'
+          jshintrc: '.jshintrc'
         },
         files: {
-          src: [ 'client/js/**/*.js', '!**/*.min.js' ]
+          src: js_src
         }
       },
-      tests: {
+      spec: {
         options: {
-          multistr: true,
-          globals: {
-            'angular': false,
-            '$': false,
-            'console': false,
-            'describe': false,
-            'it': false,
-            'beforeEach': false,
-            'expect': false,
-            'module': false,
-            'inject': false,
-            'jasmine': false,
-          },
-          '-W097': true, // 'use strict function form'
-          '-W040': true // 'possible strict violation'
+          jshintrc: '.jshintrc_spec'
         },
         files: {
-          src: [ 'spec/javascripts/**/*.js' ]
+          src: spec_js
         }
       }
     },
     jasmine: {
-      unit: {
-        src: [ 'client/js/**/*.js', '!**/*.min.js' ],
+      spec: {
+        src: js_src,
         options: {
-          specs: [ 'spec/**/*Spec.js' ],
-          helpers: 'spec/helpers/*Helper.js',
+          specs: spec_js_src,
+          helpers: spec_js_helpers,
           vendor: [
+              'client/lib/underscore/underscore.min.js',
               'client/lib/angular/angular.js',
               'client/lib/angular/angular-*.js',
               'spec/javascripts/lib/angular/angular-mocks.js'
@@ -60,9 +44,9 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      scripts: {
-        files: [ 'client/js/**/*.js', 'spec/javascripts/**/*.js' ],
-        tasks: [ 'jshint:scripts' ],
+      src: {
+        files: js_src,
+        tasks: [ 'jshint:src' ],
         options: {
           spawn: true
         }
