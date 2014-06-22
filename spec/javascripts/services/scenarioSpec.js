@@ -4,6 +4,7 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
+    module('jlogApp.test_services');
   });
 
   describe('scenarios', function() {
@@ -14,18 +15,12 @@ describe('service', function() {
     var storage;
 
     beforeEach(inject([
-      'default_scenarios', 'scenarios', 'battle',
-      function(_default_scenarios, _scenarios, _battle) {
+      'default_scenarios', 'scenarios', 'battle', 'storage',
+      function(_default_scenarios, _scenarios, _battle, _storage) {
         default_scenarios = _default_scenarios;
         scenarios = _scenarios;
         battle = _battle;
-        storage = jasmine.createSpyObj('localStorage', ['getItem', 'setItem', 'clear']);
-        Object.defineProperty(window, 'localStorage', {
-          value: storage,
-          configurable: true,
-          enumerable: true,
-          writable:true
-        });
+        storage = _storage;
       }]));
     
     it('list should be created with default scenarios list', function() {
@@ -150,7 +145,7 @@ describe('service', function() {
           battle({ setup: { scenario: 'custom' }}),
           battle({ setup: { scenario: 'myown' }})
         ]);
-        localStorage.setItem.calls.reset();
+        storage.setItem.calls.reset();
 
         scenarios.add('dudule');
       });
@@ -160,7 +155,7 @@ describe('service', function() {
       });
 
       it('should store the new list', function() {
-        expect(localStorage.setItem)
+        expect(storage.setItem)
           .toHaveBeenCalledWith('jlog_scenarios',
                             jasmine.any(String));
       });
@@ -177,7 +172,7 @@ describe('service', function() {
           battle({ setup: { scenario: 'custom' }}),
           battle({ setup: { scenario: 'myown' }})
         ]);
-        localStorage.setItem.calls.reset();
+        storage.setItem.calls.reset();
         initial_list = scenarios.list;
       });
 
@@ -192,7 +187,7 @@ describe('service', function() {
         });
 
         it('should not store the list', function() {
-          expect(localStorage.setItem)
+          expect(storage.setItem)
             .not.toHaveBeenCalled();
         });
 
@@ -209,7 +204,7 @@ describe('service', function() {
         });
 
         it('should store the updated list', function() {
-          expect(localStorage.setItem)
+          expect(storage.setItem)
             .toHaveBeenCalledWith('jlog_scenarios',
                                   jasmine.any(String));
         });

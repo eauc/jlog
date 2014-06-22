@@ -166,14 +166,14 @@ angular.module('jlogApp.services')
     }
   ])
   .factory('filter', [
-    '$window',
+    'storage',
     'filterMatchSimple',
     'filterMatchDate',
     'filterMatchSize',
     'filterMatchCaster',
     'filterMatchInitiative',
     'filterMatchTags',
-    function($window,
+    function(storage,
              filterMatchSimple,
              filterMatchDate,
              filterMatchSize,
@@ -183,14 +183,14 @@ angular.module('jlogApp.services')
       var storage_filter_key = 'jlog_filter';
       var store = function filterStore(list) {
         console.log('save filter in localStorage');
-        $window.localStorage.setItem(storage_filter_key, list);
+        storage.setItem(storage_filter_key, list);
       };
       var load = function filterLoad() {
         console.log('load filter from localStorage');
-        return JSON.parse($window.localStorage.getItem(storage_filter_key));
+        return JSON.parse(storage.getItem(storage_filter_key));
       };
       var storageContainsFilter = function filterStorageContainsFilter() {
-        return 'string' === typeof $window.localStorage.getItem(storage_filter_key);
+        return 'string' === typeof storage.getItem(storage_filter_key);
       };
 
       var create = function filterCreate(data) {

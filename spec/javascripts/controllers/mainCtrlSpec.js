@@ -104,7 +104,7 @@ describe('controllers', function() {
         expect(tags.create).toHaveBeenCalledWith(battles_display.list);
       });
 
-    })
+    });
 
   });
 

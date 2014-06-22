@@ -4,6 +4,7 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
+    module('jlogApp.test_services');
   });
 
   describe('tags', function() {
@@ -13,17 +14,11 @@ describe('service', function() {
     var storage;
 
     beforeEach(inject([
-      'tags', 'battle',
-      function(_tags, _battle) {
+      'tags', 'battle', 'storage',
+      function(_tags, _battle, _storage) {
         tags = _tags;
         battle = _battle;
-        storage = jasmine.createSpyObj('localStorage', ['getItem', 'setItem', 'clear']);
-        Object.defineProperty(window, 'localStorage', {
-          value: storage,
-          configurable: true,
-          enumerable: true,
-          writable:true
-        });
+        storage = _storage;
       }]));
     
     it('list should be created empty', function() {
@@ -124,7 +119,7 @@ describe('service', function() {
           battle({ tags: [ 'tournament', 'tiers4']}),
           battle({ tags: [ 'tiers4', 'amical' ]})
         ]);
-        localStorage.setItem.calls.reset();
+        storage.setItem.calls.reset();
 
         tags.add('dudule');
       });
@@ -134,7 +129,7 @@ describe('service', function() {
       });
 
       it('should store the new list', function() {
-        expect(localStorage.setItem)
+        expect(storage.setItem)
           .toHaveBeenCalledWith('jlog_tags',
                                 JSON.stringify([ 'amical', 'dudule', 'tiers4', 'tournament' ]));
       });
@@ -149,7 +144,7 @@ describe('service', function() {
           battle({ tags: [ 'tournament', 'tiers4']}),
           battle({ tags: [ 'tiers4', 'amical' ]})
         ]);
-        localStorage.setItem.calls.reset();
+        storage.setItem.calls.reset();
       });
 
       describe('when the removed opponent is not in the list', function() {
@@ -163,7 +158,7 @@ describe('service', function() {
         });
 
         it('should not store the list', function() {
-          expect(localStorage.setItem)
+          expect(storage.setItem)
             .not.toHaveBeenCalled();
         });
 
@@ -180,7 +175,7 @@ describe('service', function() {
         });
 
         it('should store the updated list', function() {
-          expect(localStorage.setItem)
+          expect(storage.setItem)
             .toHaveBeenCalledWith('jlog_tags',
                                   JSON.stringify([ 'amical', 'tournament' ]));
         });

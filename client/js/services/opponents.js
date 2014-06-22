@@ -2,22 +2,22 @@
 
 angular.module('jlogApp.services')
   .service('opponents', [
-    '$window',
-    function($window) {
+    'storage',
+    function(storage) {
       var opponents = {
         'list': []
       };
       var storage_opponents_key = 'jlog_opponents';
       var store = function opponentsStore() {
         console.log('save opponents in localStorage');
-        $window.localStorage.setItem(storage_opponents_key, JSON.stringify(opponents.list));
+        storage.setItem(storage_opponents_key, JSON.stringify(opponents.list));
       };
       var load = function opponentsLoad() {
         console.log('load opponents from localStorage');
-        return JSON.parse($window.localStorage.getItem(storage_opponents_key));
+        return JSON.parse(storage.getItem(storage_opponents_key));
       };
       var storageContainsOpponents = function opponentsStorageContainsOpponents() {
-        var data = $window.localStorage.getItem(storage_opponents_key);
+        var data = storage.getItem(storage_opponents_key);
         return ('string' === typeof data &&
                 data.length > 0);
       };

@@ -1,24 +1,5 @@
 'use strict';
 
-function using(using_desc, values, func){
-  var current_it = window.it;
-  for(var i = 0, count = values.length ; i < count ; i++) {
-    if(Object.prototype.toString.call(values[i]) !== '[object Array]') {
-      
-      values[i] = [values[i]];
-      
-    }
-    window.it = null === using_desc ? current_it :
-      'function' !== typeof(using_desc) ? function(desc, func) {
-        current_it(desc + ' -- (with "' + using_desc + '"=' + JSON.stringify(values[i]) + ')', func);
-      } : function(desc, func) {
-        current_it(desc + ' -- (with ' + using_desc.apply(this, values[i]) + ')', func);
-      };
-    func.apply(this, values[i]);
-  }
-  window.it = current_it;
-}
-
 var add_object_matcher = function(name, func) {
   this[name] = function(util, testers) {
     return {
@@ -38,15 +19,16 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
+    module('jlogApp.test_services');
     jasmine.addMatchers(custom_matchers);
   });
 
   add_object_matcher.call(custom_matchers, 'toEqualDefaultFilterMatchSimple',
                           function(expected, util, testers) {
-                            return angular.isObject(this)
-                              && (this.active === false)
-                              && (this.is === 'true')
-                              && (util.equals(this.value, [], testers));
+                            return angular.isObject(this) &&
+                              (this.active === false) &&
+                              (this.is === 'true') &&
+                              (util.equals(this.value, [], testers));
                           });
   angular.extend(test_filter, {
     opp_name: {
@@ -72,19 +54,19 @@ describe('service', function() {
   });
   add_object_matcher.call(custom_matchers, 'toEqualTestFilterMatchSimple',
                           function(expected, util, testers) {
-                            return angular.isObject(this)
-                              && (this.active === test_filter[expected].active)
-                              && (this.is === test_filter[expected].is)
-                              && (util.equals(this.value, test_filter[expected].value, testers));
+                            return angular.isObject(this) &&
+                              (this.active === test_filter[expected].active) &&
+                              (this.is === test_filter[expected].is) &&
+                              (util.equals(this.value, test_filter[expected].value, testers));
                           });
 
   add_object_matcher.call(custom_matchers, 'toEqualTestFilterMatchDate', function() {
-    return angular.isObject(this)
-      && (this.active === test_filter.date.active)
-      && (this.is === test_filter.date.is)
-      && (this.year === test_filter.date.year)
-      && (this.month === test_filter.date.month)
-      && (this.day === test_filter.date.day);
+    return angular.isObject(this) &&
+      (this.active === test_filter.date.active) &&
+      (this.is === test_filter.date.is) &&
+      (this.year === test_filter.date.year) &&
+      (this.month === test_filter.date.month) &&
+      (this.day === test_filter.date.day);
   });
   
   describe('filterMatchSimple', function() {
@@ -257,12 +239,12 @@ describe('service', function() {
   });
 
   add_object_matcher.call(custom_matchers, 'toEqualDefaultFilterMatchDate', function() {
-    return angular.isObject(this)
-      && (this.active === false)
-      && (this.is === '0')
-      && (typeof(this.year) === 'number')
-      && (typeof(this.month) === 'number')
-      && (typeof(this.day) === 'number');
+    return angular.isObject(this) &&
+      (this.active === false) &&
+      (this.is === '0') &&
+      (typeof(this.year) === 'number') &&
+      (typeof(this.month) === 'number') &&
+      (typeof(this.day) === 'number');
   });
   test_filter.date = {
     active: true,
@@ -272,12 +254,12 @@ describe('service', function() {
     day: 29
   };
   add_object_matcher.call(custom_matchers, 'toEqualTestFilterMatchDate', function() {
-    return angular.isObject(this)
-      && (this.active === test_filter.date.active)
-      && (this.is === test_filter.date.is)
-      && (this.year === test_filter.date.year)
-      && (this.month === test_filter.date.month)
-      && (this.day === test_filter.date.day);
+    return angular.isObject(this) &&
+      (this.active === test_filter.date.active) &&
+      (this.is === test_filter.date.is) &&
+      (this.year === test_filter.date.year) &&
+      (this.month === test_filter.date.month) &&
+      (this.day === test_filter.date.day);
   });
 
   describe('filterMatchDate', function() {
@@ -395,8 +377,8 @@ describe('service', function() {
         ], function(expected_result, data) {
 
           using(function(is, date) {
-            return 'filter.is=' + JSON.stringify(is)
-              + ', battle.date=' + JSON.stringify(date);
+            return 'filter.is=' + JSON.stringify(is) +
+              ', battle.date=' + JSON.stringify(date);
           }, data, function(is, date) {
             it('should match if "battle.date" match filter\'s date', function() {
               filter.is = is;
@@ -414,10 +396,10 @@ describe('service', function() {
   });
 
   add_object_matcher.call(custom_matchers, 'toEqualDefaultFilterMatchSize', function() {
-    return angular.isObject(this)
-      && this.active === false
-      && this.is === '0'
-      && this.value === 50;
+    return angular.isObject(this) &&
+      this.active === false &&
+      this.is === '0' &&
+      this.value === 50;
   });
   angular.extend(test_filter, {
     size: {
@@ -427,10 +409,10 @@ describe('service', function() {
     }
   });
   add_object_matcher.call(custom_matchers, 'toEqualTestFilterMatchSize', function() {
-    return angular.isObject(this)
-      && this.active === test_filter.size.active
-      && this.is === test_filter.size.is
-      && this.value === test_filter.size.value;
+    return angular.isObject(this) &&
+      this.active === test_filter.size.active &&
+      this.is === test_filter.size.is &&
+      this.value === test_filter.size.value;
   });
 
   describe('filterMatchSize', function() {
@@ -518,11 +500,11 @@ describe('service', function() {
 
   add_object_matcher.call(custom_matchers, 'toEqualDefaultFilterMatchCaster',
                           function(expected, util, testers) {
-                            return (angular.isObject(this))
-                              && (this.active === false)
-                              && (this.is === 'true')
-                              && (this.faction === null)
-                              && (util.equals(this.caster, [], testers));
+                            return (angular.isObject(this)) &&
+                              (this.active === false) &&
+                              (this.is === 'true') &&
+                              (this.faction === null) &&
+                              (util.equals(this.caster, [], testers));
                           });
   angular.extend(test_filter, {
     my_army: {
@@ -540,11 +522,11 @@ describe('service', function() {
   });
   add_object_matcher.call(custom_matchers, 'toEqualTestFilterMatchCaster',
                           function(expected, util, testers) {
-                            return (angular.isObject(this))
-                              && (this.active === test_filter[expected].active)
-                              && (this.is === test_filter[expected].is)
-                              && (this.faction === test_filter[expected].faction)
-                              && (util.equals(this.caster, test_filter[expected].caster, testers));
+                            return (angular.isObject(this)) &&
+                              (this.active === test_filter[expected].active) &&
+                              (this.is === test_filter[expected].is) &&
+                              (this.faction === test_filter[expected].faction) &&
+                              (util.equals(this.caster, test_filter[expected].caster, testers));
                           });
   
   describe('filterMatchCaster', function() {
@@ -668,11 +650,11 @@ describe('service', function() {
   });
 
   add_object_matcher.call(custom_matchers, 'toEqualDefaultFilterMatchInitiative', function() {
-    return angular.isObject(this)
-      && (this.active === false)
-      && (this.is === 'true')
-      && (this.won_roll === '')
-      && (this.started === '');
+    return angular.isObject(this) &&
+      (this.active === false) &&
+      (this.is === 'true') &&
+      (this.won_roll === '') &&
+      (this.started === '');
   });
   angular.extend(test_filter, {
     initiative: {
@@ -683,11 +665,11 @@ describe('service', function() {
     }
   });
   add_object_matcher.call(custom_matchers, 'toEqualTestFilterMatchInitiative', function() {
-    return angular.isObject(this)
-      && (this.active === test_filter.initiative.active)
-      && (this.is === test_filter.initiative.is)
-      && (this.won_roll === test_filter.initiative.won_roll)
-      && (this.started === test_filter.initiative.started);
+    return angular.isObject(this) &&
+      (this.active === test_filter.initiative.active) &&
+      (this.is === test_filter.initiative.is) &&
+      (this.won_roll === test_filter.initiative.won_roll) &&
+      (this.started === test_filter.initiative.started);
   });
 
   describe('filterMatchInitiative', function() {
@@ -778,9 +760,9 @@ describe('service', function() {
             });
 
             using(function(match, filter_init, battle_init) {
-              return 'filter=' + JSON.stringify(filter_init)
-                + ', battle.setup.initiative=' + JSON.stringify(battle_init)
-                + ', expected_result=' + JSON.stringify(match);
+              return 'filter=' + JSON.stringify(filter_init) +
+                ', battle.setup.initiative=' + JSON.stringify(battle_init) +
+                ', expected_result=' + JSON.stringify(match);
             }, value, function(match, filter_init, battle_init) {
               it('should match if "battle.setup.initiative" matches filter', function() {
                 filter.won_roll = filter_init.won_roll;
@@ -801,9 +783,9 @@ describe('service', function() {
             });
 
             using(function(match, filter_init, battle_init) {
-              return 'filter=' + JSON.stringify(filter_init)
-                + ', battle.setup.initiative=' + JSON.stringify(battle_init)
-                + ', expected_result=' + JSON.stringify(!match);
+              return 'filter=' + JSON.stringify(filter_init) +
+                ', battle.setup.initiative=' + JSON.stringify(battle_init) +
+                ', expected_result=' + JSON.stringify(!match);
             }, value, function(match, filter_init, battle_init) {
               it('should match if "battle.setup.initiative" matches filter', function() {
                 filter.won_roll = filter_init.won_roll;
@@ -827,10 +809,10 @@ describe('service', function() {
 
   add_object_matcher.call(custom_matchers, 'toEqualDefaultFilterMatchTag',
                           function(expected, util, testers) {
-                            return angular.isObject(this)
-                              && (this.active === false)
-                              && (this.is === 'any')
-                              && (util.equals(this.value, [], testers));
+                            return angular.isObject(this) &&
+                              (this.active === false) &&
+                              (this.is === 'any') &&
+                              (util.equals(this.value, [], testers));
                           });
   angular.extend(test_filter, {
     tags: {
@@ -841,10 +823,10 @@ describe('service', function() {
   });
   add_object_matcher.call(custom_matchers, 'toEqualTestFilterMatchTag',
                           function(expected, util, testers) {
-                            return angular.isObject(this)
-                              && (this.active === test_filter.tags.active)
-                              && (this.is === test_filter.tags.is)
-                              && (util.equals(this.value, test_filter.tags.value, testers));
+                            return angular.isObject(this) &&
+                              (this.active === test_filter.tags.active) &&
+                              (this.is === test_filter.tags.is) &&
+                              (util.equals(this.value, test_filter.tags.value, testers));
                           });
 
   describe('filterMatchTags', function() {
@@ -958,16 +940,10 @@ describe('service', function() {
     var storage;
 
     beforeEach(inject([
-      'filter',
-      function(_filter) {
+      'filter', 'storage',
+      function(_filter, _storage) {
         filter = _filter;
-        storage = jasmine.createSpyObj('localStorage', ['getItem', 'setItem', 'clear']);
-        Object.defineProperty(window, 'localStorage', {
-          value: storage,
-          configurable: true,
-          enumerable: true,
-          writable:true
-        });
+        storage = _storage;
       }]));
     
     describe('init', function() {
@@ -1002,7 +978,7 @@ describe('service', function() {
         });
 
         it('should store created filter', function() {
-          expect(localStorage.setItem).toHaveBeenCalledWith('jlog_filter', jasmine.any(Object));
+          expect(storage.setItem).toHaveBeenCalledWith('jlog_filter', jasmine.any(Object));
         });
 
       });

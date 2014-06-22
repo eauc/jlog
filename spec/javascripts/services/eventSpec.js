@@ -4,6 +4,7 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
+    module('jlogApp.test_services');
   });
 
   describe('events', function() {
@@ -13,17 +14,11 @@ describe('service', function() {
     var storage;
 
     beforeEach(inject([
-      'events', 'battle',
-      function(_events, _battle) {
+      'events', 'battle', 'storage',
+      function(_events, _battle, _storage) {
         events = _events;
         battle = _battle;
-        storage = jasmine.createSpyObj('localStorage', ['getItem', 'setItem', 'clear']);
-        Object.defineProperty(window, 'localStorage', {
-          value: storage,
-          configurable: true,
-          enumerable: true,
-          writable:true
-        });
+        storage = _storage;
       }]));
     
     it('list should be created empty', function() {
@@ -124,7 +119,7 @@ describe('service', function() {
           battle({ setup: { event: 'uc2013' }}),
           battle({ setup: { event: 'imd2014' }})
         ]);
-        localStorage.setItem.calls.reset();
+        storage.setItem.calls.reset();
 
         events.add('toto');
       });
@@ -134,7 +129,7 @@ describe('service', function() {
       });
 
       it('should store the new list', function() {
-        expect(localStorage.setItem)
+        expect(storage.setItem)
           .toHaveBeenCalledWith('jlog_events',
                                 JSON.stringify([ 'amical', 'imd2014', 'toto', 'uc2013' ]));
       });
@@ -149,7 +144,7 @@ describe('service', function() {
           battle({ setup: { event: 'uc2013' }}),
           battle({ setup: { event: 'imd2014' }})
         ]);
-        localStorage.setItem.calls.reset();
+        storage.setItem.calls.reset();
       });
 
       describe('when the removed event is not in the list', function() {
@@ -163,7 +158,7 @@ describe('service', function() {
         });
 
         it('should not store the list', function() {
-          expect(localStorage.setItem)
+          expect(storage.setItem)
             .not.toHaveBeenCalled();
         });
 
@@ -180,7 +175,7 @@ describe('service', function() {
         });
 
         it('should store the updated list', function() {
-          expect(localStorage.setItem)
+          expect(storage.setItem)
             .toHaveBeenCalledWith('jlog_events',
                                   JSON.stringify([ 'amical', 'uc2013' ]));
         });

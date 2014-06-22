@@ -65,16 +65,16 @@ describe('controllers', function() {
         it('should emit "newBattles" event', function() {
           expect(scope.$emit)
             .toHaveBeenCalledWith('newBattles', 'data');
-        })
+        });
 
         it('should generate a new backup file', function() {
           expect(backup.generate)
             .toHaveBeenCalledWith('battles_list');
-        })
+        });
 
         it('should update read result', function() {
           expect(backup.read_result).toBe('loaded file');
-        })
+        });
 
       });
 
@@ -89,7 +89,7 @@ describe('controllers', function() {
 
         it('should update read result', function() {
           expect(backup.read_result).toBe('error');
-        })
+        });
 
       });
 

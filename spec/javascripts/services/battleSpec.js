@@ -4,6 +4,7 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
+    module('jlogApp.test_services');
   });
 
   function expectObjectToHaveAllDefaultBattleProperties(object) {
@@ -42,7 +43,7 @@ describe('service', function() {
     expect(angular.isObject(object.initiative)).toBeTruthy();
     expect(object.initiative.hasOwnProperty('dice')).toBeTruthy();
     expect(object.initiative.hasOwnProperty('start')).toBeTruthy();
-  };
+  }
 
   describe('battle', function() {
 
@@ -172,17 +173,11 @@ describe('service', function() {
     var storage;
 
     beforeEach(inject([
-      'battle', 'battles', '$window',
-      function(_battle, _battles, $window) {
+      'battle', 'battles', 'storage',
+      function(_battle, _battles, _storage) {
         battle = _battle;
         battles = _battles;
-        storage = jasmine.createSpyObj('localStorage', ['getItem', 'setItem', 'clear']);
-        Object.defineProperty(window, 'localStorage', {
-          value: storage,
-          configurable: true,
-          enumerable: true,
-          writable:true
-        });
+        storage = _storage;
       }]));
     
     it('list should be created empty', function() {
@@ -281,7 +276,7 @@ describe('service', function() {
 
         new_battle = battle({});
         index = 0;
-        localStorage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
+        storage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
         battles.init();
       });
 
@@ -331,7 +326,7 @@ describe('service', function() {
         spyOn(battles, 'update');
 
         index = 1;
-        localStorage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
+        storage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
         battles.init();
       });
 
@@ -361,7 +356,7 @@ describe('service', function() {
           this.test_value = value;
         });
 
-        localStorage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
+        storage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
         battles.init();
       });
 
@@ -372,7 +367,7 @@ describe('service', function() {
             return this === battles.list[1] ? 'value' : 'toto';
           };
           battles.clear(value, getter, cleaner);
-        })
+        });
 
         it('should call "cleaner" if "getter" returns "value"', function() {
           expect(cleaner.calls.count()).toBe(1);
@@ -394,7 +389,7 @@ describe('service', function() {
             return this === battles.list[1] ? [ 'titi', 'value' ] : ['toto'];
           };
           battles.clear(value, getter, cleaner);
-        })
+        });
 
         it('should call "cleaner" if "getter" returns an array containing "value"', function() {
           expect(cleaner.calls.count()).toBe(1);

@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   var js_src =  [ 'client/js/**/*.js', '!**/*.min.js' ];
   var spec_js_src = [ 'spec/javascripts/**/*Spec.js' ];
   var spec_js_helpers = [ 'spec/javascripts/helpers/*.js' ];
-  var spec_js = spec_js_src.concat(spec_js_helpers);
+  var spec_js = spec_js_helpers.concat(spec_js_src);
 
   // Project configuration.
   grunt.initConfig({
@@ -47,6 +47,13 @@ module.exports = function(grunt) {
       src: {
         files: js_src,
         tasks: [ 'jshint:src' ],
+        options: {
+          spawn: true
+        }
+      },
+      spec: {
+        files: spec_js,
+        tasks: [ 'jshint:spec', 'jasmine:spec' ],
         options: {
           spawn: true
         }

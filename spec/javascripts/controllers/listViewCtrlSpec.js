@@ -60,9 +60,9 @@ describe('controllers', function() {
         expect(scope.battle).toBe(battles.list[1]);
       });
 
-    })
+    });
 
-  })
+  });
 
   describe('listViewBottomCtrl', function() {
 
@@ -132,11 +132,11 @@ describe('controllers', function() {
 
         it('should not remove index from battles', function() {
           expect(battles.remove).not.toHaveBeenCalled();
-        })
+        });
 
         it('should not close battle view', function() {
           expect(scope.onClose).not.toHaveBeenCalled();
-        })
+        });
 
       });
 
@@ -149,11 +149,11 @@ describe('controllers', function() {
 
         it('should remove index from battles', function() {
           expect(battles.remove).toHaveBeenCalledWith(index);
-        })
+        });
 
         it('should  close battle view', function() {
           expect(scope.onClose).toHaveBeenCalled();
-        })
+        });
 
       });
 
