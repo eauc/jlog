@@ -91,6 +91,7 @@ class JLogApp < Sinatra::Base
     @scripts << 'js/services/selection.js' 
     @scripts << 'js/services/sort.js' 
     @scripts << 'js/services/stats.js' 
+    @scripts << 'js/services/storage.js' 
     @scripts << 'js/services/tags.js' 
     @scripts << 'js/directives/collapse.js' 
     @scripts << 'js/directives/export_link.js' 
