@@ -16,7 +16,7 @@ angular.module('jlogApp', [
   '$stateProvider',
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/battle/list');
+    $urlRouterProvider.otherwise('/battle');
     $stateProvider
       .state('battle', {
         url: '/battle',
