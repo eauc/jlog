@@ -6,6 +6,7 @@ describe('controllers', function() {
     module('jlogApp.filters');
     module('jlogApp.services');
     module('jlogApp.controllers');
+    console.log = jasmine.createSpy('log');
   });
 
   describe('mainCtrl', function() {
@@ -82,22 +83,20 @@ describe('controllers', function() {
       expect(scope.scores).toBe(scores);
     });
 
-    describe('on newBattles', function() {
-
-      var onNewBattles;
-      var data = [];
+    describe('on newBattles', function(c) {
 
       beforeEach(function() {
         expect(scope.$on)
           .toHaveBeenCalledWith('newBattles', jasmine.any(Function));
 
-        onNewBattles = scope.$on.calls.first().args[1];
+        c.onNewBattles = scope.$on.calls.first().args[1];
 
-        onNewBattles('', data);
+        c.data = [];
+        c.onNewBattles('', c.data);
       });
 
       it('should recreate all services lists', function() {
-        expect(battles_display.create).toHaveBeenCalledWith(data);
+        expect(battles_display.create).toHaveBeenCalledWith(c.data);
         expect(opponents.create).toHaveBeenCalledWith(battles_display.list);
         expect(events.create).toHaveBeenCalledWith(battles_display.list);
         expect(scenarios.create).toHaveBeenCalledWith(battles_display.list);

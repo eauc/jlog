@@ -21,6 +21,7 @@ describe('service', function() {
     module('jlogApp.services');
     module('jlogApp.test_services');
     jasmine.addMatchers(custom_matchers);
+    console.log = jasmine.createSpy('log');
   });
 
   add_object_matcher.call(custom_matchers, 'toEqualDefaultFilterMatchSimple',

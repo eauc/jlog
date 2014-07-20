@@ -5,6 +5,7 @@ describe('service', function() {
   beforeEach(function() {
     module('jlogApp.services');
     module('jlogApp.test_services');
+    console.log = jasmine.createSpy('log');
   });
 
   describe('opponents', function() {

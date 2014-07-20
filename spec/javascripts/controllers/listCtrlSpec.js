@@ -7,6 +7,7 @@ describe('controllers', function() {
     module('jlogApp.services');
     module('jlogApp.controllers');
     module('ui.router');
+    console.log = jasmine.createSpy('log');
   });
 
   describe('listCtrl', function() {
@@ -49,7 +50,7 @@ describe('controllers', function() {
       expect(scope.scenarios).toBe(scenarios.list);
       expect(scope.show_list).toBe(true);
 
-      expect(angular.isFunction(scope.onViewBattle)).toBeTruthy({});
+      expect(scope.onViewBattle).toBeA('Function');
     });
 
     it('should watch state', function() {
@@ -57,24 +58,22 @@ describe('controllers', function() {
         .toHaveBeenCalledWith('$stateChangeSuccess', jasmine.any(Function));
     });
 
-    describe('state watch', function() {
-
-      var state_watcher;
+    describe('state watch', function(c) {
 
       beforeEach(function() {
-        state_watcher = scope.$on.calls.first().args[1];
+        c.state_watcher = scope.$on.calls.first().args[1];
       });
 
       it('should show list in "battle" state', function() {
-        state_watcher('', { name: 'battle' });
+        c.state_watcher('', { name: 'battle' });
         expect(scope.show_list).toBe(true);
       });
 
       it('should not show list in other states', function() {
-        state_watcher('', { name: 'battle.edit' });
+        c.state_watcher('', { name: 'battle.edit' });
         expect(scope.show_list).toBe(false);
 
-        state_watcher('', { name: 'battle.view' });
+        c.state_watcher('', { name: 'battle.view' });
         expect(scope.show_list).toBe(false);
       });
 
@@ -93,16 +92,14 @@ describe('controllers', function() {
         .toHaveBeenCalledWith(jasmine.any(Function), 100);
     });
 
-    describe('timeout', function() {
-
-      var timeout;
+    describe('timeout', function(c) {
 
       beforeEach(function() {
-        timeout = $timeout.calls.first().args[0];
+        c.timeout = $timeout.calls.first().args[0];
       });
 
       it('should show more of the list', function() {
-        timeout();
+        c.timeout();
 
         expect(scope.battles.showMore).toHaveBeenCalled();
       });
@@ -114,11 +111,11 @@ describe('controllers', function() {
 
           $timeout.calls.reset();
 
-          timeout();
+          c.timeout();
         });
 
         it('should schedule new timeout', function() {
-          expect($timeout).toHaveBeenCalledWith(timeout, 100);
+          expect($timeout).toHaveBeenCalledWith(c.timeout, 100);
         });
 
       });
@@ -130,7 +127,7 @@ describe('controllers', function() {
 
           $timeout.calls.reset();
 
-          timeout();
+          c.timeout();
         });
 
         it('should stop timeout', function() {
@@ -146,19 +143,16 @@ describe('controllers', function() {
         .toHaveBeenCalledWith('sort', jasmine.any(Function), true);
     });
 
-    describe('sort watch', function() {
-
-      var timeout;
-      var watcher;
+    describe('sort watch', function(c) {
 
       beforeEach(function() {
-        timeout = $timeout.calls.first().args[0];
+        c.timeout = $timeout.calls.first().args[0];
         $timeout.calls.reset();
         scope.battles.reset.calls.reset();
 
-        watcher = scope.$watch.calls.first().args[1];
+        c.watcher = scope.$watch.calls.first().args[1];
 
-        watcher();
+        c.watcher();
       });
 
       it('should reset display list', function() {
@@ -171,22 +165,21 @@ describe('controllers', function() {
 
       it('should schedule timeout', function() {
         expect($timeout)
-          .toHaveBeenCalledWith(timeout, 100);
+          .toHaveBeenCalledWith(c.timeout, 100);
       });
 
     });
 
-    describe('onViewBattle', function() {
-
-      var index = 1;
+    describe('onViewBattle', function(c) {
 
       beforeEach(function() {
-        scope.onViewBattle(index);
+        c.index = 1;
+        scope.onViewBattle(c.index);
       });
 
       it('should go to battle.view state', function() {
         expect($state.go)
-          .toHaveBeenCalledWith('battle.view', { index: index });
+          .toHaveBeenCalledWith('battle.view', { index: c.index });
       });
 
     });

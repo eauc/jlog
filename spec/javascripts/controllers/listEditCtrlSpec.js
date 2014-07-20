@@ -7,6 +7,7 @@ describe('controllers', function() {
     module('jlogApp.services');
     module('jlogApp.controllers');
     module('ui.router');
+    console.log = jasmine.createSpy('log');
   });
 
   describe('listEditCtrl', function() {
@@ -87,25 +88,26 @@ describe('controllers', function() {
 
     });
 
-    describe('always', function() {
+    describe('always', function(c) {
 
       var $window;
-      var index = 1;
-      var prompt = 'Toto';
 
       beforeEach(inject([
         '$controller',
         '$window',
         function($controller, _$window) {
+          c.index = 1;
+          c.prompt = 'Toto';
+
           $window = _$window;
 
           spyOn(scope, '$watch');
-          spyOn($window, 'prompt').and.returnValue(prompt);
+          spyOn($window, 'prompt').and.returnValue(c.prompt);
           spyOn($window, 'confirm');
           
-          scope.battle_index = index;
-          scope.battle = battles.list[index];
-          $controller('listEditCtrl', { '$scope': scope, '$stateParams': { index: 1 } });
+          scope.battle_index = c.index;
+          scope.battle = battles.list[c.index];
+          $controller('listEditCtrl', { '$scope': scope, '$stateParams': { index: c.index } });
         }
       ]));
 
@@ -117,12 +119,12 @@ describe('controllers', function() {
         expect(scope.events).toBe(events.list);
         expect(scope.tags).toBe(tags.list);
 
-        expect(angular.isFunction(scope.onAddOpponent)).toBeTruthy({});
-        expect(angular.isFunction(scope.onAddEvent)).toBeTruthy({});
-        expect(angular.isFunction(scope.onAddScenario)).toBeTruthy({});
-        expect(angular.isFunction(scope.onAddTag)).toBeTruthy({});
-        expect(angular.isFunction(scope.onDelete)).toBeTruthy({});
-        expect(angular.isFunction(scope.onDeleteTag)).toBeTruthy({});
+        expect(scope.onAddOpponent).toBeA('Function');
+        expect(scope.onAddEvent).toBeA('Function');
+        expect(scope.onAddScenario).toBeA('Function');
+        expect(scope.onAddTag).toBeA('Function');
+        expect(scope.onDelete).toBeA('Function');
+        expect(scope.onDeleteTag).toBeA('Function');
       });
 
       it('should watch form validation', function() {
@@ -130,19 +132,17 @@ describe('controllers', function() {
                                                   jasmine.any(Function));
       });
 
-      describe('the form validation watcher', function() {
-
-        var watcher;
+      describe('the form validation watcher', function(c) {
 
         beforeEach(function() {
-          watcher = scope.$watch.calls.first().args[1];
+          c.watcher = scope.$watch.calls.first().args[1];
         });
 
         it('should set $state.current.data.save_enable to the form validation state', function() {
-          watcher(true);
+          c.watcher(true);
           expect($state.current.data.save_enable).toBe(true);
 
-          watcher(false);
+          c.watcher(false);
           expect($state.current.data.save_enable).toBe(false);
         });
 
@@ -161,11 +161,11 @@ describe('controllers', function() {
         });
 
         it('should add opponent in lower case to opponents list', function() {
-          expect(opponents.add).toHaveBeenCalledWith(prompt.toLowerCase());
+          expect(opponents.add).toHaveBeenCalledWith(c.prompt.toLowerCase());
         });
 
         it('should set battle opponent name', function() {
-          expect(scope.battle.opponent.name).toBe(prompt.toLowerCase());
+          expect(scope.battle.opponent.name).toBe(c.prompt.toLowerCase());
         });
 
       });
@@ -183,20 +183,20 @@ describe('controllers', function() {
         });
 
         it('should add event to events list', function() {
-          expect(events.add).toHaveBeenCalledWith(prompt);
+          expect(events.add).toHaveBeenCalledWith(c.prompt);
         });
 
         it('should set battle setup event', function() {
-          expect(scope.battle.setup.event).toBe(prompt);
+          expect(scope.battle.setup.event).toBe(c.prompt);
         });
 
       });
 
-      describe('onAddScenario', function() {
+      describe('onAddScenario', function(c) {
 
-        var key = 'key';
         beforeEach(function() {
-          spyOn(scenarios, 'add').and.returnValue(key);
+          c.key = 'key';
+          spyOn(scenarios, 'add').and.returnValue(c.key);
 
           scope.onAddScenario();
         });
@@ -206,11 +206,11 @@ describe('controllers', function() {
         });
 
         it('should add scenario to scenarios list', function() {
-          expect(scenarios.add).toHaveBeenCalledWith(prompt);
+          expect(scenarios.add).toHaveBeenCalledWith(c.prompt);
         });
 
         it('should set battle setup scenario', function() {
-          expect(scope.battle.setup.scenario).toBe(key);
+          expect(scope.battle.setup.scenario).toBe(c.key);
         });
 
       });
@@ -229,11 +229,11 @@ describe('controllers', function() {
         });
 
         it('should add tag to tags list', function() {
-          expect(tags.add).toHaveBeenCalledWith(prompt);
+          expect(tags.add).toHaveBeenCalledWith(c.prompt);
         });
 
         it('should set battle tag', function() {
-          expect(scope.battle.addTag).toHaveBeenCalledWith(prompt);
+          expect(scope.battle.addTag).toHaveBeenCalledWith(c.prompt);
         });
 
       });
@@ -528,8 +528,8 @@ describe('controllers', function() {
     it('should initialize scope and state', function() {
       expect(scope.state).toBe($state.current.data);
       
-      expect(angular.isFunction(scope.onSave)).toBeTruthy({});
-      expect(angular.isFunction(scope.onClose)).toBeTruthy({});
+      expect(scope.onSave).toBeA('Function');
+      expect(scope.onClose).toBeA('Function');
     });
     
     describe('onSave', function() {

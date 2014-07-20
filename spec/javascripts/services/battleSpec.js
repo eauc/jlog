@@ -5,44 +5,45 @@ describe('service', function() {
   beforeEach(function() {
     module('jlogApp.services');
     module('jlogApp.test_services');
+    console.log = jasmine.createSpy('log');
   });
 
   function expectObjectToHaveAllDefaultBattleProperties(object) {
-    expect(angular.isObject(object.date)).toBeTruthy();
-    expect(angular.isNumber(object.date.year)).toBeTruthy();
-    expect(angular.isNumber(object.date.month)).toBeTruthy();
-    expect(angular.isNumber(object.date.day)).toBeTruthy();
+    expect(object.date).toBeAn('Object');
+    expect(object.date.year).toBeA('Number');
+    expect(object.date.month).toBeA('Number');
+    expect(object.date.day).toBeA('Number');
 
-    expect(angular.isObject(object.my_army)).toBeTruthy();
-    expect(object.my_army.hasOwnProperty('caster')).toBeTruthy();
-    expect(object.my_army.hasOwnProperty('faction')).toBeTruthy();
+    expect(object.my_army).toBeAn('Object');
+    expect(object.my_army).toHaveProperty('caster');
+    expect(object.my_army).toHaveProperty('faction');
 
-    expect(angular.isObject(object.opponent)).toBeTruthy();
-    expect(object.opponent.hasOwnProperty('name')).toBeTruthy();
-    expect(object.opponent.hasOwnProperty('caster')).toBeTruthy();
-    expect(object.opponent.hasOwnProperty('faction')).toBeTruthy();
+    expect(object.opponent).toBeAn('Object');
+    expect(object.opponent).toHaveProperty('name');
+    expect(object.opponent).toHaveProperty('caster');
+    expect(object.opponent).toHaveProperty('faction');
 
-    expect(angular.isObject(object.points)).toBeTruthy();
-    expect(angular.isObject(object.points.my_army)).toBeTruthy();
-    expect(object.points.my_army.hasOwnProperty('scenario')).toBeTruthy();
-    expect(object.points.my_army.hasOwnProperty('army')).toBeTruthy();
-    expect(object.points.my_army.hasOwnProperty('kill')).toBeTruthy();
-    expect(angular.isObject(object.points.opponent)).toBeTruthy();
-    expect(object.points.opponent.hasOwnProperty('scenario')).toBeTruthy();
-    expect(object.points.opponent.hasOwnProperty('army')).toBeTruthy();
-    expect(object.points.opponent.hasOwnProperty('kill')).toBeTruthy();
+    expect(object.points).toBeAn('Object');
+    expect(object.points.my_army).toBeAn('Object');
+    expect(object.points.my_army).toHaveProperty('scenario');
+    expect(object.points.my_army).toHaveProperty('army');
+    expect(object.points.my_army).toHaveProperty('kill');
+    expect(object.points.opponent).toBeAn('Object');
+    expect(object.points.opponent).toHaveProperty('scenario');
+    expect(object.points.opponent).toHaveProperty('army');
+    expect(object.points.opponent).toHaveProperty('kill');
 
-    expect(angular.isObject(object.setup)).toBeTruthy();
-    expect(object.setup.hasOwnProperty('size')).toBeTruthy();
-    expect(object.setup.hasOwnProperty('scenario')).toBeTruthy();
-    expect(object.setup.hasOwnProperty('event')).toBeTruthy();
+    expect(object.setup).toBeAn('Object');
+    expect(object.setup).toHaveProperty('size');
+    expect(object.setup).toHaveProperty('scenario');
+    expect(object.setup).toHaveProperty('event');
 
-    expect(object.hasOwnProperty('score')).toBeTruthy();
-    expect(object.hasOwnProperty('comment')).toBeTruthy();
+    expect(object).toHaveProperty('score');
+    expect(object).toHaveProperty('comment');
 
-    expect(angular.isObject(object.initiative)).toBeTruthy();
-    expect(object.initiative.hasOwnProperty('dice')).toBeTruthy();
-    expect(object.initiative.hasOwnProperty('start')).toBeTruthy();
+    expect(object.initiative).toBeAn('Object');
+    expect(object.initiative).toHaveProperty('dice');
+    expect(object.initiative).toHaveProperty('start');
   }
 
   describe('battle', function() {
@@ -141,9 +142,7 @@ describe('service', function() {
       expect(object.opponent.caster).toEqual('irusk2');
     });
 
-    describe('addTag', function() {
-
-      var instance;
+    describe('addTag', function(c) {
 
       beforeEach(function() {
         var data = {
@@ -153,13 +152,13 @@ describe('service', function() {
             'amical'
           ]
         };
-        instance = battle(data);
+        c.instance = battle(data);
         
-        instance.addTag('archangel');
+        c.instance.addTag('archangel');
       });
 
       it('should add tag to the list and sort it', function() {
-        expect(instance.tags).toEqual([ 'amical', 'archangel', 'tournament', 'training' ]);
+        expect(c.instance.tags).toEqual([ 'amical', 'archangel', 'tournament', 'training' ]);
       });
 
     });
@@ -266,31 +265,28 @@ describe('service', function() {
 
     });
 
-    describe('save(index, battle)', function() {
-
-      var new_battle;
-      var index;
+    describe('save(index, battle)', function(c) {
 
       beforeEach(function() {
         spyOn(battles, 'update');
 
-        new_battle = battle({});
-        index = 0;
+        c.new_battle = battle({});
+        c.index = 0;
         storage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
         battles.init();
       });
 
-      describe('when index > list.length', function() {
+      describe('when index > list.length', function(c) {
 
         beforeEach(function() {
-          index = 3;
+          c.index = 3;
         });
 
         it('should append "battle" to the list', function() {
-          battles.save(index, new_battle);
+          battles.save(c.index, c.new_battle);
           
           expect(battles.list.length).toBe(4);
-          expect(battles.list[3]).toBe(new_battle);
+          expect(battles.list[3]).toBe(c.new_battle);
         });
 
       });
@@ -298,62 +294,58 @@ describe('service', function() {
       describe('when index <= list.length', function() {
 
         beforeEach(function() {
-          index = 2;
+          c.index = 2;
         });
 
         it('should replace "battle" in the list', function() {
-          battles.save(index, new_battle);
+          battles.save(c.index, c.new_battle);
           
           expect(battles.list.length).toBe(3);
-          expect(battles.list[index]).toBe(new_battle);
+          expect(battles.list[c.index]).toBe(c.new_battle);
         });
 
       });
 
       it('should update the list', function() {
-        battles.save(index, new_battle);
+        battles.save(c.index, c.new_battle);
         
         expect(battles.update).toHaveBeenCalled();
       });
 
     });
 
-    describe('remove(index)', function() {
-
-      var index;
+    describe('remove(index)', function(c) {
 
       beforeEach(function() {
         spyOn(battles, 'update');
 
-        index = 1;
+        c.index = 1;
         storage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
         battles.init();
       });
 
       it('should remove "index" from the list', function() {
-        battles.remove(index);
+        battles.remove(c.index);
           
         expect(battles.list.length).toBe(2);
       });
 
       it('should update the list', function() {
-        battles.remove(index);
+        battles.remove(c.index);
         
         expect(battles.update).toHaveBeenCalled();
       });
 
     });
 
-    describe('clear(value)', function() {
-
-      var value = 'value';
-      var getter;
-      var cleaner;
+    describe('clear(value)', function(c) {
 
       beforeEach(function() {
+        c.value = 'value';
+
         spyOn(battles, 'update');
-        cleaner = jasmine.createSpy().and.callFake(function(value) {
-          this.test_value = value;
+        c.cleaner = jasmine.createSpy().and.callFake(function(value) {
+          this.test_value = c.value;
         });
 
         storage.getItem.and.returnValue(JSON.stringify([ battle({}), battle({}), battle({}) ]));
@@ -363,17 +355,17 @@ describe('service', function() {
       describe('when getter returns string', function() {
 
         beforeEach(function() {
-          getter = function() {
+          c.getter = function() {
             return this === battles.list[1] ? 'value' : 'toto';
           };
-          battles.clear(value, getter, cleaner);
+          battles.clear(c.value, c.getter, c.cleaner);
         });
 
         it('should call "cleaner" if "getter" returns "value"', function() {
-          expect(cleaner.calls.count()).toBe(1);
-          expect(cleaner).toHaveBeenCalledWith(value);
+          expect(c.cleaner.calls.count()).toBe(1);
+          expect(c.cleaner).toHaveBeenCalledWith(c.value);
           // test that cleaner has been applied on battles.list[1]
-          expect(battles.list[1].test_value).toBe(value);
+          expect(battles.list[1].test_value).toBe(c.value);
         });
 
         it('should update the list', function() {
@@ -385,17 +377,17 @@ describe('service', function() {
       describe('when getter returns array', function() {
 
         beforeEach(function() {
-          getter = function() {
+          c.getter = function() {
             return this === battles.list[1] ? [ 'titi', 'value' ] : ['toto'];
           };
-          battles.clear(value, getter, cleaner);
+          battles.clear(c.value, c.getter, c.cleaner);
         });
 
         it('should call "cleaner" if "getter" returns an array containing "value"', function() {
-          expect(cleaner.calls.count()).toBe(1);
-          expect(cleaner).toHaveBeenCalledWith(value);
+          expect(c.cleaner.calls.count()).toBe(1);
+          expect(c.cleaner).toHaveBeenCalledWith(c.value);
           // test that cleaner has been applied on battles.list[1]
-          expect(battles.list[1].test_value).toBe(value);
+          expect(battles.list[1].test_value).toBe(c.value);
         });
 
         it('should update the list', function() {

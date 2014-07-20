@@ -7,6 +7,7 @@ describe('controllers', function() {
     module('jlogApp.services');
     module('jlogApp.controllers');
     module('ui.router');
+    console.log = jasmine.createSpy('log');
   });
 
   describe('listViewCtrl', function() {
@@ -105,12 +106,12 @@ describe('controllers', function() {
 
     });
 
-    describe('onDeleteBattle', function() {
+    describe('onDeleteBattle', function(c) {
 
-      var index = 1;
       var $window;
 
       beforeEach(inject([ '$window', function(_$window) {
+        c.index = 1;
         $window = _$window;
 
         spyOn(scope, 'onClose');
@@ -148,7 +149,7 @@ describe('controllers', function() {
         });
 
         it('should remove index from battles', function() {
-          expect(battles.remove).toHaveBeenCalledWith(index);
+          expect(battles.remove).toHaveBeenCalledWith(c.index);
         });
 
         it('should  close battle view', function() {

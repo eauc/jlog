@@ -6,6 +6,7 @@ describe('controllers', function() {
     module('jlogApp.filters');
     module('jlogApp.services');
     module('jlogApp.controllers');
+    console.log = jasmine.createSpy('log');
   });
 
   describe('backupCtrl', function() {
@@ -33,7 +34,7 @@ describe('controllers', function() {
 
     it('should initialize scope', function() {
       expect(scope.backup).toBe(backup);
-      expect(angular.isFunction(scope.readBackupFile)).toBe(true);
+      expect(scope.readBackupFile).toBeA('Function');
     });
 
     it('should generate a backup file', function() {
@@ -51,14 +52,12 @@ describe('controllers', function() {
           .toHaveBeenCalledWith('file', jasmine.any(Function), jasmine.any(Function));
       });
 
-      describe('on success', function() {
-
-        var onSuccess;
+      describe('on success', function(c) {
 
         beforeEach(function() {
           backup.generate.calls.reset();
 
-          onSuccess = backup.read.calls.first().args[1];
+          var onSuccess = backup.read.calls.first().args[1];
           onSuccess('data');
         });
 
@@ -80,10 +79,8 @@ describe('controllers', function() {
 
       describe('on error', function() {
 
-        var onError;
-
         beforeEach(function() {
-          onError = backup.read.calls.first().args[2];
+          var onError = backup.read.calls.first().args[2];
           onError('error');
         });
 
