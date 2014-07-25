@@ -12,7 +12,7 @@ angular.module('jlogApp.controllers')
     'scores',
     'battles_display',
     'battle_sort',
-    // 'filter',
+    'filter',
     // 'stats',
     // 'battles_display',
     function(
@@ -25,8 +25,8 @@ angular.module('jlogApp.controllers')
       tags,
       scores,
       battles_display,
-      battle_sort
-      // filter,
+      battle_sort,
+      filter
       // stats,
       // battles_display
     ) {
@@ -38,6 +38,7 @@ angular.module('jlogApp.controllers')
       events.init(battles_display.list);
       scenarios.init(battles_display.list);
       tags.init(battles_display.list);
+      filter.init();
 
       $scope.battles = battles_display;
       $scope.factions = factions;
@@ -45,12 +46,18 @@ angular.module('jlogApp.controllers')
       // $scope.collapse_navbar = true;
       // $scope.factions = factions;
       // $scope.scores = scores;
-      // $scope.filter_active = false;
-      // $scope.filter_invert = false;
-      // $scope.filter = filter.init();
+      $scope.filter_state = {
+        active: false,
+        invert: false,
+      };
+      $scope.filter = filter.list;
       // $scope.stats = stats;
       // $scope.battles_display = battles_display;
       $scope.sort = battle_sort;
+      $scope.opponents = opponents.list;
+      $scope.scenarios = scenarios.list;
+      $scope.events = events.list;
+      $scope.tags = tags.list;
 
       // var onBattlesUpdate = function() {
       //     $scope.filter.clearCache();

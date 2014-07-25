@@ -62,7 +62,13 @@ angular.module('jlogApp', [
       })
       .state('filter', {
         url: '/filter',
-        templateUrl: 'partials/filter.html'
+        views: {
+          'page': {
+            templateUrl: 'partials/filter.html',
+            controller: 'filterEditCtrl'
+          },
+        },
+        data: {}
       })
       .state('backup', {
         url: '/backup',

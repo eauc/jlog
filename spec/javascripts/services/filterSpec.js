@@ -979,7 +979,7 @@ describe('service', function() {
         });
 
         it('should store created filter', function() {
-          expect(storage.setItem).toHaveBeenCalledWith('jlog_filter', jasmine.any(Object));
+          expect(storage.setItem).toHaveBeenCalledWith('jlog_filter', jasmine.any(String));
         });
 
       });
@@ -1020,7 +1020,7 @@ describe('service', function() {
         
         expect(storage.setItem)
           .toHaveBeenCalledWith('jlog_filter',
-                                [ 'totot' , 'henri', 'alphonse' ]);
+                                JSON.stringify([ 'totot' , 'henri', 'alphonse' ]));
       });
       
     });

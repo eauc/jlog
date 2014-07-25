@@ -53,13 +53,11 @@ describe('service', function() {
 
     describe('on reset', function() {
 
-      var filter;
       var active;
       var invert;
       var sort;
 
       beforeEach(function() {
-        filter = {};
         active = {};
         invert = {};
         sort = {
@@ -70,12 +68,11 @@ describe('service', function() {
           reverse: {}
         };
         
-        battles.reset(filter, active, invert, sort);
+        battles.reset(active, invert, sort);
       });
       
       it('should filter list', function() {
         expect(mock_battle_filter).toHaveBeenCalledWith(battles.list,
-                                                        filter,
                                                         active,
                                                         invert);
       });

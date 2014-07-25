@@ -12,8 +12,6 @@ angular.module('jlogApp.controllers')
              scenarios) {
       console.log('init listCtrl');
 
-      $scope.scenarios = scenarios.list;
-
       $scope.onViewBattle = function onViewBattle(index) {
         $state.go('battle.view', { index: index });
       };
@@ -24,15 +22,14 @@ angular.module('jlogApp.controllers')
           $timeout(showMore, 100);
         }
       }
-      function resetListDisplay() {
-        $scope.battles.reset($scope.filter,
-                             $scope.filter_active,
-                             $scope.filter_invert,
+      $state.current.data.resetListDisplay = function() {
+        $scope.battles.reset($scope.filter_state.active,
+                             $scope.filter_state.invert,
                              $scope.sort);
         $timeout(showMore, 100);
-      }
-      resetListDisplay();
-      $scope.$watch('sort', resetListDisplay, true);
+      };
+      $state.current.data.resetListDisplay();
+      $scope.$watch('sort', $state.current.data.resetListDisplay, true);
 
       $scope.show_list = true;
       $scope.$on('$stateChangeSuccess', 
@@ -55,20 +52,6 @@ angular.module('jlogApp.controllers')
       //     }
       // };
 
-      // $scope.$watch('filter_active', function() {
-      //     $scope.list_display.reset($scope.battles,
-      //                               $scope.filter,
-      //                               $scope.filter_active,
-      //                               $scope.filter_invert,
-      //                               $scope.sort);
-      // });
-      // $scope.$watch('filter_invert', function() {
-      //     $scope.list_display.reset($scope.battles,
-      //                               $scope.filter,
-      //                               $scope.filter_active,
-      //                               $scope.filter_invert,
-      //                               $scope.sort);
-      // });
       // $scope.$watch('list_display.sorted_battles|filter:{selected:true}', function(nv) {
       //     selection.update(nv);
       // }, true);
@@ -85,8 +68,16 @@ angular.module('jlogApp.controllers')
       $scope.onAddBattle = function onAddBattle() {
         $state.go('battle.edit', { index: -1 });
       };
-      // $scope.onClose = function onClose() {
-      //   $state.go('battle');
-      // };
-
+      $scope.setFilterActive = function(bool) {
+        var change = ($scope.filter_state.active != bool);
+        console.log('setFilterActive('+bool+')->'+change);
+        $scope.filter_state.active = bool;
+        if(change) $state.current.data.resetListDisplay();
+      };
+      $scope.setFilterInvert = function(bool) {
+        var change = ($scope.filter_state.invert != bool);
+        console.log('setFilterInvert('+bool+')->'+change);
+        $scope.filter_state.invert = bool;
+        if(change) $state.current.data.resetListDisplay();
+      };
     }]);

@@ -40,14 +40,12 @@ angular.module('jlogApp.controllers')
         $state.current.data.save_enable = value;
       });
 
-      $scope.opponents = opponents.list;
       $scope.onAddOpponent = function() {
         var name = $window.prompt('Enter new opponent name :');
         name = (name !== null) ? name.trim().toLowerCase() : '';
         opponents.add(name);
         $scope.battle.opponent.name = name;
       };
-      $scope.events = events.list;
       $scope.onAddEvent = function() {
         var name = $window.prompt('Enter new event name :');
         name = (name !== null) ? name.trim() : '';
@@ -60,7 +58,6 @@ angular.module('jlogApp.controllers')
         var key = scenarios.add(name);
         $scope.battle.setup.scenario = key;
       };
-      $scope.tags = tags.list;
       $scope.onAddTag = function() {
         var name = $window.prompt('Enter new tag name :');
         name = (name !== null) ? name.trim() : '';
@@ -149,14 +146,18 @@ angular.module('jlogApp.controllers')
     '$scope',
     '$state',
     'battles',
+    'filter',
     function($scope,
              $state,
-             battles) {
+             battles,
+             filter) {
       console.log('init listEditBottomCtrl');
 
       $scope.state = $state.current.data;
       $scope.onSave = function onSave() {
         battles.save($state.current.data.index, $state.current.data.battle);
+        filter.clearCache($state.current.data.index);
+        $state.get('battle').data.resetListDisplay();
         $scope.onClose();
       };
       $scope.onClose = function onClose() {

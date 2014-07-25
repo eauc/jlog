@@ -115,10 +115,6 @@ describe('controllers', function() {
         expect(scope.battle).toBe($state.current.data.battle);
         expect($state.current.data.save_enable).toBe(false);
 
-        expect(scope.opponents).toBe(opponents.list);
-        expect(scope.events).toBe(events.list);
-        expect(scope.tags).toBe(tags.list);
-
         expect(scope.onAddOpponent).toBeA('Function');
         expect(scope.onAddEvent).toBeA('Function');
         expect(scope.onAddScenario).toBeA('Function');
@@ -504,18 +500,22 @@ describe('controllers', function() {
     var scope;
     var battles;
     var $state;
+    var filter;
 
     beforeEach(inject([
       '$rootScope',
       '$controller',
       '$state',
       'battles',
+      'filter',
       function($rootScope,
                $controller,
                _$state,
-               _battles) {
+               _battles,
+               _filter) {
         battles = _battles;
         $state = _$state;
+        filter = _filter;
 
         $state.current.data = { index: 'index', battle: 'battle' };
         spyOn($state, 'go');
@@ -532,10 +532,15 @@ describe('controllers', function() {
       expect(scope.onClose).toBeA('Function');
     });
     
-    describe('onSave', function() {
+    describe('onSave', function(c) {
       
       beforeEach(function() {
         spyOn(scope, 'onClose');
+        c.data = jasmine.createSpyObj('data', ['resetListDisplay']);
+        spyOn($state, 'get').and.returnValue({
+          data: c.data
+        });
+        spyOn(filter, 'clearCache');
 
         scope.onSave();
       });
@@ -546,6 +551,15 @@ describe('controllers', function() {
       
       it('should close edit battle', function() {
         expect(scope.onClose).toHaveBeenCalled();
+      });
+      
+      it('should reset filter cache', function() {
+        expect(filter.clearCache).toHaveBeenCalledWith('index');
+      });
+      
+      it('should reset list display', function() {
+        expect($state.get).toHaveBeenCalledWith('battle');
+        expect(c.data.resetListDisplay).toHaveBeenCalled();
       });
       
     });

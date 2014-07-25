@@ -76,6 +76,7 @@ class JLogApp < Sinatra::Base
     @scripts << 'js/controllers/listCtrl.js' 
     @scripts << 'js/controllers/listEditCtrl.js' 
     @scripts << 'js/controllers/listViewCtrl.js' 
+    @scripts << 'js/controllers/filterEditCtrl.js' 
     @scripts << 'js/controllers/mainCtrl.js' 
     @scripts << 'js/controllers/statsCtrl.js' 
     @scripts << 'js/services/backup.js' 

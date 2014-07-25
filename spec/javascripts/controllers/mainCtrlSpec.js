@@ -20,6 +20,7 @@ describe('controllers', function() {
     var scores;
     var tags;
     var battle_sort;
+    var filter;
 
     beforeEach(inject([
       '$rootScope',
@@ -32,6 +33,7 @@ describe('controllers', function() {
       'scores',
       'tags',
       'battle_sort',
+      'filter',
       function($rootScope,
                $controller,
                _battles,
@@ -41,7 +43,8 @@ describe('controllers', function() {
                _scenarios,
                _scores,
                _tags,
-               _battle_sort) {
+               _battle_sort,
+               _filter) {
         battles_display = _battles;
         opponents = _opponents;
         events = _events;
@@ -50,12 +53,14 @@ describe('controllers', function() {
         scores = _scores;
         tags = _tags;
         battle_sort = _battle_sort;
+        filter = _filter;
 
         spyOn(battles_display, 'init');
         spyOn(opponents, 'init');
         spyOn(events, 'init');
         spyOn(scenarios, 'init');
         spyOn(tags, 'init');
+        spyOn(filter, 'init');
 
         spyOn(battles_display, 'create');
         spyOn(opponents, 'create');
@@ -74,6 +79,7 @@ describe('controllers', function() {
       expect(events.init).toHaveBeenCalled();
       expect(scenarios.init).toHaveBeenCalled();
       expect(tags.init).toHaveBeenCalled();
+      expect(filter.init).toHaveBeenCalled();
     });
 
     it('should initialize scope', function() {
@@ -81,6 +87,16 @@ describe('controllers', function() {
       expect(scope.factions).toBe(factions);
       expect(scope.sort).toBe(battle_sort);
       expect(scope.scores).toBe(scores);
+
+      expect(scope.filter).toBe(filter.list);
+      expect(scope.opponents).toBe(opponents.list);
+      expect(scope.scenarios).toBe(scenarios.list);
+      expect(scope.events).toBe(events.list);
+      expect(scope.tags).toBe(tags.list);
+
+      expect(scope.filter_state).toBeA('Object');
+      expect(scope.filter_state.active).toBe(false);
+      expect(scope.filter_state.invert).toBe(false);
     });
 
     describe('on newBattles', function(c) {

@@ -4,11 +4,48 @@
     <span class="glyphicon glyphicon-plus"></span>
     <span class="lbl">Add Battle</span>
   </button>
-  <button class="btn btn-default dropup">
-    <span class="glyphicon glyphicon-filter"></span>
-    <span class="lbl">Filter</span>
-    <span class="caret"></span>
-  </button>
+  <div class="btn-group dropup"
+       ng-class="{ 'open': drop_down.active('battle_list_filter') }">
+    <button class="btn"
+            ng-class="{'btn-default':!filter_state.active, 'btn-success':filter_state.active && !filter_state.invert, 'btn-primary':filter_state.active && filter_state.invert}"
+            ng-click="drop_down.toggle('battle_list_filter', $event)">
+      <span class="glyphicon glyphicon-filter"></span>
+      <span class="lbl">Filter</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu text-left">
+      <li>
+        <a href="#/filter">
+          <span class="glyphicon glyphicon-edit"></span>
+          Edit
+        </a>
+      </li>
+      <li ng-hide="filter_state.active">
+        <a ng-click="setFilterActive(true)">
+          <span class="glyphicon glyphicon-ok-circle"></span>
+          Enable
+        </a>
+      </li>
+      <li ng-show="filter_state.active">
+        <a ng-click="setFilterActive(false)">
+          <span class="glyphicon glyphicon-ban-circle"></span>
+          Disable
+        </a>
+      </li>
+      <li ng-show="filter_state.active && !filter_state.invert">
+        <a ng-click="setFilterInvert(true)">
+          <span class="glyphicon glyphicon-random"></span>
+          Invert
+        </a>
+      </li>
+      <li ng-show="filter_state.active && filter_state.invert">
+        <a ng-click="setFilterInvert(false)">
+          <span class="glyphicon glyphicon-refresh"></span>
+          Restore
+        </a>
+      </li>
+    </ul>
+  </div>
   <button class="btn btn-default dropup">
     <span class="glyphicon glyphicon-check"></span>
     <span class="lbl">Selection</span>

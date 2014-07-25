@@ -183,7 +183,7 @@ angular.module('jlogApp.services')
       var storage_filter_key = 'jlog_filter';
       var store = function filterStore(list) {
         console.log('save filter in localStorage');
-        storage.setItem(storage_filter_key, list);
+        storage.setItem(storage_filter_key, JSON.stringify(list));
       };
       var load = function filterLoad() {
         console.log('load filter from localStorage');

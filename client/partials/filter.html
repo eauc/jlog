@@ -1,23 +1,28 @@
-<div class="container">
-  <form class="form-horizontal">
-    <fieldset>
-      <legend>  
-        <span class="glyphicon glyphicon-search"></span>
-        Filter
-      </legend>
-      <div class="form-group filter-group col-lg-6 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-date"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.date.active" />
-          <label class="control-label"
-                 for="filter-date">
-            Date
-          </label>
-        </div>
-        <div ng-show="filter.date.active">
-          <select class="form-control filter-select"
+<div class="container"
+     id="filter-edit">
+  <form class="form-horizontal"
+        name="filter_edit"
+        novalidate>
+    <div class="form-group title">
+      <div class="col-xs-12">
+        <span class="glyphicon glyphicon-edit"></span>
+        Edit Filter
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.date.active=!filter.date.active"
+           ng-class="{ 'active': filter.date.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.date.active,'glyphicon-unchecked':!filter.date.active}"></span>
+        <label class="control-label">
+          Date
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.date.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.date.is">
             <option value="0">==</option>
             <option value="1">!=</option>
@@ -26,158 +31,192 @@
             <option value="4">&lt;</option>
             <option value="5">&lt;=</option>
           </select>
+        </div>
+        <div class="col-xs-9">
           <input type="number"
-                 class="form-control filter-input-4"
+                 class="form-control input-sm"
+                 style="display:inline-block;width:40%;max-width:6em;"
                  ng-model="filter.date.year" />
           <input type="number"
-                 class="form-control filter-input-3"
+                 class="form-control input-sm"
+                 style="display:inline-block;width:40%;max-width:6em;"
                  ng-model="filter.date.month" />
           <input type="number"
-                 class="form-control filter-input-3"
+                 class="form-control input-sm"
+                 style="display:inline-block;width:40%;max-width:6em;"
                  ng-model="filter.date.day" />
         </div>
       </div>
-      <div class="form-group filter-group col-lg-6 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-my-army"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.my_army.active" />
-          <label class="control-label"
-                 for="filter-my-army">
-            My caster
-          </label>
-        </div>
-        <div ng-show="filter.my_army.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.my_army.active=!filter.my_army.active"
+           ng-class="{ 'active': filter.my_army.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.my_army.active,'glyphicon-unchecked':!filter.my_army.active}"></span>
+        <label class="control-label">
+          My caster
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.my_army.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.my_army.is">
             <option value="true" selected="selected">is</option>
             <option value="false">is not</option>
           </select>
-          <select class="form-control filter-select"
+        </div>
+        <div class="col-xs-9">
+          <select class="form-control"
                   ng-model="filter.my_army.faction"
                   ng-options="id as f.name for (id, f) in factions">
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-3"></div>
+        <div class="col-xs-9">
+          <select class="form-control multiple"
                   ng-model="filter.my_army.caster"
                   ng-options="id as id | capitalise for (id, c) in factions[filter.my_army.faction].casters"
                   multiple>
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-6 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-opp-name"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.opp_name.active" />
-          <label class="control-label"
-                 for="filter-opp-name">
-            Opponent
-          </label>
-        </div>
-        <div ng-show="filter.opp_name.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.opp_name.active=!filter.opp_name.active"
+           ng-class="{ 'active': filter.opp_name.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.opp_name.active,'glyphicon-unchecked':!filter.opp_name.active}"></span>
+        <label class="control-label">
+          Opponent
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.opp_name.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.opp_name.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-9">
+          <select class="form-control multiple"
                   ng-model="filter.opp_name.value"
                   ng-options="o as o|capitalise for o in opponents"
                   multiple>
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-6 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-opponent"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.opp_caster.active" />
-          <label class="control-label"
-                 for="filter-opponent">
-            Opp. caster
-          </label>
-        </div>
-        <div ng-show="filter.opp_caster.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.opp_caster.active=!filter.opp_caster.active"
+           ng-class="{ 'active': filter.opp_caster.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.opp_caster.active,'glyphicon-unchecked':!filter.opp_caster.active}"></span>
+        <label class="control-label">
+          Opponent Caster
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.opp_caster.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.opp_caster.is">
             <option value="true" selected="selected">is</option>
             <option value="false">is not</option>
           </select>
-          <select class="form-control filter-select"
+        </div>
+        <div class="col-xs-9">
+          <select class="form-control"
                   ng-model="filter.opp_caster.faction"
                   ng-options="id as f.name for (id, f) in factions">
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-3">
+        </div>
+        <div class="col-xs-9">
+          <select class="form-control multiple"
                   ng-model="filter.opp_caster.caster"
                   ng-options="id as id | capitalise for (id, c) in factions[filter.opp_caster.faction].casters"
                   multiple>
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-6 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-result"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.result.active" />
-          <label class="control-label"
-                 for="filter-result">
-            Result
-          </label>
-        </div>
-        <div ng-show="filter.result.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.result.active=!filter.result.active"
+           ng-class="{ 'active': filter.result.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.result.active,'glyphicon-unchecked':!filter.result.active}"></span>
+        <label class="control-label">
+          Result
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.result.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.result.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-9">
+          <select class="form-control multiple"
                   ng-model="filter.result.value"
                   ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
                   multiple>
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-6 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-scenario"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.scenario.active" />
-          <label class="control-label"
-                 for="filter-scenario">
-            Scenario
-          </label>
-        </div>
-        <div ng-show="filter.scenario.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.scenario.active=!filter.scenario.active"
+           ng-class="{ 'active': filter.scenario.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.scenario.active,'glyphicon-unchecked':!filter.scenario.active}"></span>
+        <label class="control-label">
+          Scenario
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.scenario.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.scenario.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-9">
+          <select class="form-control multiple"
                   ng-model="filter.scenario.name"
                   ng-options="id as s.name for (id, s) in scenarios"
                   multiple>
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-7 col-xs-12">
-        <div class="col-lg-2">
-          <input id="filter-size"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.size.active" />
-          <label class="control-label"
-                 for="filter-size">
-            Size
-          </label>
-        </div>
-        <div ng-show="filter.size.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.size.active=!filter.size.active"
+           ng-class="{ 'active': filter.size.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.size.active,'glyphicon-unchecked':!filter.size.active}"></span>
+        <label class="control-label">
+          Size
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.size.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.size.is">
             <option value="0">==</option>
             <option value="1">!=</option>
@@ -186,59 +225,74 @@
             <option value="4">&lt;</option>
             <option value="5">&lt;=</option>
           </select>
+        </div>
+        <div class="col-xs-9">
           <input type="number"
                  class="form-control filter-input-3"
+                 style="max-width:6em"
                  ng-model="filter.size.value" />
         </div>
       </div>
-      <div class="form-group filter-group col-lg-5 col-lg-pull-1 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-event"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.event.active" />
-          <label class="control-label"
-                 for="filter-event">
-            Event
-          </label>
-        </div>
-        <div ng-show="filter.event.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group"> 
+      <div class="col-xs-12 header"
+           ng-click="filter.event.active=!filter.event.active"
+           ng-class="{ 'active': filter.event.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.event.active,'glyphicon-unchecked':!filter.event.active}"></span>
+        <label class="control-label">
+          Event
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.event.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.event.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-9">
+          <select class="form-control multiple"
                   ng-model="filter.event.value"
                   ng-options="e for e in events"
                   multiple>
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-7 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-initiative"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.initiative.active" />
-          <label class="control-label"
-                 for="filter-initiative">
-            Initiative
-          </label>
-        </div>
-        <div ng-show="filter.initiative.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.initiative.active=!filter.initiative.active"
+           ng-class="{ 'active': filter.initiative.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.initiative.active,'glyphicon-unchecked':!filter.initiative.active}"></span>
+        <label class="control-label">
+          Initiative
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.initiative.active">
+        <div class="col-xs-3 is">
+          <select class="form-control"
                   ng-model="filter.initiative.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-4"
+             style="padding-right:5px">
+          <select class="form-control"
                   ng-model="filter.initiative.won_roll">
             <option selected value=""></option>
             <option selected value="true">Won roll</option>
             <option selected value="false">Lost roll</option>
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-5"
+             style="padding-right:5px">
+          <select class="form-control"
                   ng-model="filter.initiative.started">
             <option selected value=""></option>
             <option selected value="true">started game</option>
@@ -246,32 +300,36 @@
           </select>
         </div>
       </div>
-      <div class="form-group filter-group col-lg-5 col-lg-pull-1 col-xs-12">
-        <div class="col-lg-3">
-          <input id="filter-tags"
-                 class="form-control filter-active-chk"
-                 type="checkbox"
-                 ng-model="filter.tags.active" />
-          <label class="control-label"
-                 for="filter-tags">
-            Tags
-          </label>
-        </div>
-        <div ng-show="filter.tags.active">
-          <select class="form-control filter-select"
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12 header"
+           ng-click="filter.tags.active=!filter.tags.active"
+           ng-class="{ 'active': filter.tags.active }">
+        <span class="glyphicon check"
+              ng-class="{'glyphicon-check':filter.tags.active,'glyphicon-unchecked':!filter.tags.active}"></span>
+        <label class="control-label">
+          Tags
+        </label>
+      </div>
+      <div class="col-xs-12 container"
+           ng-show="filter.tags.active">
+        <div class="col-xs-5 is">
+          <select class="form-control"
                   ng-model="filter.tags.is">
             <option value="any">include any of</option>
             <option value="all">include all of</option>
             <option value="not_all">do not include all of</option>
             <option value="none">include none of</option>
           </select>
-          <select class="form-control filter-select-multiple"
+        </div>
+        <div class="col-xs-7">
+          <select class="form-control multiple"
                   ng-model="filter.tags.value"
                   ng-options="t for t in tags"
                   multiple>
           </select>
         </div>
       </div>
-    </fieldset>
+    </div>
   </form>
 </div>
