@@ -196,23 +196,34 @@ describe('controllers', function() {
 
     var $state;
     var $timeout;
-    var scenarios;
+    var _export;
+    var battles_display;
 
     beforeEach(inject([
       '$rootScope',
       '$controller',
       '$state',
+      'export',
+      'battles_display',
       function($rootScope,
                $controller,
-               _$state) {
+               _$state,
+               _export_,
+               _battles_display) {
         $state = _$state;
         spyOn($state, 'go');
         $state.current.data = jasmine.createSpyObj('data', ['resetListDisplay']);
+        _export = _export_;
+        spyOn(_export, 'generate');
+        battles_display = _battles_display;
 
         scope = $rootScope.$new();
         scope.filter_state = {
           active: false,
           invert: false
+        };
+        scope.drop_down = {
+          toggle: function() {}
         };
         $controller('listBottomCtrl', { '$scope': scope, '$timeout': $timeout });
       }]));
@@ -221,6 +232,9 @@ describe('controllers', function() {
       expect(scope.onAddBattle).toBeA('Function');
       expect(scope.setFilterActive).toBeA('Function');
       expect(scope.setFilterInvert).toBeA('Function');
+      expect(scope.onExportOpen).toBeA('Function');
+
+      expect(scope['export']).toBe(_export);
     });
 
     describe('onAddBattle', function() {
@@ -311,6 +325,18 @@ describe('controllers', function() {
             .not.toHaveBeenCalled();
         });
 
+      });
+
+    });
+
+    describe('onExportOpen', function() {
+
+      beforeEach(function() {
+        scope.onExportOpen();
+      });
+
+      it('should generate export links', function() {
+        expect(_export.generate).toHaveBeenCalledWith(battles_display.list);
       });
 
     });

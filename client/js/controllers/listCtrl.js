@@ -61,8 +61,12 @@ angular.module('jlogApp.controllers')
   .controller('listBottomCtrl', [
     '$scope',
     '$state',
+    'export',
+    'battles_display',
     function($scope,
-             $state) {
+             $state,
+             _export,
+             battles_display) {
       console.log('init listBottomCtrl');
 
       $scope.onAddBattle = function onAddBattle() {
@@ -79,5 +83,11 @@ angular.module('jlogApp.controllers')
         console.log('setFilterInvert('+bool+')->'+change);
         $scope.filter_state.invert = bool;
         if(change) $state.current.data.resetListDisplay();
+      };
+
+      $scope['export'] = _export;
+      $scope.onExportOpen = function(event) {
+        _export.generate(battles_display.sorted_list);
+        $scope.drop_down.toggle('battle_list_export', event);
       };
     }]);

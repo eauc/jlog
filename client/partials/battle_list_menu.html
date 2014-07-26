@@ -51,11 +51,35 @@
     <span class="lbl">Selection</span>
     <span class="caret"></span>
   </button>
-  <button class="btn btn-default dropup">
-    <span class="glyphicon glyphicon-export"></span>
-    <span class="lbl">Export</span>
-    <span class="caret"></span>
-  </button>
+  <div class="btn-group dropup"
+       ng-class="{ 'open': drop_down.active('battle_list_export') }">
+    <button class="btn btn-default dropup"
+            ng-click="onExportOpen($event)">
+      <span class="glyphicon glyphicon-export"></span>
+      <span class="lbl">Export</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu text-left">
+      <li>
+        <a ng-href="{{export.json_url}}"
+           download="{{export.name}}_json.txt">
+          JSON
+        </a>
+      </li>
+      <li>
+        <a ng-href="{{export.csv_url}}"
+           download="{{export.name}}_csv.txt">
+          CSV
+        </a>
+      </li>
+      <li>
+        <a ng-href="{{export.bb_url}}"
+           download="{{export.name}}_bb.txt">
+          BB code
+        </a>
+      </li>
+    </ul>
+  </div>
   <div class="btn-group dropup sort"
        ng-class="{ 'open': drop_down.active('battle_list_sort') }">
     <button class="btn btn-default"

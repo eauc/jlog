@@ -37,13 +37,12 @@ describe('service', function() {
     expect(object.setup).toHaveProperty('size');
     expect(object.setup).toHaveProperty('scenario');
     expect(object.setup).toHaveProperty('event');
+    expect(object.setup).toHaveProperty('initiative');
+    expect(object.setup.initiative).toHaveProperty('started');
+    expect(object.setup.initiative).toHaveProperty('won_roll');
 
     expect(object).toHaveProperty('score');
     expect(object).toHaveProperty('comment');
-
-    expect(object.initiative).toBeAn('Object');
-    expect(object.initiative).toHaveProperty('dice');
-    expect(object.initiative).toHaveProperty('start');
   }
 
   describe('battle', function() {
@@ -92,13 +91,13 @@ describe('service', function() {
           'size': 50,
           'scenario': 'sr13inco',
           'event': 'amical',
+          'initiative': {
+            'won_roll': true,
+            'started': false
+          },
         },
         'score': 'va',
         'comment': 'coucouc',
-        'initiative': {
-          'dice': true,
-          'start': false
-        },
         'tags': []
       };
       var object = battle(data);

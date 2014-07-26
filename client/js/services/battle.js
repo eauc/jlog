@@ -17,7 +17,7 @@ angular.module('jlogApp.services')
     return function(data) {
       var today = new Date();
       data = data || {};
-      var instance = _.extend({
+      var instance = _.deepExtend({
         'date': {
           'year': today.getFullYear(),
           'month': today.getMonth() + 1,
@@ -48,13 +48,13 @@ angular.module('jlogApp.services')
           'size': null,
           'scenario': null,
           'event': null,
+          'initiative': {
+            'started': null,
+            'won_roll': null
+          },
         },
         'score': null,
         'comment':null,
-        'initiative': {
-          'dice': null,
-          'start': null
-        },
         'tags': [],
         'addTag': battleAddTag
       }, data);
