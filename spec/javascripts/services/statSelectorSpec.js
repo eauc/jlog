@@ -29,45 +29,35 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorMyCaster(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of my factions', function() {
       var collec = statSelectorMyCaster(c.battles, c.entryFactory);
 
-      expect(collec.factions['loe']).toBeAn('Object');
-      expect(collec.factions['loe'].all).toBeAn('Object');
-      expect(collec.factions['loe'].all.addBattle.calls.count()).toBe(2);
-      expect(collec.factions['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.factions['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['loe']).toBeAn('Object');
+      expect(collec['loe'].all).toBeAn('Object');
+      expect(collec['loe'].all.addBattle.calls.count()).toBe(2);
+      expect(collec['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[1]);
 
-      expect(collec.factions['khador']).toBeAn('Object');
-      expect(collec.factions['khador'].all).toBeAn('Object');
-      expect(collec.factions['khador'].all.addBattle.calls.count()).toBe(1);
-      expect(collec.factions['khador'].all.addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['khador']).toBeAn('Object');
+      expect(collec['khador'].all).toBeAn('Object');
+      expect(collec['khador'].all.addBattle.calls.count()).toBe(1);
+      expect(collec['khador'].all.addBattle).toHaveBeenCalledWith(c.battles[2]);
     });
 
     it('should calculate stat entry for each of my casters', function() {
       var collec = statSelectorMyCaster(c.battles, c.entryFactory);
 
-      expect(collec.factions['loe'].casters['saeryn1']).toBeAn('Object');
-      expect(collec.factions['loe'].casters['saeryn1'].addBattle.calls.count()).toBe(1);
-      expect(collec.factions['loe'].casters['saeryn1'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['loe'].casters['saeryn1']).toBeAn('Object');
+      expect(collec['loe'].casters['saeryn1'].addBattle.calls.count()).toBe(1);
+      expect(collec['loe'].casters['saeryn1'].addBattle).toHaveBeenCalledWith(c.battles[0]);
 
-      expect(collec.factions['loe'].casters['kallus1']).toBeAn('Object');
-      expect(collec.factions['loe'].casters['kallus1'].addBattle.calls.count()).toBe(1);
-      expect(collec.factions['loe'].casters['kallus1'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['loe'].casters['kallus1']).toBeAn('Object');
+      expect(collec['loe'].casters['kallus1'].addBattle.calls.count()).toBe(1);
+      expect(collec['loe'].casters['kallus1'].addBattle).toHaveBeenCalledWith(c.battles[1]);
 
-      expect(collec.factions['khador'].casters['irusk1']).toBeAn('Object');
-      expect(collec.factions['khador'].casters['irusk1'].addBattle.calls.count()).toBe(1);
-      expect(collec.factions['khador'].casters['irusk1'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['khador'].casters['irusk1']).toBeAn('Object');
+      expect(collec['khador'].casters['irusk1'].addBattle.calls.count()).toBe(1);
+      expect(collec['khador'].casters['irusk1'].addBattle).toHaveBeenCalledWith(c.battles[2]);
     });
     
   });
@@ -94,27 +84,17 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorOppName(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of opponent names', function() {
       var collec = statSelectorOppName(c.battles, c.entryFactory);
 
-      expect(collec.names['fred']).toBeAn('Object');
-      expect(collec.names['fred'].addBattle.calls.count()).toBe(2);
-      expect(collec.names['fred'].addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.names['fred'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['fred']).toBeAn('Object');
+      expect(collec['fred'].addBattle.calls.count()).toBe(2);
+      expect(collec['fred'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['fred'].addBattle).toHaveBeenCalledWith(c.battles[2]);
 
-      expect(collec.names['wood']).toBeAn('Object');
-      expect(collec.names['wood'].addBattle.calls.count()).toBe(1);
-      expect(collec.names['wood'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['wood']).toBeAn('Object');
+      expect(collec['wood'].addBattle.calls.count()).toBe(1);
+      expect(collec['wood'].addBattle).toHaveBeenCalledWith(c.battles[1]);
     });
     
   });
@@ -141,45 +121,35 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorOppCaster(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of opponent factions', function() {
       var collec = statSelectorOppCaster(c.battles, c.entryFactory);
 
-      expect(collec.factions['loe']).toBeAn('Object');
-      expect(collec.factions['loe'].all).toBeAn('Object');
-      expect(collec.factions['loe'].all.addBattle.calls.count()).toBe(2);
-      expect(collec.factions['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.factions['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['loe']).toBeAn('Object');
+      expect(collec['loe'].all).toBeAn('Object');
+      expect(collec['loe'].all.addBattle.calls.count()).toBe(2);
+      expect(collec['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['loe'].all.addBattle).toHaveBeenCalledWith(c.battles[1]);
 
-      expect(collec.factions['khador']).toBeAn('Object');
-      expect(collec.factions['khador'].all).toBeAn('Object');
-      expect(collec.factions['khador'].all.addBattle.calls.count()).toBe(1);
-      expect(collec.factions['khador'].all.addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['khador']).toBeAn('Object');
+      expect(collec['khador'].all).toBeAn('Object');
+      expect(collec['khador'].all.addBattle.calls.count()).toBe(1);
+      expect(collec['khador'].all.addBattle).toHaveBeenCalledWith(c.battles[2]);
     });
 
     it('should calculate stat entry for each of opponent casters', function() {
       var collec = statSelectorOppCaster(c.battles, c.entryFactory);
 
-      expect(collec.factions['loe'].casters['saeryn1']).toBeAn('Object');
-      expect(collec.factions['loe'].casters['saeryn1'].addBattle.calls.count()).toBe(1);
-      expect(collec.factions['loe'].casters['saeryn1'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['loe'].casters['saeryn1']).toBeAn('Object');
+      expect(collec['loe'].casters['saeryn1'].addBattle.calls.count()).toBe(1);
+      expect(collec['loe'].casters['saeryn1'].addBattle).toHaveBeenCalledWith(c.battles[0]);
 
-      expect(collec.factions['loe'].casters['kallus1']).toBeAn('Object');
-      expect(collec.factions['loe'].casters['kallus1'].addBattle.calls.count()).toBe(1);
-      expect(collec.factions['loe'].casters['kallus1'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['loe'].casters['kallus1']).toBeAn('Object');
+      expect(collec['loe'].casters['kallus1'].addBattle.calls.count()).toBe(1);
+      expect(collec['loe'].casters['kallus1'].addBattle).toHaveBeenCalledWith(c.battles[1]);
 
-      expect(collec.factions['khador'].casters['irusk1']).toBeAn('Object');
-      expect(collec.factions['khador'].casters['irusk1'].addBattle.calls.count()).toBe(1);
-      expect(collec.factions['khador'].casters['irusk1'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['khador'].casters['irusk1']).toBeAn('Object');
+      expect(collec['khador'].casters['irusk1'].addBattle.calls.count()).toBe(1);
+      expect(collec['khador'].casters['irusk1'].addBattle).toHaveBeenCalledWith(c.battles[2]);
     });
     
   });
@@ -206,27 +176,17 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorEvent(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of setup event', function() {
       var collec = statSelectorEvent(c.battles, c.entryFactory);
 
-      expect(collec.events['amical']).toBeAn('Object');
-      expect(collec.events['amical'].addBattle.calls.count()).toBe(2);
-      expect(collec.events['amical'].addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.events['amical'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['amical']).toBeAn('Object');
+      expect(collec['amical'].addBattle.calls.count()).toBe(2);
+      expect(collec['amical'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['amical'].addBattle).toHaveBeenCalledWith(c.battles[2]);
 
-      expect(collec.events['lsm14']).toBeAn('Object');
-      expect(collec.events['lsm14'].addBattle.calls.count()).toBe(1);
-      expect(collec.events['lsm14'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['lsm14']).toBeAn('Object');
+      expect(collec['lsm14'].addBattle.calls.count()).toBe(1);
+      expect(collec['lsm14'].addBattle).toHaveBeenCalledWith(c.battles[1]);
     });
     
   });
@@ -253,27 +213,17 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorScenario(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of setup scenario', function() {
       var collec = statSelectorScenario(c.battles, c.entryFactory);
 
-      expect(collec.scenarios['sr13inc']).toBeAn('Object');
-      expect(collec.scenarios['sr13inc'].addBattle.calls.count()).toBe(2);
-      expect(collec.scenarios['sr13inc'].addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.scenarios['sr13inc'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['sr13inc']).toBeAn('Object');
+      expect(collec['sr13inc'].addBattle.calls.count()).toBe(2);
+      expect(collec['sr13inc'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['sr13inc'].addBattle).toHaveBeenCalledWith(c.battles[2]);
 
-      expect(collec.scenarios['sr13poe']).toBeAn('Object');
-      expect(collec.scenarios['sr13poe'].addBattle.calls.count()).toBe(1);
-      expect(collec.scenarios['sr13poe'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['sr13poe']).toBeAn('Object');
+      expect(collec['sr13poe'].addBattle.calls.count()).toBe(1);
+      expect(collec['sr13poe'].addBattle).toHaveBeenCalledWith(c.battles[1]);
     });
     
   });
@@ -300,27 +250,17 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorSize(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of setup size', function() {
       var collec = statSelectorSize(c.battles, c.entryFactory);
 
-      expect(collec.sizes['50pts']).toBeAn('Object');
-      expect(collec.sizes['50pts'].addBattle.calls.count()).toBe(2);
-      expect(collec.sizes['50pts'].addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.sizes['50pts'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['50pts']).toBeAn('Object');
+      expect(collec['50pts'].addBattle.calls.count()).toBe(2);
+      expect(collec['50pts'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['50pts'].addBattle).toHaveBeenCalledWith(c.battles[2]);
 
-      expect(collec.sizes['35pts']).toBeAn('Object');
-      expect(collec.sizes['35pts'].addBattle.calls.count()).toBe(1);
-      expect(collec.sizes['35pts'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['35pts']).toBeAn('Object');
+      expect(collec['35pts'].addBattle.calls.count()).toBe(1);
+      expect(collec['35pts'].addBattle).toHaveBeenCalledWith(c.battles[1]);
     });
     
   });
@@ -347,16 +287,6 @@ describe('service', function() {
           battle({ setup: { initiative: { won_roll: "false", started: "true" } } }),
         ];
       }]));
-
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorInit(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
 
     it('should calculate stat entry for each of setup init', function() {
       var collec = statSelectorInit(c.battles, c.entryFactory);
@@ -406,27 +336,17 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorResult(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of setup result', function() {
       var collec = statSelectorResult(c.battles, c.entryFactory);
 
-      expect(collec.results['va']).toBeAn('Object');
-      expect(collec.results['va'].addBattle.calls.count()).toBe(2);
-      expect(collec.results['va'].addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.results['va'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['va']).toBeAn('Object');
+      expect(collec['va'].addBattle.calls.count()).toBe(2);
+      expect(collec['va'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['va'].addBattle).toHaveBeenCalledWith(c.battles[2]);
 
-      expect(collec.results['ds']).toBeAn('Object');
-      expect(collec.results['ds'].addBattle.calls.count()).toBe(1);
-      expect(collec.results['ds'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['ds']).toBeAn('Object');
+      expect(collec['ds'].addBattle.calls.count()).toBe(1);
+      expect(collec['ds'].addBattle).toHaveBeenCalledWith(c.battles[1]);
     });
     
   });
@@ -453,31 +373,21 @@ describe('service', function() {
         ];
       }]));
 
-    it('should calculate stat entry for all battles', function() {
-      var collec = statSelectorTag(c.battles, c.entryFactory);
-
-      expect(collec.all).toBeAn('Object');
-      expect(collec.all.addBattle.calls.count()).toBe(c.battles.length);
-      _.each(c.battles, function(battle) {
-        expect(collec.all.addBattle).toHaveBeenCalledWith(battle);
-      });
-    });
-
     it('should calculate stat entry for each of setup tag', function() {
       var collec = statSelectorTag(c.battles, c.entryFactory);
 
-      expect(collec.tags['tournament']).toBeAn('Object');
-      expect(collec.tags['tournament'].addBattle.calls.count()).toBe(2);
-      expect(collec.tags['tournament'].addBattle).toHaveBeenCalledWith(c.battles[0]);
-      expect(collec.tags['tournament'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['tournament']).toBeAn('Object');
+      expect(collec['tournament'].addBattle.calls.count()).toBe(2);
+      expect(collec['tournament'].addBattle).toHaveBeenCalledWith(c.battles[0]);
+      expect(collec['tournament'].addBattle).toHaveBeenCalledWith(c.battles[1]);
 
-      expect(collec.tags['tiers4']).toBeAn('Object');
-      expect(collec.tags['tiers4'].addBattle.calls.count()).toBe(1);
-      expect(collec.tags['tiers4'].addBattle).toHaveBeenCalledWith(c.battles[2]);
+      expect(collec['tiers4']).toBeAn('Object');
+      expect(collec['tiers4'].addBattle.calls.count()).toBe(1);
+      expect(collec['tiers4'].addBattle).toHaveBeenCalledWith(c.battles[2]);
 
-      expect(collec.tags['raek spam']).toBeAn('Object');
-      expect(collec.tags['raek spam'].addBattle.calls.count()).toBe(1);
-      expect(collec.tags['raek spam'].addBattle).toHaveBeenCalledWith(c.battles[1]);
+      expect(collec['raek spam']).toBeAn('Object');
+      expect(collec['raek spam'].addBattle.calls.count()).toBe(1);
+      expect(collec['raek spam'].addBattle).toHaveBeenCalledWith(c.battles[1]);
     });
     
   });
