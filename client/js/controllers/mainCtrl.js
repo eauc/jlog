@@ -13,8 +13,6 @@ angular.module('jlogApp.controllers')
     'battles_display',
     'battle_sort',
     'filter',
-    // 'stats',
-    // 'battles_display',
     function(
       $scope,
       $timeout,
@@ -27,8 +25,6 @@ angular.module('jlogApp.controllers')
       battles_display,
       battle_sort,
       filter
-      // stats,
-      // battles_display
     ) {
 
       console.log('init mainCtrl');
@@ -43,35 +39,17 @@ angular.module('jlogApp.controllers')
       $scope.battles = battles_display;
       $scope.factions = factions;
       $scope.scores = scores;
-      // $scope.collapse_navbar = true;
-      // $scope.factions = factions;
-      // $scope.scores = scores;
       $scope.filter_state = {
         active: false,
         invert: false,
       };
       $scope.filter = filter.list;
-      // $scope.stats = stats;
-      // $scope.battles_display = battles_display;
       $scope.sort = battle_sort;
       $scope.opponents = opponents.list;
       $scope.scenarios = scenarios.list;
       $scope.events = events.list;
       $scope.tags = tags.list;
 
-      // var onBattlesUpdate = function() {
-      //     $scope.filter.clearCache();
-      //     $scope.list_display.reset($scope.battles,
-      //                               $scope.filter,
-      //                               $scope.filter_active,
-      //                               $scope.filter_invert,
-      //                               $scope.sort);
-      //     $scope.stats.reset();
-      // };
-      // $scope.updateBattles = function updateBattles() {
-      //     battles.update($scope.battles);
-      //     onBattlesUpdate();
-      // };
       $scope.$on('newBattles', function(event, data) {
         battles_display.create(data);
         opponents.create($scope.battles.list);
@@ -79,32 +57,6 @@ angular.module('jlogApp.controllers')
         scenarios.create($scope.battles.list);
         tags.create($scope.battles.list);
       });
-      // $scope.battles = battles.init();
-      // $scope.opponents = opponents.init($scope.battles);
-      // $scope.events = events.init($scope.battles);
-      // $scope.scenarios = scenarios.init($scope.battles);
-      // $scope.tags = tags.init($scope.battles);
-      // onBattlesUpdate();
-
-      // $scope.$watch('filter', function() {
-      //     $scope.filter.clearCache();
-      //     $scope.stats.filtered.reset();
-      //     $scope.filter.update();
-      // }, true);
-      // $scope.$watch('filter_invert', function() {
-      //     $scope.stats.filtered.reset();
-      // });
-
-      // $scope.toggleFilter = function toggleFilter() {
-      //     $scope.filter_active = !$scope.filter_active;
-      // };
-      // $scope.invertFilter = function invertFilter() {
-      //     $scope.filter_invert = !$scope.filter_invert;
-      // };
-      // $scope.screen = window.screen;
-      // $timeout(function() {
-      //   $('#battle-list-body').niceScroll();
-      // }, 500);
 
       $scope.drop_down = {
         state: null,
@@ -120,4 +72,29 @@ angular.module('jlogApp.controllers')
         }
       };
             
+      function showMore() {
+        $scope.battles.showMore();
+        if($scope.battles.more) {
+          $timeout(showMore, 100);
+        }
+      }
+      $scope.resetListDisplay = function() {
+        $scope.battles.reset($scope.filter_state.active,
+                             $scope.filter_state.invert,
+                             $scope.sort);
+        $scope.$broadcast('battles_reset');
+        $timeout(showMore, 100);
+      };
+      $scope.setFilterActive = function(bool) {
+        var change = ($scope.filter_state.active != bool);
+        console.log('setFilterActive('+bool+')->'+change);
+        $scope.filter_state.active = bool;
+        if(change) $scope.resetListDisplay();
+      };
+      $scope.setFilterInvert = function(bool) {
+        var change = ($scope.filter_state.invert != bool);
+        console.log('setFilterInvert('+bool+')->'+change);
+        $scope.filter_state.invert = bool;
+        if(change) $scope.resetListDisplay();
+      };
     }]);

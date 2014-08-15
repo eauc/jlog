@@ -9,94 +9,81 @@ describe('controllers', function() {
     console.log = jasmine.createSpy('log');
   });
 
-  describe('mainCtrl', function() {
+  describe('mainCtrl', function(c) {
 
     var scope;
-    var battles_display;
-    var opponents;
-    var events;
-    var factions;
-    var scenarios;
-    var scores;
-    var tags;
-    var battle_sort;
-    var filter;
 
     beforeEach(inject([
       '$rootScope',
       '$controller',
-      'battles_display',
-      'opponents',
-      'events',
-      'factions',
-      'scenarios',
-      'scores',
-      'tags',
-      'battle_sort',
-      'filter',
       function($rootScope,
-               $controller,
-               _battles,
-               _opponents,
-               _events,
-               _factions,
-               _scenarios,
-               _scores,
-               _tags,
-               _battle_sort,
-               _filter) {
-        battles_display = _battles;
-        opponents = _opponents;
-        events = _events;
-        factions = _factions;
-        scenarios = _scenarios;
-        scores = _scores;
-        tags = _tags;
-        battle_sort = _battle_sort;
-        filter = _filter;
+               $controller) {
+        c.timeout = jasmine.createSpy('$timeout');
 
-        spyOn(battles_display, 'init');
-        spyOn(opponents, 'init');
-        spyOn(events, 'init');
-        spyOn(scenarios, 'init');
-        spyOn(tags, 'init');
-        spyOn(filter, 'init');
-
-        spyOn(battles_display, 'create');
-        spyOn(opponents, 'create');
-        spyOn(events, 'create');
-        spyOn(scenarios, 'create');
-        spyOn(tags, 'create');
+        c.battles_display = jasmine.createSpyObj('battles_display',
+                                                 ['init', 'create', 'reset', 'showMore']);
+        c.opponents = jasmine.createSpyObj('opponents',
+                                           ['init', 'create']);
+        c.opponents.list = [];
+        c.events = jasmine.createSpyObj('events',
+                                        ['init', 'create']);
+        c.events.list = [];
+        c.scenarios = jasmine.createSpyObj('scenarios',
+                                           ['init', 'create']);
+        c.scenarios.list = [];
+        c.tags = jasmine.createSpyObj('tags',
+                                      ['init', 'create']);
+        c.tags.list = [];
+        c.filter = jasmine.createSpyObj('filter', ['init']);
+        c.filter.list = [];
+        c.battle_sort = {};
+        c.scores = {};
+        c.factions = {};
 
         scope = $rootScope.$new();
         spyOn(scope, '$on');
-        $controller('mainCtrl', { '$scope': scope });
+
+        $controller('mainCtrl', {
+          '$scope': scope,
+          '$timeout': c.timeout,
+          'opponents': c.opponents,
+          'scores': c.scores,
+          'factions': c.factions,
+          'events': c.events,
+          'scenarios': c.scenarios,
+          'tags': c.tags,
+          'battles_display': c.battles_display,
+          'battle_sort': c.battle_sort,
+          'filter': c.filter
+        });
       }]));
 
     it('should initialize services', function() {
-      expect(battles_display.init).toHaveBeenCalled();
-      expect(opponents.init).toHaveBeenCalled();
-      expect(events.init).toHaveBeenCalled();
-      expect(scenarios.init).toHaveBeenCalled();
-      expect(tags.init).toHaveBeenCalled();
-      expect(filter.init).toHaveBeenCalled();
+      expect(c.battles_display.init).toHaveBeenCalled();
+      expect(c.opponents.init).toHaveBeenCalled();
+      expect(c.events.init).toHaveBeenCalled();
+      expect(c.scenarios.init).toHaveBeenCalled();
+      expect(c.tags.init).toHaveBeenCalled();
+      expect(c.filter.init).toHaveBeenCalled();
     });
 
     it('should initialize scope', function() {
-      expect(scope.battles).toBe(battles_display);
-      expect(scope.factions).toBe(factions);
-      expect(scope.sort).toBe(battle_sort);
-      expect(scope.scores).toBe(scores);
+      expect(scope.battles).toBe(c.battles_display);
+      expect(scope.factions).toBe(c.factions);
+      expect(scope.sort).toBe(c.battle_sort);
+      expect(scope.scores).toBe(c.scores);
 
-      expect(scope.filter).toBe(filter.list);
-      expect(scope.opponents).toBe(opponents.list);
-      expect(scope.scenarios).toBe(scenarios.list);
-      expect(scope.events).toBe(events.list);
-      expect(scope.tags).toBe(tags.list);
+      expect(scope.filter).toBe(c.filter.list);
+      expect(scope.opponents).toBe(c.opponents.list);
+      expect(scope.scenarios).toBe(c.scenarios.list);
+      expect(scope.events).toBe(c.events.list);
+      expect(scope.tags).toBe(c.tags.list);
 
       expect(scope.filter_state).toBeA('Object');
       expect(scope.filter_state.active).toBe(false);
       expect(scope.filter_state.invert).toBe(false);
+      expect(scope.setFilterActive).toBeA('Function');
+      expect(scope.setFilterInvert).toBeA('Function');
     });
 
     describe('on newBattles', function(c) {
@@ -112,11 +99,162 @@ describe('controllers', function() {
       });
 
       it('should recreate all services lists', function() {
-        expect(battles_display.create).toHaveBeenCalledWith(c.data);
-        expect(opponents.create).toHaveBeenCalledWith(battles_display.list);
-        expect(events.create).toHaveBeenCalledWith(battles_display.list);
-        expect(scenarios.create).toHaveBeenCalledWith(battles_display.list);
-        expect(tags.create).toHaveBeenCalledWith(battles_display.list);
+        expect(c.battles_display.create).toHaveBeenCalledWith(c.data);
+        expect(c.opponents.create).toHaveBeenCalledWith(c.battles_display.list);
+        expect(c.events.create).toHaveBeenCalledWith(c.battles_display.list);
+        expect(c.scenarios.create).toHaveBeenCalledWith(c.battles_display.list);
+        expect(c.tags.create).toHaveBeenCalledWith(c.battles_display.list);
+      });
+
+    });
+
+    describe('resetListDisplay', function(c) {
+
+      beforeEach(function() {
+        c.battles_display.reset.calls.reset();
+        c.timeout.calls.reset();
+
+        scope.resetListDisplay();
+      });
+
+      it('should reset battles list display', function() {
+        expect(c.battles_display.reset)
+          .toHaveBeenCalledWith(scope.filter_state.active,
+                                scope.filter_state.invert,
+                                c.battle_sort);
+      });
+
+      it('should schedule timeout', function() {
+        expect(c.timeout)
+          .toHaveBeenCalledWith(jasmine.any(Function), 100);
+      });
+
+      describe('timeout', function(c) {
+
+        beforeEach(function() {
+          c.timeout_handler = c.timeout.calls.first().args[0];
+        });
+
+        it('should show more of the list', function() {
+          c.timeout_handler();
+
+          expect(c.battles_display.showMore).toHaveBeenCalled();
+        });
+
+        describe('when there is more in the list', function() {
+
+          beforeEach(function() {
+            scope.battles.more = true;
+            c.timeout.calls.reset();
+
+            c.timeout_handler();
+          });
+
+          it('should schedule new timeout', function() {
+            expect(c.timeout).toHaveBeenCalledWith(c.timeout_handler, 100);
+          });
+
+        });
+
+        describe('when there is no more left in the list', function() {
+
+          beforeEach(function() {
+            scope.battles.more = false;
+            c.timeout.calls.reset();
+
+            c.timeout_handler();
+          });
+
+          it('should stop timeout', function() {
+            expect(c.timeout).not.toHaveBeenCalled();
+          });
+
+        });
+
+      });
+
+    });
+
+    describe('setFilterActive(<new>)', function() {
+
+      beforeEach(function() {
+        spyOn(scope, 'resetListDisplay');
+      });
+
+      it('should set scope.filter_state.active', function() {
+        scope.setFilterActive(true);
+        expect(scope.filter_state.active).toBe(true);
+
+        scope.setFilterActive(false);
+        expect(scope.filter_state.active).toBe(false);
+      });
+
+      describe('when active state changes', function() {
+
+        beforeEach(function() {
+          scope.filter_state.active = false;
+          scope.setFilterActive(true);
+        });
+        
+        it('should reset list display', function() {
+          expect(scope.resetListDisplay).toHaveBeenCalled();
+        });
+
+      });
+
+      describe('when active state does not change', function() {
+
+        beforeEach(function() {
+          scope.filter_state.active = false;
+          scope.setFilterActive(false);
+        });
+        
+        it('should not reset list display', function() {
+          expect(scope.resetListDisplay).not.toHaveBeenCalled();
+        });
+
+      });
+
+    });
+
+    describe('setFilterInvert(<new>)', function() {
+
+      beforeEach(function() {
+        spyOn(scope, 'resetListDisplay');
+      });
+
+      it('should set scope.filter_state.invert', function() {
+        scope.setFilterInvert(true);
+        expect(scope.filter_state.invert).toBe(true);
+
+        scope.setFilterInvert(false);
+        expect(scope.filter_state.invert).toBe(false);
+      });
+
+      describe('when invert state changes', function() {
+
+        beforeEach(function() {
+          scope.filter_state.invert = false;
+          scope.setFilterInvert(true);
+        });
+        
+        it('should reset list display', function() {
+          expect(scope.resetListDisplay).toHaveBeenCalled();
+        });
+
+      });
+
+      describe('when invert state does not change', function() {
+
+        beforeEach(function() {
+          scope.filter_state.invert = false;
+          scope.setFilterInvert(false);
+        });
+        
+        it('should not reset list display', function() {
+          expect(scope.resetListDisplay).not.toHaveBeenCalled();
+        });
+
       });
 
     });

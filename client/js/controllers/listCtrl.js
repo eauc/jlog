@@ -16,20 +16,8 @@ angular.module('jlogApp.controllers')
         $state.go('battle.view', { index: index });
       };
 
-      function showMore() {
-        $scope.battles.showMore();
-        if($scope.battles.more) {
-          $timeout(showMore, 100);
-        }
-      }
-      $state.current.data.resetListDisplay = function() {
-        $scope.battles.reset($scope.filter_state.active,
-                             $scope.filter_state.invert,
-                             $scope.sort);
-        $timeout(showMore, 100);
-      };
-      $state.current.data.resetListDisplay();
-      $scope.$watch('sort', $state.current.data.resetListDisplay, true);
+      $scope.resetListDisplay();
+      $scope.$watch('sort', $scope.resetListDisplay, true);
 
       $scope.show_list = true;
       $scope.$on('$stateChangeSuccess', 
@@ -71,18 +59,6 @@ angular.module('jlogApp.controllers')
 
       $scope.onAddBattle = function onAddBattle() {
         $state.go('battle.edit', { index: -1 });
-      };
-      $scope.setFilterActive = function(bool) {
-        var change = ($scope.filter_state.active != bool);
-        console.log('setFilterActive('+bool+')->'+change);
-        $scope.filter_state.active = bool;
-        if(change) $state.current.data.resetListDisplay();
-      };
-      $scope.setFilterInvert = function(bool) {
-        var change = ($scope.filter_state.invert != bool);
-        console.log('setFilterInvert('+bool+')->'+change);
-        $scope.filter_state.invert = bool;
-        if(change) $state.current.data.resetListDisplay();
       };
 
       $scope['export'] = _export;
