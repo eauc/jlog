@@ -1,5 +1,9 @@
-.clickable {
+.clickable,
+.clickable * {
     cursor: pointer;
+}
+.clickable:hover {
+    background-color:#EEE;
 }
 
 /******************************************************/
@@ -292,6 +296,10 @@
     height: 30px;
     line-height: 30px;
     background-color: #CCC;
+}
+
+#filter-edit .form-group.first {
+    padding-top: 30px;
 }
 
 #filter-edit .form-group {

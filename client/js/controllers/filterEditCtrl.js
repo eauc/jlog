@@ -10,5 +10,6 @@ angular.module('jlogApp.controllers')
 
       $scope.$watch('filter', function() {
         filter.clearCache();
+        filter.update();
       }, true);
     }]);

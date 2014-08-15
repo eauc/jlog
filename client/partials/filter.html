@@ -9,12 +9,17 @@
         Edit Filter
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-xs-12 header"
+    <div class="form-group first">
+      <div class="col-xs-12 header clickable"
            ng-click="filter.date.active=!filter.date.active"
-           ng-class="{ 'active': filter.date.active }">
+           ng-class="{
+           'active': filter.date.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.date.active,'glyphicon-unchecked':!filter.date.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.date.active,
+              'glyphicon-unchecked':!filter.date.active
+              }"></span>
         <label class="control-label">
           Date
         </label>
@@ -49,11 +54,16 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.my_army.active=!filter.my_army.active"
-           ng-class="{ 'active': filter.my_army.active }">
+           ng-class="{
+           'active': filter.my_army.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.my_army.active,'glyphicon-unchecked':!filter.my_army.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.my_army.active,
+              'glyphicon-unchecked':!filter.my_army.active
+              }"></span>
         <label class="control-label">
           My caster
         </label>
@@ -77,18 +87,24 @@
         <div class="col-xs-9">
           <select class="form-control multiple"
                   ng-model="filter.my_army.caster"
-                  ng-options="id as id | capitalise for (id, c) in factions[filter.my_army.faction].casters"
+                  ng-options="id as id |
+                  capitalise for (id, c) in factions[filter.my_army.faction].casters"
                   multiple>
           </select>
         </div>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.opp_name.active=!filter.opp_name.active"
-           ng-class="{ 'active': filter.opp_name.active }">
+           ng-class="{
+           'active': filter.opp_name.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.opp_name.active,'glyphicon-unchecked':!filter.opp_name.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.opp_name.active,
+              'glyphicon-unchecked':!filter.opp_name.active
+              }"></span>
         <label class="control-label">
           Opponent
         </label>
@@ -112,11 +128,16 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.opp_caster.active=!filter.opp_caster.active"
-           ng-class="{ 'active': filter.opp_caster.active }">
+           ng-class="{
+           'active': filter.opp_caster.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.opp_caster.active,'glyphicon-unchecked':!filter.opp_caster.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.opp_caster.active,
+              'glyphicon-unchecked':!filter.opp_caster.active
+              }"></span>
         <label class="control-label">
           Opponent Caster
         </label>
@@ -141,18 +162,24 @@
         <div class="col-xs-9">
           <select class="form-control multiple"
                   ng-model="filter.opp_caster.caster"
-                  ng-options="id as id | capitalise for (id, c) in factions[filter.opp_caster.faction].casters"
+                  ng-options="id as id |
+                  capitalise for (id, c) in factions[filter.opp_caster.faction].casters"
                   multiple>
           </select>
         </div>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.result.active=!filter.result.active"
-           ng-class="{ 'active': filter.result.active }">
+           ng-class="{
+           'active': filter.result.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.result.active,'glyphicon-unchecked':!filter.result.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.result.active,
+              'glyphicon-unchecked':!filter.result.active
+              }"></span>
         <label class="control-label">
           Result
         </label>
@@ -169,18 +196,24 @@
         <div class="col-xs-9">
           <select class="form-control multiple"
                   ng-model="filter.result.value"
-                  ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
+                  ng-options="id as s.type | capitalise
+                  group by s.result | capitalise for (id, s) in scores"
                   multiple>
           </select>
         </div>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.scenario.active=!filter.scenario.active"
-           ng-class="{ 'active': filter.scenario.active }">
+           ng-class="{
+           'active': filter.scenario.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.scenario.active,'glyphicon-unchecked':!filter.scenario.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.scenario.active,
+              'glyphicon-unchecked':!filter.scenario.active
+              }"></span>
         <label class="control-label">
           Scenario
         </label>
@@ -204,11 +237,16 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.size.active=!filter.size.active"
-           ng-class="{ 'active': filter.size.active }">
+           ng-class="{
+           'active': filter.size.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.size.active,'glyphicon-unchecked':!filter.size.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.size.active,
+              'glyphicon-unchecked':!filter.size.active
+              }"></span>
         <label class="control-label">
           Size
         </label>
@@ -235,11 +273,16 @@
       </div>
     </div>
     <div class="form-group"> 
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.event.active=!filter.event.active"
-           ng-class="{ 'active': filter.event.active }">
+           ng-class="{
+           'active': filter.event.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.event.active,'glyphicon-unchecked':!filter.event.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.event.active,
+              'glyphicon-unchecked':!filter.event.active
+              }"></span>
         <label class="control-label">
           Event
         </label>
@@ -263,11 +306,16 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.initiative.active=!filter.initiative.active"
-           ng-class="{ 'active': filter.initiative.active }">
+           ng-class="{
+           'active': filter.initiative.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.initiative.active,'glyphicon-unchecked':!filter.initiative.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.initiative.active,
+              'glyphicon-unchecked':!filter.initiative.active
+              }"></span>
         <label class="control-label">
           Initiative
         </label>
@@ -302,11 +350,16 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-12 header"
+      <div class="col-xs-12 header clickable"
            ng-click="filter.tags.active=!filter.tags.active"
-           ng-class="{ 'active': filter.tags.active }">
+           ng-class="{
+           'active': filter.tags.active
+           }">
         <span class="glyphicon check"
-              ng-class="{'glyphicon-check':filter.tags.active,'glyphicon-unchecked':!filter.tags.active}"></span>
+              ng-class="{
+              'glyphicon-check':filter.tags.active,
+              'glyphicon-unchecked':!filter.tags.active
+              }"></span>
         <label class="control-label">
           Tags
         </label>

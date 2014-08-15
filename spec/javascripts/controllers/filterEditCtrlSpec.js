@@ -8,24 +8,23 @@ describe('controllers', function() {
     console.log = jasmine.createSpy('log');
   });
 
-  describe('mainCtrl', function() {
+  describe('filterCtrl', function(c) {
 
     var scope;
-    var filter;
 
     beforeEach(inject([
       '$rootScope',
       '$controller',
-      'filter',
       function($rootScope,
-               $controller,
-               _filter) {
-        filter = _filter;
-        spyOn(filter, 'clearCache');
+               $controller) {
+        c.filter = jasmine.createSpyObj('filter', ['clearCache', 'update']);
 
         scope = $rootScope.$new();
         spyOn(scope, '$watch');
-        $controller('filterEditCtrl', { '$scope': scope });
+        $controller('filterEditCtrl', {
+          '$scope': scope,
+          'filter': c.filter
+        });
       }]));
 
     it('should watch filter', function() {
@@ -42,7 +41,11 @@ describe('controllers', function() {
       });
 
       it('should clear filter cache', function() {
-        expect(filter.clearCache).toHaveBeenCalled();
+        expect(c.filter.clearCache).toHaveBeenCalled();
+      });
+
+      it('should update filter in local storage', function() {
+        expect(c.filter.update).toHaveBeenCalled();
       });
 
     });
