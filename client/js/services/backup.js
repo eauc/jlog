@@ -4,7 +4,10 @@ angular.module('jlogApp.services')
   .factory('backup', [
     '$window',
     '$http',
-    function($window, $http) {
+    '$q',
+    function($window,
+             $http,
+             $q) {
       $window.URL = $window.URL || $window.webkitURL;
       return {
         read_result: null,
@@ -53,37 +56,44 @@ angular.module('jlogApp.services')
         },
         upload: function backupUpload(battles) {
           var instance = this;
-          instance.upload_result = '';
-          instance.download_result = '';
-          $http.post('/api/log', { battles: battles })
-            .success(function(data) {
-              instance.upload_result = 'uploaded data';
-              console.log(data);
-              instance.upload_id = data.id;
-            })
-            .error(function() {
-              instance.upload_result = 'upload failure';
+          instance.upload.id = null;
+          instance.upload.status = null;
+          instance.upload.msg = '';
+          return $http.post('/api/log', { battles: battles })
+            .then(function(response) {
+              instance.upload.status = true;
+              instance.upload.msg = 'data uploaded';
+              instance.upload.id = response.data.id;
+              return response.data;
+            }, function(response) {
+              instance.upload.status = false;
+              instance.upload.msg = 'upload failure ('+response.status+')';
+              return $q.reject(response);
             });
         },
-        download: function backupDownload(success_cbk, error_cbk) {
+        download: function backupDownload() {
           var instance = this;
-          var success_cbk_ = typeof(success_cbk) === 'function' ? 
-              success_cbk : 
-              function(data) { console.log(data); };
-          var error_cbk_ = typeof(error_cbk) === 'function' ? 
-              error_cbk : 
-              function(error) { console.log(error); };
-          instance.upload_result = '';
-          instance.download_result = '';
-          $http.get('/api/log/' + instance.download_id)
-            .success(function(data) {
-              instance.download_result = 'downloaded data';
-              success_cbk_(data);
-            })
-            .error(function(error) {
-              instance.download_result = 'download failure';
-              error_cbk_(error);
+          instance.download.status = null;
+          instance.download.msg = '';
+          return $http.get('/api/log/' + instance.download.id)
+            .then(function(response) {
+              instance.download.status = true;
+              instance.download.msg = 'data downloaded';
+              return response.data.battles;
+            }, function(response) {
+              instance.download.status = false;
+              instance.download.msg = 'download failure ('+response.status+')';
+              return $q.reject(response);
             });
+        },
+        statusReset: function backupStatusReset() {
+          this.upload.id = null;
+          this.upload.status = null;
+          this.upload.msg = null;
+
+          this.download.id = null;
+          this.download.status = null;
+          this.download.msg = null;
         }
       };
     }]);

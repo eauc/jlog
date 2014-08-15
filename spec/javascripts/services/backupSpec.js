@@ -15,6 +15,30 @@ describe('service', function() {
       backup = _backup;
     }]));
 
+    describe('statusReset', function(c) {
+      
+      beforeEach(function() {
+        backup.upload.id = 1234;
+        backup.upload.status = 'ok';
+        backup.upload.msg = 'no problem';
+        backup.download.id = 1234;
+        backup.download.status = 'ok';
+        backup.download.msg = 'no problem';
+        
+        backup.statusReset();
+      });
+
+      it('should reset all status information', function() {
+        expect(backup.upload.id).toBe(null);
+        expect(backup.upload.status).toBe(null);
+        expect(backup.upload.msg).toBe(null);
+        expect(backup.download.id).toBe(null);
+        expect(backup.download.status).toBe(null);
+        expect(backup.download.msg).toBe(null);
+      });
+
+    });
+
     describe('read', function(c) {
 
       beforeEach(function() {
@@ -147,136 +171,168 @@ describe('service', function() {
 
     });
 
-    describe('upload', function() {
+    describe('upload', function(c) {
 
-      var $httpBackend;
+      var $http;
 
-      beforeEach(inject(['$httpBackend', function(httpBackend) {
-        $httpBackend = httpBackend;
-      }]));
+      beforeEach(inject([
+        '$http',
+        '$q',
+        function(http, $q) {
+          c.deferred = $q.defer();
+          $http = http;
+          spyOn($http, 'post').and.returnValue(c.deferred.promise);
+        }
+      ]));
       
       it('should POST battles to /api/log', function() {
         var battles = { 'test': 'data' };
-        $httpBackend
-          .expect('POST', '/api/log', { 'battles': battles })
-          .respond(201, '');
 
         backup.upload(battles);
 
-        $httpBackend.flush();
+        expect($http.post).toHaveBeenCalledWith('/api/log', { battles: battles });
       });
 
       describe('on POST success', function() {
 
-        beforeEach(function() {
-          var battles = { 'test': 'data' };
-          $httpBackend
-            .when('POST', '/api/log', { 'battles': battles })
-            .respond(201, '{"id":"1234"}');
+        beforeEach(inject([
+          '$rootScope',
+          function($rootScope) {
+            c.success_cbk = jasmine.createSpy('success_cbk');
 
-          backup.upload(battles);
+            var battles = { 'test': 'data' };
+            backup.upload(battles).then(c.success_cbk);
 
-          $httpBackend.flush();
+            c.data = { id: '1234' };
+            c.deferred.resolve({
+              data: c.data
+            });
+            $rootScope.$digest();
+          }
+        ]));
+
+        it('should set successfull upload status', function() {
+          expect(backup.upload.status).toBe(true);
+          expect(backup.upload.msg).toBe('data uploaded');
+          expect(backup.upload.id).toBe('1234');
         });
 
-        it('should set "upload_result" to success', function() {
-          expect(backup.upload_result).toBe('uploaded data');
-        });
-
-        it('should set "upload_id" to returned id', function() {
-          expect(backup.upload_id).toBe('1234');
+        it('should resolve returned promise with post data', function() {
+          expect(c.success_cbk).toHaveBeenCalledWith(c.data);
         });
 
       });
 
       describe('on POST failure', function() {
 
-        beforeEach(function() {
-          var battles = { 'test': 'data' };
-          $httpBackend
-            .when('POST', '/api/log', { 'battles': battles })
-            .respond(500);
+        beforeEach(inject([
+          '$rootScope',
+          function($rootScope) {
+            c.error_cbk = jasmine.createSpy('error_cbk');
 
-          backup.upload(battles);
+            var battles = { 'test': 'data' };
+            backup.upload(battles).then(null, c.error_cbk);
 
-          $httpBackend.flush();
+            c.error_response = {
+              status: 500
+            };
+            c.deferred.reject(c.error_response);
+            $rootScope.$digest();
+          }
+        ]));
+
+        it('should set failed upload status', function() {
+          expect(backup.upload.status).toBe(false);
+          expect(backup.upload.msg).toBe('upload failure (500)');
         });
 
-        it('should set "upload_result" to failure', function() {
-          expect(backup.upload_result).toBe('upload failure');
+        it('should reject returned promise with post response', function() {
+          expect(c.error_cbk).toHaveBeenCalledWith(c.error_response);
         });
 
       });
 
     });
 
-    describe('download', function() {
+    describe('download', function(c) {
 
-      var $httpBackend;
+      var $http;
 
-      beforeEach(inject(['$httpBackend', function(httpBackend) {
-        $httpBackend = httpBackend;
-      }]));
+      beforeEach(inject([
+        '$http',
+        '$q',
+        function(http, $q) {
+          c.deferred = $q.defer();
+
+          $http = http;
+          spyOn($http, 'get').and.returnValue(c.deferred.promise);
+        }
+      ]));
       
-      it('should GET /api/log/{download_id}', function() {
-        backup.download_id = '1234';
-        $httpBackend
-          .expect('GET', '/api/log/1234')
-          .respond(200, '');
+      it('should GET /api/log/{download.id}', function() {
+        backup.download.id = '1234';
 
         backup.download();
 
-        $httpBackend.flush();
+        expect($http.get).toHaveBeenCalledWith('/api/log/1234');
       });
 
       describe('on GET success', function(c) {
 
-        beforeEach(function() {
-          c.data = { 'test': 'data' };
-          c.success_cbk = jasmine.createSpy();
+        beforeEach(inject([
+          '$rootScope',
+          function($rootScope) {
+            c.success_cbk = jasmine.createSpy();
 
-          $httpBackend
-            .when('GET', '/api/log/1234')
-            .respond(200, JSON.stringify(c.data));
+            backup.download.id = '1234';
+            backup.download().then(c.success_cbk);
 
-          backup.download_id = '1234';
-          backup.download(c.success_cbk);
+            c.battles = ['1234', '5678'];
 
-          $httpBackend.flush();
+            c.deferred.resolve({
+              data: { battles: c.battles }
+            });
+            $rootScope.$digest();
+          }
+        ]));
+
+        it('should set success download status', function() {
+          expect(backup.download.status).toBe(true);
+          expect(backup.download.msg).toBe('data downloaded');
         });
 
-        it('should set "download_result" to success', function() {
-          expect(backup.download_result).toBe('downloaded data');
-        });
-
-        it('should call success_cbk with returned data', function() {
-          expect(c.success_cbk).toHaveBeenCalledWith(c.data);
+        it('should resolve returned promise with battles list', function() {
+          expect(c.success_cbk).toHaveBeenCalledWith(c.battles);
         });
 
       });
 
       describe('on GET failure', function(c) {
 
-        beforeEach(function() {
-          c.data = { 'test': 'data' };
-          c.error_cbk = jasmine.createSpy();
+        beforeEach(inject([
+          '$rootScope',
+          function($rootScope) {
+            c.error_cbk = jasmine.createSpy();
 
-          $httpBackend
-            .when('GET', '/api/log/1234')
-            .respond(500);
+            backup.download.id = '1234';
+            backup.download().then(null, c.error_cbk);
 
-          backup.download_id = '1234';
-          backup.download(null, c.error_cbk);
+            c.error_response = {
+              status: 404
+            };
 
-          $httpBackend.flush();
+            c.deferred.reject(c.error_response);
+            $rootScope.$digest();
+          }
+        ]));
+
+        it('should set failed download status', function() {
+          expect(backup.download.status).toBe(false);
+          expect(backup.download.msg).toBe('download failure (404)');
         });
 
-        it('should set "download_result" to failure', function() {
-          expect(backup.download_result).toBe('download failure');
-        });
-
-        it('should call error_cbk', function() {
-          expect(c.error_cbk).toHaveBeenCalled();
+        it('should reject returned promise with get response', function() {
+          expect(c.error_cbk).toHaveBeenCalledWith(c.error_response);
         });
 
       });

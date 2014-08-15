@@ -4,8 +4,10 @@ angular.module('jlogApp.controllers')
   .controller('backupCtrl', [
     '$scope',
     'backup',
+    'battles',
     function($scope,
-             backup) {
+             backup,
+             battles) {
 
       console.log('init backupCtrl');
 
@@ -20,16 +22,17 @@ angular.module('jlogApp.controllers')
         });
       };
 
-      // $scope.uploadData = function uploadData() {
-      //   $scope.backup.upload($scope.battles);
-      // };
-      // $scope.downloadData = function downloadData() {
-      //   $scope.backup.download(function(data) {
-      //     $scope.newBattles(data.battles);
-      //     backup.generate($scope.battles);
-      //   }, function(error) {
-      //   });
-      // };
+      $scope.uploadData = function() {
+        backup.upload(battles.list);
+      };
+      $scope.downloadData = function downloadData() {
+        $scope.backup.download()
+          .then(function(data) {
+            $scope.$emit('newBattles', data);
+            backup.generate($scope.battles.list);
+          });
+      };
 
+      backup.statusReset();
       backup.generate($scope.battles.list);
     }]);

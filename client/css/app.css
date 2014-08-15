@@ -270,12 +270,32 @@
     padding-top: 3px;
     margin-bottom: 10px;
 }
+#backup .btn,
+#backup input.form-control {
+    padding:3px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+#backup .result {
+    line-height:30px;
+}
 @media (max-width: 767px) {
     #backup .row {
         margin-bottom: 5px;
     }
     #backup .section {
         margin-bottom: 5px;
+    }
+    #backup .btn,
+    #backup input.form-control {
+        font-size: 10px;
+        height: 24px;
+        min-height: 24px;
+        line-height: 10px;
+        margin-bottom: 3px;
+    }
+    #backup .result {
+        line-height:24px;
     }
 }
 
