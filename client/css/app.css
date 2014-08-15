@@ -339,6 +339,72 @@
 }
 
 
+/******************************************************/
+/* stats
+/******************************************************/
+
+#stats {
+    padding:0px;
+    text-align:center;
+    max-width:800px;
+}
+
+#stats .selector {
+    margin:5px 0;
+}
+
+#stats .section {
+    background-color:#DDD;
+    font-size:14px;
+    font-weight:bold;
+}
+
+#stats input,
+#stats select.form-control {
+    padding:3px;
+    height: 30px;
+    margin-bottom: 5px;
+    max-width:10em;
+}
+
+#stats .pie-chart-main {
+    position:relative;
+    width:320px;
+    height:200px;
+    margin:-20px auto 0px auto;
+}
+
+#stats .pie-chart {
+    position:relative;
+    display:inline-block;
+    width:160px;
+    height:190px;
+    padding-top:30px;
+    margin:0px auto;
+    overflow:hidden;
+}
+
+#stats .pie-title {
+    position:absolute;
+    top:0px;
+    left:0px;
+    text-align:center;
+    width:100%;
+    font-size:12px;
+    font-weight:bold;
+}
+
+@media (max-width: 767px) {
+    #filter-edit input,
+    #filter-edit select.form-control {
+        font-size: 10px;
+        height: 24px;
+        min-height: 24px;
+        line-height: 10px;
+        margin-bottom: 3px;
+    }
+}
+
 /* @media (max-width: 767px) { */
 /*     body { */
 /*         font-size:10px; */

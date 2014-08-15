@@ -3,35 +3,57 @@
 angular.module('jlogApp.controllers')
   .controller('statsCtrl', [
     '$scope',
+    '$state',
     'stats',
     function($scope, 
+             $state,
              stats) {
       console.log('init statsCtrl');
 
-      $scope.stats.refresh($scope.battles, $scope.filter);
+      $scope.resetListDisplay();
 
-      $scope.$watch('stats.show', function() {
-        $scope.stats.refresh($scope.battles,
-                             $scope.filter,
-                             $scope.filter_active,
-                             $scope.filter_invert);
-      }, true);
-      $scope.$watch('stats.percent', function() {
-        $scope.stats.refresh($scope.battles,
-                             $scope.filter,
-                             $scope.filter_active,
-                             $scope.filter_invert);
+      $state.current.data.state = {
+        entry: 'result',
+        selector: 'my_caster',
+        setEntry: function(id) {
+          this.entry = id;
+          this.doGenerate();
+        },
+        setSelector: function(id) {
+          this.selector = id;
+          this.doGenerate();
+        },
+        doGenerate: function() {
+          stats.generate(this.entry, this.selector);
+        }
+      };
+
+      $scope.stats = stats;
+      $scope.state = $state.current.data.state;
+      $scope.state.doGenerate();
+
+      $scope.$on('battles_reset', function() {
+        stats.collections = {};
+        $scope.state.doGenerate();
       });
-      $scope.$watch('filter_active', function() {
-        $scope.stats.refresh($scope.battles,
-                             $scope.filter,
-                             $scope.filter_active,
-                             $scope.filter_invert);
-      });
-      $scope.$watch('filter_invert', function() {
-        $scope.stats.refresh($scope.battles,
-                             $scope.filter,
-                             $scope.filter_active,
-                             $scope.filter_invert);
-      });
-    }]);
+
+      var show;
+      $scope.doShow = function(id) {
+        console.log('show '+id);
+        show = id;
+      };
+      $scope.show = function(id) {
+        return show == id;
+      };
+    }])
+  .controller('statsBottomCtrl', [
+    '$scope',
+    '$state',
+    'stats',
+    function($scope,
+             $state,
+             stats) {
+      $scope.stats = stats;
+      $scope.state = $state.current.data.state;
+    }
+  ]);

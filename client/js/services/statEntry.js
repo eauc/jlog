@@ -111,7 +111,7 @@ angular.module('jlogApp.services')
         };
         return instance;
       };
-      factory.legend = function(entry) {
+      factory.legends = function(entry) {
         return {
           rw: "Won Roll",
           rl: "Lost Roll",
@@ -120,10 +120,12 @@ angular.module('jlogApp.services')
         };
       };
       factory.colors = function(entry) {
-        return [ '#0C0',
-                 '#C00',
-                 '#06C',
-                 '#048' ];
+        return {
+          rw: '#0C0',
+          rl: '#C00',
+          pf: '#06C',
+          ps: '#048'
+        };
       };
       return factory;
     }
@@ -137,7 +139,7 @@ angular.module('jlogApp.services')
         };
         return instance;
       };
-      factory.legend = function(entry) {
+      factory.legends = function(entry) {
         return {
           va: "Assassination Victory",
           vc: "Clock Victory",
@@ -151,15 +153,17 @@ angular.module('jlogApp.services')
         };
       };
       factory.colors = function(entry) {
-        return [ '#0C0',
-                 '#0A0',
-                 '#080',
-                 '#060',
-                 '#CC0',
-                 '#C00',
-                 '#A00',
-                 '#800',
-                 '#600' ];
+        return {
+          va: '#0C0',
+          vc: '#0A0',
+          vs: '#080',
+          vt: '#060',
+          dd: '#CC0',
+          da: '#C00',
+          dc: '#A00',
+          ds: '#800',
+          dt: '#600'
+        };
       };
       return factory;
     }

@@ -93,10 +93,13 @@ class JLogApp < Sinatra::Base
     @scripts << 'js/services/scores.js' 
     @scripts << 'js/services/selection.js' 
     @scripts << 'js/services/sort.js' 
+    @scripts << 'js/services/statEntry.js' 
+    @scripts << 'js/services/statSelector.js' 
     @scripts << 'js/services/stats.js' 
     @scripts << 'js/services/storage.js' 
     @scripts << 'js/services/tags.js' 
     @scripts << 'js/directives/collapse.js' 
+    @scripts << 'js/directives/pieChart.js' 
     @scripts << 'js/directives/export_link.js' 
     @scripts << 'js/directives/sortBy.js' 
     @scripts << 'js/directives/statBar.js' 
@@ -143,7 +146,7 @@ class JLogApp < Sinatra::Base
   def self.api_log_resource id
     {
       href: "#{resources[:log_collection][:href]}/#{id}",
-      type: 'resource/clock',
+      type: 'resource/log',
     }
   end
 

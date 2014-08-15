@@ -143,6 +143,8 @@ angular.module('jlogApp.services')
           },
         },
         collections: {},
+        legends: {},
+        colors: {},
         generate: function(entry, selector) {
           if(!_.has(this.ENTRIES, entry)) return;
           if(!_.has(this.SELECTORS, selector)) return;

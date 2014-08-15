@@ -1,0 +1,88 @@
+<div>
+  <div class="btn-group dropup"
+       ng-class="{
+       'open': drop_down.active('stats_entry')
+       }">
+    <button class="btn btn-default"
+            ng-click="drop_down.toggle('stats_entry', $event)">
+      <span style="font-weight:bold">%</span>
+      <span>{{stats.ENTRIES[state.entry].desc | capitalise}}</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu text-left">
+      <li class="dropdown-header">Show</li>
+      <li ng-repeat="(id, e) in stats.ENTRIES">
+        <a ng-click="state.setEntry(id)">
+          {{ e.desc | capitalise }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="btn-group dropup"
+       ng-class="{
+       'open': drop_down.active('stats_selector')
+       }">
+    <button class="btn btn-default"
+            ng-click="drop_down.toggle('stats_selector', $event)">
+      <span class="glyphicon glyphicon-sort"></span>
+      <span>{{stats.SELECTORS[state.selector].desc | capitalise}}</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu text-left">
+      <li class="dropdown-header">Sorted By</li>
+      <li ng-repeat="(id, s) in stats.SELECTORS">
+        <a ng-click="state.setSelector(id)">
+          {{ s.desc | capitalise }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="btn-group dropup"
+       ng-class="{
+       'open': drop_down.active('stats_filter')
+       }">
+    <button class="btn"
+            ng-class="{
+            'btn-default':!filter_state.active,
+            'btn-success':filter_state.active && !filter_state.invert,
+            'btn-primary':filter_state.active && filter_state.invert
+            }"
+            ng-click="drop_down.toggle('stats_filter', $event)">
+      <span class="glyphicon glyphicon-filter"></span>
+      <span class="lbl">Filter</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu text-left">
+      <li>
+        <a href="#/filter">
+          <span class="glyphicon glyphicon-edit"></span>
+          Edit
+        </a>
+      </li>
+      <li ng-hide="filter_state.active">
+        <a ng-click="setFilterActive(true)">
+          <span class="glyphicon glyphicon-ok-circle"></span>
+          Enable
+        </a>
+      </li>
+      <li ng-show="filter_state.active">
+        <a ng-click="setFilterActive(false)">
+          <span class="glyphicon glyphicon-ban-circle"></span>
+          Disable
+        </a>
+      </li>
+      <li ng-show="filter_state.active && !filter_state.invert">
+        <a ng-click="setFilterInvert(true)">
+          <span class="glyphicon glyphicon-random"></span>
+          Invert
+        </a>
+      </li>
+      <li ng-show="filter_state.active && filter_state.invert">
+        <a ng-click="setFilterInvert(false)">
+          <span class="glyphicon glyphicon-refresh"></span>
+          Restore
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

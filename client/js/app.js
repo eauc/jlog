@@ -81,8 +81,17 @@ angular.module('jlogApp', [
       })
       .state('stats', {
         url: '/stats',
-        templateUrl: 'partials/stats.html',
-        controller: 'statsCtrl'
+        views: {
+          'page': {
+            templateUrl: 'partials/stats.html',
+            controller: 'statsCtrl'
+          },
+          'bottom-bar@': {
+            templateUrl: 'partials/stats_menu.html',
+            controller: 'statsBottomCtrl'
+          }
+        },
+        data: {}
       });
   }
 ]).config([
