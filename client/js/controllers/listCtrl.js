@@ -13,6 +13,7 @@ angular.module('jlogApp.controllers')
       console.log('init listCtrl');
 
       $scope.bottom_bar.show = true;
+      $scope.filter_state.previous = 'battle';
 
       $scope.onViewBattle = function onViewBattle(index) {
         $state.go('battle.view', { index: index });

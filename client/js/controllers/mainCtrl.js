@@ -44,6 +44,7 @@ angular.module('jlogApp.controllers')
       $scope.filter_state = {
         active: false,
         invert: false,
+        previous: 'battle',
       };
       $scope.filter = filter.list;
       $scope.sort = battle_sort;

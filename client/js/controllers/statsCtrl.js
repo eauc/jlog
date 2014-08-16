@@ -11,6 +11,7 @@ angular.module('jlogApp.controllers')
       console.log('init statsCtrl');
 
       $scope.bottom_bar.show = true;
+      $scope.filter_state.previous = 'stats';
 
       $scope.resetListDisplay();
 

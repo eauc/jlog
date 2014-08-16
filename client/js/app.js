@@ -67,6 +67,10 @@ angular.module('jlogApp', [
             templateUrl: 'partials/filter.html',
             controller: 'filterEditCtrl'
           },
+          'bottom-bar@': {
+            templateUrl: 'partials/filter_menu.html',
+            controller: 'filterEditBottomCtrl'
+          }
         },
         data: {}
       })

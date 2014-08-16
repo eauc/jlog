@@ -18,6 +18,7 @@ describe('controllers', function() {
       function($rootScope,
                $controller) {
         c.filter = jasmine.createSpyObj('filter', ['clearCache', 'update']);
+        c.state = jasmine.createSpyObj('$state', ['go']);
 
         scope = $rootScope.$new();
         spyOn(scope, '$watch');
@@ -28,6 +29,10 @@ describe('controllers', function() {
           'filter': c.filter
         });
       }]));
+
+    it('should initialise scope', function() {
+      expect(scope.bottom_bar.show).toBe(true);
+    });
 
     it('should watch filter', function() {
       expect(scope.$watch)
@@ -48,6 +53,41 @@ describe('controllers', function() {
 
       it('should update filter in local storage', function() {
         expect(c.filter.update).toHaveBeenCalled();
+      });
+
+    });
+
+  });
+
+  describe('filterEditBottomCtrl', function(c) {
+
+    var scope;
+
+    beforeEach(inject([
+      '$rootScope',
+      '$controller',
+      function($rootScope,
+               $controller) {
+        c.state = jasmine.createSpyObj('$stata', ['go']);
+
+        scope = $rootScope.$new();
+        scope.filter_state = {
+          previous: 'toto'
+        };
+
+        $controller('filterEditBottomCtrl', {
+          '$scope': scope,
+          '$state': c.state,
+          'filter': c.filter
+        });
+      }]));
+
+    describe('onBack()', function() {
+
+      it('should go to previous page', function() {
+        scope.onBack();
+
+        expect(c.state.go).toHaveBeenCalledWith('toto');
       });
 
     });

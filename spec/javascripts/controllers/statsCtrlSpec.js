@@ -23,6 +23,7 @@ describe('controllers', function() {
         spyOn(c.scope, '$on');
         c.scope.resetListDisplay = jasmine.createSpy('resetListDisplay');
         c.scope.bottom_bar = { show: null };
+        c.scope.filter_state = { previous: null };
 
         c.state = {
           current: {
@@ -55,6 +56,7 @@ describe('controllers', function() {
       expect(c.scope.show).toBeA('Function');
 
       expect(c.scope.bottom_bar.show).toBe(true);
+      expect(c.scope.filter_state.previous).toBe('stats');
     });
 
     it('should reset battle display', function() {

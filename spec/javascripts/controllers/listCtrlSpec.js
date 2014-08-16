@@ -26,6 +26,7 @@ describe('controllers', function() {
         spyOn(scope, '$watch');
         scope.resetListDisplay = jasmine.createSpy('resetListDisplay');
         scope.bottom_bar = { show: null };
+        scope.filter_state = { previous: null };
 
         $controller('listCtrl', {
           '$scope': scope,
@@ -38,6 +39,7 @@ describe('controllers', function() {
       expect(scope.show_list).toBe(true);
       expect(scope.onViewBattle).toBeA('Function');
       expect(scope.bottom_bar.show).toBe(true);
+      expect(scope.filter_state.previous).toBe('battle');
     });
 
     it('should watch state', function() {

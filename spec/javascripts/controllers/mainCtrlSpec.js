@@ -83,6 +83,7 @@ describe('controllers', function() {
       expect(scope.filter_state).toBeA('Object');
       expect(scope.filter_state.active).toBe(false);
       expect(scope.filter_state.invert).toBe(false);
+      expect(scope.filter_state.previous).toBe('battle');
       expect(scope.setFilterActive).toBeA('Function');
       expect(scope.setFilterInvert).toBeA('Function');
 
