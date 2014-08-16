@@ -58,6 +58,10 @@ angular.module('jlogApp.services')
         'tags': [],
         'addTag': battleAddTag
       }, data);
+      if(_.isObject(instance.initiative)) {
+        _.deepExtend(instance.setup.initiative, instance.initiative);
+        delete instance.initiative;
+      }
       instance.my_army.caster = normalizeCaster(instance.my_army.caster);
       instance.opponent.caster = normalizeCaster(instance.opponent.caster);
       return instance;

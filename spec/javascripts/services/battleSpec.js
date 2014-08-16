@@ -104,6 +104,19 @@ describe('service', function() {
       expect(angular.equals(object, data)).toBeTruthy();
     });
 
+    it('should recognize the old definition of initiative', function() {
+      var data = {
+        'initiative': {
+          'started': 'true',
+          'won_roll': 'false'
+        },
+      };
+      var object = battle(data);
+
+      expect(object.setup.initiative.started).toBe('true');
+      expect(object.setup.initiative.won_roll).toBe('false');
+    });
+
     it('should normalize casters name', function() {
       var data = {
         'my_army': {
