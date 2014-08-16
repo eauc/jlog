@@ -37,20 +37,8 @@ class JLogApp < Sinatra::Base
     mime_type :manifest, 'text/cache-manifest'
   end
 
-  # configure :production do
-  #   require 'newrelic_rpm'
-  # end
-
   @styles = []
   @scripts = []
-
-  configure :production do
-    @manifest = "production.appcache"
-  end
-
-  configure :test do
-    @manifest = "test.appcache"
-  end
 
   configure :production, :test do
     @styles << 'lib/bootstrap/css/bootstrap.min.css'
@@ -105,8 +93,6 @@ class JLogApp < Sinatra::Base
     @scripts << 'js/filters/capitaliseFilter.js'
     @scripts << 'js/filters/initiativeFilter.js'
     @scripts << 'js/filters/scoreResultColorFilter.js'
-
-    @manifest = '/development.appcache'
   end
 
   attr_reader :logs
@@ -126,6 +112,11 @@ class JLogApp < Sinatra::Base
 
   get '/index.html' do
     erb :index
+  end
+
+  get '/manifest.appcache' do
+    content_type :manifest
+    erb :manifest_appcache
   end
 
   get "/#{resources[:root][:href]}" do
@@ -162,10 +153,6 @@ class JLogApp < Sinatra::Base
     else
       status 404
     end
-  end
-
-  get @manifest do
-    content_type :manifest
   end
 
   # configure :test, :development do
