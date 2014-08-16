@@ -5,9 +5,11 @@ angular.module('jlogApp.controllers')
     '$scope',
     'backup',
     'battles',
+    'storage',
     function($scope,
              backup,
-             battles) {
+             battles,
+             storage) {
 
       console.log('init backupCtrl');
 
@@ -16,6 +18,7 @@ angular.module('jlogApp.controllers')
       $scope.backup = backup;
       $scope.readBackupFile = function readBackupFile(file) {
         $scope.backup.read(file, function(data) {
+          storage.clearJLogKeys();
           $scope.$emit('newBattles', data);
           backup.generate($scope.battles.list);
           $scope.$apply("backup.read_result = 'loaded file'");
@@ -30,9 +33,14 @@ angular.module('jlogApp.controllers')
       $scope.downloadData = function downloadData() {
         $scope.backup.download()
           .then(function(data) {
+            storage.clearJLogKeys();
             $scope.$emit('newBattles', data);
             backup.generate($scope.battles.list);
           });
+      };
+
+      $scope.onClearStorage = function() {
+        storage.clearJLogKeys();
       };
 
       backup.statusReset();

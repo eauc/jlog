@@ -5,7 +5,7 @@
       <label>Import</label>
     </div>
     <div class="col-xs-6">
-      <label>Choose File :</label>
+      <label>Choose a backup file :</label>
     </div>
     <div class="col-xs-6">
       <strong ng-class="{
@@ -25,7 +25,7 @@
       <label>Export</label>
     </div>
     <div class="col-xs-4">
-      <label>Download File</label>
+      <label>Download the backup file</label>
     </div>
     <div class="col-xs-8">
       <a ng-show="backup.save_url !== null"
@@ -54,10 +54,18 @@
     </div>
     <div class="clearfix"></div>
     <div class="col-xs-12"
+         ng-hide="backup.upload.status">
+      You can temporarily upload your data to the web server.
+      This will generate an Id that you can use in the download section
+      on another device to synchronize your data.
+      The generated Id and the uploaded data are not permanent and
+      will be cleared after a given period of time.
+    </div>
+    <div class="col-xs-12"
          ng-show="backup.upload.status">
       <label>Id : </label>
       <span>{{backup.upload.id}}</span><br/>
-      Use this ID on your other device, in the download input.
+      Use this ID on your other device, in the download input below.
     </div>
   </div>
   <div class="row">
@@ -83,6 +91,22 @@
             'text-success': backup.download.status,
             'text-danger': !backup.download.status
             }">{{backup.download.msg | capitalise}}</strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 section">
+      <label>Debug</label>
+    </div>
+    <div class="col-xs-6">
+      <button class="btn btn-default"
+              ng-click="onClearStorage()">
+        Clear Local Storage
+      </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12">
+      This will clear all data stored in memory.
+      You can then reload the data from a backup file to restart in a clean state.
     </div>
   </div>
 </div>

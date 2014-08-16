@@ -29,6 +29,9 @@ describe('controllers', function() {
           'upload',
           'statusReset'
         ]);
+        c.storage = jasmine.createSpyObj('storage', [
+          'clearJLogKeys',
+        ]);
 
         scope = $rootScope.$new();
         spyOn(scope, '$emit');
@@ -39,6 +42,7 @@ describe('controllers', function() {
           '$scope': scope,
           'backup': c.backup,
           'battles': c.battles,
+          'storage': c.storage,
         });
       }]));
 
@@ -74,6 +78,10 @@ describe('controllers', function() {
 
           var onSuccess = c.backup.read.calls.first().args[1];
           onSuccess('data');
+        });
+
+        it('should clear storage', function() {
+          expect(c.storage.clearJLogKeys).toHaveBeenCalled();
         });
 
         it('should emit "newBattles" event', function() {
@@ -150,6 +158,10 @@ describe('controllers', function() {
           }
         ]));
 
+        it('should clear storage', function() {
+          expect(c.storage.clearJLogKeys).toHaveBeenCalled();
+        });
+
         it('should emit "newBattles" event', function() {
           expect(scope.$emit).toHaveBeenCalledWith('newBattles', c.new_battles);
         });
@@ -158,6 +170,18 @@ describe('controllers', function() {
           expect(c.backup.generate).toHaveBeenCalledWith(scope.battles.list);
         });
 
+      });
+
+    });
+
+    describe('onClearLocalStorage()', function() {
+
+      beforeEach(function() {
+        scope.onClearStorage();
+      });
+
+      it('should clear storage', function() {
+        expect(c.storage.clearJLogKeys).toHaveBeenCalled();
       });
 
     });
