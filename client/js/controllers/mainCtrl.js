@@ -4,6 +4,7 @@ angular.module('jlogApp.controllers')
   .controller('mainCtrl', [
     '$scope',
     '$timeout',
+    '$state',
     'factions',
     'opponents',
     'events',
@@ -16,6 +17,7 @@ angular.module('jlogApp.controllers')
     function(
       $scope,
       $timeout,
+      $state,
       factions,
       opponents,
       events,
@@ -71,7 +73,10 @@ angular.module('jlogApp.controllers')
           return this.state === value;
         }
       };
-            
+      $scope.stateIs = function(state) {
+        return $state.is(state);
+      };
+
       function showMore() {
         $scope.battles.showMore();
         if($scope.battles.more) {

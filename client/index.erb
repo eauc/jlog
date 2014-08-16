@@ -17,17 +17,20 @@
         <a class="navbar-brand" href="#">
           Journey Log
         </a>
-        <div id="menu"
+        <ul id="tab-menu"
+            class="nav navbar-nav"
+            ng-include="'partials/menu.html'">
+        </ul>
+        <div id="drop-menu"
              class="btn-group"
              ng-class="{ 'open': drop_down.active('menu') }">
           <button class="btn btn-default navbar-btn"
                   ng-click="drop_down.toggle('menu', $event)">
-            <span class="glyphicon glyphicon-th"></span>
+            <span class="glyphicon glyphicon-th-list"></span>
+            Menu
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#/battle">Battle List</a></li>
-            <li><a href="#/stats">Statistics</a></li>
-            <li><a href="#/backup">Backup</a></li>
+          <ul class="dropdown-menu"
+              ng-include="'partials/menu.html'">
           </ul>
         </div>
       </div>

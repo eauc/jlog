@@ -46,6 +46,7 @@ describe('controllers', function() {
         $controller('mainCtrl', {
           '$scope': scope,
           '$timeout': c.timeout,
+          '$state': null,
           'opponents': c.opponents,
           'scores': c.scores,
           'factions': c.factions,
