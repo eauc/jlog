@@ -60,6 +60,9 @@ angular.module('jlogApp.controllers')
         tags.create($scope.battles.list);
       });
 
+      $scope.bottom_bar = {
+        show: false
+      };
       $scope.drop_down = {
         state: null,
         toggle: function(value, event) {

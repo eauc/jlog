@@ -25,6 +25,7 @@ describe('controllers', function() {
         spyOn(scope, '$on');
         spyOn(scope, '$watch');
         scope.resetListDisplay = jasmine.createSpy('resetListDisplay');
+        scope.bottom_bar = { show: null };
 
         $controller('listCtrl', {
           '$scope': scope,
@@ -36,6 +37,7 @@ describe('controllers', function() {
     it('should initialize scope and state data', function() {
       expect(scope.show_list).toBe(true);
       expect(scope.onViewBattle).toBeA('Function');
+      expect(scope.bottom_bar.show).toBe(true);
     });
 
     it('should watch state', function() {

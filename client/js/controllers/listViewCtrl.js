@@ -12,6 +12,8 @@ angular.module('jlogApp.controllers')
              $stateParams,
              $window,
              battles) {
+      $scope.bottom_bar.show = true;
+
       if(undefined === $stateParams.index) {
         // $scope.battle_index = 1;
         // $scope.battle = battles.list[1];

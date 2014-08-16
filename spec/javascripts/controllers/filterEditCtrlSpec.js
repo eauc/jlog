@@ -8,7 +8,7 @@ describe('controllers', function() {
     console.log = jasmine.createSpy('log');
   });
 
-  describe('filterCtrl', function(c) {
+  describe('filterEditCtrl', function(c) {
 
     var scope;
 
@@ -21,6 +21,8 @@ describe('controllers', function() {
 
         scope = $rootScope.$new();
         spyOn(scope, '$watch');
+        scope.bottom_bar = { show: null };
+
         $controller('filterEditCtrl', {
           '$scope': scope,
           'filter': c.filter

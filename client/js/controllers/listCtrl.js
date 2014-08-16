@@ -12,6 +12,8 @@ angular.module('jlogApp.controllers')
              scenarios) {
       console.log('init listCtrl');
 
+      $scope.bottom_bar.show = true;
+
       $scope.onViewBattle = function onViewBattle(index) {
         $state.go('battle.view', { index: index });
       };

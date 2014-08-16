@@ -10,6 +10,8 @@ angular.module('jlogApp.controllers')
              stats) {
       console.log('init statsCtrl');
 
+      $scope.bottom_bar.show = true;
+
       $scope.resetListDisplay();
 
       $state.current.data.state = {

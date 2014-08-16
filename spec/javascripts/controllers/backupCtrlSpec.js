@@ -33,6 +33,8 @@ describe('controllers', function() {
         scope = $rootScope.$new();
         spyOn(scope, '$emit');
         scope.battles = { list: 'battles_list' };
+        scope.bottom_bar = { show: null };
+
         $controller('backupCtrl', { 
           '$scope': scope,
           'backup': c.backup,
@@ -43,6 +45,7 @@ describe('controllers', function() {
     it('should initialize scope', function() {
       expect(scope.backup).toBe(c.backup);
       expect(scope.readBackupFile).toBeA('Function');
+      expect(scope.bottom_bar.show).toBe(false);
     });
 
     it('should generate a backup file', function() {

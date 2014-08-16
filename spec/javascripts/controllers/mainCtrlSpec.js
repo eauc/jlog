@@ -85,6 +85,8 @@ describe('controllers', function() {
       expect(scope.filter_state.invert).toBe(false);
       expect(scope.setFilterActive).toBeA('Function');
       expect(scope.setFilterInvert).toBeA('Function');
+
+      expect(scope.bottom_bar.show).toBe(false);
     });
 
     describe('on newBattles', function(c) {

@@ -11,6 +11,8 @@ angular.module('jlogApp.controllers')
 
       console.log('init backupCtrl');
 
+      $scope.bottom_bar.show = false;
+
       $scope.backup = backup;
       $scope.readBackupFile = function readBackupFile(file) {
         $scope.backup.read(file, function(data) {

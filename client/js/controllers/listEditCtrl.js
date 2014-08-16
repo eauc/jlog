@@ -22,6 +22,8 @@ angular.module('jlogApp.controllers')
              events,
              scenarios,
              tags) {
+      $scope.bottom_bar.show = true;
+
       var index;
       if(0 > $stateParams.index) {
         $state.current.data.index = battles.list.length;

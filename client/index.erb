@@ -37,7 +37,8 @@
     </nav>
     <div id="view-container" ui-view="page"></div>
     <nav id="bottom-bar"
-         class="navbar navbar-default navbar-fixed-bottom">
+         class="navbar navbar-default navbar-fixed-bottom"
+         ng-show="bottom_bar.show">
       <div class="container text-center"
            ui-view="bottom-bar"></div>
     </nav>
