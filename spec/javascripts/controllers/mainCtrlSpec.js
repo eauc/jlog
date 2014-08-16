@@ -98,6 +98,11 @@ describe('controllers', function() {
 
         c.onNewBattles = scope.$on.calls.first().args[1];
 
+        c.opponents.create.and.callFake(function() { this.list = ['toto']; });
+        c.events.create.and.callFake(function() { this.list = ['titi']; });
+        c.scenarios.create.and.callFake(function() { this.list = ['tata']; });
+        c.tags.create.and.callFake(function() { this.list = ['tutu']; });
+
         c.data = [];
         c.onNewBattles('', c.data);
       });
@@ -108,6 +113,13 @@ describe('controllers', function() {
         expect(c.events.create).toHaveBeenCalledWith(c.battles_display.list);
         expect(c.scenarios.create).toHaveBeenCalledWith(c.battles_display.list);
         expect(c.tags.create).toHaveBeenCalledWith(c.battles_display.list);
+      });
+
+      it('should rebind all services lists', function() {
+        expect(scope.opponents).toBe(c.opponents.list);
+        expect(scope.events).toBe(c.events.list);
+        expect(scope.scenarios).toBe(c.scenarios.list);
+        expect(scope.tags).toBe(c.tags.list);
       });
 
     });

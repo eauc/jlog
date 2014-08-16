@@ -59,6 +59,11 @@ angular.module('jlogApp.controllers')
         events.create($scope.battles.list);
         scenarios.create($scope.battles.list);
         tags.create($scope.battles.list);
+
+        $scope.opponents = opponents.list;
+        $scope.scenarios = scenarios.list;
+        $scope.events = events.list;
+        $scope.tags = tags.list;
       });
 
       $scope.bottom_bar = {
