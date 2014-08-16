@@ -26,6 +26,18 @@ module.exports = function(grunt) {
         }
       }
     },
+    uglify: {
+      app_src: {
+        options: {
+          compress: {
+            drop_console: true
+          }
+        },
+        files: {
+          'client/js/app.min.js': js_src
+        }
+      }
+    },
     jasmine: {
       spec: {
         src: js_src,
@@ -46,7 +58,7 @@ module.exports = function(grunt) {
     watch: {
       app_src: {
         files: js_src,
-        tasks: [ 'jshint:app_src' ],
+        tasks: [ 'jshint:app_src', 'uglify:app_src' ],
         options: {
           spawn: true
         }
@@ -64,4 +76,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 };

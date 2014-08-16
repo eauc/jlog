@@ -57,10 +57,8 @@ class JLogApp < Sinatra::Base
     @styles << 'css/app.css'
 
     @scripts << 'lib/underscore/underscore.min.js'
-    @scripts << 'js/mixins/deepExtend.js'
     @scripts << 'lib/angular/angular.min.js'
     @scripts << 'lib/angular/angular-ui-router.min.js'
-    @scripts << 'lib/angular/bindonce.js'
     @scripts << 'js/app.min.js'
   end
 
@@ -72,7 +70,6 @@ class JLogApp < Sinatra::Base
     @scripts << 'js/mixins/deepExtend.js'
     @scripts << 'lib/angular/angular.js'
     @scripts << 'lib/angular/angular-ui-router.js'
-    @scripts << 'lib/angular/bindonce.js'
     @scripts << 'js/app.js'
     @scripts << 'js/controllers/backupCtrl.js' 
     @scripts << 'js/controllers/listCtrl.js' 
