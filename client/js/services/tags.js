@@ -7,17 +7,16 @@ angular.module('jlogApp.services')
       var tags = {
         'list': []
       };
-      var storage_tags_key = 'jlog_tags';
       var store = function tagsStore() {
         console.log('save tags in localStorage');
-        storage.setItem(storage_tags_key, JSON.stringify(tags.list));
+        storage.setItem(storage.KEYS.TAGS, JSON.stringify(tags.list));
       };
       var load = function tagsLoad() {
         console.log('load tags from localStorage');
-        return JSON.parse(storage.getItem(storage_tags_key)).sort();
+        return JSON.parse(storage.getItem(storage.KEYS.TAGS)).sort();
       };
       var storageContainsTags = function tagsStorageContainsTags() {
-        var data = storage.getItem(storage_tags_key);
+        var data = storage.getItem(storage.KEYS.TAGS);
         return ('string' === typeof data &&
                 data.length > 0);
       };

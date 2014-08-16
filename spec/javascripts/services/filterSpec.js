@@ -19,7 +19,6 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
-    module('jlogApp.test_services');
     jasmine.addMatchers(custom_matchers);
     console.log = jasmine.createSpy('log');
   });
@@ -945,6 +944,8 @@ describe('service', function() {
       function(_filter, _storage) {
         filter = _filter;
         storage = _storage;
+        spyOn(storage, 'getItem');
+        spyOn(storage, 'setItem');
       }]));
     
     describe('init', function() {

@@ -70,17 +70,16 @@ angular.module('jlogApp.services')
       var battles = {
         'list': []
       };
-      var storage_battles_key = 'jlog_battles';
       var store = function battlesStore() {
         console.log('save battles in localStorage');
-        storage.setItem(storage_battles_key, JSON.stringify(battles.list));
+        storage.setItem(storage.KEYS.BATTLES, JSON.stringify(battles.list));
       };
       var load = function battlesLoad() {
         console.log('load battles from localStorage');
-        return JSON.parse(storage.getItem(storage_battles_key));
+        return JSON.parse(storage.getItem(storage.KEYS.BATTLES));
       };
       var storageContainsBattles = function battlesStorageContainsBattles() {
-        var data = storage.getItem(storage_battles_key);
+        var data = storage.getItem(storage.KEYS.BATTLES);
         return ('string' === typeof data &&
                 data.length > 0);
       };

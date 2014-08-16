@@ -4,7 +4,6 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
-    module('jlogApp.test_services');
     console.log = jasmine.createSpy('log');
   });
 
@@ -22,6 +21,8 @@ describe('service', function() {
         scenarios = _scenarios;
         battle = _battle;
         storage = _storage;
+        spyOn(storage, 'getItem');
+        spyOn(storage, 'setItem');
       }]));
     
     it('list should be created with default scenarios list', function() {

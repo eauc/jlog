@@ -4,7 +4,6 @@ describe('service', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
-    module('jlogApp.test_services');
     console.log = jasmine.createSpy('log');
   });
 
@@ -20,6 +19,8 @@ describe('service', function() {
         events = _events;
         battle = _battle;
         storage = _storage;
+        spyOn(storage, 'getItem');
+        spyOn(storage, 'setItem');
       }]));
     
     it('list should be created empty', function() {

@@ -180,17 +180,16 @@ angular.module('jlogApp.services')
              filterMatchCaster,
              filterMatchInitiative,
              filterMatchTags) {
-      var storage_filter_key = 'jlog_filter';
       var store = function filterStore(list) {
         console.log('save filter in localStorage');
-        storage.setItem(storage_filter_key, JSON.stringify(list));
+        storage.setItem(storage.KEYS.FILTER, JSON.stringify(list));
       };
       var load = function filterLoad() {
         console.log('load filter from localStorage');
-        return JSON.parse(storage.getItem(storage_filter_key));
+        return JSON.parse(storage.getItem(storage.KEYS.FILTER));
       };
       var storageContainsFilter = function filterStorageContainsFilter() {
-        return 'string' === typeof storage.getItem(storage_filter_key);
+        return 'string' === typeof storage.getItem(storage.KEYS.FILTER);
       };
 
       var create = function filterCreate(data) {
