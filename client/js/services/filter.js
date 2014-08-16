@@ -189,7 +189,9 @@ angular.module('jlogApp.services')
         return JSON.parse(storage.getItem(storage.KEYS.FILTER));
       };
       var storageContainsFilter = function filterStorageContainsFilter() {
-        return 'string' === typeof storage.getItem(storage.KEYS.FILTER);
+        var data = storage.getItem(storage.KEYS.FILTER);
+        return ('string' === typeof data &&
+                0 < data.length);
       };
 
       var create = function filterCreate(data) {
