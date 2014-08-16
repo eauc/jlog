@@ -31,7 +31,9 @@ angular.module('jlogApp.controllers')
         backup.upload(battles.list);
       };
       $scope.downloadData = function downloadData() {
-        $scope.backup.download()
+        if(!_.isString(backup.download.id) ||
+           0 >= backup.download.id.length) return;
+        backup.download()
           .then(function(data) {
             storage.clearJLogKeys();
             $scope.$emit('newBattles', data);

@@ -190,7 +190,9 @@ describe('service', function() {
 
         backup.upload(battles);
 
-        expect($http.post).toHaveBeenCalledWith('/api/log', { battles: battles });
+        expect($http.post).toHaveBeenCalledWith('/api/log',
+                                                { battles: battles },
+                                                { timeout: 5000 });
       });
 
       describe('on POST success', function() {
@@ -274,7 +276,8 @@ describe('service', function() {
 
         backup.download();
 
-        expect($http.get).toHaveBeenCalledWith('/api/log/1234');
+        expect($http.get).toHaveBeenCalledWith('/api/log/1234',
+                                               { timeout: 5000 });
       });
 
       describe('on GET success', function(c) {

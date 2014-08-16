@@ -58,8 +58,8 @@ angular.module('jlogApp.services')
           var instance = this;
           instance.upload.id = null;
           instance.upload.status = null;
-          instance.upload.msg = '';
-          return $http.post('/api/log', { battles: battles })
+          instance.upload.msg = 'Uploading...';
+          return $http.post('/api/log', { battles: battles }, { timeout: 5000 })
             .then(function(response) {
               instance.upload.status = true;
               instance.upload.msg = 'data uploaded';
@@ -74,8 +74,8 @@ angular.module('jlogApp.services')
         download: function backupDownload() {
           var instance = this;
           instance.download.status = null;
-          instance.download.msg = '';
-          return $http.get('/api/log/' + instance.download.id)
+          instance.download.msg = 'Downloading...';
+          return $http.get('/api/log/' + instance.download.id, { timeout: 5000 })
             .then(function(response) {
               instance.download.status = true;
               instance.download.msg = 'data downloaded';

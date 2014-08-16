@@ -48,8 +48,8 @@
     </div>
     <div class="col-xs-6 result">
       <strong ng-class="{
-              'text-success': backup.upload.status,
-              'text-danger': !backup.upload.status
+              'text-success': backup.upload.status !== null && backup.upload.status,
+              'text-danger': backup.upload.status !== null && !backup.upload.status
               }">{{backup.upload.msg | capitalise }}</strong>
     </div>
     <div class="clearfix"></div>
@@ -88,8 +88,8 @@
     </div>
     <div class="col-xs-6 result">
       <strong ng-class="{
-            'text-success': backup.download.status,
-            'text-danger': !backup.download.status
+            'text-success': backup.download.status !== null && backup.download.status,
+            'text-danger': backup.download.status !== null && !backup.download.status
             }">{{backup.download.msg | capitalise}}</strong>
     </div>
   </div>

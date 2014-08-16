@@ -130,46 +130,64 @@ describe('controllers', function() {
 
     describe('downloadData', function() {
 
-      beforeEach(inject([
-        '$q',
-        function($q) {
-          c.deferred = $q.defer();
-          c.backup.download.and.returnValue(c.deferred.promise);
+      describe('when no valid id has been given', function() {
+
+        it('should not try to download the battles list', function() {
+          c.backup.download.id = '';
 
           scope.downloadData();
-        }
-      ]));
 
-      it('should download the battles list', function() {
-        expect(c.backup.download).toHaveBeenCalled();
+          expect(c.backup.download).not.toHaveBeenCalled();
+        });
+
       });
 
-      describe('on download success', function() {
+      describe('when a valid id has been given', function() {
 
         beforeEach(inject([
-          '$rootScope',
-          function($rootScope) {
-            c.backup.generate.calls.reset();
+          '$q',
+          function($q) {
+            c.deferred = $q.defer();
+            c.backup.download.and.returnValue(c.deferred.promise);
 
-            c.new_battles = [ 'toto', 'titi'];
+            c.backup.download.id = '1234';
 
-            c.deferred.resolve(c.new_battles);
-            $rootScope.$digest();
+            scope.downloadData();
           }
         ]));
 
-        it('should clear storage', function() {
-          expect(c.storage.clearJLogKeys).toHaveBeenCalled();
+        it('should download the battles list', function() {
+          expect(c.backup.download).toHaveBeenCalled();
         });
 
-        it('should emit "newBattles" event', function() {
-          expect(scope.$emit).toHaveBeenCalledWith('newBattles', c.new_battles);
+        describe('on download success', function() {
+          
+          beforeEach(inject([
+            '$rootScope',
+            function($rootScope) {
+              c.backup.generate.calls.reset();
+              
+              c.new_battles = [ 'toto', 'titi'];
+              
+              c.deferred.resolve(c.new_battles);
+              $rootScope.$digest();
+            }
+          ]));
+          
+          it('should clear storage', function() {
+            expect(c.storage.clearJLogKeys).toHaveBeenCalled();
+          });
+          
+          it('should emit "newBattles" event', function() {
+            expect(scope.$emit).toHaveBeenCalledWith('newBattles', c.new_battles);
+          });
+          
+          it('should generate new backup file', function() {
+            expect(c.backup.generate).toHaveBeenCalledWith(scope.battles.list);
+          });
+          
         });
-
-        it('should generate new backup file', function() {
-          expect(c.backup.generate).toHaveBeenCalledWith(scope.battles.list);
-        });
-
+        
       });
 
     });
