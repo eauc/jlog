@@ -53,10 +53,24 @@
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu text-left">
+      <li class="dropdown-header">Filter</li>
       <li>
         <a href="#/filter">
           <span class="glyphicon glyphicon-edit"></span>
           Edit
+        </a>
+      </li>
+      <li class="divider"></li>
+      <li ng-show="filter_state.active && !filter_state.invert">
+        <a ng-click="setFilterInvert(true)">
+          <span class="glyphicon glyphicon-random"></span>
+          Invert
+        </a>
+      </li>
+      <li ng-show="filter_state.active && filter_state.invert">
+        <a ng-click="setFilterInvert(false)">
+          <span class="glyphicon glyphicon-refresh"></span>
+          Restore
         </a>
       </li>
       <li ng-hide="filter_state.active">
@@ -69,18 +83,6 @@
         <a ng-click="setFilterActive(false)">
           <span class="glyphicon glyphicon-ban-circle"></span>
           Disable
-        </a>
-      </li>
-      <li ng-show="filter_state.active && !filter_state.invert">
-        <a ng-click="setFilterInvert(true)">
-          <span class="glyphicon glyphicon-random"></span>
-          Invert
-        </a>
-      </li>
-      <li ng-show="filter_state.active && filter_state.invert">
-        <a ng-click="setFilterInvert(false)">
-          <span class="glyphicon glyphicon-refresh"></span>
-          Restore
         </a>
       </li>
     </ul>
