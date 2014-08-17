@@ -117,6 +117,10 @@ class JLogApp < Sinatra::Base
     erb :index
   end
 
+  get "/index.html" do
+    erb :index
+  end
+
   get '/manifest.appcache' do
     content_type :manifest
     erb :manifest_appcache
