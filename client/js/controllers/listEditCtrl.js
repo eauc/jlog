@@ -159,7 +159,7 @@ angular.module('jlogApp.controllers')
       $scope.onSave = function onSave() {
         battles.save($state.current.data.index, $state.current.data.battle);
         filter.clearCache($state.current.data.index);
-        $state.get('battle').data.resetListDisplay();
+        $scope.resetListDisplay();
         $scope.onClose();
       };
       $scope.onClose = function onClose() {

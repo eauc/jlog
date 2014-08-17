@@ -495,38 +495,36 @@ describe('controllers', function() {
 
   });
 
-  describe('listEditBottomCtrl', function() {
+  describe('listEditBottomCtrl', function(c) {
 
     var scope;
-    var battles;
-    var $state;
-    var filter;
 
     beforeEach(inject([
       '$rootScope',
       '$controller',
-      '$state',
-      'battles',
-      'filter',
       function($rootScope,
-               $controller,
-               _$state,
-               _battles,
-               _filter) {
-        battles = _battles;
-        $state = _$state;
-        filter = _filter;
-
-        $state.current.data = { index: 'index', battle: 'battle' };
-        spyOn($state, 'go');
-        spyOn(battles, 'save');
+               $controller) {
+        c.state = {
+          current: {
+            data: { index: 'index', battle: 'battle' }
+          },
+          go: jasmine.createSpy('state.go')
+        };
+        c.battles = jasmine.createSpyObj('battles', ['save']);
+        c.filter = jasmine.createSpyObj('filter', ['clearCache']);
 
         scope = $rootScope.$new();
-        $controller('listEditBottomCtrl', { '$scope': scope });
+        scope.resetListDisplay = jasmine.createSpy('resetListDisplay');
+        $controller('listEditBottomCtrl', {
+          '$scope': scope,
+          '$state': c.state,
+          'battles': c.battles,
+          'filter': c.filter
+        });
       }]));
 
     it('should initialize scope and state', function() {
-      expect(scope.state).toBe($state.current.data);
+      expect(scope.state).toBe(c.state.current.data);
       
       expect(scope.onSave).toBeA('Function');
       expect(scope.onClose).toBeA('Function');
@@ -536,30 +534,24 @@ describe('controllers', function() {
       
       beforeEach(function() {
         spyOn(scope, 'onClose');
-        c.data = jasmine.createSpyObj('data', ['resetListDisplay']);
-        spyOn($state, 'get').and.returnValue({
-          data: c.data
-        });
-        spyOn(filter, 'clearCache');
 
         scope.onSave();
       });
       
       it('should save edited battle in battles', function() {
-        expect(battles.save).toHaveBeenCalledWith('index', 'battle');
+        expect(c.battles.save).toHaveBeenCalledWith('index', 'battle');
+      });
+      
+      it('should reset filter cache', function() {
+        expect(c.filter.clearCache).toHaveBeenCalledWith('index');
+      });
+      
+      it('should reset list display', function() {
+        expect(scope.resetListDisplay).toHaveBeenCalled();
       });
       
       it('should close edit battle', function() {
         expect(scope.onClose).toHaveBeenCalled();
-      });
-      
-      it('should reset filter cache', function() {
-        expect(filter.clearCache).toHaveBeenCalledWith('index');
-      });
-      
-      it('should reset list display', function() {
-        expect($state.get).toHaveBeenCalledWith('battle');
-        expect(c.data.resetListDisplay).toHaveBeenCalled();
       });
       
     });
@@ -571,7 +563,7 @@ describe('controllers', function() {
       });
       
       it('should go to "battle" state', function() {
-        expect($state.go).toHaveBeenCalledWith('battle');
+        expect(c.state.go).toHaveBeenCalledWith('battle');
       });
       
     });

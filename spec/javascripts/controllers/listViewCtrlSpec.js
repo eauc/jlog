@@ -6,6 +6,7 @@ describe('controllers', function() {
     module('jlogApp.filters');
     module('jlogApp.services');
     module('jlogApp.controllers');
+    module('jlogApp.test_services');
     module('ui.router');
     console.log = jasmine.createSpy('log');
   });
@@ -65,33 +66,27 @@ describe('controllers', function() {
 
   });
 
-  describe('listViewBottomCtrl', function() {
+  describe('listViewBottomCtrl', function(c) {
 
     var scope;
-    var battle;
-    var battles;
-    var $state;
 
     beforeEach(inject([
       '$rootScope',
       '$controller',
-      '$state',
-      'battle',
-      'battles',
       function($rootScope,
-               $controller,
-               _$state,
-               _battle,
-               _battles) {
-        battle = _battle;
-        battles = _battles;
-        $state = _$state;
-
-        spyOn($state, 'go');
-        spyOn(battles, 'remove');
+               $controller) {
+        c.state = jasmine.createSpyObj('state', ['go']);
+        c.battles = jasmine.createSpyObj('battles', ['remove']);
 
         scope = $rootScope.$new();
-        $controller('listViewBottomCtrl', { '$scope': scope, '$stateParams': { index: 1 } });
+        scope.resetListDisplay = jasmine.createSpy('resetListDisplay');
+
+        $controller('listViewBottomCtrl', {
+          '$scope': scope,
+          '$stateParams': { index: 1 },
+          '$state': c.state,
+          'battles': c.battles
+        });
       }]));
 
     describe('onEditBattle', function() {
@@ -101,38 +96,40 @@ describe('controllers', function() {
       });
 
       it('should go to "battle.edit" state', function() {
-        expect($state.go).toHaveBeenCalledWith('battle.edit', { index: 1 });
+        expect(c.state.go).toHaveBeenCalledWith('battle.edit', { index: 1 });
       });
 
     });
 
-    describe('onDeleteBattle', function(c) {
+    describe('onDeleteBattle', function() {
 
-      var $window;
-
-      beforeEach(inject([ '$window', function(_$window) {
+      beforeEach(inject([ '$window', function(_window) {
         c.index = 1;
-        $window = _$window;
+        c.$window = _window;
 
         spyOn(scope, 'onClose');
-        spyOn($window, 'confirm');
       }]));
 
       it('should ask for confirmation', function() {
         scope.onDeleteBattle();
 
-        expect($window.confirm).toHaveBeenCalledWith('You sure you wanna delete this battle ?');
+        expect(c.$window.confirm)
+          .toHaveBeenCalledWith('You sure you wanna delete this battle ?');
       });
 
       describe('when user does not confirm', function() {
         beforeEach(function() {
-          $window.confirm.and.returnValue(false);
+          c.$window.confirm.and.returnValue(false);
 
           scope.onDeleteBattle();
         });
 
         it('should not remove index from battles', function() {
-          expect(battles.remove).not.toHaveBeenCalled();
+          expect(c.battles.remove).not.toHaveBeenCalled();
+        });
+
+        it('should not reset battle list display', function() {
+          expect(scope.resetListDisplay).not.toHaveBeenCalled();
         });
 
         it('should not close battle view', function() {
@@ -143,13 +140,17 @@ describe('controllers', function() {
 
       describe('when user confirms', function() {
         beforeEach(function() {
-          $window.confirm.and.returnValue(true);
+          c.$window.confirm.and.returnValue(true);
 
           scope.onDeleteBattle();
         });
 
         it('should remove index from battles', function() {
-          expect(battles.remove).toHaveBeenCalledWith(c.index);
+          expect(c.battles.remove).toHaveBeenCalledWith(c.index);
+        });
+
+        it('should reset battle list display', function() {
+          expect(scope.resetListDisplay).toHaveBeenCalled();
         });
 
         it('should  close battle view', function() {
