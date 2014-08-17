@@ -54,7 +54,7 @@ class JLogApp < Sinatra::Base
     @styles << 'lib/bootstrap/css/bootstrap.css'
     @styles << 'css/app.css'
 
-    @scripts << 'lib/underscore/underscore.min.js'
+    @scripts << 'lib/underscore/underscore.js'
     @scripts << 'js/mixins/deepExtend.js'
     @scripts << 'lib/angular/angular.js'
     @scripts << 'lib/angular/angular-ui-router.js'
