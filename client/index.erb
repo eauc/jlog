@@ -1,9 +1,9 @@
 <!doctype html>
-<!-- <html lang="en"
-ng-app="jlogApp"
-manifest="manifest.appcache"> -->
 <html lang="en"
-      ng-app="jlogApp">
+      ng-app="jlogApp"
+      manifest="manifest.appcache">
+  <!-- <html lang="en"
+  ng-app="jlogApp"> -->
   <head>
     <meta charset="utf-8">
     <title>Journey Log</title>
@@ -36,6 +36,8 @@ manifest="manifest.appcache"> -->
           </ul>
         </div>
       </div>
+      <app-cache-progress-bar>
+      </app-cache-progress-bar>
     </nav>
     <div id="view-container" ui-view="page"></div>
     <nav id="bottom-bar"

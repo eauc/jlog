@@ -28,7 +28,6 @@ angular.module('jlogApp.controllers')
       battle_sort,
       filter
     ) {
-
       console.log('init mainCtrl');
 
       battles_display.init();

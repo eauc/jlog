@@ -89,6 +89,7 @@ class JLogApp < Sinatra::Base
     @scripts << 'js/directives/sortBy.js' 
     @scripts << 'js/directives/statBar.js' 
     @scripts << 'js/directives/whenScrolled.js' 
+    @scripts << 'js/directives/appCacheProgressBar.js' 
     @scripts << 'js/filters/battleFilter.js'
     @scripts << 'js/filters/capitaliseFilter.js'
     @scripts << 'js/filters/initiativeFilter.js'
@@ -104,13 +105,15 @@ class JLogApp < Sinatra::Base
 
   set :server, :thin
   set :public_folder, File.join(File.dirname(__FILE__), '..', 'client')
+  set :static_cache_control, [:no_cache]
   set :views, File.join(File.dirname(__FILE__), '..', 'client')
 
-  get "/" do
-    redirect '/index.html'
+  before do
+    expires 0
+    cache_control :no_cache, :must_revalidate
   end
 
-  get '/index.html' do
+  get "/" do
     erb :index
   end
 
