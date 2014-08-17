@@ -18,6 +18,7 @@ describe('controllers', function() {
                $controller) {
         c.battles = jasmine.createSpyObj('battles', ['reset']);
         c.stats = jasmine.createSpyObj('stats', ['generate']);
+        c.stats.collections = { titi: 'toto' };
 
         c.scope = $rootScope.$new();
         spyOn(c.scope, '$on');
@@ -61,6 +62,10 @@ describe('controllers', function() {
 
     it('should reset battle display', function() {
       expect(c.scope.resetListDisplay).toHaveBeenCalled();
+    });
+
+    it('should reset stats collections', function() {
+      expect(c.stats.collections).toEqual({});
     });
 
     it('should generate default stats', function() {
@@ -134,12 +139,18 @@ describe('controllers', function() {
         beforeEach(function() {
           c.state.entry = 'toto';
           c.state.selector = 'tata';
+          c.scope.doShow('toto');
+          expect(c.scope.show('toto')).toBe(true);
 
           c.state.setSelector('titi');
         });
 
         it('should update current stat selector', function() {
           expect(c.state.selector).toBe('titi');
+        });
+
+        it('should reset show state', function() {
+          expect(c.scope.show('toto')).toBe(false);
         });
 
         it('should generate new stat selector', function() {

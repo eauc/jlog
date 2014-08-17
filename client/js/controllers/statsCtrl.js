@@ -23,6 +23,9 @@ angular.module('jlogApp.controllers')
           this.doGenerate();
         },
         setSelector: function(id) {
+          if(this.selector != id) {
+            show = null;
+          }
           this.selector = id;
           this.doGenerate();
         },
@@ -32,6 +35,8 @@ angular.module('jlogApp.controllers')
       };
 
       $scope.stats = stats;
+      $scope.stats.collections = {};
+
       $scope.state = $state.current.data.state;
       $scope.state.doGenerate();
 
@@ -40,7 +45,7 @@ angular.module('jlogApp.controllers')
         $scope.state.doGenerate();
       });
 
-      var show;
+      var show = null;
       $scope.doShow = function(id) {
         console.log('show '+id);
         show = id;
