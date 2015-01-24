@@ -101,6 +101,7 @@ class JLogApp < Sinatra::Base
   def initialize
     super
     @logs = LogCollection.new
+    @git_commit = ENV['GIT_HEAD']
   end
 
   set :server, :thin
@@ -119,6 +120,10 @@ class JLogApp < Sinatra::Base
 
   get "/index.html" do
     erb :index
+  end
+
+  get "/index-dev.html" do
+    erb :index_dev
   end
 
   get '/manifest.appcache' do
