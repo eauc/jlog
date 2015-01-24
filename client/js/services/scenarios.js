@@ -2,6 +2,30 @@
 
 angular.module('jlogApp.services')
   .value('default_scenarios', {
+    sr15des: {
+      name: 'SR15 Destruction'
+    },
+    sr15tf: {
+      name: 'SR15 Two Fronts'
+    },
+    sr15cq: {
+      name: 'SR15 Close Quarters'
+    },
+    sr15fs: {
+      name: 'SR15 Fire Support'
+    },
+    sr15inco: {
+      name: 'SR15 Incoming'
+    },
+    sr15incu: {
+      name: 'SR15 Incursion'
+    },
+    sr15of: {
+      name: 'SR15 Outflank'
+    },
+    sr15rec: {
+      name: 'SR15 Recon'
+    },
     sr14des: {
       name: 'SR14 Destruction'
     },
