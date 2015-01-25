@@ -17,7 +17,7 @@ module.exports = function(grunt) {
           src: js_src
         }
       },
-      spec: {
+      spec_src: {
         options: {
           jshintrc: '.jshintrc_spec'
         },
@@ -45,10 +45,12 @@ module.exports = function(grunt) {
           specs: spec_js_src,
           helpers: spec_js_helpers,
           vendor: [
-              'client/lib/underscore/underscore.min.js',
+              'client/lib/underscore/underscore.js',
+              'client/lib/underscore/underscore-contrib.js',
+              'client/lib/underscore.string/underscore.string.js',
               'client/lib/angular/angular.js',
-              'client/lib/angular/angular-*.js',
-              'spec/javascripts/support/lib/angular/angular-mocks.js'
+              'client/lib/angular-ui-router/angular-ui-router.min.js',
+              'client/lib/angular/angular-mocks.js',
           ],
           outfile: 'spec/SpecRunner.html',
           keepRunner: true
@@ -63,9 +65,16 @@ module.exports = function(grunt) {
           spawn: true
         }
       },
-      spec: {
+      uglify: {
+        files: js_src,
+        tasks: [ 'uglify:app_src' ],
+        options: {
+          spawn: true
+        }
+      },
+      spec_src: {
         files: spec_js.concat(js_src),
-        tasks: [ 'jshint:spec', 'jasmine:spec' ],
+        tasks: [ 'jshint:app_src', 'jshint:spec_src', 'jasmine:spec' ],
         options: {
           spawn: true
         }

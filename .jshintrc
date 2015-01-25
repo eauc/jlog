@@ -4,10 +4,9 @@
   "globals": {
     "_": false,
     "$": false,
+    "s": false,
     "angular": false,
-    "Raphael": false,
-    "console": false,
-    "document": false
+    "console": false
   },
   "-W097": true, // "use strict function form"
   "-W040": true, // "possible strict violation"

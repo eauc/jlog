@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"
+      ng-app="jlogApp"
+      manifest="manifest.appcache">
+  <head>
+    <meta charset="utf-8">
+    <title>Journey Log</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body ng-controller="mainCtrl"
+        ng-click="drop_down.clear()">
+    <nav id="top-bar"
+         class="navbar navbar-default navbar-fixed-top">
+      <div ng-include="'partials/navbar.html'">
+      </div>
+    </nav>
+    <div id="view-container" ui-view="page"></div>
+    <nav id="bottom-bar"
+         class="navbar navbar-default navbar-fixed-bottom"
+         ng-show="bottom_bar.show">
+      <div class="container text-center"
+           ui-view="bottom-bar"></div>
+    </nav>
+
+    <script src="lib/underscore/underscore.min.js"></script>
+    <script src="lib/underscore/underscore-contrib.min.js"></script>
+    <script src="lib/underscore.string/underscore.string.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-ui-router/angular-ui-router.min.js"></script>
+    <script src="js/app.min.js"></script>
+    <% self.class.scripts.each do |script| %>
+      <script src="<%= script %>"></script>
+    <% end %>
+ </body>
+</html>

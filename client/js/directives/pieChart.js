@@ -3,7 +3,9 @@
 angular.module('jlogApp.directives')
   .directive('pieChart', [
     '$timeout',
-    function($timeout) {
+    '$document',
+    function($timeout,
+             $document) {
       var COLORS = [
         '#2f69bf',
         '#a2bf2f',
@@ -16,7 +18,7 @@ angular.module('jlogApp.directives')
       ];
       var SVG_NS = "http://www.w3.org/2000/svg";
       function createSvg(element, width, height) {
-        var svg = document.createElementNS(SVG_NS, "svg");
+        var svg = $document.createElementNS(SVG_NS, "svg");
         // svg.style.backgroundColor = "#fee";
         svg.style.width = width+"px";
         svg.style.height = height+"px";
@@ -25,7 +27,7 @@ angular.module('jlogApp.directives')
         return svg;
       }
       function createLegend(element) {
-        var legend = document.createElement("div");
+        var legend = $document.createElement("div");
         // legend.style.backgroundColor = "#efe";
         // legend.style.maxHeight = attrs['height']+"px";
         legend.style.display = "inline-block";
@@ -64,7 +66,7 @@ angular.module('jlogApp.directives')
         return entries;
       }
       function createFullPie(svg, width, height, entry) {
-        var circle = document.createElementNS(SVG_NS,"circle");
+        var circle = $document.createElementNS(SVG_NS,"circle");
         circle.setAttributeNS(null,"style",
                               "stroke: #fff; "+
                               "stroke-width:1.5; "+
@@ -82,7 +84,7 @@ angular.module('jlogApp.directives')
         var new_y = height/2 - height/2 * Math.cos(state.angle);
         var big = (delta >= Math.PI) ? 1 : 0;
 
-        var path = document.createElementNS(SVG_NS,"path");
+        var path = $document.createElementNS(SVG_NS,"path");
         path.setAttributeNS(null,"style",
                             "stroke: #fff; "+
                             "stroke-width:1.5; "+
@@ -96,7 +98,7 @@ angular.module('jlogApp.directives')
         state.portion = [new_x, new_y];
       }
       function createEntryLegend(legend, entry) {
-        var div = document.createElement("div");
+        var div = $document.createElement("div");
         div.innerHTML = '<span style="background-color:'+entry.color+';'+
           'border-radius:1em;width:0.75em;height:0.75em;'+
           'display:inline-block;vertical-align:middle;">&nbsp;</span> '+
@@ -134,7 +136,7 @@ angular.module('jlogApp.directives')
           createPiePortion(svg, width, height, total, state, entry);
           createEntryLegend(legend, entry);
         });
-        // var circle = document.createElementNS(SVG_NS,"circle");
+        // var circle = $document.createElementNS(SVG_NS,"circle");
         // circle.setAttributeNS(null,"style",
         //                       "stroke: #fff; "+
         //                       "stroke-width:1.5; "+

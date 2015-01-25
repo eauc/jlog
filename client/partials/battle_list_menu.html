@@ -1,106 +1,105 @@
 <div>
-  <button class="btn btn-default"
-          ng-click="onAddBattle()">
-    <span class="glyphicon glyphicon-plus"></span>
-    <span class="lbl">Add Battle</span>
+  <!-- <button class="btn btn-default"
+  ng-click="onAddBattle()">
+  <span class="glyphicon glyphicon-plus"></span>
+  <span class="lbl">Add Battle</span>
+  </button> -->
+  <!-- <div class="btn-group dropup"
+  ng-class="{ 'open': drop_down.active('battle_list_filter') }">
+  <button class="btn"
+  ng-class="{'btn-default':!filter_state.active, 'btn-success':filter_state.active && !filter_state.invert, 'btn-primary':filter_state.active && filter_state.invert}"
+  ng-click="drop_down.toggle('battle_list_filter', $event)">
+  <span class="glyphicon glyphicon-filter"></span>
+  <span class="lbl">Filter</span>
+  <span class="caret"></span>
   </button>
-  <div class="btn-group dropup"
-       ng-class="{ 'open': drop_down.active('battle_list_filter') }">
-    <button class="btn"
-            ng-class="{'btn-default':!filter_state.active, 'btn-success':filter_state.active && !filter_state.invert, 'btn-primary':filter_state.active && filter_state.invert}"
-            ng-click="drop_down.toggle('battle_list_filter', $event)">
-      <span class="glyphicon glyphicon-filter"></span>
-      <span class="lbl">Filter</span>
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu text-left">
-      <li class="dropdown-header">Filter</li>
-      <li>
-        <a href="#/filter">
-          <span class="glyphicon glyphicon-edit"></span>
-          Edit
-        </a>
-      </li>
-      <li class="divider"></li>
-      <li ng-show="filter_state.active && !filter_state.invert">
-        <a ng-click="setFilterInvert(true)">
-          <span class="glyphicon glyphicon-random"></span>
-          Invert
-        </a>
-      </li>
-      <li ng-show="filter_state.active && filter_state.invert">
-        <a ng-click="setFilterInvert(false)">
-          <span class="glyphicon glyphicon-refresh"></span>
-          Restore
-        </a>
-      </li>
-      <li ng-hide="filter_state.active">
-        <a ng-click="setFilterActive(true)">
-          <span class="glyphicon glyphicon-ok-circle"></span>
-          Enable
-        </a>
-      </li>
-      <li ng-show="filter_state.active">
-        <a ng-click="setFilterActive(false)">
-          <span class="glyphicon glyphicon-ban-circle"></span>
-          Disable
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ul class="dropdown-menu text-left">
+  <li class="dropdown-header">Filter</li>
+  <li>
+  <a href="#/filter">
+  <span class="glyphicon glyphicon-edit"></span>
+  Edit
+  </a>
+  </li>
+  <li class="divider"></li>
+  <li ng-show="filter_state.active && !filter_state.invert">
+  <a ng-click="setFilterInvert(true)">
+  <span class="glyphicon glyphicon-random"></span>
+  Invert
+  </a>
+  </li>
+  <li ng-show="filter_state.active && filter_state.invert">
+  <a ng-click="setFilterInvert(false)">
+  <span class="glyphicon glyphicon-refresh"></span>
+  Restore
+  </a>
+  </li>
+  <li ng-hide="filter_state.active">
+  <a ng-click="setFilterActive(true)">
+  <span class="glyphicon glyphicon-ok-circle"></span>
+  Enable
+  </a>
+  </li>
+  <li ng-show="filter_state.active">
+  <a ng-click="setFilterActive(false)">
+  <span class="glyphicon glyphicon-ban-circle"></span>
+  Disable
+  </a>
+  </li>
+  </ul>
+  </div> -->
   <!-- <button class="btn btn-default dropup">
   <span class="glyphicon glyphicon-check"></span>
   <span class="lbl">Selection</span>
   <span class="caret"></span>
   </button> -->
-  <div class="btn-group dropup sort"
-       ng-class="{ 'open': drop_down.active('battle_list_sort') }">
-    <button class="btn btn-default"
-            ng-click="drop_down.toggle('battle_list_sort', $event)">
-      <span class="glyphicon glyphicon-sort"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li class="dropdown-header">Sort By</li>
-      <!-- <li class="divider"></li> -->
-      <li ng-repeat="(type, val) in sort.types">
-        <a ng-click="sort.sortBy(type)">
-          <span class="glyphicon"
-                ng-class="{ 'glyphicon-collapse-down': sort.type === type && !sort.reverse, 'glyphicon-collapse-up': sort.type === type && sort.reverse }"
-                style="">
-          </span>
-          {{val.name}}
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="btn-group dropup"
-       ng-class="{ 'open': drop_down.active('battle_list_export') }">
-    <button class="btn btn-default dropup"
-            ng-click="onExportOpen($event)">
-      <span class="glyphicon glyphicon-export"></span>
-      <span class="lbl">Export</span>
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu text-left">
-      <li class="dropdown-header">Export to</li>
-      <li>
-        <a ng-href="{{export.json_url}}"
-           download="{{export.name}}_json.txt">
-          JSON
-        </a>
-      </li>
-      <li>
-        <a ng-href="{{export.csv_url}}"
-           download="{{export.name}}_csv.txt">
-          CSV
-        </a>
-      </li>
-      <li>
-        <a ng-href="{{export.bb_url}}"
-           download="{{export.name}}_bb.txt">
-          BB code
-        </a>
-      </li>
-    </ul>
-  </div>
+  <!-- <div class="btn-group dropup sort"
+  ng-class="{ 'open': drop_down.active('battle_list_sort') }">
+  <button class="btn btn-default"
+  ng-click="drop_down.toggle('battle_list_sort', $event)">
+  <span class="glyphicon glyphicon-sort"></span>
+  </button>
+  <ul class="dropdown-menu">
+  <li class="dropdown-header">Sort By</li>
+  <li ng-repeat="(type, val) in sort.types">
+  <a ng-click="sort.sortBy(type)">
+  <span class="glyphicon"
+  ng-class="{ 'glyphicon-collapse-down': sort.type === type && !sort.reverse, 'glyphicon-collapse-up': sort.type === type && sort.reverse }"
+  style="">
+  </span>
+  {{val.name}}
+  </a>
+  </li>
+  </ul>
+  </div> -->
+  <!-- <div class="btn-group dropup"
+  ng-class="{ 'open': drop_down.active('battle_list_export') }">
+  <button class="btn btn-default dropup"
+  ng-click="onExportOpen($event)">
+  <span class="glyphicon glyphicon-export"></span>
+  <span class="lbl">Export</span>
+  <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu text-left">
+  <li class="dropdown-header">Export to</li>
+  <li>
+  <a ng-href="{{export.json_url}}"
+  download="{{export.name}}_json.txt">
+  JSON
+  </a>
+  </li>
+  <li>
+  <a ng-href="{{export.csv_url}}"
+  download="{{export.name}}_csv.txt">
+  CSV
+  </a>
+  </li>
+  <li>
+  <a ng-href="{{export.bb_url}}"
+  download="{{export.name}}_bb.txt">
+  BB code
+  </a>
+  </li>
+  </ul>
+  </div> -->
 </div>

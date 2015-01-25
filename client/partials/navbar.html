@@ -1,0 +1,24 @@
+<div>
+  <div class="navbar-header">
+    <div ng-include="'title.html'">
+    </div>
+    <ul id="tab-menu"
+        class="nav navbar-nav"
+        ng-include="'partials/menu.html'">
+    </ul>
+    <div id="drop-menu"
+         class="btn-group"
+         ng-class="{ 'open': drop_down.active('menu') }">
+      <button class="btn btn-default navbar-btn"
+              ng-click="drop_down.toggle('menu', $event)">
+        <span class="glyphicon glyphicon-th-list"></span>
+        Menu
+      </button>
+      <ul class="dropdown-menu"
+          ng-include="'partials/menu.html'">
+      </ul>
+    </div>
+  </div>
+  <app-cache-progress-bar>
+  </app-cache-progress-bar>
+</div>
