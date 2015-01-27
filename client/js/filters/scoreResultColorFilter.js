@@ -12,6 +12,29 @@ angular.module('jlogApp.filters')
     };
 
   }])
+  .filter('scoreResultClass', [function() {
+    return function(input) {
+      var ret;
+      switch(input) {
+      case 'victory':
+        {
+          ret = 'text-success';
+          break;
+        }
+      case 'draw':
+        {
+          ret = 'text-warning';
+          break;
+        }
+      case 'defeat':
+        {
+          ret = 'text-danger';
+          break;
+        }
+      }
+      return ret;
+    };
+  }])
   .filter('scoreTypeLetter', [function() {
 
     return function(input) 

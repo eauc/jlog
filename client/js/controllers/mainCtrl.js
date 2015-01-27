@@ -3,33 +3,60 @@
 angular.module('jlogApp.controllers')
   .controller('mainCtrl', [
     '$scope',
+    '$state',
+    '$q',
+    'scores',
+    'factions',
+    'scenarios',
     // '$timeout',
-    // '$state',
-    // 'factions',
     // 'opponents',
     // 'events',
-    // 'scenarios',
     // 'tags',
-    // 'scores',
     // 'battles_display',
     // 'battle_sort',
     // 'filter',
     function(
-      $scope
+      $scope,
+      $state,
+      $q,
+      scores,
+      factions,
+      scenarios
       // $timeout,
-      // $state,
-      // factions,
       // opponents,
       // events,
-      // scenarios,
       // tags,
-      // scores,
       // battles_display,
       // battle_sort,
       // filter
     ) {
       console.log('init mainCtrl');
 
+      $scope.stateIs = $state.is;
+
+      $scope.battles = {
+        display_list: []
+      };
+
+      $q.all($q.when(scores.data()).then(function(_scores) {
+        $scope.scores = _scores;
+      }), $q.when(factions.data()).then(function(_factions) {
+        $scope.factions = _factions;
+      }), $q.when(scenarios.data()).then(function(_scenarios) {
+        $scope.scenarios = _scenarios;
+      })).then(function(_scores) {
+        $scope.battles.display_list = _.range(200).map(function(i) {
+          return {
+            index: i,
+            date: { year: 2015, month: 1, day: 27 },
+            my_army: { faction: 'cygnar', caster: 'nemo1' },
+            opponent: { name: 'kevin', faction: 'cryx', caster: 'gaspy1' },
+            setup: { size: 50, scenario: 'sr15inco', event: 'amical' },
+            score: 'va'
+          };
+        });
+        console.log('scope', $scope);
+      });
       // battles_display.init();
       // opponents.init(battles_display.list);
       // events.init(battles_display.list);
@@ -80,9 +107,6 @@ angular.module('jlogApp.controllers')
       //   active: function(value) {
       //     return this.state === value;
       //   }
-      // };
-      // $scope.stateIs = function(state) {
-      //   return $state.is(state);
       // };
 
       // function showMore() {

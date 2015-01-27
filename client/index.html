@@ -11,11 +11,7 @@
   </head>
   <body ng-controller="mainCtrl"
         ng-click="drop_down.clear()">
-    <nav id="top-bar"
-         class="navbar navbar-default navbar-fixed-top">
-      <div ng-include="'partials/navbar.html'">
-      </div>
-    </nav>
+    <div ng-include="'partials/navbar.html'"></div>
     <div id="view-container" ui-view="page"></div>
     <nav id="bottom-bar"
          class="navbar navbar-default navbar-fixed-bottom"

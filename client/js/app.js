@@ -94,15 +94,15 @@ angular.module('jlogApp', [
       //       controller: 'backupCtrl'
       //     }
       //   }
-      // })
-      // .state('info', {
-      //   url: '/info',
-      //   views: {
-      //     'page': {
-      //       templateUrl: 'partials/info.html',
-      //       // controller: 'infoCtrl'
-      //     }
-      //   }
+      })
+      .state('info', {
+        url: '/info',
+        views: {
+          'page': {
+            templateUrl: 'partials/info.html',
+            // controller: 'infoCtrl'
+          }
+        }
       });
   }
 ]).config([

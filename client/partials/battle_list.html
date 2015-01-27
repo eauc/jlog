@@ -1,72 +1,72 @@
 <!-- <div ui-view="battle"></div> -->
-<!-- <div id="battle-list"
-class="container"
-ng-show="show_list">
-<div class="table">
-<div class="row text-center table-header">
-<div class="hidden-xs col-sm-3" sort-by="date">
-Date
+<div class="container">
+  <div id="battle-list"
+       class="table">
+    <div class="row text-center table-header">
+      <div class="hidden-xs col-sm-3" sort-by="date">
+        Date
+      </div>
+      <div class="col-xs-4 col-sm-4" sort-by="my_caster">
+        My Caster
+      </div>
+      <div class="col-xs-3 col-sm-3" sort-by="opponent">
+        Opponent
+      </div>
+      <div class="col-xs-4 col-sm-4" sort-by="opp_caster">
+        Caster
+      </div>
+      <div class="hidden-xs col-sm-1" sort-by="size">
+        Size
+      </div>
+      <div class="hidden-xs col-sm-4" sort-by="scenario">
+        Scenario
+      </div>
+      <div class="hidden-xs col-sm-2" sort-by="event">
+        Event
+      </div>
+      <div class="col-xs-1 col-sm-1" sort-by="result">
+        R
+      </div>
+    </div>
+    <div class="table-body">
+      <div class="row text-center clickable table-row"
+           ng-repeat="
+           battle
+           in battles.display_list
+           track by battle.index
+           ">
+        <div class="hidden-xs col-sm-3">
+          <span>{{::battle.date.year+'-'+battle.date.month+'-'+battle.date.day}}
+          </span>
+        </div>
+        <div class="col-xs-4 col-sm-4">
+          <img class="faction-icon"
+               ng-src="{{::factions | factions:'iconFor':battle.my_army.faction}}" />
+          <span>{{::battle.my_army.caster | capitalise}}</span>
+        </div>
+        <div class="col-xs-3 col-sm-3">
+          <span>{{::battle.opponent.name | capitalise}}</span>
+        </div>
+        <div class="col-xs-4 col-sm-4">
+          <img class="faction-icon"
+               ng-src="{{::factions | factions:'iconFor':battle.opponent.faction}}" />
+          <span>{{::battle.opponent.caster | capitalise}}</span>
+        </div>
+        <div class="hidden-xs col-sm-1">
+          <span>{{::battle.setup.size}}</span>
+        </div>
+        <div class="hidden-xs col-sm-4">
+          <span>{{::scenarios | scenarios:'nameFor':battle.setup.scenario}}</span>
+        </div>
+        <div class="hidden-xs col-sm-2">
+          <span>{{::battle.setup.event}}</span>
+        </div>
+        <div class="col-xs-1 col-sm-1">
+          <strong class="score-result text-{{::scores | scores:'classFor':battle.score}}">
+            {{::scores | scores:'letterFor':battle.score}}
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="col-xs-4 col-sm-4" sort-by="my_caster">
-My Caster
-</div>
-<div class="col-xs-3 col-sm-3" sort-by="opponent">
-Opponent
-</div>
-<div class="col-xs-4 col-sm-4" sort-by="opp_caster">
-Caster
-</div>
-<div class="hidden-xs col-sm-1" sort-by="size">
-Size
-</div>
-<div class="hidden-xs col-sm-4" sort-by="scenario">
-Scenario
-</div>
-<div class="hidden-xs col-sm-2" sort-by="event">
-Event
-</div>
-<div class="col-xs-1 col-sm-1" sort-by="result">
-R
-</div>
-</div>
-<div id="battle-list-body"
-class="table-body">
-<div class="row text-center clickable table-row"
-ng-repeat="battle in battles.display_list track by battle.index"
-ng-click="onViewBattle(battle.index)">
-<div class="hidden-xs col-sm-3">
-<span>{{battle.date.year+'-'+battle.date.month+'-'+battle.date.day}}
-</span>
-</div>
-<div class="col-xs-4 col-sm-4">
-<img class="faction-icon"
-ng-src="{{'img/'+factions[battle.my_army.faction].icon}}" />
-<span>{{battle.my_army.caster | capitalise}}</span>
-</div>
-<div class="col-xs-3 col-sm-3">
-<span>{{battle.opponent.name | capitalise}}</span>
-</div>
-<div class="col-xs-4 col-sm-4">
-<img class="faction-icon"
-ng-src="{{'img/'+factions[battle.opponent.faction].icon}}" />
-<span>{{battle.opponent.caster | capitalise}}</span>
-</div>
-<div class="hidden-xs col-sm-1">
-<span>{{battle.setup.size}}</span>
-</div>
-<div class="hidden-xs col-sm-4">
-<span>{{scenarios[battle.setup.scenario].name}}</span>
-</div>
-<div class="hidden-xs col-sm-2">
-<span>{{battle.setup.event}}</span>
-</div>
-<div class="col-xs-1 col-sm-1"
-ng-class="{'text-success':scores[battle.score].result==='victory', 'text-danger':scores[battle.score].result==='defeat', 'text-warning':scores[battle.score].result==='draw'}">
-<strong class="score-result">
-{{scores[battle.score].type | scoreTypeLetter}}
-</strong>
-</div>
-</div>
-</div>
-</div>
-</div> -->

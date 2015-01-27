@@ -11,22 +11,20 @@
   <!-- <body ng-controller="mainCtrl"
   ng-click="drop_down.clear()"> -->
   <body ng-controller="mainCtrl">
-    <nav id="top-bar"
-         class="navbar navbar-default navbar-fixed-top">
-      <div ng-include="'partials/navbar.html'">
-      </div>
-    </nav>
-    <div id="view-container" ui-view="page"></div>
-    <nav id="bottom-bar"
-         class="navbar navbar-default navbar-fixed-bottom"
-         ng-show="bottom_bar.show">
+    <div ng-include="'partials/navbar.html'"></div>
+    <div id="page"
+         ui-view="page"></div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
       <div class="container text-center"
            ui-view="bottom-bar"></div>
     </nav>
 
     <script src="lib/underscore/underscore.js"></script>
-    <script src="lib/underscore-contrib/underscore-contrib.js"></script>
+    <script src="lib/underscore/underscore-contrib.js"></script>
     <script src="lib/underscore.string/underscore.string.js"></script>
+    <script src="js/mixins/apply.js"></script>
+    <script src="js/mixins/mapWith.js"></script>
+    <script src="js/mixins/spy.js"></script>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-ui-router/angular-ui-router.js"></script>
     <script src="js/app.js"></script>
@@ -42,11 +40,11 @@
     <!-- <script src="js/services/battleDisplay.js"></script> -->
     <!-- <script src="js/services/events.js"></script> -->
     <!-- <script src="js/services/export.js"></script> -->
-    <!-- <script src="js/services/factions.js"></script> -->
+    <script src="js/services/factions.js"></script>
     <!-- <script src="js/services/filter.js"></script> -->
     <!-- <script src="js/services/opponents.js"></script> -->
-    <!-- <script src="js/services/scenarios.js"></script> -->
-    <!-- <script src="js/services/scores.js"></script> -->
+    <script src="js/services/scenarios.js"></script>
+    <script src="js/services/scores.js"></script>
     <!-- <script src="js/services/selection.js"></script> -->
     <!-- <script src="js/services/sort.js"></script> -->
     <!-- <script src="js/services/statEntry.js"></script> -->
@@ -54,6 +52,7 @@
     <!-- <script src="js/services/stats.js"></script> -->
     <!-- <script src="js/services/storage.js"></script> -->
     <!-- <script src="js/services/tags.js"></script> -->
+    <script src="js/directives/openDropdown.js"></script>
     <!-- <script src="js/directives/collapse.js"></script> -->
     <!-- <script src="js/directives/pieChart.js"></script> -->
     <!-- <script src="js/directives/export_link.js"></script> -->
@@ -61,9 +60,10 @@
     <!-- <script src="js/directives/statBar.js"></script> -->
     <!-- <script src="js/directives/whenScrolled.js"></script> -->
     <!-- <script src="js/directives/appCacheProgressBar.js"></script> -->
-    <!-- <script src="js/filters/battleFilter.js"></script> -->
-    <!-- <script src="js/filters/capitaliseFilter.js"></script> -->
-    <!-- <script src="js/filters/initiativeFilter.js"></script> -->
+    <script src="js/filters/capitaliseFilter.js"></script>
+    <script src="js/filters/servicesFilter.js"></script>
     <!-- <script src="js/filters/scoreResultColorFilter.js"></script> -->
+    <!-- <script src="js/filters/battleFilter.js"></script> -->
+    <!-- <script src="js/filters/initiativeFilter.js"></script> -->
  </body>
 </html>

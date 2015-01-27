@@ -1,0 +1,56 @@
+{
+  "va": {
+    "result": "victory",
+    "type": "assassination",
+    "letter": "A",
+    "class": "success"
+  },
+  "vc": {
+    "result": "victory",
+    "type": "clock",
+    "letter": "C",
+    "class": "success"
+  },
+  "vs": {
+    "result": "victory",
+    "type": "scenario",
+    "letter": "S",
+    "class": "success"
+  },
+  "vt": {
+    "result": "victory",
+    "type": "tiebreaker",
+    "letter": "T",
+    "class": "success"
+  },
+  "dd": {
+    "result": "draw",
+    "type": "dice down",
+    "letter": "D",
+    "class": "warning"
+  },
+  "da": {
+    "result": "defeat",
+    "type": "assassination",
+    "letter": "A",
+    "class": "danger"
+  },
+  "dc": {
+    "result": "defeat",
+    "type": "clock",
+    "letter": "C",
+    "class": "danger"
+  },
+  "ds": {
+    "result": "defeat",
+    "type": "scenario",
+    "letter": "S",
+    "class": "danger"
+  },
+  "dt": {
+    "result": "defeat",
+    "type": "tiebreaker",
+    "letter": "T",
+    "class": "danger"
+  }
+}

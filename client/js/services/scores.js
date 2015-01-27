@@ -1,41 +1,31 @@
 'use strict';
 
 angular.module('jlogApp.services')
-  .value('scores', {
-    va: {
-      result: 'victory',
-      type: 'assassination'
-    },
-    vc: {
-      result: 'victory',
-      type: 'clock'
-    },
-    vs: {
-      result: 'victory',
-      type: 'scenario'
-    },
-    vt: {
-      result: 'victory',
-      type: 'tiebreaker'
-    },
-    dd: {
-      result: 'draw',
-      type: 'dice down'
-    },
-    da: {
-      result: 'defeat',
-      type: 'assassination'
-    },
-    dc: {
-      result: 'defeat',
-      type: 'clock'
-    },
-    ds: {
-      result: 'defeat',
-      type: 'scenario'
-    },
-    dt: {
-      result: 'defeat',
-      type: 'tiebreaker'
+  .factory('scores', [
+    '$http',
+    '$q',
+    function($http,
+             $q) {
+      var data;
+      var scores = {
+        data: function() {
+          if(_.exists(data)) return data;
+          return $http.get('data/scores.json')
+            .then(function(response) {
+              data = response.data;
+              return response.data;
+            }, function(response) {
+              console.log('scores get data error', response);
+              return $q.reject(response);
+            });
+        },
+        letterFor: function(coll, sc) {
+          return _.getPath(coll, sc+'.letter');
+        },
+        classFor: function(coll, sc) {
+          return _.getPath(coll, sc+'.class');
+        }
+      };
+      return scores;
     }
-  });
+  ]);

@@ -6,7 +6,8 @@
     "$": false,
     "s": false,
     "angular": false,
-    "console": false
+    "console": false,
+    "document": false
   },
   "-W097": true, // "use strict function form"
   "-W040": true, // "possible strict violation"
