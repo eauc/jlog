@@ -8,6 +8,7 @@ angular.module('jlogApp.controllers')
     'scores',
     'factions',
     'scenarios',
+    'battles',
     // '$timeout',
     // 'opponents',
     // 'events',
@@ -21,7 +22,8 @@ angular.module('jlogApp.controllers')
       $q,
       scores,
       factions,
-      scenarios
+      scenarios,
+      battles
       // $timeout,
       // opponents,
       // events,
@@ -32,29 +34,27 @@ angular.module('jlogApp.controllers')
     ) {
       console.log('init mainCtrl');
 
-      $scope.stateIs = $state.is;
+      $scope.stateIs = _.bind($state.is, $state);
+      $scope.stateGo = _.bind($state.go, $state);
 
       $scope.battles = {
         display_list: []
       };
 
-      $q.all($q.when(scores.data()).then(function(_scores) {
+      $q.when(scores.data()).then(function(_scores) {
         $scope.scores = _scores;
-      }), $q.when(factions.data()).then(function(_factions) {
+        return $q.when(factions.data());
+      }).then(function(_factions) {
         $scope.factions = _factions;
-      }), $q.when(scenarios.data()).then(function(_scenarios) {
+        return $q.when(scenarios.data());
+      }).then(function(_scenarios) {
         $scope.scenarios = _scenarios;
-      })).then(function(_scores) {
-        $scope.battles.display_list = _.range(200).map(function(i) {
-          return {
-            index: i,
-            date: { year: 2015, month: 1, day: 27 },
-            my_army: { faction: 'cygnar', caster: 'nemo1' },
-            opponent: { name: 'kevin', faction: 'cryx', caster: 'gaspy1' },
-            setup: { size: 50, scenario: 'sr15inco', event: 'amical' },
-            score: 'va'
-          };
-        });
+        return;
+      }).then(function() {
+        // $scope.battles.display_list = battles.test(200,
+        //                                            $scope.factions,
+        //                                            $scope.scores,
+        //                                            $scope.scenarios);
         console.log('scope', $scope);
       });
       // battles_display.init();

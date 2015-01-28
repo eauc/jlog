@@ -114,6 +114,29 @@ describe('services', function() {
       });
     });
 
+    describe('nameFor(<key>)', function() {
+      beforeEach(function() {
+        this.coll = [
+          { key: 'a', name: 'alpha' },
+          { key: 'b', name: 'bravo' },
+          { key: 'c', name: 'charlie' },
+        ];
+      });
+
+      using([
+        [ 'key' , 'name'    ],
+        [ 'a'   , 'alpha'   ],
+        [ 'b'   , 'bravo'   ],
+        [ 'c'   , 'charlie' ],
+        // undefined key
+        [ 'd'   , undefined ],
+      ], function(e, d) {
+        it('should find the name for <key>, '+d, function() {
+          expect(factions.nameFor(this.coll, e.key)).toBe(e.name);
+        });
+      });
+    });
+
     describe('iconFor(<key>)', function() {
       beforeEach(function() {
         this.coll = [
@@ -133,6 +156,34 @@ describe('services', function() {
       ], function(e, d) {
         it('should find the icon for <key>, '+d, function() {
           expect(factions.iconFor(this.coll, e.key)).toBe(e.icon);
+        });
+      });
+    });
+
+    describe('casterNameFor(<fkey>, <ckey>)', function() {
+      beforeEach(function() {
+        this.coll = [
+          { key: 'a', casters: [ { key:'a1', name:'alpha1' },
+                                 { key:'a2', name:'alpha2' },
+                                 { key:'a3', name:'alpha3' } ] },
+          { key: 'b', casters: [ { key:'b1', name:'bravo1' },
+                                 { key:'b2', name:'bravo2' },
+                                 { key:'b3', name:'bravo3' } ] },
+        ];
+      });
+
+      using([
+        [ 'fkey' , 'ckey' , 'name'    ],
+        [ 'a'    , 'a2'   , 'alpha2'  ],
+        [ 'a'    , 'a3'   , 'alpha3'  ],
+        [ 'b'    , 'b1'   , 'bravo1'  ],
+        // undefined faction key
+        [ 'd'    , 'd1'   , undefined ],
+        // undefined caster key
+        [ 'a'    , 'b1'   , undefined ],
+      ], function(e, d) {
+        it('should find the name for <ckey> in <fkey>, '+d, function() {
+          expect(factions.casterNameFor(this.coll, e.fkey, e.ckey)).toBe(e.name);
         });
       });
     });

@@ -17,9 +17,9 @@ angular.module('jlogApp.controllers')
       // $scope.bottom_bar.show = true;
       // $scope.filter_state.previous = 'battle';
 
-      // $scope.onViewBattle = function onViewBattle(index) {
-      //   $state.go('battle.view', { index: index });
-      // };
+      $scope.doViewBattle = function(index) {
+        $scope.stateGo('battle.view', { index: index });
+      };
 
       // $scope.resetListDisplay();
       // $scope.$watch('sort', $scope.resetListDisplay, true);

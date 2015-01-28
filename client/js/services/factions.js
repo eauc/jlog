@@ -41,6 +41,13 @@ angular.module('jlogApp.services')
             return $q.reject(response);
           });
         },
+        nameFor: function(coll, f) {
+          return _.chain(coll)
+            .where({ key: f })
+            .first()
+            .getPath('name') 
+            .value();
+        },
         iconFor: function(coll, f) {
           return _.chain(coll)
             .where({ key: f })
@@ -49,6 +56,16 @@ angular.module('jlogApp.services')
             .apply(function(i) {
               return _.exists(i) ? 'data/img/'+i : i;
             })
+            .value();
+        },
+        casterNameFor: function(coll, f, c) {
+          return _.chain(coll)
+            .where({ key: f })
+            .first()
+            .getPath('casters') 
+            .where({ key: c })
+            .first()
+            .getPath('name') 
             .value();
         }
       };

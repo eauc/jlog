@@ -6,11 +6,11 @@
     background-color:#EEE;
 }
 
-/* @media (max-width: 767px) { */
-/*     h3 { */
-/*         font-size:20px; */
-/*     } */
-/* } */
+@media (max-width: 767px) {
+    #page div {
+        font-size:10px;
+    }
+}
 
 /******************************************************/
 /* main view
@@ -81,32 +81,32 @@
 /* bottom bar
 /******************************************************/
 
-/* #bottom-bar { */
-/*     background-color: white; */
-/* } */
-/* #bottom-bar .container { */
-/*     border-top: 1px solid #CCC; */
-/*     padding-top: 8px; */
-/* } */
-/* #bottom-bar button { */
-/*     min-width:100px; */
-/* } */
-/* @media (max-width: 767px) { */
-/*     #bottom-bar { */
-/*         height: 40px; */
-/*     } */
-/*     #bottom-bar .container { */
-/*         padding: 4px 0px 0px 0px; */
-/*     } */
-/*     #bottom-bar button { */
-/*         min-width: 50px; */
-/*         padding-left: 5px; */
-/*         padding-right: 5px; */
-/*         font-size: 10px; */
-/*     } */
-/*     #bottom-bar button .lbl { */
-/*         display: none; */
-/*     } */
+#bottom-bar {
+    background-color: white;
+}
+#bottom-bar .container {
+    border-top: 1px solid #CCC;
+    padding-top: 8px;
+}
+#bottom-bar button {
+    min-width:100px;
+}
+@media (max-width: 767px) {
+    #bottom-bar {
+        height: 40px;
+    }
+    #bottom-bar .container {
+        padding: 4px 0px 0px 0px;
+    }
+    #bottom-bar button {
+        min-width: 50px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-size: 10px;
+    }
+    #bottom-bar button .lbl {
+        display: none;
+    }
 /*     #bottom-bar button .caret { */
 /*         display: none; */
 /*     } */
@@ -114,7 +114,7 @@
 /*         font-size:14px; */
 /*         text-align:left; */
 /*     } */
-/* } */
+}
 
 /******************************************************/
 /* battle-list
@@ -262,27 +262,27 @@
 /* battle-view
 /******************************************************/
 
-/* #battle-view { */
-/*     max-width: 400px; */
-/* } */
-/* #battle-view .row { */
-/*     margin-bottom:10px; */
-/* } */
-/* #battle-view .section { */
-/*     background-color:#CCC; */
-/*     padding-top:3px; */
-/* } */
-/* #battle-view .faction-icon { */
-/*     width:50px; */
-/* } */
-/* @media (max-width: 767px) { */
-/*     #battle-view .row { */
-/*         margin-bottom:5px; */
-/*     } */
-/*     #battle-view .faction-icon { */
-/*         width:40px; */
-/*     } */
-/* } */
+#battle-view {
+    max-width: 400px;
+}
+#battle-view .row {
+    margin-bottom:10px;
+}
+#battle-view .section {
+    background-color:#CCC;
+    padding-top:3px;
+}
+#battle-view .faction-icon {
+    width:50px;
+}
+@media (max-width: 767px) {
+    #battle-view .row {
+        margin-bottom:5px;
+    }
+    #battle-view .faction-icon {
+        width:40px;
+    }
+}
 
 /******************************************************/
 /* backup

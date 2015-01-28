@@ -1,6 +1,15 @@
 'use strict';
 
 angular.module('jlogApp.filters')
+  .filter('battle', [
+    'battle',
+    function(battle) {
+      return function(input, method) {
+        var args = _.rest(_.rest(arguments));
+        return battle[method].apply(null, _.cons(input, args));
+      };
+    }
+  ])
   .filter('factions', [
     'factions',
     function(factions) {

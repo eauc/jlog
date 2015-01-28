@@ -13,9 +13,15 @@ describe('controllers', function() {
     beforeEach(inject([
       '$rootScope',
       '$controller',
+      '$state',
       function($rootScope,
-               $controller) {
+               $controller,
+               $state) {
         this.scope = $rootScope.$new();
+
+        this.state = $state;
+        spyOn($state, 'is').and.returnValue('state.is.returnValue');
+        spyOn($state, 'go').and.returnValue('state.go.returnValue');
 
         this.factions = spyOnService('factions');
         this.scenarios = spyOnService('scenarios');
@@ -28,9 +34,15 @@ describe('controllers', function() {
       }
     ]));
 
-    it('stateIs should map to $state.is', inject(function($state) {
-      expect(this.scope.stateIs).toBe($state.is);
-    }));
+    it('stateIs should map to $state.is', function() {
+      expect(this.scope.stateIs('toto')).toBe('state.is.returnValue');
+      expect(this.state.is).toHaveBeenCalledWith('toto');
+    });
+
+    it('stateGo should map to $state.go', function() {
+      expect(this.scope.stateGo('toto')).toBe('state.go.returnValue');
+      expect(this.state.go).toHaveBeenCalledWith('toto');
+    });
 
     it('should store info lists', function() {
       expect(this.scope.scores).toBe('scores.data.returnValue');

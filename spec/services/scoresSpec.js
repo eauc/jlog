@@ -88,6 +88,56 @@ describe('services', function() {
       });
     });
 
+    describe('typeFor(<key>)', function() {
+      beforeEach(function() {
+        this.coll = {
+          va: { 'type': 'assassination' },
+          vc: { 'type': 'clock' },
+          ds: { 'type': 'scenario' },
+          dd: { 'type': 'dice down' }
+        };
+      });
+
+      using([
+        [ 'key' , 'type'          ],
+        [ 'va'  , 'assassination' ],
+        [ 'vc'  , 'clock'         ],
+        [ 'ds'  , 'scenario'      ],
+        [ 'dd'  , 'dice down'     ],
+        // undefined key
+        [ 'dc'  , undefined       ],
+      ], function(e, d) {
+        it('should find the type for <key>, '+d, function() {
+          expect(scores.typeFor(this.coll, e.key)).toBe(e.type);
+        });
+      });
+    });
+
+    describe('resultFor(<key>)', function() {
+      beforeEach(function() {
+        this.coll = {
+          va: { 'result': 'victory' },
+          vc: { 'result': 'victory' },
+          ds: { 'result': 'defeat' },
+          dd: { 'result': 'draw' }
+        };
+      });
+
+      using([
+        [ 'key' , 'result'  ],
+        [ 'va'  , 'victory' ],
+        [ 'vc'  , 'victory' ],
+        [ 'ds'  , 'defeat'  ],
+        [ 'dd'  , 'draw'    ],
+        // undefined key
+        [ 'dc'  , undefined],
+      ], function(e, d) {
+        it('should find the result for <key>, '+d, function() {
+          expect(scores.resultFor(this.coll, e.key)).toBe(e.result);
+        });
+      });
+    });
+
     describe('classFor(<key>)', function() {
       beforeEach(function() {
         this.coll = {

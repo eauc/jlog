@@ -6,8 +6,8 @@
     </div>
     <div class="col-xs-2">
       <img class="faction-icon"
-           alt="{{battle.my_army.faction}}"
-           ng-src="img/{{factions[battle.my_army.faction].icon}}" />
+           alt="{{::battle.my_army.faction}}"
+           ng-src="{{::factions | factions:'iconFor':battle.my_army.faction}}" />
     </div>
     <div class="col-xs-10">
       <div class="row">
@@ -15,14 +15,14 @@
           <em>Faction:</em>
         </div>
         <div class="col-xs-9">
-          {{factions[battle.my_army.faction].name}}
+          {{::factions | factions:'nameFor':battle.my_army.faction}}
         </div>
         <div class="clearfix"></div>
         <div class="col-xs-3">
           <em>Caster:</em>
         </div>
         <div class="col-xs-9">
-          {{factions[battle.my_army.faction].casters[battle.my_army.caster].name}}
+          {{::factions | factions:'casterNameFor':battle.my_army.faction:battle.my_army.caster}}
         </div>
       </div>
     </div>
@@ -33,8 +33,8 @@
     </div>
     <div class="col-xs-2">
       <img class="faction-icon"
-           alt="{{battle.opponent.faction}}"
-           ng-src="img/{{factions[battle.opponent.faction].icon}}" />
+           alt="{{::battle.opponent.faction}}"
+           ng-src="{{::factions | factions:'iconFor':battle.opponent.faction}}" />
     </div>
     <div class="col-xs-10">
       <div class="row">
@@ -42,21 +42,21 @@
           <em>Name:</em>
         </div>
         <div class="col-xs-9">
-          {{battle.opponent.name|capitalise}}
+          {{::battle.opponent.name | capitalise}}
         </div>
         <div class="clearfix"></div>
         <div class="col-xs-3">
           <em>Faction:</em>
         </div>
         <div class="col-xs-9">
-          {{factions[battle.opponent.faction].name}}
+          {{:: factions | factions:'nameFor':battle.opponent.faction}}
         </div>
         <div class="clearfix"></div>
         <div class="col-xs-3">
           <em>Caster:</em>
         </div>
         <div class="col-xs-9">
-          {{factions[battle.opponent.faction].casters[battle.opponent.caster].name}}
+          {{:: factions | factions:'casterNameFor':battle.opponent.faction:battle.opponent.caster}}
         </div>
       </div>
     </div>
@@ -65,31 +65,33 @@
     <div class="col-xs-12 section">
       <label>Settings</label>
     </div>
-    <div class="col-xs-2"><em>Date:</em></div>
-    <div class="col-xs-10">
-      {{battle.date.year}} / {{battle.date.month}} / {{battle.date.day}}
+    <div class="col-xs-3"><em>Date:</em></div>
+    <div class="col-xs-9">
+      {{::battle.date.year+'/'+battle.date.month+'/'+battle.date.day}}
     </div>
     <div class="clearfix"></div>
-    <div class="col-xs-2"><em>Event:</em></div>
-    <div class="col-xs-10">
-      {{battle.setup.event}}
+    <div class="col-xs-3"><em>Event:</em></div>
+    <div class="col-xs-9">
+      {{::battle.setup.event}}
     </div>
     <div class="clearfix"></div>
-    <div class="col-xs-2"><em>Scenario:</em></div>
-    <div class="col-xs-10">
-      {{scenarios[battle.setup.scenario].name}}
+    <div class="col-xs-3"><em>Scenario:</em></div>
+    <div class="col-xs-9">
+      {{::scenarios | scenarios:'nameFor':battle.setup.scenario}}
     </div>
     <div class="clearfix"></div>
-    <div class="col-xs-2"><em>Size:</em></div>
-    <div class="col-xs-10">
-      {{battle.setup.size}}
+    <div class="col-xs-3"><em>Size:</em></div>
+    <div class="col-xs-9">
+      {{::battle.setup.size}}
     </div>
     <div class="clearfix"></div>
-    <div class="col-xs-2"><em>Initiative:</em></div>
-    <div class="col-xs-10">
-      {{'true' === battle.setup.initiative.won_roll ? 'Won Roll' : 'Lost Roll'}}
+    <div class="col-xs-3"><em>Initiative:</em></div>
+    <div class="col-xs-9">
+      <!-- {{::'true' === battle.setup.initiative.won_roll ? 'Won Roll' : 'Lost Roll'}}
       -
-      {{'true' === battle.setup.initiative.started ? 'Started Game' : 'Chose Side'}}
+      {{::'true' === battle.setup.initiative.started ? 'Started Game' : 'Chose Side'}} -->
+      {{:: battle | battle:'initRollDescFor'}} -
+      {{:: battle | battle:'initStartDescFor'}}
     </div>
   </div>
   <div class="row">
@@ -99,8 +101,9 @@
           <label>Game Result</label>
         </div>
         <div class="col-xs-7">
-          <strong  class="{{scores[battle.score].result | scoreResultColor}}">
-            {{scores[battle.score].type | capitalise}} {{scores[battle.score].result | capitalise}}
+          <strong  class="text-{{::scores | scores:'classFor':battle.score}}">
+            {{::scores | scores:'typeFor':battle.score | capitalise}}
+            {{::scores | scores:'resultFor':battle.score | capitalise}}
           </strong>
         </div>
       </div>
@@ -111,26 +114,26 @@
     <div class="clearfix"></div>
     <div class="col-xs-2"><em>Control</em></div>
     <div class="col-xs-5">
-      {{battle.points.my_army.scenario}}
+      {{::battle.points.my_army.scenario}}
     </div>
     <div class="col-xs-5">
-      {{battle.points.opponent.scenario}}
+      {{::battle.points.opponent.scenario}}
     </div>
     <div class="clearfix"></div>
     <div class="col-xs-2"><em>Army</em></div>
     <div class="col-xs-5">
-      {{battle.points.my_army.army}}
+      {{::battle.points.my_army.army}}
     </div>
     <div class="col-xs-5">
-      {{battle.points.opponent.army}}
+      {{::battle.points.opponent.army}}
     </div>
     <div class="clearfix"></div>
     <div class="col-xs-2"><em>Kill</em></div>
     <div class="col-xs-5">
-      {{battle.points.my_army.kill}}
+      {{::battle.points.my_army.kill}}
     </div>
     <div class="col-xs-5">
-      {{battle.points.opponent.kill}}
+      {{::battle.points.opponent.kill}}
     </div>
   </div>
   <div class="row">
@@ -139,7 +142,7 @@
     </div>
     <div class="col-xs-12">
       <ul>
-        <li ng-repeat="t in battle.tags">{{t}}</li>
+        <li ng-repeat="t in ::battle.tags">{{::t}}</li>
       </ul>
     </div>
   </div>
@@ -148,7 +151,7 @@
       <label>Comment</label>
     </div>
     <div class="col-xs-12">
-      {{battle.comment}}
+      {{::battle.comment}}
     </div>
   </div>
 </div>

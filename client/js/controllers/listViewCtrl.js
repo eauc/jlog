@@ -3,51 +3,52 @@
 angular.module('jlogApp.controllers')
   .controller('listViewCtrl', [
     '$scope',
-    '$state',
+    // '$state',
     '$stateParams',
-    '$window',
-    'battles',
+    // '$window',
+    // 'battles',
     function($scope,
-             $state,
-             $stateParams,
-             $window,
-             battles) {
-      $scope.bottom_bar.show = true;
+             $stateParams
+             // $state,
+             // $window,
+             // battles
+            ) {
+      // $scope.bottom_bar.show = true;
 
-      if(undefined === $stateParams.index) {
-        // $scope.battle_index = 1;
-        // $scope.battle = battles.list[1];
-        $state.go('battle');
-      }
+      // if(undefined === $stateParams.index) {
+      //   // $scope.battle_index = 1;
+      //   // $scope.battle = battles.list[1];
+      //   $state.go('battle');
+      // }
 
-      console.log('init listViewCtrl ' + $stateParams.index);
-
-      $scope.battle = battles.list[$stateParams.index];
+      $scope.battle = $scope.battles.display_list[$stateParams.index];
+      console.log('init listViewCtrl', $stateParams.index, $scope.battle);
     }])
   .controller('listViewBottomCtrl', [
     '$scope',
-    '$state',
-    '$stateParams',
-    '$window',
-    'battles',
-    function($scope,
-             $state,
-             $stateParams,
-             $window,
-             battles) {
+    // '$state',
+    // '$stateParams',
+    // '$window',
+    // 'battles',
+    function($scope
+             // $state,
+             // $stateParams,
+             // $window,
+             // battles
+            ) {
       console.log('init listViewBottomCtrl');
 
-      $scope.onEditBattle = function onEditBattle() {
-        $state.go('battle.edit', { index: $stateParams.index });
-      };
-      $scope.onDeleteBattle = function onDeleteBattle() {
-        var confirm = $window.confirm('You sure you wanna delete this battle ?');
-        if(!confirm) return;
-        battles.remove($stateParams.index);
-        $scope.resetListDisplay();
-        $scope.onClose();
-      };
-      $scope.onClose = function onClose() {
-        $state.go('battle');
+      // $scope.onEditBattle = function onEditBattle() {
+      //   $state.go('battle.edit', { index: $stateParams.index });
+      // };
+      // $scope.onDeleteBattle = function onDeleteBattle() {
+      //   var confirm = $window.confirm('You sure you wanna delete this battle ?');
+      //   if(!confirm) return;
+      //   battles.remove($stateParams.index);
+      //   $scope.resetListDisplay();
+      //   $scope.onClose();
+      // };
+      $scope.doClose = function doClose() {
+        $scope.stateGo('battle');
       };
     }]);

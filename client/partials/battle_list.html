@@ -31,10 +31,11 @@
     <div class="table-body">
       <div class="row text-center clickable table-row"
            ng-repeat="
-           battle
+           (bi,battle)
            in battles.display_list
            track by battle.index
-           ">
+           "
+           ng-click="doViewBattle(bi)">
         <div class="hidden-xs col-sm-3">
           <span>{{::battle.date.year+'-'+battle.date.month+'-'+battle.date.day}}
           </span>

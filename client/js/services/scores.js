@@ -22,6 +22,12 @@ angular.module('jlogApp.services')
         letterFor: function(coll, sc) {
           return _.getPath(coll, sc+'.letter');
         },
+        typeFor: function(coll, sc) {
+          return _.getPath(coll, sc+'.type');
+        },
+        resultFor: function(coll, sc) {
+          return _.getPath(coll, sc+'.result');
+        },
         classFor: function(coll, sc) {
           return _.getPath(coll, sc+'.class');
         }

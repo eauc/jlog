@@ -19,7 +19,7 @@ angular.module('jlogApp', [
       .state('battle', {
         url: '/battle',
         views: {
-          'page': {
+          'page@': {
             templateUrl: 'partials/battle_list.html',
             controller: 'listCtrl'
           },
@@ -29,20 +29,20 @@ angular.module('jlogApp', [
           }
         },
         data: {}
-      // })
-      // .state('battle.view', {
-      //   url: '/view/:index',
-      //   views: {
-      //     'battle': {
-      //       templateUrl: 'partials/battle_view.html',
-      //       controller: 'listViewCtrl'
-      //     },
-      //     'bottom-bar@': {
-      //       templateUrl: 'partials/battle_view_menu.html',
-      //       controller: 'listViewBottomCtrl'
-      //     }
-      //   },
-      //   data: {}
+      })
+      .state('battle.view', {
+        url: '/view/:index',
+        views: {
+          'page@': {
+            templateUrl: 'partials/battle_view.html',
+            controller: 'listViewCtrl'
+          },
+          'bottom-bar@': {
+            templateUrl: 'partials/battle_view_menu.html',
+            controller: 'listViewBottomCtrl'
+          }
+        },
+        data: {}
       // })
       // .state('battle.edit', {
       //   url: '/edit/:index',
