@@ -38,11 +38,26 @@ angular.module('jlogApp.controllers')
       $scope.stateGo = _.bind($state.go, $state);
 
       $scope.battles = {
+        list: [],
         display_list: [],
         events: [],
         opponents: [],
         scenarios: [],
-        tags: []
+        tags: [],
+        sort: {
+          type: 'date',
+          reverse: true
+        }
+      };
+      $scope.updateBattles = function() {
+        $scope.battles.display_list = battles.sort($scope.battles.list,
+                                                   $scope.sort_types,
+                                                   $scope.battles.sort.type,
+                                                   $scope.battles.sort.reverse);
+      };
+      $scope.setBattles = function(bs) {
+        $scope.battles.list = battles.buildIndex(bs);
+        $scope.updateBattles();
       };
 
       $q.when(scores.data()).then(function(_scores) {
@@ -53,12 +68,15 @@ angular.module('jlogApp.controllers')
         return $q.when(scenarios.data());
       }).then(function(_scenarios) {
         $scope.battles.scenarios = _scenarios;
+        return $q.when(battles.sortTypes());
+      }).then(function(_sorts) {
+        $scope.sort_types = _sorts;
         return;
       }).then(function() {
-        // $scope.battles.display_list = battles.test(10,
-        //                                            $scope.factions,
-        //                                            $scope.scores,
-        //                                            $scope.battles.scenarios);
+        // $scope.setBattles(battles.test(100,
+        //                                $scope.factions,
+        //                                $scope.scores,
+        //                                $scope.battles.scenarios));
         $scope.battles.opponents = opponents.fromBattles($scope.battles.display_list);
         $scope.battles.events = events.fromBattles($scope.battles.display_list);
         $scope.battles.tags = tags.fromBattles($scope.battles.display_list);

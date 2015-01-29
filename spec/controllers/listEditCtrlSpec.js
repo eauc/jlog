@@ -279,6 +279,7 @@ describe('controllers', function() {
                $controller) {
         this.scope = $rootScope.$new();
         this.scope.stateGo = jasmine.createSpy('stateGo');
+        this.scope.setBattles = jasmine.createSpy('setBattles');
         this.scope.battles = {
           display_list: ['battles_list']
         };
@@ -313,8 +314,8 @@ describe('controllers', function() {
           .toHaveBeenCalledWith([ 'battles_list' ],
                                 this.state.current.data.index,
                                 this.state.current.data.battle);
-        expect(this.scope.battles.display_list)
-          .toBe('battles.save.returnValue');
+        expect(this.scope.setBattles)
+          .toHaveBeenCalledWith('battles.save.returnValue');
       });
 
       it('should close battle edit', function() {

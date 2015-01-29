@@ -1,0 +1,42 @@
+{
+  "date": {
+    "name": "Date",
+    "key": ["date.year", "date.month", "date.day", "index"],
+    "reverse": true
+  },
+  "my_caster": {
+    "name": "My caster",
+    "key": ["my_army.faction", "my_army.caster", "index"],
+    "reverse": false
+  },
+  "opponent": {
+    "name": "Opponent",
+    "key": ["opponent.name", "index"],
+    "reverse": false
+  },
+  "opp_caster": {
+    "name": "Opp. caster",
+    "key": ["opponent.faction", "opponent.caster", "index"],
+    "reverse": false
+  },
+  "scenario": {
+    "name": "Scenario",
+    "key": ["setup.scenario", "index"],
+    "reverse": false
+  },
+  "size": {
+    "name": "Size",
+    "key": ["setup.size", "index"],
+    "reverse": false
+  },
+  "event": {
+    "name": "Event",
+    "key": ["setup.event", "index"],
+    "reverse": false
+  },
+  "result": {
+    "name": "Result",
+    "key": ["score", "index"],
+    "reverse": false
+  }
+}

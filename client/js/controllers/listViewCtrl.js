@@ -41,8 +41,8 @@ angular.module('jlogApp.controllers')
       $scope.doDeleteBattle = function() {
         var confirm = $window.confirm('You sure you wanna delete this battle ?');
         if(!confirm) return;
-        $scope.battles.display_list = battles.drop($scope.battles.display_list,
-                                                   parseFloat($stateParams.index));
+        $scope.setBattles(battles.drop($scope.battles.display_list,
+                                       parseFloat($stateParams.index)));
         $scope.doClose();
       };
       $scope.doClose = function() {

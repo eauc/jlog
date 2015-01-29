@@ -127,9 +127,9 @@ angular.module('jlogApp.controllers')
 
       $scope.state = $state.current.data;
       $scope.doSave = function() {
-        $scope.battles.display_list = battles.save($scope.battles.display_list,
-                                                   $state.current.data.index,
-                                                   $state.current.data.battle);
+        $scope.setBattles(battles.save($scope.battles.display_list,
+                                       $state.current.data.index,
+                                       $state.current.data.battle));
         // filter.clearCache($state.current.data.index);
         // $scope.resetListDisplay();
         $scope.doClose();

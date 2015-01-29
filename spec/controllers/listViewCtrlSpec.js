@@ -45,6 +45,7 @@ describe('controllers', function() {
                $window) {
         this.scope = $rootScope.$new();
         this.scope.stateGo = jasmine.createSpy('stateGo');
+        this.scope.setBattles = jasmine.createSpy('setBattles');
         this.scope.battles = {
           display_list: ['battles_list']
         };
@@ -103,8 +104,8 @@ describe('controllers', function() {
         it('should delete the battle', function() {
           expect(this.battles.drop)
             .toHaveBeenCalledWith(['battles_list'], 2);
-          expect(this.scope.battles.display_list)
-            .toBe('battles.drop.returnValue');
+          expect(this.scope.setBattles)
+            .toHaveBeenCalledWith('battles.drop.returnValue');
         });
 
         it('should close the view', function() {

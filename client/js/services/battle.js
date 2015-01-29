@@ -109,9 +109,9 @@ angular.module('jlogApp.services')
           var opp_faction = _.chain(factions).shuffle().first().value();
           return {
             index: i,
-            date: { year: 2015,
-                    month: 1,
-                    day: 27
+            date: { year: _.chain([2012, 2014, 2013]).shuffle().first().value(),
+                    month: _.chain([4, 8, 9]).shuffle().first().value(),
+                    day: _.chain([5, 12, 19]).shuffle().first().value()
                   },
             my_army: { faction: my_faction.key,
                        caster: _.chain(my_faction.casters).shuffle().first().value().key
@@ -166,10 +166,21 @@ angular.module('jlogApp.services')
     }
   ])
   .service('battles', [ 
+    '$http',
+    '$q',
     'battle', 
-    // 'storage', 
-    function(battle) {
+    'orderByFilter',
+    function($http,
+             $q,
+             battle,
+             orderByFilter) {
+      var sort_types;
       var battles = {
+        buildIndex: function(coll) {
+          return _.each(coll, function(b, i) {
+            b.index = i;
+          });
+        },
         save: function(coll, i, b) {
           var ret = _.clone(coll);
           ret.splice(i, 1, b);
@@ -185,6 +196,31 @@ angular.module('jlogApp.services')
             .range()
             .map(_.partial(battle.test, _, factions, scores, scenarios))
             .value();
+        },
+        sortTypes: function() {
+          if(_.exists(sort_types)) return sort_types;
+          return $http.get('data/sorts.json').then(function(response) {
+            sort_types = response.data;
+            return sort_types;
+          }, function(response) {
+            console.log('battles get sort types error', response);
+            return $q.reject(response);
+          });
+        },
+        updateSortBy: function(sorts, by, type) {
+          if(!_.exists(sorts[type])) return by;
+          var ret = _.clone(by);
+          if(ret.type === type) {
+            ret.reverse = !ret.reverse;
+          }
+          else {
+            ret.type = type;
+            ret.reverse = sorts[type].reverse;
+          }
+          return ret;
+        },
+        sort: function(battles, sorts, type, reverse) {
+          return orderByFilter(battles, sorts[type].key, reverse);
         }
       };
       return battles;

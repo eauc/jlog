@@ -54,20 +54,29 @@ angular.module('jlogApp.controllers')
   ])
   .controller('listBottomCtrl', [
     '$scope',
+    'battles',
     // '$state',
     // 'export',
     // 'battles_display',
-    function(
-      $scope
+    function($scope,
+             battles
       // $state,
       // _export,
       // battles_display
-    ) {
+            ) {
       console.log('init listBottomCtrl');
 
       $scope.doAddBattle = function() {
         $scope.stateGo('battle.edit',
                        { index: $scope.battles.display_list.length });
+      };
+
+      $scope.doSortBy = function(type) {
+        $scope.battles.sort = battles.updateSortBy($scope.sort_types,
+                                                   $scope.battles.sort,
+                                                   type);
+        console.log('sortBy', $scope.battles.sort);
+        $scope.updateBattles();
       };
 
       // $scope['export'] = _export;
