@@ -26,15 +26,14 @@ angular.module('jlogApp.controllers')
       // $scope.bottom_bar.show = true;
 
       var index = parseFloat($stateParams.index);
-      // if(0 > index) {
-      //   $state.current.data.index = $scope.battles.display_list.length;
-      //   $state.current.data.battle = battle.create();
-      // }
-      // else {
-        $state.current.data.index = index;
-        $state.current.data.battle = _.snapshot($scope.battles.display_list[index]);
-      // }
-      $scope.battle = $state.current.data.battle;
+      if(index < $scope.battles.display_list.length) {
+        $scope.battle = _.snapshot($scope.battles.display_list[index]);
+      }
+      else {
+        $scope.battle = battle.create({ index: index });
+      }
+      $state.current.data.index = index;
+      $state.current.data.battle = $scope.battle;
       // $scope.$watch('battles.display_list', function(val) {
       //   if(val.length > 0) {
       //     $scope.battle = battle.test(index,

@@ -16,34 +16,55 @@ describe('controllers', function() {
       function($rootScope,
                $controller,
                $window) {
-        this.scope = $rootScope.$new();
-        spyOn(this.scope, '$watch');
-        this.scope.battles = {
-          display_list: [ 'battle1','battle2','battle3','battle4','battle5' ]
-        };
-
-        this.state = {
-          current: { data: {} }
-        };
-        this.stateParams = { index: 2 };
-
         this.window = $window;
         spyOn($window, 'prompt');
         spyOn($window, 'confirm');
 
-        $controller('listEditCtrl', { 
-          '$scope': this.scope,
-          '$state': this.state,
-          '$stateParams': this.stateParams
-        });
-        $rootScope.$digest();
+        var ctxt = this;
+        this.initCtrlWith = function(index) {
+          ctxt.scope = $rootScope.$new();
+          spyOn(ctxt.scope, '$watch');
+          ctxt.scope.battles = {
+            display_list: [ 'battle1','battle2','battle3','battle4','battle5' ]
+          };
+          
+          ctxt.state = {
+            current: { data: {} }
+          };
+          ctxt.stateParams = { index: index };
+          
+          $controller('listEditCtrl', { 
+            '$scope': ctxt.scope,
+            '$state': ctxt.state,
+            '$stateParams': ctxt.stateParams
+          });
+          $rootScope.$digest();
+        };
+        this.initCtrlWith(2);
       }
     ]));
 
-    it('should init battle', function() {
-      expect(this.state.current.data.index).toBe(2);
-      expect(this.state.current.data.battle).toBe('battle3');
-      expect(this.scope.battle).toBe('battle3');
+    when('index < battles list length', function() {
+    }, function() {
+      it('should init battle from battles.list', function() {
+        expect(this.state.current.data.index).toBe(2);
+        expect(this.state.current.data.battle).toBe('battle3');
+        expect(this.scope.battle).toBe('battle3');
+      });
+    });
+    when('index >= battles list length', function() {
+      this.battle = spyOnService('battle');
+      this.initCtrlWith(5);
+    }, function() {
+      it('should init battle with a new battle', function() {
+        expect(this.battle.create).toHaveBeenCalled();
+
+        expect(this.state.current.data.index).toBe(5);
+        expect(this.state.current.data.battle)
+          .toBe('battle.create.returnValue');
+        expect(this.scope.battle)
+          .toBe('battle.create.returnValue');
+      });
     });
 
     it('should init save_enable', function() {

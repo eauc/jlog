@@ -33,4 +33,38 @@ describe('controllers', function() {
     });
   });
 
+  describe('listBottomCtrl', function(c) {
+
+    beforeEach(inject([
+      '$rootScope',
+      '$controller',
+      function($rootScope,
+               $controller) {
+        this.scope = $rootScope.$new();
+        this.scope.stateGo = jasmine.createSpy('stateGo');
+
+        $controller('listBottomCtrl', { 
+          '$scope': this.scope,
+        });
+        $rootScope.$digest();
+      }
+    ]));
+
+    describe('doAddBattle()', function() {
+      beforeEach(function() {
+        this.scope.battles = {
+            display_list: [ 'b1','b2','b3','b4' ]
+        };
+      });
+
+      it('should go to battle edit', function() {
+        this.scope.doAddBattle();
+        expect(this.scope.stateGo)
+          .toHaveBeenCalledWith('battle.edit', {
+            index: this.scope.battles.display_list.length
+          });
+      });
+    });
+  });
+
 });

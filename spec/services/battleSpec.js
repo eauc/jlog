@@ -16,6 +16,54 @@ describe('services', function() {
       }
     ]));
 
+    describe('create(<data>)', function() {
+      it('should extend data with default battle fields', function() {
+        expect(battle.create({
+          index: 42,
+          date: { year: 2013,
+                  month: 27,
+                  day: 1
+                },
+          points: {
+            my_army: { scenario: 42,
+                       army: 75,
+                       kill: 31 },
+          },
+        })).toEqual({
+          index: 42,
+          date: { year: 2013,
+                  month: 27,
+                  day: 1
+                },
+          my_army: { faction: null,
+                     caster: null
+                   },
+          opponent: { name: null,
+                      faction: null,
+                      caster: null
+                    },
+          setup: { size: null,
+                   scenario: null,
+                   event: null,
+                   initiative: {
+                     won_roll: null,
+                     started: null
+                   } },
+          score: null,
+          points: {
+            my_army: { scenario: 42,
+                       army: 75,
+                       kill: 31 },
+            opponent: { scenario: null,
+                        army: null,
+                        kill: null }
+          },
+          tags: [],
+          comment: null
+        });
+      });
+    });
+
     describe('addTag(<new_tag>)', function() {
       beforeEach(function() {
         this.battle = {

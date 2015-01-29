@@ -68,41 +68,42 @@ angular.module('jlogApp.services')
     //   return instance;
     // };
       var battle = {
-        // create: function(data) {
-        //   var today = new Date();
-        //   return _.deepExtend({
-        //     index: 0,
-        //     date: { year: today.getFullYear(),
-        //             month: today.getMonth()+1,
-        //             day: today.getDate()
-        //           },
-        //     my_army: { faction: null,
-        //                caster: null
-        //              },
-        //     opponent: { name: null,
-        //                 faction: null,
-        //                 caster: null
-        //               },
-        //     setup: { size: null,
-        //              scenario: null,
-        //              event: null,
-        //              initiative: {
-        //                won_roll: null,
-        //                started: null
-        //              } },
-        //     score: null,
-        //     points: {
-        //       my_army: { scenario: null,
-        //                  army: null,
-        //                  kill: null },
-        //       opponent: { scenario: null,
-        //                   army: null,
-        //                   kill: null }
-        //     },
-        //     tags: [],
-        //     comment: null
-        //   }, data);
-        // },
+        create: function(data) {
+          data = _.exists(data) ? data : {};
+          var today = new Date();
+          return _.deepExtend({
+            index: 0,
+            date: { year: today.getFullYear(),
+                    month: today.getMonth()+1,
+                    day: today.getDate()
+                  },
+            my_army: { faction: null,
+                       caster: null
+                     },
+            opponent: { name: null,
+                        faction: null,
+                        caster: null
+                      },
+            setup: { size: null,
+                     scenario: null,
+                     event: null,
+                     initiative: {
+                       won_roll: null,
+                       started: null
+                     } },
+            score: null,
+            points: {
+              my_army: { scenario: null,
+                         army: null,
+                         kill: null },
+              opponent: { scenario: null,
+                          army: null,
+                          kill: null }
+            },
+            tags: [],
+            comment: null
+          }, data);
+        },
         test: function(i, factions, scores, scenarios) {
           var my_faction = _.chain(factions).shuffle().first().value();
           var opp_faction = _.chain(factions).shuffle().first().value();

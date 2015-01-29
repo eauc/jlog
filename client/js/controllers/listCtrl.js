@@ -65,9 +65,10 @@ angular.module('jlogApp.controllers')
     ) {
       console.log('init listBottomCtrl');
 
-      // $scope.onAddBattle = function onAddBattle() {
-      //   $state.go('battle.edit', { index: -1 });
-      // };
+      $scope.doAddBattle = function() {
+        $scope.stateGo('battle.edit',
+                       { index: $scope.battles.display_list.length });
+      };
 
       // $scope['export'] = _export;
       // $scope.onExportOpen = function(event) {

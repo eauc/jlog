@@ -55,7 +55,7 @@ angular.module('jlogApp.controllers')
         $scope.battles.scenarios = _scenarios;
         return;
       }).then(function() {
-        // $scope.battles.display_list = battles.test(200,
+        // $scope.battles.display_list = battles.test(10,
         //                                            $scope.factions,
         //                                            $scope.scores,
         //                                            $scope.battles.scenarios);
