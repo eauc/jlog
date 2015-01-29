@@ -227,36 +227,39 @@
 /* battle-edit
 /******************************************************/
 
-/* #battle-edit { */
-/*     max-width: 400px; */
-/*     margin-bottom: 200px; */
-/* } */
+#battle-edit {
+    max-width: 400px;
+    margin-bottom: 200px;
+}
+#battle-edit .control-label {
+    padding-top: 5px;
+    text-align: left;
+}
+#battle-edit input,
+#battle-edit button.btn-sm,
+#battle-edit select.form-control {
+    margin-bottom: 5px;
+}
+#battle-edit select.multiple {
+    height: auto !important;
+}
+#battle-edit .faction-icon {
+    width:50px;
+}
 
-/* #battle-edit .control-label { */
-/*     padding-top: 5px; */
-/*     text-align: left; */
-/* } */
-
-/* #battle-edit input, */
-/* #battle-edit button.btn-sm, */
-/* #battle-edit select.form-control { */
-/*     margin-bottom: 5px; */
-/* } */
-
-/* #battle-edit select.multiple { */
-/*     height: auto !important; */
-/* } */
-
-/* @media (max-width: 767px) { */
-/*     #battle-edit input, */
-/*     #battle-edit button.btn-sm, */
-/*     #battle-edit select.form-control { */
-/*         font-size: 10px; */
-/*         height: 24px; */
-/*         line-height: 10px; */
-/*         margin-bottom: 3px; */
-/*     } */
-/* } */
+@media (max-width: 767px) {
+    #battle-edit input,
+    #battle-edit button.btn-sm,
+    #battle-edit select.form-control {
+        font-size: 10px;
+        height: 24px;
+        line-height: 10px;
+        margin-bottom: 3px;
+    }
+    #battle-edit .faction-icon {
+        width:40px;
+    }
+}
 
 /******************************************************/
 /* battle-view

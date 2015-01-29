@@ -87,6 +87,16 @@ angular.module('jlogApp.services')
             return $q.reject(response);
           });
         },
+        add: function(coll, sc) {
+          return _.chain(coll)
+            .cat({ key: sc, name: s.capitalize(sc) })
+            .filter(function(s) { return _.exists(_.getPath(s, 'key')); })
+            .uniq(false, _.partial(_.getPath, _, 'key'))
+            .value();
+        },
+        drop: function(coll, sc) {
+          return _.filter(coll, function(s) { return s.key !== sc; });
+        },
         nameFor: function(coll, s) {
           return _.chain(coll)
             .where({ key: s })

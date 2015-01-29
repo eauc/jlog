@@ -49,14 +49,14 @@
           <em>Faction:</em>
         </div>
         <div class="col-xs-9">
-          {{:: factions | factions:'nameFor':battle.opponent.faction}}
+          {{::factions | factions:'nameFor':battle.opponent.faction}}
         </div>
         <div class="clearfix"></div>
         <div class="col-xs-3">
           <em>Caster:</em>
         </div>
         <div class="col-xs-9">
-          {{:: factions | factions:'casterNameFor':battle.opponent.faction:battle.opponent.caster}}
+          {{::factions | factions:'casterNameFor':battle.opponent.faction:battle.opponent.caster}}
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@
     <div class="clearfix"></div>
     <div class="col-xs-3"><em>Scenario:</em></div>
     <div class="col-xs-9">
-      {{::scenarios | scenarios:'nameFor':battle.setup.scenario}}
+      {{::battles.scenarios | scenarios:'nameFor':battle.setup.scenario}}
     </div>
     <div class="clearfix"></div>
     <div class="col-xs-3"><em>Size:</em></div>

@@ -7,9 +7,9 @@ angular.module('jlogApp.controllers')
     '$stateParams',
     '$window',
     'battle',
-    'battles',
-    'opponents',
+    // 'battles',
     'events',
+    'opponents',
     'scenarios',
     'tags',
     function($scope,
@@ -17,153 +17,127 @@ angular.module('jlogApp.controllers')
              $stateParams,
              $window,
              battle,
-             battles,
-             opponents,
              events,
+             opponents,
              scenarios,
-             tags) {
-      $scope.bottom_bar.show = true;
+             tags
+             // battles,
+            ) {
+      // $scope.bottom_bar.show = true;
 
-      var index;
-      if(0 > $stateParams.index) {
-        $state.current.data.index = battles.list.length;
-        $state.current.data.battle = battle();
-      }
-      else {
-        $state.current.data.index = $stateParams.index;
-        $state.current.data.battle = angular.copy(battles.list[$state.current.data.index]);
-      }
+      var index = parseFloat($stateParams.index);
+      // if(0 > index) {
+      //   $state.current.data.index = $scope.battles.display_list.length;
+      //   $state.current.data.battle = battle.create();
+      // }
+      // else {
+        $state.current.data.index = index;
+        $state.current.data.battle = _.snapshot($scope.battles.display_list[index]);
+      // }
       $scope.battle = $state.current.data.battle;
-      console.log('init listEditCtrl ' + $state.current.data.index);
-      console.log($scope.battle);
+      // $scope.$watch('battles.display_list', function(val) {
+      //   if(val.length > 0) {
+      //     $scope.battle = battle.test(index,
+      //                                 $scope.factions,
+      //                                 $scope.scores,
+      //                                 $scope.battles.scenarios);
+      //     $state.current.data.battle = $scope.battle;
+      //     console.log('init listEditCtrl test', index, $scope.battle);
+      //   }
+      // });
+      console.log('init listEditCtrl', index, $scope.battle);
 
       $state.current.data.save_enable = false;
       $scope.$watch('battle_edit.$valid', function(value) {
         $state.current.data.save_enable = value;
       });
 
-      $scope.onAddOpponent = function() {
-        var name = $window.prompt('Enter new opponent name :');
-        name = (name !== null) ? name.trim().toLowerCase() : '';
-        opponents.add(name);
-        $scope.battle.opponent.name = name;
+      var services = {
+        opponent: opponents,
+        event: events,
+        scenario: scenarios,
       };
-      $scope.onAddEvent = function() {
-        var name = $window.prompt('Enter new event name :');
-        name = (name !== null) ? name.trim() : '';
-        events.add(name);
-        $scope.battle.setup.event = name;
+      var keys = {
+        opponent: ['opponent','name'],
+        event: ['setup','event'],
+        scenario: ['setup','scenario'],
       };
-      $scope.onAddScenario = function() {
-        var name = $window.prompt('Enter new scenario name :');
-        name = (name !== null) ? name.trim() : '';
-        var key = scenarios.add(name);
-        $scope.battle.setup.scenario = key;
+      $scope.doAdd = function(type) {
+        var name = $window.prompt('Enter new '+type+' name :');
+        if(!_.exists(name)) return;
+        name = s(name).clean().toLowerCase().value();
+        if(s.isBlank(name)) return;
+        $scope.battles[type+'s'] = services[type].add($scope.battles[type+'s'], name);
+        $scope.battle = _.setPath($scope.battle, name, keys[type], {});
+        $state.current.data.battle = $scope.battle;
       };
-      $scope.onAddTag = function() {
+      $scope.doDelete = function(type) {
+        var name = _.getPath($scope.battle, keys[type]);
+        if(!_.exists(name)) return;
+
+        var confirm = $window.confirm('All references to '+
+                                      name+
+                                      ' will be deleted.');
+        if(!confirm) return;
+
+        // $scope.battles.display_list = battles['drop'+s.capitalize(type)]($scope.battles.display_list,
+        //                                                    name);
+        $scope.battles[type+'s'] = services[type].drop($scope.battles[type+'s'],
+                                                       name);
+        $scope.battle = _.setPath($scope.battle, null, keys[type], {});
+        $state.current.data.battle = $scope.battle;
+      };
+
+      $scope.doAddTag = function() {
         var name = $window.prompt('Enter new tag name :');
-        name = (name !== null) ? name.trim() : '';
-        tags.add(name);
-        $scope.battle.addTag(name);
+        if(!_.exists(name)) return;
+        name = s(name).clean().toLowerCase().value();
+        if(s.isBlank(name)) return;
+        $scope.battles.tags = tags.add($scope.battles.tags, name);
+        $scope.battle = battle.addTag($scope.battle, name);
+        $state.current.data.battle = $scope.battle;
       };
+      $scope.doDeleteTag = function() {
+        var ts = $scope.battle.tags;
+        if(_.isEmpty(ts)) return;
 
-      var delete_key = {
-        'opponent': {
-          get: function() {
-            return angular.isString(this.opponent.name) ? this.opponent.name : '';
-          },
-          clear: function() {
-            this.opponent.name = null;
-          },
-          service: opponents
-        },
-        'event': {
-          get: function() {
-            return angular.isString(this.setup.event) ? this.setup.event : '';
-          },
-          clear: function() {
-            this.setup.event = null;
-          },
-          service : events
-        },
-        'scenario': {
-          get: function() {
-            return angular.isString(this.setup.scenario) ? this.setup.scenario : '';
-          },
-          clear: function() {
-            this.setup.scenario = null;
-          },
-          service: scenarios
-        },
-        'tags': {
-          get: function() {
-            return this.tags;
-          },
-          clear: function(tag) {
-            var index;
-            while(0 <= (index = this.tags.indexOf(tag))) {
-              this.tags.splice(index, 1);
-            }
-          },
-          service: tags
-        }
-      };
-      $scope.onDelete = function onDelete(type) {
-        if(!delete_key.hasOwnProperty(type)) return;
-        var get = delete_key[type].get;
-        var clear = delete_key[type].clear;
-
-        var name = get.call($scope.battle);
-        name = (name !== null) ? name : '';
-        if(0 >= name.length) return;
-
-        var confirm = $window.confirm('Forget everything about "' + name + '" ?');
+        var confirm = $window.confirm('All references to '+
+                                      ts.join(',')+
+                                      ' will be deleted.');
         if(!confirm) return;
 
-        clear.call($scope.battle);
-        battles.clear(name, get, clear);
-        delete_key[type].service.remove(name);
-      };
-      $scope.onDeleteTag = function onDeleteTag() {
-        var tags_to_delete = $scope.battle.tags;
-        if(tags_to_delete.length <= 0) return;
-
-        var confirm_msg = 'Forget everything about these tags ?\r\n';
-        _.each(tags_to_delete, function(tag) {
-          confirm_msg += '\t' + tag + '\r\n';
-        });
-        var confirm = $window.confirm(confirm_msg);
-        if(!confirm) return;
-
+        // $scope.battles.display_list = battles.dropTags($scope.battles.display_list,
+        //                                                tags);
+        $scope.battles.tags = tags.drop($scope.battles.tags,
+                                        ts);
         $scope.battle.tags = [];
-        _.each(tags_to_delete, function(tag) {
-          battles.clear(tag,
-                        delete_key.tags.get,
-                        delete_key.tags.clear);
-          tags.remove(tag);
-        });
       };
-    }])
+    }
+  ])
   .controller('listEditBottomCtrl', [
     '$scope',
     '$state',
     'battles',
-    'filter',
+    // 'filter',
     function($scope,
              $state,
-             battles,
-             filter) {
+             battles
+             // filter
+            ) {
       console.log('init listEditBottomCtrl');
 
       $scope.state = $state.current.data;
-      $scope.onSave = function onSave() {
-        battles.save($state.current.data.index, $state.current.data.battle);
-        filter.clearCache($state.current.data.index);
-        $scope.resetListDisplay();
-        $scope.onClose();
+      $scope.doSave = function() {
+        $scope.battles.display_list = battles.save($scope.battles.display_list,
+                                                   $state.current.data.index,
+                                                   $state.current.data.battle);
+        // filter.clearCache($state.current.data.index);
+        // $scope.resetListDisplay();
+        $scope.doClose();
       };
-      $scope.onClose = function onClose() {
-        $state.go('battle');
+      $scope.doClose = function() {
+        $scope.stateGo('battle');
       };
 
-    }]);
+    }
+  ]);

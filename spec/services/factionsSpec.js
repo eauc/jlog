@@ -160,6 +160,29 @@ describe('services', function() {
       });
     });
 
+    describe('castersFor(<key>)', function() {
+      beforeEach(function() {
+        this.coll = [
+          { key: 'a', casters: 'alphas' },
+          { key: 'b', casters: 'bravos' },
+          { key: 'c', casters: 'charlies' },
+        ];
+      });
+
+      using([
+        [ 'key' , 'caster'   ],
+        [ 'a'   , 'alphas'   ],
+        [ 'b'   , 'bravos'   ],
+        [ 'c'   , 'charlies' ],
+        // undefined key
+        [ 'd'   , undefined  ],
+      ], function(e, d) {
+        it('should find the casters for <key>, '+d, function() {
+          expect(factions.iconFor(this.coll, e.key)).toBe(e.casters);
+        });
+      });
+    });
+
     describe('casterNameFor(<fkey>, <ckey>)', function() {
       beforeEach(function() {
         this.coll = [

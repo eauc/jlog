@@ -21,6 +21,8 @@
     "jasmine": false,
     "spyOn": false,
     "spyOnService": false,
+    "filterCallsByArgs": false,
+    "findCallByArgs": false,
     "using": false
   },
   "-W097": true, // "use strict function form"

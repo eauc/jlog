@@ -58,6 +58,13 @@ angular.module('jlogApp.services')
             })
             .value();
         },
+        castersFor: function(coll, f) {
+          return _.chain(coll)
+            .where({ key: f })
+            .first()
+            .getPath('casters') 
+            .value();
+        },
         casterNameFor: function(coll, f, c) {
           return _.chain(coll)
             .where({ key: f })

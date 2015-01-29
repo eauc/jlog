@@ -23,9 +23,13 @@ describe('controllers', function() {
         spyOn($state, 'is').and.returnValue('state.is.returnValue');
         spyOn($state, 'go').and.returnValue('state.go.returnValue');
 
-        this.factions = spyOnService('factions');
-        this.scenarios = spyOnService('scenarios');
-        this.scores = spyOnService('scores');
+        this.factionsService = spyOnService('factions');
+        this.scenariosService = spyOnService('scenarios');
+        this.scoresService = spyOnService('scores');
+
+        this.opponentsService = spyOnService('opponents');
+        this.eventsService = spyOnService('events');
+        this.tagsService = spyOnService('tags');
 
         $controller('mainCtrl', { 
           '$scope': this.scope,
@@ -47,7 +51,21 @@ describe('controllers', function() {
     it('should store info lists', function() {
       expect(this.scope.scores).toBe('scores.data.returnValue');
       expect(this.scope.factions).toBe('factions.data.returnValue');
-      expect(this.scope.scenarios).toBe('scenarios.data.returnValue');
+      expect(this.scope.battles.scenarios).toBe('scenarios.data.returnValue');
+    });
+
+    using([
+      [ 'type'      ],
+      [ 'events'    ],
+      [ 'tags'      ],
+      [ 'opponents' ],
+    ], function(e,d) {
+      it('should init '+e.type+' from battles list', function() {
+        expect(this[e.type+'Service'].fromBattles)
+          .toHaveBeenCalledWith([]);
+        expect(this.scope.battles[e.type])
+          .toBe(e.type+'.fromBattles.returnValue');
+      });
     });
   });
 

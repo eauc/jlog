@@ -2,66 +2,85 @@
 
 angular.module('jlogApp.services')
   .service('tags', [
-    'storage',
-    function(storage) {
+    function() {
       var tags = {
-        'list': []
-      };
-      var store = function tagsStore() {
-        console.log('save tags in localStorage');
-        storage.setItem(storage.KEYS.TAGS, JSON.stringify(tags.list));
-      };
-      var load = function tagsLoad() {
-        console.log('load tags from localStorage');
-        return JSON.parse(storage.getItem(storage.KEYS.TAGS)).sort();
-      };
-      var storageContainsTags = function tagsStorageContainsTags() {
-        var data = storage.getItem(storage.KEYS.TAGS);
-        return ('string' === typeof data &&
-                data.length > 0);
-      };
-      var build = function tagsBuild(battles) {
-        tags.list = [];
-        if (!_.isArray(battles)) return;
-        var temp = {};
-        _.each(battles, function(battle) {
-          if (_.isArray(battle.tags)) {
-            _.each(battle.tags, function(tag) {
-              if (_.isString(tag)) {
-                temp[tag] = true;
-              }
-            });
-          }
-        });
-        tags.list = _.keys(temp);
-        tags.list.sort();
-      };
-      tags.create = function tagsCreate(battles) {
-        build(battles);
-        store();
-      };
-      tags.init = function tagsInit(battles) {
-        if (storageContainsTags()) {
-          this.list = load();
-        }
-        else {
-          this.create(battles);
+        fromBattles: function(coll) {
+          return _.chain(coll)
+            .mapWith(_.getPath, 'tags')
+            .flatten()
+            .without(null, undefined)
+            .uniq()
+            .sort()
+            .value();
+        },
+        add: function(coll, t) {
+          return _.chain(coll)
+            .cat(t)
+            .without(null, undefined)
+            .uniq()
+            .sort()
+            .value();
+        },
+        drop: function(coll, ts) {
+          return _.without.apply(null, _.cat([coll], ts));
         }
       };
-      tags.update = store;
-      tags.add = function(name) {
-        if(0 < name.length) {
-          this.list.push(name);
-          this.list.sort();
-          store();
-        }
-      };
-      tags.remove = function(name) {
-        var index = this.list.indexOf(name);
-        if(0 <= index) {
-          this.list.splice(index, 1);
-          store();
-        }
-      };        
+      // var store = function tagsStore() {
+      //   console.log('save tags in localStorage');
+      //   storage.setItem(storage.KEYS.TAGS, JSON.stringify(tags.list));
+      // };
+      // var load = function tagsLoad() {
+      //   console.log('load tags from localStorage');
+      //   return JSON.parse(storage.getItem(storage.KEYS.TAGS)).sort();
+      // };
+      // var storageContainsTags = function tagsStorageContainsTags() {
+      //   var data = storage.getItem(storage.KEYS.TAGS);
+      //   return ('string' === typeof data &&
+      //           data.length > 0);
+      // };
+      // var build = function tagsBuild(battles) {
+      //   tags.list = [];
+      //   if (!_.isArray(battles)) return;
+      //   var temp = {};
+      //   _.each(battles, function(battle) {
+      //     if (_.isArray(battle.tags)) {
+      //       _.each(battle.tags, function(tag) {
+      //         if (_.isString(tag)) {
+      //           temp[tag] = true;
+      //         }
+      //       });
+      //     }
+      //   });
+      //   tags.list = _.keys(temp);
+      //   tags.list.sort();
+      // };
+      // tags.create = function tagsCreate(battles) {
+      //   build(battles);
+      //   store();
+      // };
+      // tags.init = function tagsInit(battles) {
+      //   if (storageContainsTags()) {
+      //     this.list = load();
+      //   }
+      //   else {
+      //     this.create(battles);
+      //   }
+      // };
+      // tags.update = store;
+      // tags.add = function(name) {
+      //   if(0 < name.length) {
+      //     this.list.push(name);
+      //     this.list.sort();
+      //     store();
+      //   }
+      // };
+      // tags.remove = function(name) {
+      //   var index = this.list.indexOf(name);
+      //   if(0 <= index) {
+      //     this.list.splice(index, 1);
+      //     store();
+      //   }
+      // };        
       return tags;
-    }]);
+    }
+  ]);

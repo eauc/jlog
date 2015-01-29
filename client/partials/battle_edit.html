@@ -4,17 +4,16 @@
     <div class="form-group">
       <div class="col-xs-12"><label>My army :</label></div>
       <div class="col-xs-2">
-        <img class=""
+        <img class="faction-icon"
              width="50px"
-             alt="{{battle.my_army.faction}}"
-             ng-src="img/{{factions[battle.my_army.faction].icon}}" />
+             ng-src="{{factions | factions:'iconFor':battle.my_army.faction}}" />
       </div>
       <div class="col-xs-10">
         <div ng-class="{ 'has-error':battle_edit.my_army_faction.$invalid }">
           <select class="form-control input-sm"
                   name="my_army_faction"
                   ng-model="battle.my_army.faction"
-                  ng-options="id as f.name for (id, f) in factions"
+                  ng-options="f.key as f.name for f in factions"
                   required>
           </select>
         </div>
@@ -22,7 +21,9 @@
           <select class="form-control input-sm"
                   name="my_army_caster"
                   ng-model="battle.my_army.caster"
-                  ng-options="id as id | capitalise for (id, c) in factions[battle.my_army.faction].casters"
+                  ng-options="
+                  c.key as c.key | capitalise
+                  for c in factions | factions:'castersFor':battle.my_army.faction"
                   required>
           </select>
         </div>
@@ -34,7 +35,7 @@
         <div class="input-group">
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onAddOpponent()">
+                    ng-click="doAdd('opponent')">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
           </span>
@@ -42,30 +43,28 @@
             <select class="form-control input-sm"
                     name="opponent_name"
                     ng-model="battle.opponent.name"
-                    ng-options="o as o|capitalise for o in opponents"
+                    ng-options="o as o|capitalise for o in battles.opponents"
                     required>
             </select>
           </div>
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onDelete('opponent')">
+                    ng-click="doDelete('opponent')">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
           </span>
         </div>
       </div>
       <div class="col-xs-2">
-        <img class=""
-             width="50px"
-             alt="{{battle.opponent.faction}}"
-             ng-src="img/{{factions[battle.opponent.faction].icon}}" />
+        <img class="faction-icon"
+             ng-src="{{factions | factions:'iconFor':battle.opponent.faction}}" />
       </div>
       <div class="col-xs-10">
         <div ng-class="{ 'has-error':battle_edit.opponent_faction.$invalid }">
           <select class="form-control input-sm"
                   name="opponent_faction"
                   ng-model="battle.opponent.faction"
-                  ng-options="id as f.name for (id, f) in factions"
+                  ng-options="f.key as f.name for f in factions"
                   required>
           </select>
         </div>
@@ -73,7 +72,9 @@
           <select class="form-control input-sm"
                   name="opponent_caster"
                   ng-model="battle.opponent.caster"
-                  ng-options="id as id | capitalise for (id, c) in factions[battle.opponent.faction].casters"
+                  ng-options="
+                  c.key as c.key|capitalise
+                  for c in factions | factions:'castersFor':battle.opponent.faction"
                   required>
           </select>
         </div>
@@ -110,17 +111,17 @@
         <div class="input-group">
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onAddEvent()">
+                    ng-click="doAdd('event')">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
           </span>
           <select class="form-control input-sm"
                   ng-model="battle.setup.event"
-                  ng-options="e for e in events">
+                  ng-options="e for e in battles.events">
           </select>
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onDelete('event')">
+                    ng-click="doDelete('event')">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
           </span>
@@ -131,17 +132,20 @@
         <div class="input-group">
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onAddScenario()">
+                    ng-click="doAdd('scenario')">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
           </span>
           <select class="form-control input-sm"
                   ng-model="battle.setup.scenario"
-                  ng-options="id as s.name for (id, s) in scenarios">
+                  ng-options="
+                  s.key as s.name
+                  for s in battles.scenarios | orderBy:'-key'
+                  ">
           </select>
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onDelete('scenario')">
+                    ng-click="doDelete('scenario')">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
           </span>
@@ -177,14 +181,18 @@
           <select class="form-control input-sm"
                   name="result"
                   ng-model="battle.score"
-                  ng-options="id as s.type | capitalise group by s.result | capitalise for (id, s) in scores"
+                  ng-options="
+                  id as s.type|capitalise
+                  group by s.result|capitalise
+                  for (id, s) in scores
+                  "
                   required>
           </select>
         </div>
       </div>
       <div class="col-xs-6 control-label">
-        <strong class="{{scores[battle.score].result | scoreResultColor}}">
-          {{ scores[battle.score].result | capitalise }}
+        <strong class="text-{{scores | scores:'classFor':battle.score}}">
+          {{ scores | scores:'resultFor':battle.score | capitalise }}
         </strong>
       </div>
       <div class="clearfix"></div>
@@ -231,18 +239,18 @@
         <div class="input-group">
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onAddTag()">
+                    ng-click="doAddTag()">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
           </span>
           <select class="form-control input-sm multiple"
                   ng-model="battle.tags"
-                  ng-options="t for t in tags"
+                  ng-options="t for t in battles.tags"
                   multiple>
           </select>
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
-                    ng-click="onDeleteTag()">
+                    ng-click="doDeleteTag()">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
           </span>

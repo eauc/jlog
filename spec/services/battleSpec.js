@@ -16,6 +16,29 @@ describe('services', function() {
       }
     ]));
 
+    describe('addTag(<new_tag>)', function() {
+      beforeEach(function() {
+        this.battle = {
+          tags: [ 'current1', 'tag1' ]
+        };
+      });
+
+      using([
+        [ 'new_tag' , 'tags'                         ],
+        [ 'new1'    , [ 'current1', 'new1', 'tag1' ] ],
+        // result is sorted
+        [ 'aaa1'    , [ 'aaa1', 'current1', 'tag1' ] ],
+        [ 'xxx1'    , [ 'current1', 'tag1', 'xxx1' ] ],
+        // uniq
+        [ 'current1', [ 'current1', 'tag1' ]         ],
+      ], function(e,d) {
+        it('should append <new_tag> to battle tags, '+d, function() {
+          expect(battle.addTag(this.battle, e.new_tag).tags)
+            .toEqual(e.tags);
+        });
+      });
+    });
+
     describe('initRollDescFor', function() {
       using([
         [ 'won_roll' , 'desc'      ],

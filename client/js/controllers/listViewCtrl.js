@@ -26,29 +26,26 @@ angular.module('jlogApp.controllers')
     }])
   .controller('listViewBottomCtrl', [
     '$scope',
-    // '$state',
-    // '$stateParams',
-    // '$window',
-    // 'battles',
-    function($scope
-             // $state,
-             // $stateParams,
-             // $window,
-             // battles
-            ) {
+    '$stateParams',
+    '$window',
+    'battles',
+    function($scope,
+             $stateParams,
+             $window,
+             battles) {
       console.log('init listViewBottomCtrl');
 
-      // $scope.onEditBattle = function onEditBattle() {
-      //   $state.go('battle.edit', { index: $stateParams.index });
-      // };
-      // $scope.onDeleteBattle = function onDeleteBattle() {
-      //   var confirm = $window.confirm('You sure you wanna delete this battle ?');
-      //   if(!confirm) return;
-      //   battles.remove($stateParams.index);
-      //   $scope.resetListDisplay();
-      //   $scope.onClose();
-      // };
-      $scope.doClose = function doClose() {
+      $scope.doEditBattle = function() {
+        $scope.stateGo('battle.edit', { index: $stateParams.index });
+      };
+      $scope.doDeleteBattle = function() {
+        var confirm = $window.confirm('You sure you wanna delete this battle ?');
+        if(!confirm) return;
+        $scope.battles.display_list = battles.drop($scope.battles.display_list,
+                                                   parseFloat($stateParams.index));
+        $scope.doClose();
+      };
+      $scope.doClose = function() {
         $scope.stateGo('battle');
       };
     }]);

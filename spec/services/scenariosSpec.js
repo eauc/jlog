@@ -98,6 +98,53 @@ describe('services', function() {
       });
     });
 
+    describe('add(<key>)', function() {
+      beforeEach(function() {
+        this.coll = [
+          { key: 'sc1', name: 'Sc1' },
+          { key: 'sc2', name: 'Sc2' },
+        ];
+      });
+
+      using([
+        [ 'key' , 'result' ],
+        [ 'sc3' , [ { key: 'sc1', name: 'Sc1' },
+                    { key: 'sc2', name: 'Sc2' },
+                    { key: 'sc3', name: 'Sc3' }, ] ],
+        // uniq
+        [ 'sc2' , [ { key: 'sc1', name: 'Sc1' },
+                    { key: 'sc2', name: 'Sc2' }, ] ],
+        // without null
+        [ null  , [ { key: 'sc1', name: 'Sc1' },
+                    { key: 'sc2', name: 'Sc2' }, ] ],
+      ], function(e, d) {
+        it('should add <key> to list, '+d, function() {
+          expect(scenarios.add(this.coll, e.key)).toEqual(e.result);
+        });
+      });
+    });
+
+    describe('drop(<key>)', function() {
+      beforeEach(function() {
+        this.coll = [
+          { key: 'sc1', name: 'Sc1' },
+          { key: 'sc2', name: 'Sc2' },
+          { key: 'sc1', name: 'Sc1b' },
+        ];
+      });
+
+      using([
+        [ 'key' , 'result' ],
+        [ 'sc2' , [ { key: 'sc1', name: 'Sc1' },
+                    { key: 'sc1', name: 'Sc1b' }, ] ],
+        [ 'sc1' , [ { key: 'sc2', name: 'Sc2' }, ] ],
+      ], function(e, d) {
+        it('should drop all <key> from list, '+d, function() {
+          expect(scenarios.drop(this.coll, e.key)).toEqual(e.result);
+        });
+      });
+    });
+
     describe('nameFor(<key>)', function() {
       beforeEach(function() {
         this.coll = [

@@ -68,6 +68,90 @@ angular.module('jlogApp.services')
     //   return instance;
     // };
       var battle = {
+        // create: function(data) {
+        //   var today = new Date();
+        //   return _.deepExtend({
+        //     index: 0,
+        //     date: { year: today.getFullYear(),
+        //             month: today.getMonth()+1,
+        //             day: today.getDate()
+        //           },
+        //     my_army: { faction: null,
+        //                caster: null
+        //              },
+        //     opponent: { name: null,
+        //                 faction: null,
+        //                 caster: null
+        //               },
+        //     setup: { size: null,
+        //              scenario: null,
+        //              event: null,
+        //              initiative: {
+        //                won_roll: null,
+        //                started: null
+        //              } },
+        //     score: null,
+        //     points: {
+        //       my_army: { scenario: null,
+        //                  army: null,
+        //                  kill: null },
+        //       opponent: { scenario: null,
+        //                   army: null,
+        //                   kill: null }
+        //     },
+        //     tags: [],
+        //     comment: null
+        //   }, data);
+        // },
+        test: function(i, factions, scores, scenarios) {
+          var my_faction = _.chain(factions).shuffle().first().value();
+          var opp_faction = _.chain(factions).shuffle().first().value();
+          return {
+            index: i,
+            date: { year: 2015,
+                    month: 1,
+                    day: 27
+                  },
+            my_army: { faction: my_faction.key,
+                       caster: _.chain(my_faction.casters).shuffle().first().value().key
+                     },
+            opponent: { name: _.chain(['wood', 'kevin', 'fred']).shuffle().first().value(),
+                        faction: opp_faction.key,
+                        caster: _.chain(opp_faction.casters).shuffle().first().value().key
+                      },
+            setup: { size: _.chain([15,25,35,50]).shuffle().first().value(),
+                     scenario: _.chain(scenarios).shuffle().first().value().key,
+                     event: _.chain(['master', 'amical', 'wtc']).shuffle().first().value(),
+                     initiative: {
+                       won_roll: _.chain(['true', 'false']).shuffle().first().value(),
+                       started: _.chain(['true', 'false']).shuffle().first().value()
+                     } },
+            score: _.chain(scores).keys().shuffle().first().value(),
+            points: {
+              my_army: { scenario: (Math.random()*5)>>0,
+                         army: (Math.random()*50)>>0,
+                         kill: (Math.random()*50)>>0 },
+              opponent: { scenario: (Math.random()*5)>>0,
+                          army: (Math.random()*50)>>0,
+                          kill: (Math.random()*50)>>0 }
+            },
+            tags: ['tiers4', 'raek spam'],
+            comment: 'don\'t panic'
+          };
+        },
+        addTag: function(b, t) {
+          return _.chain(b)
+            .clone()
+            .apply(function(b) {
+              b.tags = _.chain(b.tags)
+                .cat(t)
+                .uniq()
+                .sort()
+                .value();
+              return b;
+            })
+            .value();
+        },
         initRollDescFor: function(b) {
           return 'true' === _.getPath(b ,'setup.initiative.won_roll') ?
             'Won Roll' : 'Lost Roll';
@@ -81,47 +165,25 @@ angular.module('jlogApp.services')
     }
   ])
   .service('battles', [ 
+    'battle', 
     // 'storage', 
-    // 'battle', 
-    function() {
+    function(battle) {
       var battles = {
+        save: function(coll, i, b) {
+          var ret = _.clone(coll);
+          ret.splice(i, 1, b);
+          return ret;
+        },
+        drop: function(coll, i) {
+          var ret = _.clone(coll);
+          ret.splice(i, 1);
+          return ret;
+        },
         test: function(n, factions, scores, scenarios) {
-          return _.range(n).map(function(i) {
-            var my_faction = _.chain(factions).shuffle().first().value();
-            var opp_faction = _.chain(factions).shuffle().first().value();
-            return {
-              index: i,
-              date: { year: 2015,
-                      month: 1,
-                      day: 27
-                    },
-              my_army: { faction: my_faction.key,
-                         caster: _.chain(my_faction.casters).shuffle().first().value().key
-                       },
-              opponent: { name: 'wood',
-                          faction: opp_faction.key,
-                          caster: _.chain(opp_faction.casters).shuffle().first().value().key
-                        },
-              setup: { size: _.chain([15,25,35,50]).shuffle().first().value(),
-                       scenario: _.chain(scenarios).shuffle().first().value().key,
-                       event: _.chain(['master', 'amical', 'wtc']).shuffle().first().value(),
-                       initiative: {
-                         won_roll: _.chain(['true', 'false']).shuffle().first().value(),
-                         started: _.chain(['true', 'false']).shuffle().first().value()
-                       } },
-              score: _.chain(scores).keys().shuffle().first().value(),
-              points: {
-                my_army: { scenario: (Math.random()*5)>>0,
-                           army: (Math.random()*50)>>0,
-                           kill: (Math.random()*50)>>0 },
-                opponent: { scenario: (Math.random()*5)>>0,
-                            army: (Math.random()*50)>>0,
-                            kill: (Math.random()*50)>>0 }
-              },
-              tags: ['tiers4', 'raek spam'],
-              comment: 'don\'t panic'
-            };
-          });
+          return _.chain(n)
+            .range()
+            .map(_.partial(battle.test, _, factions, scores, scenarios))
+            .value();
         }
       };
       return battles;

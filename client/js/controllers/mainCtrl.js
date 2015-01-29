@@ -9,10 +9,10 @@ angular.module('jlogApp.controllers')
     'factions',
     'scenarios',
     'battles',
+    'events',
+    'opponents',
+    'tags',
     // '$timeout',
-    // 'opponents',
-    // 'events',
-    // 'tags',
     // 'battles_display',
     // 'battle_sort',
     // 'filter',
@@ -23,11 +23,11 @@ angular.module('jlogApp.controllers')
       scores,
       factions,
       scenarios,
-      battles
+      battles,
+      events,
+      opponents,
+      tags
       // $timeout,
-      // opponents,
-      // events,
-      // tags,
       // battles_display,
       // battle_sort,
       // filter
@@ -38,7 +38,11 @@ angular.module('jlogApp.controllers')
       $scope.stateGo = _.bind($state.go, $state);
 
       $scope.battles = {
-        display_list: []
+        display_list: [],
+        events: [],
+        opponents: [],
+        scenarios: [],
+        tags: []
       };
 
       $q.when(scores.data()).then(function(_scores) {
@@ -48,13 +52,16 @@ angular.module('jlogApp.controllers')
         $scope.factions = _factions;
         return $q.when(scenarios.data());
       }).then(function(_scenarios) {
-        $scope.scenarios = _scenarios;
+        $scope.battles.scenarios = _scenarios;
         return;
       }).then(function() {
         // $scope.battles.display_list = battles.test(200,
         //                                            $scope.factions,
         //                                            $scope.scores,
-        //                                            $scope.scenarios);
+        //                                            $scope.battles.scenarios);
+        $scope.battles.opponents = opponents.fromBattles($scope.battles.display_list);
+        $scope.battles.events = events.fromBattles($scope.battles.display_list);
+        $scope.battles.tags = tags.fromBattles($scope.battles.display_list);
         console.log('scope', $scope);
       });
       // battles_display.init();
