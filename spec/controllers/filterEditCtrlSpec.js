@@ -40,6 +40,8 @@ describe('controllers', function() {
         this.history = $window.history;
         spyOn($window.history, 'back');
 
+        this.filterService = spyOnService('filter');
+
         $controller('filterEditBottomCtrl', { 
           '$scope': this.scope,
         });
@@ -48,6 +50,28 @@ describe('controllers', function() {
     ]));
 
     describe('doBack()', function() {
+      beforeEach(function() {
+        this.scope.battles = {
+          filter: { cache: 'filter_cache',
+                    active: false },
+        };
+      });
+
+      it('should clear filter cache', function() {
+        this.scope.doBack();
+
+        expect(this.filterService.clearCache)
+          .toHaveBeenCalledWith('filter_cache');
+        expect(this.scope.battles.filter.cache)
+          .toBe('filter.clearCache.returnValue');
+      });
+
+      it('should activate filter', function() {
+        this.scope.doBack();
+
+        expect(this.scope.battles.filter.active).toBe(true);
+      });
+
       it('should update battles list', function() {
         this.scope.doBack();
         expect(this.scope.updateBattles).toHaveBeenCalled();

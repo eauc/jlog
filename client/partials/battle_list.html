@@ -35,7 +35,7 @@
            in battles.display_list
            track by battle.index
            "
-           ng-click="doViewBattle(bi)">
+           ng-click="doViewBattle(battle.index)">
         <div class="hidden-xs col-sm-3">
           <span>{{::battle.date.year+'-'+battle.date.month+'-'+battle.date.day}}
           </span>

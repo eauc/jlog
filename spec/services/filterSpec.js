@@ -37,22 +37,22 @@ describe('services', function() {
         });
       });
 
-      // when('<cache[battle.index]> exists', function() {
-      // }, function() {
-      //   var battles = [
-      //     { index: 0, date: { year:2015, month:10, day:15 } },
-      //   ];
+      when('<cache[battle.index]> exists', function() {
+      }, function() {
+        var battles = [
+          { index: 0, date: { year:2015, month:10, day:15 } },
+        ];
         
-      //   it('should return cache entry', function() {
-      //     this.state = {
-      //       date: { active: true, is: '==', value: { year:2015, month:10, day:15 } },
-      //     };
-      //     expect(_.map(battles, _.partial(filter.match, this.state, _, this.invert, { 0:true })))
-      //       .toEqual([true]);
-      //     expect(_.map(battles, _.partial(filter.match, this.state, _, this.invert, { 0:false })))
-      //       .toEqual([false]);
-      //   });
-      // });
+        it('should return cache entry', function() {
+          this.state = {
+            date: { active: true, is: '==', value: { year:2015, month:10, day:15 } },
+          };
+          expect(_.map(battles, _.partial(filter.match, this.state, _, this.invert, { 0:true })))
+            .toEqual([true]);
+          expect(_.map(battles, _.partial(filter.match, this.state, _, this.invert, { 0:false })))
+            .toEqual([false]);
+        });
+      });
 
       describe('on date', function() {
         var battles = [
@@ -261,8 +261,8 @@ describe('services', function() {
       describe('on size', function() {
         var battles = [
           { index: 0, setup: { size:50 } },
-          { index: 0, setup: { size:35 } },
-          { index: 0, setup: { size:25 } },
+          { index: 1, setup: { size:35 } },
+          { index: 2, setup: { size:25 } },
         ];
         
         using([
@@ -333,6 +333,29 @@ describe('services', function() {
             };
             expect(_.map(battles, _.partial(filter.match, this.state, _, this.invert, {})))
               .toEqual(e.result);
+          });
+        });
+      });
+    });
+
+    describe('clearCache(<cache>, <index>)', function() {
+      when('<index> is undefined', function() {
+      }, function() {
+        it('should return an empty cache object', function() {
+          expect(filter.clearCache({ cache:'cache' })).toEqual({});
+        });
+      });
+
+      when('<index> is defined', function() {
+      }, function() {
+        it('should return the cache object without <index> entry', function() {
+          expect(filter.clearCache({
+            0:'cache0',
+            1:'cache1',
+            2:'cache2',
+          }, 1)).toEqual({
+            0:'cache0',
+            2:'cache2',
           });
         });
       });

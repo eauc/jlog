@@ -55,7 +55,6 @@ angular.module('jlogApp.controllers')
         }
       };
       $scope.updateBattles = function() {
-        $scope.battles.filter.cache = {};
         var filtered_list = $scope.battles.filter.active ?
           _.filter($scope.battles.list,
                    _.partial(filter.match,
@@ -68,6 +67,7 @@ angular.module('jlogApp.controllers')
                                                    $scope.sort_types,
                                                    $scope.battles.sort.type,
                                                    $scope.battles.sort.reverse);
+        $scope.battles.size = $scope.battles.display_list.length;
       };
       $scope.setBattles = function(bs) {
         $scope.battles.list = battles.buildIndex(bs);

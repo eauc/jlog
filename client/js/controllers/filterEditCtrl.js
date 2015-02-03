@@ -7,21 +7,20 @@ angular.module('jlogApp.controllers')
       console.log('init filterEditCtrl');
 
       // $scope.bottom_bar.show = true;
-
-      // $scope.$watch('filter', function() {
-      //   filter.clearCache();
-      //   filter.update();
-      // }, true);
     }
   ])
   .controller('filterEditBottomCtrl', [
     '$scope',
     '$window',
+    'filter',
     function($scope,
-             $window) {
+             $window,
+             filter) {
       console.log('init filterEditBottomCtrl');
 
       $scope.doBack = function() {
+        $scope.battles.filter.cache = filter.clearCache($scope.battles.filter.cache);
+        $scope.battles.filter.active = true;
         $scope.updateBattles();
         $window.history.back();
       };

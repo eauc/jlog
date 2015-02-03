@@ -16,7 +16,8 @@ describe('controllers', function() {
                $controller) {
         this.scope = $rootScope.$new();
         this.scope.battles = {
-          display_list: [ 'battle1','battle2','battle3','battle4','battle5' ]
+          list: [ 'battle1','battle2','battle3','battle4','battle5' ],
+          display_list: [ 'battle1','battle3','battle5' ]
         };
 
         this.stateParams = { index: 2 };
@@ -47,7 +48,8 @@ describe('controllers', function() {
         this.scope.stateGo = jasmine.createSpy('stateGo');
         this.scope.setBattles = jasmine.createSpy('setBattles');
         this.scope.battles = {
-          display_list: ['battles_list']
+          list: ['battles_list'],
+          display_list: ['display_list']
         };
 
         this.stateParams = { index: '2' };

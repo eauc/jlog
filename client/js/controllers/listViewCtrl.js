@@ -21,7 +21,7 @@ angular.module('jlogApp.controllers')
       //   $state.go('battle');
       // }
 
-      $scope.battle = $scope.battles.display_list[$stateParams.index];
+      $scope.battle = $scope.battles.list[$stateParams.index];
       console.log('init listViewCtrl', $stateParams.index, $scope.battle);
     }])
   .controller('listViewBottomCtrl', [
@@ -41,7 +41,7 @@ angular.module('jlogApp.controllers')
       $scope.doDeleteBattle = function() {
         var confirm = $window.confirm('You sure you wanna delete this battle ?');
         if(!confirm) return;
-        $scope.setBattles(battles.drop($scope.battles.display_list,
+        $scope.setBattles(battles.drop($scope.battles.list,
                                        parseFloat($stateParams.index)));
         $scope.doClose();
       };

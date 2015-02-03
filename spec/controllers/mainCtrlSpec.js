@@ -113,6 +113,7 @@ describe('controllers', function() {
           active: true,
           state: 'filter_state',
           invert: 'filter_invert',
+          cache: 'cache'
         };
         this.filterService.match.and.callFake(function(f, b) {
           return b !== 'battle2';
@@ -124,15 +125,15 @@ describe('controllers', function() {
           expect(this.filterService.match.calls.count()).toBe(3);
           expect(this.filterService.match)
             .toHaveBeenCalledWith('filter_state', 'battle1',
-                                  'filter_invert', {},
+                                  'filter_invert', 'cache',
                                   0, this.scope.battles.list);
           expect(this.filterService.match)
             .toHaveBeenCalledWith('filter_state', 'battle2',
-                                  'filter_invert', {},
+                                  'filter_invert', 'cache',
                                   1, this.scope.battles.list);
           expect(this.filterService.match)
             .toHaveBeenCalledWith('filter_state', 'battle3',
-                                  'filter_invert', {},
+                                  'filter_invert', 'cache',
                                   2, this.scope.battles.list);
         });
 

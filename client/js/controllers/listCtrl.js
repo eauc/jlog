@@ -68,7 +68,7 @@ angular.module('jlogApp.controllers')
 
       $scope.doAddBattle = function() {
         $scope.stateGo('battle.edit',
-                       { index: $scope.battles.display_list.length });
+                       { index: $scope.battles.list.length });
       };
 
       $scope.doSortBy = function(type) {

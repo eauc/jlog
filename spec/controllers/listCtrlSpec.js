@@ -54,7 +54,8 @@ describe('controllers', function() {
     describe('doAddBattle()', function() {
       beforeEach(function() {
         this.scope.battles = {
-            display_list: [ 'b1','b2','b3','b4' ]
+            list: [ 'b1','b2','b3','b4' ],
+            display_list: [ 'b2','b4' ]
         };
       });
 
@@ -62,7 +63,7 @@ describe('controllers', function() {
         this.scope.doAddBattle();
         expect(this.scope.stateGo)
           .toHaveBeenCalledWith('battle.edit', {
-            index: this.scope.battles.display_list.length
+            index: this.scope.battles.list.length
           });
       });
     });

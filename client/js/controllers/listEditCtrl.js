@@ -26,8 +26,8 @@ angular.module('jlogApp.controllers')
       // $scope.bottom_bar.show = true;
 
       var index = parseFloat($stateParams.index);
-      if(index < $scope.battles.display_list.length) {
-        $scope.battle = _.snapshot($scope.battles.display_list[index]);
+      if(index < $scope.battles.list.length) {
+        $scope.battle = _.snapshot($scope.battles.list[index]);
       }
       else {
         $scope.battle = battle.create({ index: index });
@@ -117,21 +117,20 @@ angular.module('jlogApp.controllers')
     '$scope',
     '$state',
     'battles',
-    // 'filter',
+    'filter',
     function($scope,
              $state,
-             battles
-             // filter
-            ) {
+             battles,
+             filter) {
       console.log('init listEditBottomCtrl');
 
       $scope.state = $state.current.data;
       $scope.doSave = function() {
-        $scope.setBattles(battles.save($scope.battles.display_list,
+        $scope.battles.filter.cache = filter.clearCache($scope.battles.filter.cache,
+                                                        $state.current.data.index);
+        $scope.setBattles(battles.save($scope.battles.list,
                                        $state.current.data.index,
                                        $state.current.data.battle));
-        // filter.clearCache($state.current.data.index);
-        // $scope.resetListDisplay();
         $scope.doClose();
       };
       $scope.doClose = function() {

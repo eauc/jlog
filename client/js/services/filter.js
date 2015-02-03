@@ -226,25 +226,25 @@ angular.module('jlogApp.services')
         },
         match: function(fs, b, invert, cache) {
           cache = _.exists(cache) ? cache : {};
-          // if (!_.exists(cache[b.index])) {
-          cache[b.index] = _.chain(filters)
-            .filter(function(f) { return _.getPath(fs, f.key+'.active'); })
-            .map(function(f) { return [f.match, fs[f.key]]; })
-            .map(function(f) { return f[0](f[1], b); })
+          if (!_.exists(cache[b.index])) {
+            cache[b.index] = _.chain(filters)
+              .filter(function(f) { return _.getPath(fs, f.key+'.active'); })
+              .map(function(f) { return [f.match, fs[f.key]]; })
+              .map(function(f) { return f[0](f[1], b); })
             // .spy('matches')
-            .every()
+              .every()
             // .spy('every')
-            .value();
-          // }
+              .value();
+          }
           return invert ? !cache[b.index] : cache[b.index];
         },
         clearCache: function(cache, index) {
-          console.log('filter clearCache ' + index);
+          console.log('filter clearCache', index);
           if(!_.exists(index)) {
             return {};
           }
           else {
-            return _.omit(cache, index);
+            return _.omit(cache, ''+index);
           }
         }
       };

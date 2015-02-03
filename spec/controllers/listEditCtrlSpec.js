@@ -25,7 +25,8 @@ describe('controllers', function() {
           ctxt.scope = $rootScope.$new();
           spyOn(ctxt.scope, '$watch');
           ctxt.scope.battles = {
-            display_list: [ 'battle1','battle2','battle3','battle4','battle5' ]
+            list: [ 'battle1','battle2','battle3','battle4','battle5' ],
+            display_list: [ 'battle1','battle3','battle5' ]
           };
           
           ctxt.state = {
@@ -281,12 +282,15 @@ describe('controllers', function() {
         this.scope.stateGo = jasmine.createSpy('stateGo');
         this.scope.setBattles = jasmine.createSpy('setBattles');
         this.scope.battles = {
-          display_list: ['battles_list']
+          list: ['battles_list'],
+          display_list: ['display_list']
         };
 
         this.state = { current: { data: { index: 'currentIndex',
                                           battle: 'currentBattle' } } };
         this.stateParams = { index: '2' };
+
+        this.filterService = spyOnService('filter');
 
         $controller('listEditBottomCtrl', { 
           '$scope': this.scope,
@@ -303,10 +307,19 @@ describe('controllers', function() {
 
     describe('doSave()', function() {
       beforeEach(function() {
+        this.scope.battles.filter = { cache: 'filter_cache' };
+
         this.battles = spyOnService('battles');
         spyOn(this.scope, 'doClose');
 
         this.scope.doSave();
+      });
+
+      it('should clear filter cache for this battle', function() {
+        expect(this.filterService.clearCache)
+          .toHaveBeenCalledWith('filter_cache', this.state.current.data.index);
+        expect(this.scope.battles.filter.cache)
+          .toBe('filter.clearCache.returnValue');
       });
 
       it('should save battle', function() {
