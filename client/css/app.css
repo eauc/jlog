@@ -335,68 +335,68 @@
 /* filter-edit
 /******************************************************/
 
-/* #filter-edit { */
-/*     max-width: 400px; */
-/* } */
+#filter-edit {
+    max-width: 400px;
+}
 
-/* #filter-edit .title { */
-/*     z-index: 10; */
-/*     position: fixed; */
-/*     width:100%; */
-/*     max-width:400px; */
-/*     font-weight: bold; */
-/*     height: 30px; */
-/*     line-height: 30px; */
-/*     background-color: #CCC; */
-/* } */
+#filter-edit .title {
+    z-index: 10;
+    position: fixed;
+    width:100%;
+    max-width:400px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    background-color: #CCC;
+}
 
-/* #filter-edit .form-group.first { */
-/*     padding-top: 30px; */
-/* } */
+#filter-edit .form-group.first {
+    padding-top: 30px;
+}
 
-/* #filter-edit .form-group { */
-/*     margin-bottom: 0px; */
-/* } */
+#filter-edit .form-group {
+    margin-bottom: 0px;
+}
 
-/* #filter-edit .control-label { */
-/*     padding-top: 10px; */
-/* } */
+#filter-edit .control-label {
+    padding-top: 10px;
+}
 
-/* #filter-edit .header.active { */
-/*     background-color: #EEE; */
-/*     padding-bottom: 5px; */
-/*     margin-bottom: 5px; */
-/* } */
+#filter-edit .header.active {
+    background-color: #EEE;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
 
-/* #filter-edit .is { */
-/*     padding-left: 0px; */
-/*     padding-right: 0px; */
-/* } */
+#filter-edit .is {
+    padding-left: 0px;
+    padding-right: 0px;
+}
 
-/* #filter-edit select.multiple { */
-/*     height: auto !important; */
-/* } */
+#filter-edit select.multiple {
+    height: auto !important;
+}
 
-/* #filter-edit input, */
-/* #filter-edit select.form-control { */
-/*     padding:3px; */
-/*     height: 30px; */
-/*     margin-bottom: 5px; */
-/* } */
+#filter-edit input,
+#filter-edit select.form-control {
+    padding:3px;
+    height: 30px;
+    margin-bottom: 5px;
+}
 
-/* @media (max-width: 767px) { */
-/*     #filter-edit .header .check { */
-/*         font-size: 12px; */
-/*     } */
-/*     #filter-edit input, */
-/*     #filter-edit select.form-control { */
-/*         font-size: 10px; */
-/*         height: 24px; */
-/*         min-height: 24px; */
-/*         line-height: 10px; */
-/*         margin-bottom: 3px; */
-/*     } */
-/* } */
+@media (max-width: 767px) {
+    #filter-edit .header .check {
+        font-size: 12px;
+    }
+    #filter-edit input,
+    #filter-edit select.form-control {
+        font-size: 10px;
+        height: 24px;
+        min-height: 24px;
+        line-height: 10px;
+        margin-bottom: 3px;
+    }
+}
 
 
 /******************************************************/

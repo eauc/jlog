@@ -14,7 +14,6 @@ angular.module('jlogApp.directives')
             return;
           }
           element.on('click', function() {
-            console.log('coucouc');
             target.toggleClass('open');
           });
         }

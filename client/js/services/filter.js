@@ -3,39 +3,28 @@
 angular.module('jlogApp.services')
   .factory('filterMatchSimple', [
     function() {
-      return function(data, get) {
-        return _.extend({
-          active: false,
-          is: 'true',
-          value: [],
-          match: function filterMatchOpponentName(battle) {
-            var match = ( 0 === this.value.length ||
-                          0 <= this.value.indexOf(get(battle)) );
-            // console.log(filter.opp_name.is + ' ' + match);
-            return (!this.active ||
-                    (this.is === 'true' ? match : !match));
-          }
-        }, data);
+      var filterMatchSimple = {
+        create: function(data) {
+          return _.extend({
+            active: false,
+            is: 'true',
+            value: []
+          }, data);
+        },
+        match: function(f, b, k) {
+          var value = _.getPath(b, k);
+          var match = ( _.isEmpty(f.value) ||
+                        0 <= _.indexOf(f.value, value) );
+          // console.log('simple('+f.value+','+f.is+','+b.index+','+k+') ' + match);
+          return (f.is === 'true' ? match : !match);
+        }
       };
+      return filterMatchSimple;
     }
   ])
-  .factory('filterMatchComp', [
+  .factory('compareDate', [
     function() {
-      return function filterMatchComp(type, comp) {
-        if (type === 0) return (comp === 0);
-        if (type === 1) return (comp !== 0);
-        if (type === 2) return (comp === -1);
-        if (type === 3) return (comp !== 1);
-        if (type === 4) return (comp === 1);
-        if (type === 5) return (comp !== -1);
-        return false;
-      };
-    }
-  ])
-  .factory('filterMatchDate', [
-    'filterMatchComp',
-    function(filterMatchComp) {
-      var compareDate = function filterCompareDate(date1, date2) {
+      return function compareDate(date1, date2) {
         if (date1.year > date2.year) return 1;
         if (date1.year < date2.year) return -1;
         if (date1.month > date2.month) return 1;
@@ -44,211 +33,221 @@ angular.module('jlogApp.services')
         if (date1.day < date2.day) return -1;
         return 0;
       };
-      return function(data) {
-        var today = new Date();
-        return _.extend({
-          active: false,
-          is: '0',
-          year: today.getFullYear(),
-          month: today.getMonth() + 1,
-          day: today.getDate(),
-          match: function filterMatchDate(battle) {
-            var comp = compareDate(this, battle.date);
-            var type = parseInt(this.is, 10);
-            var match = filterMatchComp(type, comp);
-            // console.log(comp + ' ' + type + ' ' + match);
-            return !this.active || match;
-          }
-        }, data);
-      };
     }
   ])
-  .factory('filterMatchSize', [
-    'filterMatchComp',
-    function(filterMatchComp) {
-      var compareSize = function filterCompareSize(size1, size2) {
-        if (size1 > size2) return 1;
-        if (size1 < size2) return -1;
-        return 0;
+  .factory('filterMatchComp', [
+    function() {
+      function typeMatchComp(type, comp) {
+        switch(type) {
+        case '==': return (comp === 0);
+        case '!=': return (comp !== 0);
+        case '>': return (comp === -1);
+        case '>=': return (comp !== 1);
+        case '<': return (comp === 1);
+        case '<=': return (comp !== -1);
+        }
+        return false;
+      }
+      var filterMatchComp = {
+        create: function(data, getDefault) {
+          return _.deepExtend({
+            active: false,
+            is: '==',
+            value: getDefault()
+          }, data);
+        },
+        match: function filterMatchDate(f, b, k, c) {
+          var value = _.getPath(b, k);
+          var comp = c(f.value, value);
+          var match = typeMatchComp(f.is, comp);
+          // console.log('simple('+f.value+','+f.is+','+b.index+') ' + match);
+          return match;
+        }
       };
-      return function(data) {
-        return _.extend({
-          active: false,
-          is: '0',
-          value: 50,
-          match: function filterMatchSize(battle) {
-            var comp = compareSize(this.value, battle.setup.size);
-            var type = parseInt(this.is, 10);
-            var match = filterMatchComp(type, comp);
-            // console.log(comp + ' ' + type + ' ' + match);
-            return !this.active || match;
-          }
-        }, data);
-      };
+      return filterMatchComp;
     }
   ])
   .factory('filterMatchCaster', [
     function() {
-      return function(data, get) {
-        return _.extend({
-          active: false,
-          is: 'true',
-          faction: null,
-          caster: [],
-          match: function filterMatchCaster(battle) {
-            var match = ( this.faction === get(battle).faction &&
-                          (0 === this.caster.length || 
-                           0 <= this.caster.indexOf(get(battle).caster)) );
-            // console.log(filter.my_army.is + ' ' + match);
-            return (!this.active ||
-                    (this.is === 'true' ? match : !match));
-          }
-        }, data);
+      var filterMatchCaster = {
+        create: function(data) {
+          return _.deepExtend({
+            active: false,
+            is: 'true',
+            value: {
+              faction: null,
+              caster: [],
+            }
+          }, data);
+        },
+        match: function(f, b, k) {
+          var value = _.getPath(b, k);
+          var match = ( f.value.faction === value.faction &&
+                        (_.isEmpty(f.value.caster) || 
+                         0 <= _.indexOf(f.value.caster, value.caster)) );
+          // console.log('simple('+f.value.faction+'.'+f.value.caster+','+f.is+','+b.index+') '+match);
+          return (f.is === 'true' ? match : !match);
+        }
       };
+      return filterMatchCaster;
     }
   ])
   .factory('filterMatchInitiative', [
     function() {
-      return function(data) {
-        return _.extend({
-          active: false,
-          is: 'true',
-          won_roll: '',
-          started: '',
-          match: function filterMatchInitiative(battle) {
-            var match = ( (0 === this.won_roll.length ||
-                           this.won_roll === battle.setup.initiative.won_roll) &&
-                          (0 === this.started.length  ||
-                           this.started === battle.setup.initiative.started) );
-            // console.log(filter.scenario.is + ' ' + match);
-            return (!this.active || 
-                    (this.is === 'true' ? match : !match));
-          }
-        }, data);
+      var filterMatchInitiative = {
+        create: function(data) {
+          return _.extend({
+            active: false,
+            is: 'true',
+            value: {
+              won_roll: '',
+              started: ''
+            }
+          }, data);
+        },
+        match: function(f, b) {
+          var value = b.setup.initiative;
+          var match = ( (s.isBlank(f.value.won_roll) ||
+                         f.value.won_roll === value.won_roll) &&
+                        (s.isBlank(f.value.started)  ||
+                         f.value.started === value.started) );
+          // console.log('simple('+f.value.won_roll+'.'+f.value.started+','+f.is+','+b.index+') '+match);
+          return (f.is === 'true' ? match : !match);
+        }
       };
+      return filterMatchInitiative;
     }
   ])
   .factory('filterMatchTags', [
     function() {
-      return function(data) {
-        return _.extend({
-          active: false,
-          is: 'any',
-          value: [],
-          match: function filterMatchTags(battle) {
-            if (!this.active ||
-                0 === this.value.length) return true;
-            if (0 === battle.tags.length) {
-              return ('none' === this.is ||
-                      'not_all' === this.is);
-            }
-            var and = true, or = false, found;
-            _.each(this.value, function(value) {
-              found = (0 <= battle.tags.indexOf(value));
-              and = (and && found);
-              or = (or || found);
-            });
-            switch (this.is) {
-            case 'any':
-              return or;
-            case 'all':
-              return and;
-            case 'not_all':
-              return !and;
-            case 'none':
-              return !or;
-            default:
-              return false;
-            }
-          }
-        }, data);
-      };
-    }
-  ])
-  .factory('filter', [
-    'storage',
-    'filterMatchSimple',
-    'filterMatchDate',
-    'filterMatchSize',
-    'filterMatchCaster',
-    'filterMatchInitiative',
-    'filterMatchTags',
-    function(storage,
-             filterMatchSimple,
-             filterMatchDate,
-             filterMatchSize,
-             filterMatchCaster,
-             filterMatchInitiative,
-             filterMatchTags) {
-      var store = function filterStore(list) {
-        console.log('save filter in localStorage');
-        storage.setItem(storage.KEYS.FILTER, JSON.stringify(list));
-      };
-      var load = function filterLoad() {
-        console.log('load filter from localStorage');
-        return JSON.parse(storage.getItem(storage.KEYS.FILTER));
-      };
-      var storageContainsFilter = function filterStorageContainsFilter() {
-        var data = storage.getItem(storage.KEYS.FILTER);
-        return ('string' === typeof data &&
-                0 < data.length);
-      };
-
-      var create = function filterCreate(data) {
-        return {
-          date: filterMatchDate(_.isObject(data.date) ? data.date : {}),
-          my_army: filterMatchCaster(_.isObject(data.my_army) ? data.my_army : {},
-                                     function(battle) { return battle.my_army; }),
-          opp_name: filterMatchSimple(_.isObject(data.opp_name) ? data.opp_name : {},
-                                      function(battle) { return battle.opponent.name; }),
-          opp_caster: filterMatchCaster(_.isObject(data.opp_caster) ? data.opp_caster : {},
-                                        function(battle) { return battle.opponent; }),
-          result: filterMatchSimple(_.isObject(data.result) ? data.result : {},
-                                    function(battle) { return battle.score; }),
-          scenario: filterMatchSimple(_.isObject(data.scenario) ? data.scenario : {},
-                                      function(battle) { return battle.setup.scenario; }),
-          initiative: filterMatchInitiative(_.isObject(data.initiative) ? data.initiative : {}),
-          size: filterMatchSize(_.isObject(data.size) ? data.size : {}),
-          event: filterMatchSimple(_.isObject(data.event) ? data.event : {},
-                                   function(battle) { return battle.setup.event; }),
-          tags: filterMatchTags(_.isObject(data.tags) ? data.tags : {})
-        };
-      };
-      
-      var cache = {};
-      return {
-        list: null,
-        init: function filterInit() {
-          if (storageContainsFilter()) {
-            var data = load();
-            this.list = create(data);
-          }
-          else {
-            this.list = create({});
-            store(this.list);
-          }
-          this.clearCache();
+      var filterMatchTags = {
+        create: function(data) {
+          return _.extend({
+            active: false,
+            is: 'any',
+            value: [],
+          }, data);
         },
-        update: function filterUpdate() {
-          store(this.list);
-        },
-        match: function filterMatch(battle, invert) {
-          if (!cache.hasOwnProperty(battle.index)) {
-            cache[battle.index] = _.reduce(this.list, function(res, value, key) {
-              return res && value.match(battle);
-            }, true);
-            console.log('filter battle ' + battle.index + ' ' + cache[battle.index]);
+        match: function(f, b) {
+          if(_.isEmpty(f.value)) return true;
+          if(_.isEmpty(b.tags)) {
+            return ('none' === f.is ||
+                    'not_all' === f.is);
           }
-          return invert ? !cache[battle.index] : cache[battle.index];
-        },
-        clearCache: function filterClearCache(index) {
-          console.log('filter clearCache ' + index);
-          if (undefined === index) {
-            cache = {};
-          }
-          else {
-            delete cache[index];
+          var matches = _.map(f.value, function(value) {
+            return (0 <= _.indexOf(b.tags, value));
+          });
+          var and = _.every(matches);
+          var or = _.some(matches);
+          // console.log('simple('+f.value+'.'+f.is+','+b.index+') '+and+','+or);
+          switch (f.is) {
+          case 'any':
+            return or;
+          case 'all':
+            return and;
+          case 'not_all':
+            return !and;
+          case 'none':
+            return !or;
+          default:
+            return false;
           }
         }
       };
-    }]);
+      return filterMatchTags;
+    }
+  ])
+  .factory('filter', [
+    'filterMatchSimple',
+    'filterMatchComp',
+    'filterMatchCaster',
+    'filterMatchInitiative',
+    'filterMatchTags',
+    'compareDate',
+    function(filterMatchSimple,
+             filterMatchComp,
+             filterMatchCaster,
+             filterMatchInitiative,
+             filterMatchTags,
+             compareDate
+            ) {
+      function defaultDate() {
+        var today = new Date();
+        return {
+          year: today.getFullYear(),
+          month: today.getMonth() + 1,
+          day: today.getDate()
+        };
+      }
+      var filters = [
+        { key: 'date',
+          create: _.partial(filterMatchComp.create, _, defaultDate),
+          match: _.partial(filterMatchComp.match, _, _, 'date', compareDate) },
+        { key: 'my_army',
+          create: filterMatchCaster.create,
+          match: _.partial(filterMatchCaster.match, _, _, 'my_army') },
+        { key: 'opp_name',
+          create: filterMatchSimple.create,
+          match: _.partial(filterMatchSimple.match, _, _, 'opponent.name') },
+        { key: 'opp_caster',
+          create: filterMatchCaster.create,
+          match: _.partial(filterMatchCaster.match, _, _, 'opponent') },
+        { key: 'result',
+          create: filterMatchSimple.create,
+          match: _.partial(filterMatchSimple.match, _, _, 'score') },
+        { key: 'scenario',
+          create: filterMatchSimple.create,
+          match: _.partial(filterMatchSimple.match, _, _, 'setup.scenario') },
+        { key: 'initiative',
+          create: filterMatchInitiative.create,
+          match: filterMatchInitiative.match },
+        { key: 'size',
+          create: _.partial(filterMatchComp.create, _, _.always(50)),
+          match: _.partial(filterMatchComp.match, _, _, 'setup.size', _.comparator(_.lt)) },
+        { key: 'event',
+          create: filterMatchSimple.create,
+          match: _.partial(filterMatchSimple.match, _, _, 'setup.event') },
+        { key: 'tags',
+          create: filterMatchTags.create,
+          match: filterMatchTags.match },
+      ];
+      function toObject(data) {
+        return _.isObject(data) ? data : {};
+      }
+      var filter = {
+        create: function(data) {
+          data = toObject(data);
+          return _.chain(filters)
+            .reduce(function(mem, f) {
+              mem[f.key] = f.create(toObject(data[f.key]));
+              return mem;
+            }, {})
+            .value();
+        },
+        match: function(fs, b, invert, cache) {
+          cache = _.exists(cache) ? cache : {};
+          // if (!_.exists(cache[b.index])) {
+          cache[b.index] = _.chain(filters)
+            .filter(function(f) { return _.getPath(fs, f.key+'.active'); })
+            .map(function(f) { return [f.match, fs[f.key]]; })
+            .map(function(f) { return f[0](f[1], b); })
+            // .spy('matches')
+            .every()
+            // .spy('every')
+            .value();
+          // }
+          return invert ? !cache[b.index] : cache[b.index];
+        },
+        clearCache: function(cache, index) {
+          console.log('filter clearCache ' + index);
+          if(!_.exists(index)) {
+            return {};
+          }
+          else {
+            return _.omit(cache, index);
+          }
+        }
+      };
+      return filter;
+    }
+  ]);

@@ -11,84 +11,85 @@
     </div>
     <div class="form-group first">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.date.active=!filter.date.active"
+           ng-click="battles.filter.state.date.active=!battles.filter.state.date.active"
            ng-class="{
-           'active': filter.date.active
+           'active': battles.filter.state.date.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.date.active,
-              'glyphicon-unchecked':!filter.date.active
+              'glyphicon-check':battles.filter.state.date.active,
+              'glyphicon-unchecked':!battles.filter.state.date.active
               }"></span>
         <label class="control-label">
           Date
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.date.active">
+           ng-show="battles.filter.state.date.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.date.is">
-            <option value="0">==</option>
-            <option value="1">!=</option>
-            <option value="2">&gt;</option>
-            <option value="3">&gt;=</option>
-            <option value="4">&lt;</option>
-            <option value="5">&lt;=</option>
+                  ng-model="battles.filter.state.date.is">
+            <option value="==">==</option>
+            <option value="!=">!=</option>
+            <option value="&gt;">&gt;</option>
+            <option value="&gt;=">&gt;=</option>
+            <option value="<">&lt;</option>
+            <option value="<=">&lt;=</option>
           </select>
         </div>
         <div class="col-xs-9">
           <input type="number"
                  class="form-control input-sm"
                  style="display:inline-block;width:40%;max-width:6em;"
-                 ng-model="filter.date.year" />
+                 ng-model="battles.filter.state.date.value.year" />
           <input type="number"
                  class="form-control input-sm"
                  style="display:inline-block;width:40%;max-width:6em;"
-                 ng-model="filter.date.month" />
+                 ng-model="battles.filter.state.date.value.month" />
           <input type="number"
                  class="form-control input-sm"
                  style="display:inline-block;width:40%;max-width:6em;"
-                 ng-model="filter.date.day" />
+                 ng-model="battles.filter.state.date.value.day" />
         </div>
       </div>
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.my_army.active=!filter.my_army.active"
+           ng-click="battles.filter.state.my_army.active=!battles.filter.state.my_army.active"
            ng-class="{
-           'active': filter.my_army.active
+           'active': battles.filter.state.my_army.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.my_army.active,
-              'glyphicon-unchecked':!filter.my_army.active
+              'glyphicon-check':battles.filter.state.my_army.active,
+              'glyphicon-unchecked':!battles.filter.state.my_army.active
               }"></span>
         <label class="control-label">
           My caster
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.my_army.active">
+           ng-show="battles.filter.state.my_army.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.my_army.is">
+                  ng-model="battles.filter.state.my_army.is">
             <option value="true" selected="selected">is</option>
             <option value="false">is not</option>
           </select>
         </div>
         <div class="col-xs-9">
           <select class="form-control"
-                  ng-model="filter.my_army.faction"
-                  ng-options="id as f.name for (id, f) in factions">
+                  ng-model="battles.filter.state.my_army.value.faction"
+                  ng-options="f.key as f.name for f in factions">
           </select>
         </div>
         <div class="col-xs-3"></div>
         <div class="col-xs-9">
           <select class="form-control multiple"
-                  ng-model="filter.my_army.caster"
-                  ng-options="id as id |
-                  capitalise for (id, c) in factions[filter.my_army.faction].casters"
+                  ng-model="battles.filter.state.my_army.value.caster"
+                  ng-options="
+                  c.key as c.key|capitalise
+                  for c in factions | factions:'castersFor':battles.filter.state.my_army.value.faction"
                   multiple>
           </select>
         </div>
@@ -96,32 +97,32 @@
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.opp_name.active=!filter.opp_name.active"
+           ng-click="battles.filter.state.opp_name.active = !battles.filter.state.opp_name.active"
            ng-class="{
-           'active': filter.opp_name.active
+           'active': battles.filter.state.opp_name.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.opp_name.active,
-              'glyphicon-unchecked':!filter.opp_name.active
+              'glyphicon-check': battles.filter.state.opp_name.active,
+              'glyphicon-unchecked': !battles.filter.state.opp_name.active
               }"></span>
         <label class="control-label">
           Opponent
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.opp_name.active">
+           ng-show="battles.filter.state.opp_name.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.opp_name.is">
+                  ng-model="battles.filter.state.opp_name.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
         </div>
         <div class="col-xs-9">
           <select class="form-control multiple"
-                  ng-model="filter.opp_name.value"
-                  ng-options="o as o|capitalise for o in opponents"
+                  ng-model="battles.filter.state.opp_name.value"
+                  ng-options="o as o | capitalise for o in battles.opponents"
                   multiple>
           </select>
         </div>
@@ -129,41 +130,43 @@
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.opp_caster.active=!filter.opp_caster.active"
+           ng-click="battles.filter.state.opp_caster.active=!battles.filter.state.opp_caster.active"
            ng-class="{
-           'active': filter.opp_caster.active
+           'active': battles.filter.state.opp_caster.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.opp_caster.active,
-              'glyphicon-unchecked':!filter.opp_caster.active
+              'glyphicon-check':battles.filter.state.opp_caster.active,
+              'glyphicon-unchecked':!battles.filter.state.opp_caster.active
               }"></span>
         <label class="control-label">
           Opponent Caster
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.opp_caster.active">
+           ng-show="battles.filter.state.opp_caster.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.opp_caster.is">
+                  ng-model="battles.filter.state.opp_caster.is">
             <option value="true" selected="selected">is</option>
             <option value="false">is not</option>
           </select>
         </div>
         <div class="col-xs-9">
           <select class="form-control"
-                  ng-model="filter.opp_caster.faction"
-                  ng-options="id as f.name for (id, f) in factions">
+                  ng-model="battles.filter.state.opp_caster.value.faction"
+                  ng-options="f.key as f.name for f in factions">
           </select>
         </div>
         <div class="col-xs-3">
         </div>
         <div class="col-xs-9">
           <select class="form-control multiple"
-                  ng-model="filter.opp_caster.caster"
-                  ng-options="id as id |
-                  capitalise for (id, c) in factions[filter.opp_caster.faction].casters"
+                  ng-model="battles.filter.state.opp_caster.value.caster"
+                  ng-options="
+                  c.key as c.key|capitalise
+                  for c in factions
+                  | factions:'castersFor':battles.filter.state.opp_caster.value.faction"
                   multiple>
           </select>
         </div>
@@ -171,33 +174,36 @@
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.result.active=!filter.result.active"
+           ng-click="battles.filter.state.result.active=!battles.filter.state.result.active"
            ng-class="{
-           'active': filter.result.active
+           'active': battles.filter.state.result.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.result.active,
-              'glyphicon-unchecked':!filter.result.active
+              'glyphicon-check':battles.filter.state.result.active,
+              'glyphicon-unchecked':!battles.filter.state.result.active
               }"></span>
         <label class="control-label">
           Result
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.result.active">
+           ng-show="battles.filter.state.result.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.result.is">
+                  ng-model="battles.filter.state.result.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
         </div>
         <div class="col-xs-9">
           <select class="form-control multiple"
-                  ng-model="filter.result.value"
-                  ng-options="id as s.type | capitalise
-                  group by s.result | capitalise for (id, s) in scores"
+                  ng-model="battles.filter.state.result.value"
+                  ng-options="
+                  id as s.type | capitalise
+                  group by s.result | capitalise
+                  for (id, s) in scores
+                  "
                   multiple>
           </select>
         </div>
@@ -205,32 +211,35 @@
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.scenario.active=!filter.scenario.active"
+           ng-click="battles.filter.state.scenario.active=!battles.filter.state.scenario.active"
            ng-class="{
-           'active': filter.scenario.active
+           'active': battles.filter.state.scenario.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.scenario.active,
-              'glyphicon-unchecked':!filter.scenario.active
+              'glyphicon-check':battles.filter.state.scenario.active,
+              'glyphicon-unchecked':!battles.filter.state.scenario.active
               }"></span>
         <label class="control-label">
           Scenario
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.scenario.active">
+           ng-show="battles.filter.state.scenario.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.scenario.is">
+                  ng-model="battles.filter.state.scenario.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
         </div>
         <div class="col-xs-9">
           <select class="form-control multiple"
-                  ng-model="filter.scenario.name"
-                  ng-options="id as s.name for (id, s) in scenarios"
+                  ng-model="battles.filter.state.scenario.name"
+                  ng-options="
+                  s.key as s.name
+                  for s in battles.scenarios | orderBy:'-key'
+                  "
                   multiple>
           </select>
         </div>
@@ -238,68 +247,68 @@
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.size.active=!filter.size.active"
+           ng-click="battles.filter.state.size.active=!battles.filter.state.size.active"
            ng-class="{
-           'active': filter.size.active
+           'active': battles.filter.state.size.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.size.active,
-              'glyphicon-unchecked':!filter.size.active
+              'glyphicon-check':battles.filter.state.size.active,
+              'glyphicon-unchecked':!battles.filter.state.size.active
               }"></span>
         <label class="control-label">
           Size
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.size.active">
+           ng-show="battles.filter.state.size.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.size.is">
-            <option value="0">==</option>
-            <option value="1">!=</option>
-            <option value="2">&gt;</option>
-            <option value="3">&gt;=</option>
-            <option value="4">&lt;</option>
-            <option value="5">&lt;=</option>
+                  ng-model="battles.filter.state.size.is">
+            <option value="==">==</option>
+            <option value="!=">!=</option>
+            <option value="&gt;">&gt;</option>
+            <option value="&gt;=">&gt;=</option>
+            <option value="<">&lt;</option>
+            <option value="<=">&lt;=</option>
           </select>
         </div>
         <div class="col-xs-9">
           <input type="number"
                  class="form-control filter-input-3"
                  style="max-width:6em"
-                 ng-model="filter.size.value" />
+                 ng-model="battles.filter.state.size.value" />
         </div>
       </div>
     </div>
     <div class="form-group"> 
       <div class="col-xs-12 header clickable"
-           ng-click="filter.event.active=!filter.event.active"
+           ng-click="battles.filter.state.event.active=!battles.filter.state.event.active"
            ng-class="{
-           'active': filter.event.active
+           'active': battles.filter.state.event.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.event.active,
-              'glyphicon-unchecked':!filter.event.active
+              'glyphicon-check':battles.filter.state.event.active,
+              'glyphicon-unchecked':!battles.filter.state.event.active
               }"></span>
         <label class="control-label">
           Event
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.event.active">
+           ng-show="battles.filter.state.event.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.event.is">
+                  ng-model="battles.filter.state.event.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
         </div>
         <div class="col-xs-9">
           <select class="form-control multiple"
-                  ng-model="filter.event.value"
-                  ng-options="e for e in events"
+                  ng-model="battles.filter.state.event.value"
+                  ng-options="e for e in battles.events"
                   multiple>
           </select>
         </div>
@@ -307,24 +316,24 @@
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.initiative.active=!filter.initiative.active"
+           ng-click="battles.filter.state.initiative.active=!battles.filter.state.initiative.active"
            ng-class="{
-           'active': filter.initiative.active
+           'active': battles.filter.state.initiative.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.initiative.active,
-              'glyphicon-unchecked':!filter.initiative.active
+              'glyphicon-check':battles.filter.state.initiative.active,
+              'glyphicon-unchecked':!battles.filter.state.initiative.active
               }"></span>
         <label class="control-label">
           Initiative
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.initiative.active">
+           ng-show="battles.filter.state.initiative.active">
         <div class="col-xs-3 is">
           <select class="form-control"
-                  ng-model="filter.initiative.is">
+                  ng-model="battles.filter.state.initiative.is">
             <option value="true">is</option>
             <option value="false">is not</option>
           </select>
@@ -332,7 +341,7 @@
         <div class="col-xs-4"
              style="padding-right:5px">
           <select class="form-control"
-                  ng-model="filter.initiative.won_roll">
+                  ng-model="battles.filter.state.initiative.value.won_roll">
             <option selected value=""></option>
             <option selected value="true">Won roll</option>
             <option selected value="false">Lost roll</option>
@@ -341,7 +350,7 @@
         <div class="col-xs-5"
              style="padding-right:5px">
           <select class="form-control"
-                  ng-model="filter.initiative.started">
+                  ng-model="battles.filter.state.initiative.value.started">
             <option selected value=""></option>
             <option selected value="true">started game</option>
             <option selected value="false">chose side</option>
@@ -351,24 +360,24 @@
     </div>
     <div class="form-group">
       <div class="col-xs-12 header clickable"
-           ng-click="filter.tags.active=!filter.tags.active"
+           ng-click="battles.filter.state.tags.active=!battles.filter.state.tags.active"
            ng-class="{
-           'active': filter.tags.active
+           'active': battles.filter.state.tags.active
            }">
         <span class="glyphicon check"
               ng-class="{
-              'glyphicon-check':filter.tags.active,
-              'glyphicon-unchecked':!filter.tags.active
+              'glyphicon-check':battles.filter.state.tags.active,
+              'glyphicon-unchecked':!battles.filter.state.tags.active
               }"></span>
         <label class="control-label">
           Tags
         </label>
       </div>
       <div class="col-xs-12 container"
-           ng-show="filter.tags.active">
+           ng-show="battles.filter.state.tags.active">
         <div class="col-xs-5 is">
           <select class="form-control"
-                  ng-model="filter.tags.is">
+                  ng-model="battles.filter.state.tags.is">
             <option value="any">include any of</option>
             <option value="all">include all of</option>
             <option value="not_all">do not include all of</option>
@@ -377,8 +386,8 @@
         </div>
         <div class="col-xs-7">
           <select class="form-control multiple"
-                  ng-model="filter.tags.value"
-                  ng-options="t for t in tags"
+                  ng-model="battles.filter.state.tags.value"
+                  ng-options="t for t in battles.tags"
                   multiple>
           </select>
         </div>

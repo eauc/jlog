@@ -57,20 +57,20 @@ angular.module('jlogApp', [
           }
         },
         data: {}
-      // })
-      // .state('filter', {
-      //   url: '/filter',
-      //   views: {
-      //     'page': {
-      //       templateUrl: 'partials/filter.html',
-      //       controller: 'filterEditCtrl'
-      //     },
-      //     'bottom-bar@': {
-      //       templateUrl: 'partials/filter_menu.html',
-      //       controller: 'filterEditBottomCtrl'
-      //     }
-      //   },
-      //   data: {}
+      })
+      .state('filter', {
+        url: '/filter',
+        views: {
+          'page@': {
+            templateUrl: 'partials/filter.html',
+            controller: 'filterEditCtrl'
+          },
+          'bottom-bar@': {
+            templateUrl: 'partials/filter_menu.html',
+            controller: 'filterEditBottomCtrl'
+          }
+        },
+        data: {}
       // })
       // .state('stats', {
       //   url: '/stats',

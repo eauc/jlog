@@ -12,10 +12,10 @@ angular.module('jlogApp.controllers')
     'events',
     'opponents',
     'tags',
+    'filter',
     // '$timeout',
     // 'battles_display',
     // 'battle_sort',
-    // 'filter',
     function(
       $scope,
       $state,
@@ -26,11 +26,11 @@ angular.module('jlogApp.controllers')
       battles,
       events,
       opponents,
-      tags
+      tags,
+      filter
       // $timeout,
       // battles_display,
       // battle_sort,
-      // filter
     ) {
       console.log('init mainCtrl');
 
@@ -47,10 +47,24 @@ angular.module('jlogApp.controllers')
         sort: {
           type: 'date',
           reverse: true
+        },
+        filter: {
+          state: filter.create(),
+          invert: false,
+          cache: {}
         }
       };
       $scope.updateBattles = function() {
-        $scope.battles.display_list = battles.sort($scope.battles.list,
+        $scope.battles.filter.cache = {};
+        var filtered_list = $scope.battles.filter.active ?
+          _.filter($scope.battles.list,
+                   _.partial(filter.match,
+                             $scope.battles.filter.state,
+                             _,
+                             $scope.battles.filter.invert,
+                             $scope.battles.filter.cache)) :
+          $scope.battles.list;
+        $scope.battles.display_list = battles.sort(filtered_list,
                                                    $scope.sort_types,
                                                    $scope.battles.sort.type,
                                                    $scope.battles.sort.reverse);
@@ -77,9 +91,9 @@ angular.module('jlogApp.controllers')
         //                                $scope.factions,
         //                                $scope.scores,
         //                                $scope.battles.scenarios));
-        $scope.battles.opponents = opponents.fromBattles($scope.battles.display_list);
-        $scope.battles.events = events.fromBattles($scope.battles.display_list);
-        $scope.battles.tags = tags.fromBattles($scope.battles.display_list);
+        $scope.battles.opponents = opponents.fromBattles($scope.battles.list);
+        $scope.battles.events = events.fromBattles($scope.battles.list);
+        $scope.battles.tags = tags.fromBattles($scope.battles.list);
         console.log('scope', $scope);
       });
       // battles_display.init();
@@ -147,12 +161,16 @@ angular.module('jlogApp.controllers')
       //   $scope.$broadcast('battles_reset');
       //   $timeout(showMore, 100);
       // };
-      // $scope.setFilterActive = function(bool) {
-      //   var change = ($scope.filter_state.active != bool);
-      //   console.log('setFilterActive('+bool+')->'+change);
-      //   $scope.filter_state.active = bool;
-      //   if(change) $scope.resetListDisplay();
-      // };
+      $scope.doToggleFilterActive = function() {
+        $scope.battles.filter.active = !$scope.battles.filter.active;
+        console.log('setFilterActive = '+$scope.battles.filter.active);
+        $scope.updateBattles();
+      };
+      $scope.doToggleFilterInvert = function() {
+        $scope.battles.filter.invert = !$scope.battles.filter.invert;
+        console.log('setFilterInvert = '+$scope.battles.filter.invert);
+        $scope.updateBattles();
+      };
       // $scope.setFilterInvert = function(bool) {
       //   var change = ($scope.filter_state.invert != bool);
       //   console.log('setFilterInvert('+bool+')->'+change);

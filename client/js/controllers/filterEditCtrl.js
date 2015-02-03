@@ -3,29 +3,27 @@
 angular.module('jlogApp.controllers')
   .controller('filterEditCtrl', [
     '$scope',
-    'filter',
-    function($scope,
-             filter) {
+    function($scope) {
       console.log('init filterEditCtrl');
 
-      $scope.bottom_bar.show = true;
+      // $scope.bottom_bar.show = true;
 
-      $scope.$watch('filter', function() {
-        filter.clearCache();
-        filter.update();
-      }, true);
+      // $scope.$watch('filter', function() {
+      //   filter.clearCache();
+      //   filter.update();
+      // }, true);
     }
   ])
   .controller('filterEditBottomCtrl', [
     '$scope',
-    '$state',
+    '$window',
     function($scope,
-             $state,
-             filter) {
+             $window) {
       console.log('init filterEditBottomCtrl');
 
-      $scope.onBack = function() {
-        $state.go($scope.filter_state.previous);
+      $scope.doBack = function() {
+        $scope.updateBattles();
+        $window.history.back();
       };
     }
   ]);

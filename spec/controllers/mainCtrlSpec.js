@@ -32,6 +32,8 @@ describe('controllers', function() {
         this.eventsService = spyOnService('events');
         this.tagsService = spyOnService('tags');
 
+        this.filterService = spyOnService('filter');
+
         $controller('mainCtrl', { 
           '$scope': this.scope,
         });
@@ -64,7 +66,7 @@ describe('controllers', function() {
     ], function(e,d) {
       it('should init '+e.type+' from battles list', function() {
         expect(this[e.type+'Service'].fromBattles)
-          .toHaveBeenCalledWith([]);
+          .toHaveBeenCalledWith(this.scope.battles.list);
         expect(this.scope.battles[e.type])
           .toBe(e.type+'.fromBattles.returnValue');
       });
@@ -75,21 +77,75 @@ describe('controllers', function() {
       expect(this.scope.battles.sort.reverse).toBe(true);
     });
 
+    it('should init filter state', function() {
+      expect(this.scope.battles.filter).toEqual({
+        state: 'filter.create.returnValue',
+        invert: false,
+        cache: {}
+      });
+    });
+
     describe('updateBattles()', function() {
       beforeEach(function() {
         this.scope.battles.list = [ 'battle_list' ];
         this.scope.battles.sort.type = 'sort_type';
         this.scope.battles.sort.reverse = 'sort_reverse';
       });
-      it('should sort battle list', function() {
-        this.scope.updateBattles();
 
-        expect(this.battlesService.sort)
-          .toHaveBeenCalledWith([ 'battle_list' ],
-                                'battles.sortTypes.returnValue',
-                                'sort_type', 'sort_reverse');
-        expect(this.scope.battles.display_list)
-          .toBe('battles.sort.returnValue');
+      when('filter is inactive', function() {
+        this.scope.battles.filter.active = false;
+      }, function() {
+        it('should sort battle list', function() {
+          this.scope.updateBattles();
+
+          expect(this.battlesService.sort)
+            .toHaveBeenCalledWith([ 'battle_list' ],
+                                  'battles.sortTypes.returnValue',
+                                  'sort_type', 'sort_reverse');
+          expect(this.scope.battles.display_list)
+            .toBe('battles.sort.returnValue');
+        });
+      });
+
+      when('filter is active', function() {
+        this.scope.battles.list = [ 'battle1', 'battle2', 'battle3' ];
+        this.scope.battles.filter = {
+          active: true,
+          state: 'filter_state',
+          invert: 'filter_invert',
+        };
+        this.filterService.match.and.callFake(function(f, b) {
+          return b !== 'battle2';
+        });
+      }, function() {
+        it('should filter battle list', function() {
+          this.scope.updateBattles();
+
+          expect(this.filterService.match.calls.count()).toBe(3);
+          expect(this.filterService.match)
+            .toHaveBeenCalledWith('filter_state', 'battle1',
+                                  'filter_invert', {},
+                                  0, this.scope.battles.list);
+          expect(this.filterService.match)
+            .toHaveBeenCalledWith('filter_state', 'battle2',
+                                  'filter_invert', {},
+                                  1, this.scope.battles.list);
+          expect(this.filterService.match)
+            .toHaveBeenCalledWith('filter_state', 'battle3',
+                                  'filter_invert', {},
+                                  2, this.scope.battles.list);
+        });
+
+        it('should sort filtered list', function() {
+          this.scope.updateBattles();
+
+          expect(this.battlesService.sort)
+            .toHaveBeenCalledWith([ 'battle1', 'battle3' ],
+                                  'battles.sortTypes.returnValue',
+                                  'sort_type', 'sort_reverse');
+          expect(this.scope.battles.display_list)
+            .toBe('battles.sort.returnValue');
+        });
       });
     });
 
@@ -111,6 +167,30 @@ describe('controllers', function() {
       it('should update battles data', function() {
         expect(this.scope.updateBattles)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('doToggleFilterActive()', function() {
+      it('should toggle filter active flag', function() {
+        this.scope.battles.filter.active = false;
+        this.scope.doToggleFilterActive();
+        expect(this.scope.battles.filter.active).toBe(true);
+
+        this.scope.battles.filter.active = true;
+        this.scope.doToggleFilterActive();
+        expect(this.scope.battles.filter.active).toBe(false);
+      });
+    });
+
+    describe('doToggleFilterInvert()', function() {
+      it('should toggle filter inverted flag', function() {
+        this.scope.battles.filter.invert = false;
+        this.scope.doToggleFilterInvert();
+        expect(this.scope.battles.filter.invert).toBe(true);
+
+        this.scope.battles.filter.invert = true;
+        this.scope.doToggleFilterInvert();
+        expect(this.scope.battles.filter.invert).toBe(false);
       });
     });
   });
