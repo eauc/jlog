@@ -175,6 +175,31 @@ angular.module('jlogApp.services')
              battle,
              orderByFilter) {
       var sort_types;
+      var TABLE_KEYS = {
+        'date': function(b) { return b.date.year+'-'+b.date.month+'-'+b.date.day; },
+        'my_faction': 'my_army.faction',
+        'my_caster': 'my_army.caster',
+        'opponent': 'opponent.name',
+        'opponent_faction': 'opponent.faction',
+        'opponent_caster': 'opponent.caster',
+        'size': 'setup.size',
+        'scenario': 'setup.scenario',
+        'event': 'setup.event',
+        'initiative': function(b) {
+          return ((b.setup.initiative.won_roll === 'true' ? 'wonRoll' : 'lostRoll')+
+                  '-'+
+                  (b.setup.initiative.started === 'true' ? 'startedGame' : 'choseSide'));
+        },
+        'result': 'score',
+        'my_cp': 'points.my_army.scenario',
+        'my_ap': 'points.my_army.army',
+        'my_kp': 'points.my_army.kill',
+        'opponent_cp': 'points.opponent.scenario',
+        'opponent_ap': 'points.opponent.army',
+        'opponent_kp': 'points.opponent.kill',
+        'tags': function(b) { return b.tags.join('|'); },
+        'comment': 'comment'
+      };
       var battles = {
         buildIndex: function(coll) {
           return _.each(coll, function(b, i) {
@@ -221,6 +246,23 @@ angular.module('jlogApp.services')
         },
         sort: function(battles, sorts, type, reverse) {
           return orderByFilter(battles, sorts[type].key, reverse);
+        },
+        toTable: function(battles) {
+          return _.cat([_.keys(TABLE_KEYS)],
+                       _.chain(battles)
+                       .map(function(b) {
+                         return _.reduce(TABLE_KEYS, function(mem, k) {
+                           if(_.isFunction(k)) {
+                             mem.push(k(b));
+                           }
+                           else {
+                             mem.push(_.getPath(b, k));
+                           }
+                           return mem;
+                         }, []);
+                       })
+                       .value()
+                      );
         }
       };
       return battles;

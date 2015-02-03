@@ -202,6 +202,33 @@ describe('services', function() {
           .toHaveBeenCalledWith([ 'battles' ], 'type_key', 'reverse');
       });
     });
+
+    describe('toTable()', function() {
+      it('should export battles to table', function() {
+        expect(battles.toTable([
+          { date: { year: 2014, month: 2, day: 25 },
+            my_army: { faction: 'cryx', caster: 'denny1' },
+            opponent: { name: 'kevin', faction: 'khador', caster: 'vlad1' },
+            setup: { size: 50, scenario: 'sr15inco', event: 'wtc',
+                     initiative: { won_roll: 'true', started: 'false' } },
+            score: 'va', points: { my_army: { scenario: 1, army: 2, kill: 3 },
+                                   opponent: { scenario: 4, army: 5, kill: 6 } },
+            tags: ['tag1','tag2'], comment: 'coucouc1' },
+          { date: { year: 2015, month: 1, day: 15 },
+            my_army: { faction: 'menoth', caster: 'severius1' },
+            opponent: { name: 'wood', faction: 'scyrah', caster: 'ossyan1' },
+            setup: { size: 25, scenario: 'sr15incu', event: 'wtc',
+                     initiative: { won_roll: 'false', started: 'true' } },
+            score: 'dc', points: { my_army: { scenario: 11, army: 12, kill: 13 },
+                                   opponent: { scenario: 14, army: 15, kill: 16 } },
+            tags: ['tag11','tag12'], comment: 'coucouc2' },
+        ])).toEqual([
+          [ 'date', 'my_faction', 'my_caster', 'opponent', 'opponent_faction', 'opponent_caster', 'size', 'scenario', 'event', 'initiative', 'result', 'my_cp', 'my_ap', 'my_kp', 'opponent_cp', 'opponent_ap', 'opponent_kp', 'tags', 'comment' ],
+          [ '2014-2-25', 'cryx', 'denny1', 'kevin', 'khador', 'vlad1', 50, 'sr15inco', 'wtc', 'wonRoll-choseSide', 'va', 1, 2, 3, 4, 5, 6, 'tag1|tag2', 'coucouc1' ],
+          [ '2015-1-15', 'menoth', 'severius1', 'wood', 'scyrah', 'ossyan1', 25, 'sr15incu', 'wtc', 'lostRoll-startedGame', 'dc', 11, 12, 13, 14, 15, 16, 'tag11|tag12', 'coucouc2' ]
+        ]);
+      });
+    });
   });
 
 });

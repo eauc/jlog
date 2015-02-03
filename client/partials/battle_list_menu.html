@@ -57,11 +57,6 @@
       </li>
     </ul>
   </div>
-  <!-- <button class="btn btn-default dropup">
-  <span class="glyphicon glyphicon-check"></span>
-  <span class="lbl">Selection</span>
-  <span class="caret"></span>
-  </button> -->
   <div id="drop-list-sort"
        class="btn-group dropup sort">
     <button class="btn btn-default"
@@ -84,34 +79,22 @@
       </li>
     </ul>
   </div>
-  <!-- <div class="btn-group dropup"
-  ng-class="{ 'open': drop_down.active('battle_list_export') }">
-  <button class="btn btn-default dropup"
-  ng-click="onExportOpen($event)">
-  <span class="glyphicon glyphicon-export"></span>
-  <span class="lbl">Export</span>
-  <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu text-left">
-  <li class="dropdown-header">Export to</li>
-  <li>
-  <a ng-href="{{export.json_url}}"
-  download="{{export.name}}_json.txt">
-  JSON
-  </a>
-  </li>
-  <li>
-  <a ng-href="{{export.csv_url}}"
-  download="{{export.name}}_csv.txt">
-  CSV
-  </a>
-  </li>
-  <li>
-  <a ng-href="{{export.bb_url}}"
-  download="{{export.name}}_bb.txt">
-  BB code
-  </a>
-  </li>
-  </ul>
-  </div> -->
+  <div id="drop-list-export"
+       class="btn-group dropup">
+    <button class="btn btn-default"
+            ng-click="doExportOpen()"
+            open-dropdown="drop-list-export">
+      <span class="glyphicon glyphicon-export"></span>
+      <span class="lbl">Export</span>
+    </button>
+    <ul class="dropdown-menu text-left">
+      <li class="dropdown-header">Export to</li>
+      <li ng-repeat="(k,v) in exports">
+        <a ng-href="{{::v.url}}"
+           download="{{::v.name}}">
+          {{::v.label}}
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>

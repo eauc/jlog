@@ -55,13 +55,13 @@ angular.module('jlogApp.controllers')
   .controller('listBottomCtrl', [
     '$scope',
     'battles',
+    'fileExport',
     // '$state',
-    // 'export',
     // 'battles_display',
     function($scope,
-             battles
+             battles,
+             fileExport
       // $state,
-      // _export,
       // battles_display
             ) {
       console.log('init listBottomCtrl');
@@ -79,10 +79,27 @@ angular.module('jlogApp.controllers')
         $scope.updateBattles();
       };
 
-      // $scope['export'] = _export;
-      // $scope.onExportOpen = function(event) {
-      //   _export.generate(battles_display.sorted_list);
-      //   $scope.drop_down.toggle('battle_list_export', event);
-      // };
+      $scope.exports = {};
+      $scope.doExportOpen = function() {
+        // console.log('doExportOpen');
+        var now = (new Date()).getTime();
+        $scope.exports = {
+          json: {
+            name: 'battles_'+now+'.json',
+            url: fileExport.generate('json', $scope.battles.display_list),
+            label: 'JSON'
+          },
+          csv: {
+            name: 'battles_'+now+'.csv',
+            url: fileExport.generate('csv', battles.toTable($scope.battles.display_list)),
+            label: 'CSV'
+          },
+          bb: {
+            name: 'battles_'+now+'.txt',
+            url: fileExport.generate('bb', battles.toTable($scope.battles.display_list)),
+            label: 'BB Code'
+          }
+        };
+      };
     }
   ]);

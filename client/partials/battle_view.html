@@ -87,9 +87,6 @@
     <div class="clearfix"></div>
     <div class="col-xs-3"><em>Initiative:</em></div>
     <div class="col-xs-9">
-      <!-- {{::'true' === battle.setup.initiative.won_roll ? 'Won Roll' : 'Lost Roll'}}
-      -
-      {{::'true' === battle.setup.initiative.started ? 'Started Game' : 'Chose Side'}} -->
       {{:: battle | battle:'initRollDescFor'}} -
       {{:: battle | battle:'initStartDescFor'}}
     </div>
