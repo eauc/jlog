@@ -85,20 +85,20 @@ angular.module('jlogApp', [
       //     }
       //   },
       //   data: {}
-      // })
-      // .state('backup', {
-      //   url: '/backup',
-      //   views: {
-      //     'page': {
-      //       templateUrl: 'partials/backup.html',
-      //       controller: 'backupCtrl'
-      //     }
-      //   }
+      })
+      .state('backup', {
+        url: '/backup',
+        views: {
+          'page@': {
+            templateUrl: 'partials/backup.html',
+            controller: 'backupCtrl'
+          }
+        }
       })
       .state('info', {
         url: '/info',
         views: {
-          'page': {
+          'page@': {
             templateUrl: 'partials/info.html',
             // controller: 'infoCtrl'
           }

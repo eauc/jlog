@@ -3,48 +3,87 @@
 angular.module('jlogApp.controllers')
   .controller('backupCtrl', [
     '$scope',
-    'backup',
-    'battles',
-    'storage',
+    'fileImport',
+    'fileExport',
+    'server',
+    // 'battles',
+    // 'storage',
     function($scope,
-             backup,
-             battles,
-             storage) {
+             fileImport,
+             fileExport,
+             server
+             // battles,
+             // storage
+            ) {
 
       console.log('init backupCtrl');
 
-      $scope.bottom_bar.show = false;
+      // $scope.bottom_bar.show = false;
 
-      $scope.backup = backup;
-      $scope.readBackupFile = function readBackupFile(file) {
-        $scope.backup.read(file, function(data) {
-          storage.clearJLogKeys();
-          $scope.$emit('newBattles', data);
-          backup.generate($scope.battles.list);
-          $scope.$apply("backup.read_result = 'loaded file'");
-        }, function(error) {
-          $scope.$apply("backup.read_result = '" + error + "'");
-        });
-      };
+      function generateBackup() {
+        var now = (new Date()).getTime();
+        $scope.backup = {
+          url: fileExport.generate('json', $scope.battles.list),
+          name: 'jlog_'+now+'.json'
+        };
+      }
+      generateBackup();
 
-      $scope.uploadData = function() {
-        backup.upload(battles.list);
-      };
-      $scope.downloadData = function downloadData() {
-        if(!_.isString(backup.download.id) ||
-           0 >= backup.download.id.length) return;
-        backup.download()
+      $scope.read_result = [];
+      $scope.doReadBackupFile = function(file) {
+        console.log('readBackupFile', file);
+        $scope.read_result = [];
+        fileImport.read('json', file)
           .then(function(data) {
-            storage.clearJLogKeys();
-            $scope.$emit('newBattles', data);
-            backup.generate($scope.battles.list);
+            var state = data[0];
+            var error = data[1];
+            $scope.setBattles(state);
+            $scope.read_result = error;
+            $scope.stateGo('battle');
+          }, function(error) {
+            $scope.read_result = error;
+          });
+      };
+      
+      $scope.upload = {
+        id: null,
+        msg: null
+      };
+      $scope.doUploadData = function() {
+        $scope.upload = {
+          id: null,
+          msg: 'Uploading...'
+        };
+        server.upload($scope.battles.list)
+          .then(function(data) {
+            $scope.upload = {
+              id: data[0],
+              msg: data[1]
+            };
           });
       };
 
-      $scope.onClearStorage = function() {
-        storage.clearJLogKeys();
+      $scope.download = {
+        id: null,
+        msg: null
+      };
+      $scope.doDownloadData = function() {
+        if(!_.isString($scope.download.id) ||
+           s.isBlank($scope.download.id)) return;
+        server.download($scope.download.id)
+          .then(function(data) {
+            $scope.download.msg = data[1];
+            if(_.exists(data[0])) {
+              $scope.setBattles(data[0]);
+              $scope.stateGo('battle');
+            }
+          });
       };
 
-      backup.statusReset();
-      backup.generate($scope.battles.list);
+      // $scope.onClearStorage = function() {
+      //   storage.clearJLogKeys();
+      // };
+
+      // backup.statusReset();
+      // backup.generate($scope.battles.list);
     }]);
