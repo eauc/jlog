@@ -81,11 +81,25 @@ angular.module('jlogApp.services')
                 };
               })
               .value();
-            return data;
+            return _.clone(data);
           }, function(response) {
             console.log('scenarios get data error', response);
             return $q.reject(response);
           });
+        },
+        fromBattles: function(battles) {
+          var ret = _.clone(data);
+          _.chain(battles)
+            .mapWith(_.getPath, 'setup.scenario')
+            .uniq()
+            .without(undefined, null)
+            .each(function(s) {
+              if(!_.exists(scenarios.nameFor(ret, s))) {
+                ret = scenarios.add(ret, s);
+              }
+            })
+            .value();
+          return ret;
         },
         add: function(coll, sc) {
           return _.chain(coll)

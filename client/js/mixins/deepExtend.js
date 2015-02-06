@@ -1,6 +1,7 @@
 _.mixin({
   deepExtend: function deepExtend(dst, src) {
     _.each(src, function(value, key) {
+      if(undefined === value) return;
       if( _.isObject(value) &&
           !_.isArray(value) &&
           !_.isFunction(value) &&

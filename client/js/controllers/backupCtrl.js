@@ -4,21 +4,18 @@ angular.module('jlogApp.controllers')
   .controller('backupCtrl', [
     '$scope',
     'fileImport',
+    'igParser',
     'fileExport',
     'server',
-    // 'battles',
-    // 'storage',
     function($scope,
              fileImport,
+             igParser,
              fileExport,
-             server
-             // battles,
-             // storage
-            ) {
+             server) {
 
       console.log('init backupCtrl');
 
-      // $scope.bottom_bar.show = false;
+      igParser.init();
 
       function generateBackup() {
         var now = (new Date()).getTime();
@@ -29,19 +26,20 @@ angular.module('jlogApp.controllers')
       }
       generateBackup();
 
-      $scope.read_result = [];
-      $scope.doReadBackupFile = function(file) {
-        console.log('readBackupFile', file);
-        $scope.read_result = [];
-        fileImport.read('json', file)
+      $scope.read_result = {};
+      $scope.doReadFile = function(type, file) {
+        console.log('readFile', type, file);
+        $scope.read_result[type] = [];
+        fileImport.read(type, file)
           .then(function(data) {
             var state = data[0];
             var error = data[1];
+            error.push('imported '+state.length+' battles');
             $scope.setBattles(state);
-            $scope.read_result = error;
+            $scope.read_result[type] = error;
             $scope.stateGo('battle');
           }, function(error) {
-            $scope.read_result = error;
+            $scope.read_result[type] = error;
           });
       };
       
@@ -83,7 +81,4 @@ angular.module('jlogApp.controllers')
       // $scope.onClearStorage = function() {
       //   storage.clearJLogKeys();
       // };
-
-      // backup.statusReset();
-      // backup.generate($scope.battles.list);
     }]);

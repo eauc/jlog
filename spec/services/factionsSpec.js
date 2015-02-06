@@ -114,6 +114,21 @@ describe('services', function() {
       });
     });
 
+    describe('normaliseCaster(<caster>)', function() {
+      it('should lowerCase <caster>', function() {
+        expect(factions.normaliseCaster('Vayl1')).toBe('vayl1');
+      });
+
+      it('should append "1" to <caster> if necessary', function() {
+        expect(factions.normaliseCaster('saeryn')).toBe('saeryn1');
+      });
+
+      it('should not append "1" to <caster> if number already present', function() {
+        expect(factions.normaliseCaster('vayl1')).toBe('vayl1');
+        expect(factions.normaliseCaster('vayl2')).toBe('vayl2');
+      });
+    });
+
     describe('nameFor(<key>)', function() {
       beforeEach(function() {
         this.coll = [
@@ -133,6 +148,29 @@ describe('services', function() {
       ], function(e, d) {
         it('should find the name for <key>, '+d, function() {
           expect(factions.nameFor(this.coll, e.key)).toBe(e.name);
+        });
+      });
+    });
+
+    describe('keyForName(<name>)', function() {
+      beforeEach(function() {
+        this.coll = [
+          { key: 'a', name: 'alpha' },
+          { key: 'b', name: 'bravo' },
+          { key: 'c', name: 'charlie' },
+        ];
+      });
+
+      using([
+        [ 'key' , 'name'    ],
+        [ 'a'   , 'alpha'   ],
+        [ 'b'   , 'bravo'   ],
+        [ 'c'   , 'charlie' ],
+        // undefined key
+        [ undefined, 'delta' ],
+      ], function(e, d) {
+        it('should find the name for <key>, '+d, function() {
+          expect(factions.keyForName(this.coll, e.name)).toBe(e.key);
         });
       });
     });

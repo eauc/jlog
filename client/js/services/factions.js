@@ -6,14 +6,6 @@ angular.module('jlogApp.services')
     '$q',
     function($http,
              $q) {
-      function normaliseCaster(caster) {
-        if (!angular.isString(caster)) return null;
-        var last_char = caster.charAt(caster.length - 1);
-        if ('0' > last_char || '9' < last_char) {
-          caster += '1';
-        }
-        return caster;
-      }
       var data;
       var factions = {
         data: function() {
@@ -26,7 +18,7 @@ angular.module('jlogApp.services')
                   name: f.name,
                   icon: f.icon,
                   casters: _.map(f.casters, function(c, k) {
-                    var normed_caster_key = normaliseCaster(k);
+                    var normed_caster_key = factions.normaliseCaster(k);
                     return {
                       key: normed_caster_key,
                       name: c.name
@@ -40,6 +32,21 @@ angular.module('jlogApp.services')
             console.log('factions get data error', response);
             return $q.reject(response);
           });
+        },
+        normaliseCaster: function(caster) {
+          if (!angular.isString(caster)) return null;
+          var last_char = caster.charAt(caster.length - 1);
+          if ('0' > last_char || '9' < last_char) {
+            caster += '1';
+          }
+          return caster.toLowerCase();
+        },
+        keyForName: function(coll, name) {
+          return _.chain(coll)
+            .where({ name: name })
+            .first()
+            .getPath('key') 
+            .value();
         },
         nameFor: function(coll, f) {
           return _.chain(coll)

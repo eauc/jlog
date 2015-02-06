@@ -22,6 +22,7 @@ describe('controllers', function() {
         };
 
         this.fileImportService = spyOnService('fileImport');
+        this.igParserService = spyOnService('igParser');
         this.fileExportService = spyOnService('fileExport');
         this.serverService = spyOnService('server');
 
@@ -40,40 +41,44 @@ describe('controllers', function() {
       expect(this.scope.backup.name).toMatch(/jlog_\d+.json/);
     });
 
-    describe('doReadBackupFile(<file>)', function() {
+    it('should init igParser', function() {
+      expect(this.igParserService.init).toHaveBeenCalled();
+    });
+
+    describe('doReadFile(<type>, <file>)', function() {
       beforeEach(inject(function($q) {
         this.read_defer = $q.defer();
         this.fileImportService.read._retVal = this.read_defer.promise;
       }));
 
       it('should reset read_result', function() {
-        this.scope.read_result = ['previous'];
+        this.scope.read_result.type = ['previous'];
 
-        this.scope.doReadBackupFile('file');
+        this.scope.doReadFile('type', 'file');
 
-        expect(this.scope.read_result).toEqual([]);
+        expect(this.scope.read_result.type).toEqual([]);
       });
 
       it('should import file', function() {
-        this.scope.doReadBackupFile('file');
+        this.scope.doReadFile('type', 'file');
 
         expect(this.fileImportService.read)
-          .toHaveBeenCalledWith('json', 'file');
+          .toHaveBeenCalledWith('type', 'file');
       });
 
       when('import fails', inject(function($rootScope) {
-        this.scope.doReadBackupFile('file');
+        this.scope.doReadFile('type', 'file');
 
         this.read_defer.reject(['errors']);
         $rootScope.$digest();
       }), function() {
         it('should update errors list', function() {
-          expect(this.scope.read_result).toEqual(['errors']);
+          expect(this.scope.read_result.type).toEqual(['errors']);
         });
       });
 
       when('import succeeds', inject(function($rootScope) {
-        this.scope.doReadBackupFile('file');
+        this.scope.doReadFile('type', 'file');
 
         this.read_defer.resolve([['battles'], ['errors']]);
         $rootScope.$digest();
@@ -82,7 +87,7 @@ describe('controllers', function() {
           expect(this.scope.setBattles).toHaveBeenCalledWith(['battles']);
         });
         it('should update errors list', function() {
-          expect(this.scope.read_result).toEqual(['errors']);
+          expect(this.scope.read_result.type).toEqual(['errors', 'imported 1 battles']);
         });
         it('should show battles list', function() {
           expect(this.scope.stateGo).toHaveBeenCalledWith('battle');

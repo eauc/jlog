@@ -71,6 +71,10 @@ angular.module('jlogApp.controllers')
       };
       $scope.setBattles = function(bs) {
         $scope.battles.list = battles.buildIndex(bs);
+        $scope.battles.opponents = opponents.fromBattles($scope.battles.list);
+        $scope.battles.events = events.fromBattles($scope.battles.list);
+        $scope.battles.tags = tags.fromBattles($scope.battles.list);
+        $scope.battles.scenarios = scenarios.fromBattles($scope.battles.list);
         $scope.updateBattles();
       };
 
@@ -81,19 +85,16 @@ angular.module('jlogApp.controllers')
         $scope.factions = _factions;
         return $q.when(scenarios.data());
       }).then(function(_scenarios) {
-        $scope.battles.scenarios = _scenarios;
         return $q.when(battles.sortTypes());
       }).then(function(_sorts) {
         $scope.sort_types = _sorts;
         return;
       }).then(function() {
+        $scope.setBattles([]);
         // $scope.setBattles(battles.test(100,
         //                                $scope.factions,
         //                                $scope.scores,
         //                                $scope.battles.scenarios));
-        $scope.battles.opponents = opponents.fromBattles($scope.battles.list);
-        $scope.battles.events = events.fromBattles($scope.battles.list);
-        $scope.battles.tags = tags.fromBattles($scope.battles.list);
         console.log('scope', $scope);
       });
       // battles_display.init();

@@ -11,14 +11,16 @@ describe('services', function() {
     var scenarios;
     beforeEach(inject([
       'scenarios',
-      function(_scenarios) {
+      '$httpBackend',
+      function(_scenarios,
+               $httpBackend) {
         scenarios = _scenarios;
+        this.httpBackend = $httpBackend;
       }
     ]));
 
     describe('data()', function() {
-      beforeEach(inject(function($httpBackend) {
-        this.httpBackend = $httpBackend;
+      beforeEach(function() {
         this.data = {
           "sr15des": {
             "name": "SR15 Destruction"
@@ -33,7 +35,7 @@ describe('services', function() {
             "name": "SR15 Fire Support"
           },
         };
-      }));
+      });
 
       it('should get scenarios data', function() {
         this.httpBackend.expectGET('data/scenarios.json')
@@ -95,6 +97,40 @@ describe('services', function() {
           this.httpBackend.resetExpectations();
           expect(scenarios.data()).toBeAn('Array');
         });
+      });
+    });
+
+    describe('fromBattles(<battles>)', function() {
+      beforeEach(function() {
+        this.httpBackend.expectGET('data/scenarios.json')
+          .respond(200, {
+            "sr15des": {
+              "name": "SR15 Destruction"
+            } 
+          });
+        scenarios.data();
+        this.httpBackend.flush();
+      });
+
+      it('should extract opponent list from <battles> and merge it with base data', function() {
+        expect(scenarios.fromBattles([
+          // sort
+          { setup: { scenario: 'scenario3' } },
+          { setup: { scenario: 'scenario1' } },
+          { setup: { scenario: 'scenario2' } },
+          // uniq
+          { setup: { scenario: 'scenario1' } },
+          // without null
+          { setup: { scenario: null } },
+          // without undefined
+          { setup: { titi: 'scenario1' } },
+          { toto: 'scenario1' },
+        ])).toEqual([
+          { key : 'sr15des', name : 'SR15 Destruction' }, 
+          { key : 'scenario3', name : 'Scenario3' },
+          { key : 'scenario1', name : 'Scenario1' },
+          { key : 'scenario2', name : 'Scenario2' }
+        ]);
       });
     });
 

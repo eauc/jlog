@@ -14,11 +14,14 @@ angular.module('jlogApp.services')
     '$window',
     '$q',
     'jsonParser',
+    'igParser',
     function($window,
              $q,
-             jsonParser) {
+             jsonParser,
+             igParser) {
       var parsers = {
-        'json': jsonParser
+        'json': jsonParser,
+        'ig': igParser,
       };
       return {
         read: function(type, file, factions) {

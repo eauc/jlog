@@ -55,21 +55,6 @@ describe('controllers', function() {
       expect(this.scope.sort_types).toBe('battles.sortTypes.returnValue');
       expect(this.scope.scores).toBe('scores.data.returnValue');
       expect(this.scope.factions).toBe('factions.data.returnValue');
-      expect(this.scope.battles.scenarios).toBe('scenarios.data.returnValue');
-    });
-
-    using([
-      [ 'type'      ],
-      [ 'events'    ],
-      [ 'tags'      ],
-      [ 'opponents' ],
-    ], function(e,d) {
-      it('should init '+e.type+' from battles list', function() {
-        expect(this[e.type+'Service'].fromBattles)
-          .toHaveBeenCalledWith(this.scope.battles.list);
-        expect(this.scope.battles[e.type])
-          .toBe(e.type+'.fromBattles.returnValue');
-      });
     });
 
     it('should init sort state', function() {
@@ -163,6 +148,21 @@ describe('controllers', function() {
           .toHaveBeenCalledWith([ 'new_battles' ]);
         expect(this.scope.battles.list)
           .toBe('battles.buildIndex.returnValue');
+      });
+
+      using([
+        [ 'service'   ],
+        [ 'opponents' ],
+        [ 'events'    ],
+        [ 'tags'      ],
+        [ 'scenarios' ],
+      ], function(e, d) {
+        it('should rebuild '+e.service+' list', function() {
+          expect(this[e.service+'Service'].fromBattles)
+            .toHaveBeenCalledWith('battles.buildIndex.returnValue');
+          expect(this.scope.battles[e.service])
+            .toBe(e.service+'.fromBattles.returnValue');
+        });
       });
 
       it('should update battles data', function() {
