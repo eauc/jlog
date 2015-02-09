@@ -1,56 +1,47 @@
 <div>
-  <div class="btn-group dropup"
-       ng-class="{
-       'open': drop_down.active('stats_entry')
-       }">
+  <div id="drop-stats-entry"
+       class="btn-group dropup">
     <button class="btn btn-default"
-            ng-click="drop_down.toggle('stats_entry', $event)">
+            open-dropdown="drop-stats-entry">
       <span style="font-weight:bold">%</span>
-      <span>{{stats.ENTRIES[state.entry].desc | capitalise}}</span>
-      <span class="caret"></span>
+      <span>{{ENTRIES[state.entry].desc}}</span>
     </button>
     <ul class="dropdown-menu text-left">
       <li class="dropdown-header">Show</li>
-      <li ng-repeat="(id, e) in stats.ENTRIES">
-        <a ng-click="state.setEntry(id)">
-          {{ e.desc | capitalise }}
+      <li ng-repeat="(id, e) in ::ENTRIES">
+        <a ng-click="::doSetEntry(id)">
+          {{::e.desc}}
         </a>
       </li>
     </ul>
   </div>
-  <div class="btn-group dropup"
-       ng-class="{
-       'open': drop_down.active('stats_selector')
-       }">
+  <div id="drop-stats-selector"
+       class="btn-group dropup">
     <button class="btn btn-default"
-            ng-click="drop_down.toggle('stats_selector', $event)">
+            open-dropdown="drop-stats-selector">
       <span class="glyphicon glyphicon-sort"></span>
-      <span>{{stats.SELECTORS[state.selector].desc | capitalise}}</span>
-      <span class="caret"></span>
+      <span>{{SELECTORS[state.selector].desc}}</span>
     </button>
     <ul class="dropdown-menu text-left">
       <li class="dropdown-header">Sorted By</li>
-      <li ng-repeat="(id, s) in stats.SELECTORS">
-        <a ng-click="state.setSelector(id)">
-          {{ s.desc | capitalise }}
+      <li ng-repeat="(id, s) in ::SELECTORS">
+        <a ng-click="::doSetSelector(id)">
+          {{::s.desc}}
         </a>
       </li>
     </ul>
   </div>
-  <div class="btn-group dropup"
-       ng-class="{
-       'open': drop_down.active('stats_filter')
-       }">
+  <div id="drop-list-filter"
+       class="btn-group dropup">
     <button class="btn"
             ng-class="{
-            'btn-default':!filter_state.active,
-            'btn-success':filter_state.active && !filter_state.invert,
-            'btn-primary':filter_state.active && filter_state.invert
+            'btn-default': !battles.filter.active,
+            'btn-success': battles.filter.active && !battles.filter.invert,
+            'btn-primary': battles.filter.active && battles.filter.invert
             }"
-            ng-click="drop_down.toggle('stats_filter', $event)">
+            open-dropdown="drop-list-filter">
       <span class="glyphicon glyphicon-filter"></span>
       <span class="lbl">Filter</span>
-      <span class="caret"></span>
     </button>
     <ul class="dropdown-menu text-left">
       <li class="dropdown-header">Filter</li>
@@ -61,26 +52,32 @@
         </a>
       </li>
       <li class="divider"></li>
-      <li ng-show="filter_state.active && !filter_state.invert">
-        <a ng-click="setFilterInvert(true)">
+      <li ng-show="
+          battles.filter.active &&
+          !battles.filter.invert
+          ">
+        <a ng-click="doToggleFilterInvert()">
           <span class="glyphicon glyphicon-random"></span>
           Invert
         </a>
       </li>
-      <li ng-show="filter_state.active && filter_state.invert">
-        <a ng-click="setFilterInvert(false)">
+      <li ng-show="
+          battles.filter.active &&
+          battles.filter.invert
+          ">
+        <a ng-click="doToggleFilterInvert()">
           <span class="glyphicon glyphicon-refresh"></span>
           Restore
         </a>
       </li>
-      <li ng-hide="filter_state.active">
-        <a ng-click="setFilterActive(true)">
+      <li ng-hide="battles.filter.active">
+        <a ng-click="doToggleFilterActive()">
           <span class="glyphicon glyphicon-ok-circle"></span>
           Enable
         </a>
       </li>
-      <li ng-show="filter_state.active">
-        <a ng-click="setFilterActive(false)">
+      <li ng-show="battles.filter.active">
+        <a ng-click="doToggleFilterActive()">
           <span class="glyphicon glyphicon-ban-circle"></span>
           Disable
         </a>

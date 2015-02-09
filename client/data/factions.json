@@ -4,7 +4,8 @@
     "casters": {
       "thexus1": {"name": "Exulon Thexus"}
     },
-    "icon": "mercs_50.png"
+    "icon": "mercs_50.png",
+    "hue": [300,25]
   },
   "cygnar": {
     "name": "Cygnar",
@@ -26,7 +27,8 @@
       "stryker3": {"name": "Lord General Coleman Stryker"},
       "sturgis1": {"name": "Commander Dalin Sturgis"}
     },
-    "icon": "cygnar_50.png"
+    "icon": "cygnar_50.png",
+    "hue": [210,75]
   },
   "menoth": {
     "name": "The Protectorate of Menoth",
@@ -47,7 +49,8 @@
       "vindictus": {"name": "Vice Scrutator Vindictus"},
       "thyra": {"name": "Thyra,  Flame of Sorrow"}
     },
-    "icon": "menoth_50.png"
+    "icon": "menoth_50.png",
+    "hue": [60,75]
   },
   "khador": {
     "name": "Khador",
@@ -68,7 +71,8 @@
       "harkevich": {"name": "Kommander Harkevich,  The Iron Wolf"},
       "butcher3": {"name": "Kommander Zoktavir,  The Butcher Unleashed"}
     },
-    "icon": "khador_50.png"
+    "icon": "khador_50.png",
+    "hue": [0,50]
   },
   "cryx": {
     "name": "Cryx",
@@ -90,7 +94,8 @@
       "witch coven": {"name": "The Witch Coven of Garlghast"},
       "sturgis2": {"name": "Sturgis the Corrupted"}
     },
-    "icon": "cryx_50.png"
+    "icon": "cryx_50.png",
+    "hue": [30,5]
   },
   "scyrah": {
     "name": "Retribution of Scyrah",
@@ -104,7 +109,8 @@
       "vyros2": {"name": "Vyros,  Incissar of the Dawnguard"},
       "issyria": {"name": "Issyria,  Sibyl of Dawn"}
     },
-    "icon": "scyrah_50.png"
+    "icon": "scyrah_50.png",
+    "hue": [180,75]
   },
   "highborn": {
     "name": "Highborn Covenant",
@@ -119,7 +125,8 @@
       "ossrum": {"name": "General Ossrum"},
       "gorten": {"name": "Gorten Grundback"}
     },
-    "icon": "mercs_50.png"
+    "icon": "mercs_50.png",
+    "hue": [30,25]
   },
   "seaforge": {
     "name": "Searforge Commission",
@@ -128,7 +135,8 @@
       "ossrum": {"name": "General Ossrum"},
       "gorten": {"name": "Gorten Grundback"}
     },
-    "icon": "mercs_50.png"
+    "icon": "mercs_50.png",
+    "hue": [30,25]
   },
   "talion": {
     "name": "Talion Charter",
@@ -137,7 +145,8 @@
       "fiona": {"name": "Fiona the Black"},
       "shae": {"name": "Captain Phinneus Shae"}
     },
-    "icon": "mercs_50.png"
+    "icon": "mercs_50.png",
+    "hue": [30,25]
   },
   "fourstar": {
     "name": "Four Star Syndicate",
@@ -152,7 +161,8 @@
       "magnus1": {"name": "Magnus the Traitor"},
       "magnus2": {"name": "Magnus the Warlord"}
     },
-    "icon": "mercs_50.png"
+    "icon": "mercs_50.png",
+    "hue": [30,25]
   },
   "troll": {
     "name": "Trollbloods",
@@ -171,7 +181,8 @@
       "madrak2": {"name": "Madrak Ironhide,  World Ender"},
       "grim2": {"name": "Hunters Grim"}
     },
-    "icon": "troll_50.png"
+    "icon": "troll_50.png",
+    "hue": [210,30]
   },
   "circle": {
     "name": "Circle Orboros",
@@ -190,7 +201,8 @@
       "morvahna1": {"name": "Morvahna the Autumnblade"},
       "morvahna2": {"name": "Morvahna the Dawnshadow"}
     },
-    "icon": "circle_50.png"
+    "icon": "circle_50.png",
+    "hue": [120,45]
   },
   "skorne": {
     "name": "Skorne",
@@ -209,7 +221,8 @@
       "zaal": {"name": "Supreme Aptimus Zaal"},
       "makeda3": {"name": "Makeda & the Exalted Court"}
     },
-    "icon": "skorne_50.png"
+    "icon": "skorne_50.png",
+    "hue": [30,75]
   },
   "loe": {
     "name": "Legion of Everblight",
@@ -228,7 +241,8 @@
       "vayl2": {"name": "Vayl,  Consul of Everblight"},
       "lylyth3": {"name": "Lylyth,  Reckoning of Everblight"}
     },
-    "icon": "loe_50.png"
+    "icon": "loe_50.png",
+    "hue": [270,45]
   },
   "blindwater": {
     "name": "Blindwater Congregation",
@@ -239,7 +253,8 @@
       "jaga1": {"name": "Jaga-Jaga, the Death Charmer"},
       "rask": {"name": "Rask"}
     },
-    "icon": "minions_50.png"
+    "icon": "minions_50.png",
+    "hue": [120,25]
   },
   "thornfall": {
     "name": "Thornfall Alliance",
@@ -250,7 +265,8 @@
       "sturm & drang": {"name": "Sturm & Drang"},
       "midas": {"name": "Midas"}
     },
-    "icon": "minions_50.png"
+    "icon": "minions_50.png",
+    "hue": [45,35]
   },
   "mercs": {
     "name": "Mercenary Theme Forces",
@@ -268,7 +284,8 @@
       "magnus2": {"name": "Magnus the Warlord"},
       "thexus1": {"name": "Exulon Thexus"}
     },
-    "icon": "mercs_50.png"
+    "icon": "mercs_50.png",
+    "hue": [30,25]
   },
   "minions": {
     "name": "Minion Theme Forces",
@@ -284,7 +301,8 @@
       "rask": {"name": "Rask"},
       "midas": {"name": "Midas"}
     },
-    "icon": "minions_50.png"
+    "icon": "minions_50.png",
+    "hue": [120,25]
   },
   "cyriss": {
     "name": "Convergence of Cyriss",
@@ -295,6 +313,7 @@
       "lucant": {"name": "Father Lucant,  Divinity Architect"},
       "syntherion": {"name": "Forge Master Syntherion"}
     },
-    "icon": "cyriss_50.png"
+    "icon": "cyriss_50.png",
+    "hue": [180,35]
   }
 }

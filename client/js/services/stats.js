@@ -2,165 +2,177 @@
 
 angular.module('jlogApp.services')
   .service('stats', [
-    'statEntryMyCaster',
-    'statEntryOppName',
-    'statEntryOppCaster',
-    'statEntryEvent',
+    'statEntryFaction',
+    'statEntryCaster',
+    'statEntrySimple',
     'statEntryScenario',
-    'statEntrySize',
     'statEntryInit',
     'statEntryResult',
-    'statEntryPointScenario',
-    'statEntryPointArmy',
-    'statEntryPointKill',
+    'statEntryTimeResult',
+    'statEntryPoints',
     'statEntryTag',
-    'statSelectorMyCaster',
-    'statSelectorOppName',
-    'statSelectorOppCaster',
-    'statSelectorEvent',
+    'statSelectorTotal',
+    'statSelectorFaction',
+    'statSelectorCaster',
+    'statSelectorSimple',
     'statSelectorScenario',
-    'statSelectorSize',
     'statSelectorInit',
     'statSelectorResult',
     'statSelectorTag',
-    'battles_display',
-    function(statEntryMyCaster,
-             statEntryOppName,
-             statEntryOppCaster,
-             statEntryEvent,
-             statEntryScenario,
-             statEntrySize,
-             statEntryInit,
-             statEntryResult,
-             statEntryPointScenario,
-             statEntryPointArmy,
-             statEntryPointKill,
-             statEntryTag,
-             statSelectorMyCaster,
-             statSelectorOppName,
-             statSelectorOppCaster,
-             statSelectorEvent,
-             statSelectorScenario,
-             statSelectorSize,
-             statSelectorInit,
-             statSelectorResult,
-             statSelectorTag,
-             battles_display) {
-      function total(battles, entryFactory) {
-        var entry = entryFactory();
-        _.each(battles, function(battle) {
-          entry.addBattle(battle);
-        });
-        return entry;
-      }
-      return {
+    function(
+      statEntryFaction,
+      statEntryCaster,
+      statEntrySimple,
+      statEntryScenario,
+      statEntryInit,
+      statEntryResult,
+      statEntryTimeResult,
+      statEntryPoints,
+      statEntryTag,
+      statSelectorTotal,
+      statSelectorFaction,
+      statSelectorCaster,
+      statSelectorSimple,
+      statSelectorScenario,
+      statSelectorInit,
+      statSelectorResult,
+      statSelectorTag
+    ) {
+      var stats = {
         ENTRIES: {
+          my_faction: {
+            desc: "My Faction",
+            reduce: _.partial(statEntryFaction.reduce, _, _, 'my_army.faction')
+          },
           my_caster: {
             desc: "My Caster",
-            factory: statEntryMyCaster
+            reduce: _.partial(statEntryCaster.reduce, _, _, 'my_army')
           },
           opp_name: {
             desc: "Opp. Name",
-            factory: statEntryOppName
+            reduce: _.partial(statEntrySimple.reduce, _, _, _.partial(_.getPath, _, 'opponent.name'))
+          },
+          opp_faction: {
+            desc: "Opp Faction",
+            reduce: _.partial(statEntryFaction.reduce, _, _, 'opponent.faction')
           },
           opp_caster: {
             desc: "Opp. Caster",
-            factory: statEntryOppCaster
+            reduce: _.partial(statEntryCaster.reduce, _, _, 'opponent')
           },
           event: {
             desc: "Event",
-            factory: statEntryEvent
+            reduce: _.partial(statEntrySimple.reduce, _, _, _.partial(_.getPath, _, 'setup.event'))
           },
           scenario: {
             desc: "Scenario",
-            factory: statEntryScenario
+            reduce: statEntryScenario.reduce
           },
           size: {
             desc: "Size",
-            factory: statEntrySize
+            reduce: _.partial(statEntrySimple.reduce, _, _, function(b) {
+              return _.getPath(b, 'setup.size')+'pts';
+            })
           },
           initiative: {
             desc: "Initiative",
-            factory: statEntryInit
+            reduce: statEntryInit.reduce
           },
           result: {
             desc: "Result",
-            factory: statEntryResult
+            reduce: statEntryResult.reduce
           },
-          point_scenario: {
-            desc: "Scenario Points",
-            factory: statEntryPointScenario
+          result_time: {
+            desc: "Result Over Time",
+            reduce: statEntryTimeResult.reduce
           },
-          point_army: {
-            desc: "Army Points",
-            factory: statEntryPointArmy
-          },
-          point_Kill: {
-            desc: "Kill Points",
-            factory: statEntryPointKill
+          points: {
+            desc: "Points",
+            reduce: statEntryPoints.reduce
           },
           tag: {
             desc: "Tag",
-            factory: statEntryTag
+            reduce: statEntryTag.reduce
           },
         },
         SELECTORS: {
+          total: {
+            desc: "Total",
+            sort: statSelectorTotal.sort
+          },
+          my_faction: {
+            desc: "My Faction",
+            sort: _.partial(statSelectorFaction.sort, _, 'my_army.faction')
+          },
           my_caster: {
             desc: "My Caster",
-            factory: statSelectorMyCaster
+            sort: _.partial(statSelectorCaster.sort, _, _, 'my_army')
           },
           opp_name: {
             desc: "Opp. Name",
-            factory: statSelectorOppName
+            sort: _.partial(statSelectorSimple.sort, _, _.partial(_.getPath, _, 'opponent.name'))
+          },
+          opp_faction: {
+            desc: "Opp. Faction",
+            sort: _.partial(statSelectorFaction.sort, _, 'opponent.faction')
           },
           opp_caster: {
             desc: "Opp. Caster",
-            factory: statSelectorOppCaster
+            sort: _.partial(statSelectorCaster.sort, _, _, 'opponent')
           },
           event: {
             desc: "Event",
-            factory: statSelectorEvent
+            sort: _.partial(statSelectorSimple.sort, _, _.partial(_.getPath, _, 'setup.event'))
           },
           scenario: {
             desc: "Scenario",
-            factory: statSelectorScenario
+            sort: statSelectorScenario.sort
           },
           size: {
             desc: "Size",
-            factory: statSelectorSize
+            sort: _.partial(statSelectorSimple.sort, _, function(b) {
+              return _.getPath(b, 'setup.size')+'pts';
+            })
           },
           init: {
             desc: "Initiative",
-            factory: statSelectorInit
+            sort: statSelectorInit.sort
           },
           result: {
             desc: "Result",
-            factory: statSelectorResult
+            sort: statSelectorResult.sort
           },
           tag: {
             desc: "Tag",
-            factory: statSelectorTag
+            sort: statSelectorTag.sort
           },
         },
-        collections: {},
-        legends: {},
-        colors: {},
-        generate: function(entry, selector) {
-          if(!_.has(this.ENTRIES, entry)) return;
-          if(!_.has(this.SELECTORS, selector)) return;
+        init: function() {
+          statEntryFaction.init();
+          statEntryCaster.init();
+          statEntryScenario.init();
+          statEntryTimeResult.init();
 
-          this.collections[entry] = this.collections[entry] || {};
+          statSelectorFaction.init();
+          statSelectorCaster.init();
+          statSelectorScenario.init();
+          statSelectorResult.init();
+        },
+        generate: function(coll, bs, entry, selector, arg) {
+          if(!_.has(stats.ENTRIES, entry)) return coll;
+          if(!_.has(stats.SELECTORS, selector)) return coll;
 
-          this.collections[entry].all = this.collections[entry].all ||
-            total(battles_display.sorted_list,
-                  this.ENTRIES[entry].factory);
-
-          this.collections[entry][selector] = this.collections[entry][selector] ||
-            this.SELECTORS[selector].factory(battles_display.sorted_list,
-                                             this.ENTRIES[entry].factory);
-
-          console.log(this.collections);
+          coll = _.clone(coll);
+          coll[entry] = coll[entry] || {};
+          coll[entry][selector+'.'+arg] = //coll[entry][selector] ||
+            _.chain(bs)
+            .apply(stats.SELECTORS[selector].sort, arg)
+            .mapWith(stats.ENTRIES[entry].reduce)
+            .sortBy(_.partial(_.getPath, _, 'title'))
+            .value();
+          return coll;
         }
       };
+      return stats;
     }
   ]);

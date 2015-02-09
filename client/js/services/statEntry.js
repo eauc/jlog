@@ -1,233 +1,310 @@
 'use strict';
 
 angular.module('jlogApp.services')
-  .service('statEntryMyCaster', [
-    function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          var key = battle.my_army.faction+'|'+battle.my_army.caster;
-          instance[key] = instance[key] || 0;
-          instance[key]++;
-        };
-        return instance;
+  .service('statEntryFaction', [
+    'factions',
+    '$q',
+    function(factions,
+             $q) {
+      var fs;
+      return {
+        init: function() {
+          $q.when(factions.data()).then(function(_fs) {
+            fs = _fs;
+          });
+        },
+        reduce: function(coll, title, key) {
+          var values = _.chain(coll)
+            .countBy(_.partial(_.getPath, _, key))
+            .reduce(function(mem, c, f) {
+              mem[factions.nameFor(fs, f)] = c;
+              return mem;
+            }, {})
+            .value();
+          var hues = _.chain(fs)
+            .reduce(function(mem, f) {
+              mem[f.name] = f.hue;
+              return mem;
+            }, {})
+            .value();
+          return {
+            title: title,
+            hues: hues,
+            values: values
+          };
+        }
       };
-      return factory;
     }
   ])
-  .service('statEntryOppName', [
-    function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          var key = battle.opponent.name;
-          instance[key] = instance[key] || 0;
-          instance[key]++;
-        };
-        return instance;
+  .service('statEntryCaster', [
+    'factions',
+    '$q',
+    function(factions,
+             $q) {
+      var fs;
+      return {
+        init: function() {
+          $q.when(factions.data()).then(function(_fs) {
+            fs = _fs;
+          });
+        },
+        reduce: function(coll, title, key) {
+          var values = _.chain(coll)
+              .groupBy(_.partial(_.getPath, _, key+'.faction'))
+              .reduce(function(mem, bs, f) {
+                mem[factions.nameFor(fs, f)] = _.chain(bs)
+                  .countBy(_.partial(_.getPath, _, key+'.caster'))
+                  .value();
+                return mem;
+              }, {})
+              .value();
+          var hues = _.chain(fs)
+              .reduce(function(mem, f) {
+                mem[f.name] = f.hue;
+                return mem;
+              }, {})
+              .value();
+          console.log('hues', hues);
+          return {
+            title: title,
+            hues: hues,
+            values: values
+          };
+        }
       };
-      return factory;
     }
   ])
-  .service('statEntryOppCaster', [
+  .service('statEntrySimple', [
     function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          var key = battle.opponent.faction;//+'|'+battle.opponent.caster;
-          instance[key] = instance[key] || 0;
-          instance[key]++;
-        };
-        return instance;
+      return {
+        reduce: function(coll, title, getter) {
+          return {
+            title: title,
+            values: _.chain(coll)
+              .countBy(getter)
+              // .spy('countBy')
+              .value()
+          };
+        }
       };
-      return factory;
-    }
-  ])
-  .service('statEntryEvent', [
-    function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          var key = battle.setup.event;
-          instance[key] = instance[key] || 0;
-          instance[key]++;
-        };
-        return instance;
-      };
-      return factory;
-    }
-  ])
-  .service('statEntryEvent', [
-    function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          var key = battle.setup.event;
-          instance[key] = instance[key] || 0;
-          instance[key]++;
-        };
-        return instance;
-      };
-      return factory;
     }
   ])
   .service('statEntryScenario', [
-    function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          var key = battle.setup.scenario;
-          instance[key] = instance[key] || 0;
-          instance[key]++;
-        };
-        return instance;
+    'scenarios',
+    '$q',
+    function(scenarios,
+             $q) {
+      var sc;
+      return {
+        init: function() {
+          $q.when(scenarios.data()).then(function(_sc) {
+            sc = _sc;
+          });
+        },
+        reduce: function(coll, title) {
+          return {
+            title: title,
+            values: _.chain(coll)
+              .countBy(_.partial(_.getPath, _, 'setup.scenario'))
+              // .spy('countBy')
+              .reduce(function(mem, val, key) {
+                mem[scenarios.nameFor(sc, key)] = val;
+                return mem;
+              }, {})
+              .value()
+          };
+        }
       };
-      return factory;
-    }
-  ])
-  .service('statEntrySize', [
-    function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          var key = battle.setup.size;
-          instance[key] = instance[key] || 0;
-          instance[key]++;
-        };
-        return instance;
-      };
-      return factory;
     }
   ])
   .service('statEntryInit', [
     function() {
-      var factory = function() {
-        var instance = { rw:0, rl:0, pf:0, ps:0 };
-        instance.addBattle = function(battle) {
-          if('true' === battle.setup.initiative.won_roll) instance.rw++;
-          if('false' === battle.setup.initiative.won_roll) instance.rl++;
-          if('true' === battle.setup.initiative.started) instance.pf++;
-          if('false' === battle.setup.initiative.started) instance.ps++;
-        };
-        return instance;
+      return {
+        reduce: function(coll, title) {
+          return {
+            title: title,
+            legends: [ "Won Roll, Started Game",
+                       "Won Roll, Chose Side",
+                       "Lost Roll, Started Game",
+                       "Lost Roll, Chose Side" ],
+            colors: [ '#4AE34D',
+                      '#39B03C',
+                      '#B02817',
+                      '#E3341D' ],
+            values: _.chain(coll)
+              .reduce(function(mem, b) {
+                var wr = _.getPath(b, 'setup.initiative.won_roll');
+                var sg = _.getPath(b, 'setup.initiative.started');
+                if(_.isString(wr) && _.isString(sg)) {
+                  mem[(wr === 'true' ? 'wr' : 'lr')+
+                      '_'+
+                      (sg === 'true' ? 'sg' : 'cs')]++;
+                }
+                return mem;
+              }, { wr_sg:0, wr_cs:0, lr_sg:0, lr_cs:0 })
+              .apply(function(obj) {
+                return [obj.wr_sg,obj.wr_cs, obj.lr_sg,obj.lr_cs];
+              })
+              .value()
+          };
+        }
       };
-      factory.legends = function(entry) {
-        return {
-          rw: "Won Roll",
-          rl: "Lost Roll",
-          pf: "First Player",
-          ps: "Second Player"
-        };
-      };
-      factory.colors = function(entry) {
-        return {
-          rw: '#0C0',
-          rl: '#C00',
-          pf: '#06C',
-          ps: '#048'
-        };
-      };
-      return factory;
     }
   ])
   .service('statEntryResult', [
     function() {
-      var factory = function() {
-        var instance = { va:0, vc:0, vs:0, vt:0, dd:0, da:0, dc:0, ds:0, dt:0 };
-        instance.addBattle = function(battle) {
-          instance[battle.score]++;
-        };
-        return instance;
+      return {
+        reduce: function(coll, title) {
+          return {
+            title: title,
+            legends: [ "Assassination Victory",
+                       "Clock Victory",
+                       "Scenario Victory",
+                       "Tiebreakers Victory",
+                       "Dice Down Draw",
+                       "Tiebreakers Defeat",
+                       "Scenario Defeat",
+                       "Clock Defeat",
+                       "Assassination Defeat" ],
+            colors: [ '#91E893',
+                      '#4AE34D',
+                      '#39B03C',
+                      '#3E633F',
+                      '#E2E345',
+                      '#63312B',
+                      '#B02817',
+                      '#E3341D',
+                      '#E87263' ],
+            values: _.chain(coll)
+              .reduce(function(mem, b) {
+                mem[b.score]++;
+                return mem;
+              }, { va:0, vc:0, vs:0, vt:0, dd:0, da:0, dc:0, ds:0, dt:0 })
+              .apply(function(obj) {
+                return [obj.va,obj.vc,obj.vs,obj.vt,
+                        obj.dd,
+                        obj.dt,obj.ds,obj.dc,obj.da];
+              })
+              .value()
+          };
+        }
       };
-      factory.legends = function(entry) {
-        return {
-          va: "Assassination Victory",
-          vc: "Clock Victory",
-          vs: "Scenario Victory",
-          vt: "Tiebreakers Victory",
-          dd: "Dice Down Draw",
-          da: "Assassination Defeat",
-          dc: "Clock Defeat",
-          ds: "Scenario Defeat",
-          dt: "Tiebreakers Defeat"
-        };
-      };
-      factory.colors = function(entry) {
-        return {
-          va: '#0C0',
-          vc: '#0A0',
-          vs: '#080',
-          vt: '#060',
-          dd: '#CC0',
-          da: '#C00',
-          dc: '#A00',
-          ds: '#800',
-          dt: '#600'
-        };
-      };
-      return factory;
     }
   ])
-  .service('statEntryPointScenario', [
-    function() {
-      var factory = function() {
-        var instance = { my_army:0, opponent:0 };
-        instance.addBattle = function(battle) {
-          if(_.isNumber(battle.points.my_army.scenario) &&
-             _.isNumber(battle.points.opponent.scenario)) {
-            instance.my_army += battle.points.my_army.scenario;
-            instance.opponent += battle.points.opponent.scenario;
-          }
-        };
-        return instance;
+  .service('statEntryTimeResult', [
+    'battles',
+    '$q',
+    function(battles,
+             $q) {
+      var sorts;
+      return {
+        init: function() {
+          $q.when(battles.sortTypes()).then(function(_sorts) {
+            sorts = _sorts;
+          });
+        },
+        reduce: function(coll, title) {
+          return {
+            title: title,
+            legends: [ "Assassination Victory",
+                       "Clock Victory",
+                       "Scenario Victory",
+                       "Tiebreakers Victory",
+                       "Dice Down Draw",
+                       "Tiebreakers Defeat",
+                       "Scenario Defeat",
+                       "Clock Defeat",
+                       "Assassination Defeat" ],
+            colors: [ '#91E893',
+                      '#4AE34D',
+                      '#39B03C',
+                      '#3E633F',
+                      '#E2E345',
+                      '#63312B',
+                      '#B02817',
+                      '#E3341D',
+                      '#E87263' ],
+            values: _.chain(coll)
+              .apply(battles.sort, sorts, 'date', false)
+              .reductions(function(mem, b) {
+                var ret = _.clone(mem);
+                ret[b.score]++;
+                return ret;
+              }, { va:0, vc:0, vs:0, vt:0, dd:0, da:0, dc:0, ds:0, dt:0 })
+              .mapWith(function(obj) {
+                return [obj.va,obj.vc,obj.vs,obj.vt,
+                        obj.dd,
+                        obj.dt,obj.ds,obj.dc,obj.da];
+              })
+              // .spy('reductions')
+              .value()
+          };
+        }
       };
-      return factory;
     }
   ])
-  .service('statEntryPointArmy', [
+  .service('statEntryPoints', [
     function() {
-      var factory = function() {
-        var instance = { my_army:0, opponent:0 };
-        instance.addBattle = function(battle) {
-          if(_.isNumber(battle.points.my_army.army) &&
-             _.isNumber(battle.points.opponent.army)) {
-            instance.my_army += battle.points.my_army.army;
-            instance.opponent += battle.points.opponent.army;
-          }
-        };
-        return instance;
+      return {
+        reduce: function(coll,title) {
+          return {
+            title: title,
+            colors: [ '#4AE34D',
+                      '#E3341D' ],
+            values: _.chain(coll)
+              .reduce(function(mem, b) {
+                if(_.isNumber(_.getPath(b,'points.my_army.scenario')) &&
+                   _.isNumber(_.getPath(b,'points.opponent.scenario'))) {
+                  mem.Scenario[0] += b.points.my_army.scenario;
+                  mem.Scenario[1] += b.points.opponent.scenario;
+                  mem.Scenario[2]++;
+                }
+                if(_.isNumber(_.getPath(b,'points.my_army.army')) &&
+                   _.isNumber(_.getPath(b,'points.opponent.army'))) {
+                  mem.Army[0] += b.points.my_army.army;
+                  mem.Army[1] += b.points.opponent.army;
+                  mem.Army[2]++;
+                }
+                if(_.isNumber(_.getPath(b,'points.my_army.kill')) &&
+                   _.isNumber(_.getPath(b,'points.opponent.kill'))) {
+                  mem.Kill[0] += b.points.my_army.kill;
+                  mem.Kill[1] += b.points.opponent.kill;
+                  mem.Kill[2]++;
+                }
+                return mem;
+              }, { Scenario:[0,0,0], Army:[0,0,0], Kill:[0,0,0] })
+              .reduce(function(mem, value, key) {
+                mem[key] = [Math.round(value[0]/value[2]*100)/100,
+                            Math.round(value[1]/value[2]*100)/100];
+                return mem;
+              }, {})
+              .value()
+          };
+        }
       };
-      return factory;
-    }
-  ])
-  .service('statEntryPointKill', [
-    function() {
-      var factory = function() {
-        var instance = { my_army:0, opponent:0 };
-        instance.addBattle = function(battle) {
-          if(_.isNumber(battle.points.my_army.kill) &&
-             _.isNumber(battle.points.opponent.kill)) {
-            instance.my_army += battle.points.my_army.kill;
-            instance.opponent += battle.points.opponent.kill;
-          }
-        };
-        return instance;
-      };
-      return factory;
     }
   ])
   .service('statEntryTag', [
-    function() {
-      var factory = function() {
-        var instance = {};
-        instance.addBattle = function(battle) {
-          _.each(battle.tags, function(key) {
-            instance[key] = instance[key] || 0;
-            instance[key]++;
-          });
-        };
-        return instance;
+    'tags',
+    function(tags) {
+      return {
+        reduce: function(coll, title) {
+          return {
+            title: title,
+            values: _.chain(coll)
+              // .spy('coll')
+              .apply(tags.fromBattles)
+              // .spy('tags')
+              .reduce(function(mem, t) {
+                mem[s.capitalize(t)] = _.filter(coll, function(b) {
+                  return 0 <= _.indexOf(b.tags, t);
+                }).length;
+                return mem;
+              }, {})
+              // .spy('reduce')
+              .value()
+          };
+        }
       };
-      return factory;
     }
   ]);

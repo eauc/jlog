@@ -25,7 +25,8 @@ describe('services', function() {
             "casters": {
               "thexus1": {"name": "Exulon Thexus"}
             },
-            "icon": "mercs_50.png"
+            "icon": "mercs_50.png",
+            "hue": [0,1]
           },
           "cygnar": {
             "name": "Cygnar",
@@ -33,7 +34,8 @@ describe('services', function() {
               "blaize": {"name": "Constance Blaize,  Knight of the Prophet"},
               "siege": {"name": "Major Markus 'Siege' Brisbane"},
             },
-            "icon": "cygnar_50.png"
+            "icon": "cygnar_50.png",
+            "hue": [10,11]
           },
           "menoth": {
             "name": "The Protectorate of Menoth",
@@ -41,7 +43,8 @@ describe('services', function() {
               "kreoss1": {"name": "High Exemplar Kreoss"},
               "kreoss2": {"name": "Grand Exemplar Kreoss"},
             },
-            "icon": "menoth_50.png"
+            "icon": "menoth_50.png",
+            "hue": [20,21]
           }
         };
       }));
@@ -88,7 +91,8 @@ describe('services', function() {
             "casters": [
               { "key": "thexus1", "name": "Exulon Thexus" }
             ],
-            "icon": "mercs_50.png"
+            "icon": "mercs_50.png",
+            "hue": [0,1]
           });
         });
 
@@ -208,7 +212,7 @@ describe('services', function() {
       });
 
       using([
-        [ 'key' , 'caster'   ],
+        [ 'key' , 'casters'  ],
         [ 'a'   , 'alphas'   ],
         [ 'b'   , 'bravos'   ],
         [ 'c'   , 'charlies' ],
@@ -216,7 +220,7 @@ describe('services', function() {
         [ 'd'   , undefined  ],
       ], function(e, d) {
         it('should find the casters for <key>, '+d, function() {
-          expect(factions.iconFor(this.coll, e.key)).toBe(e.casters);
+          expect(factions.castersFor(this.coll, e.key)).toBe(e.casters);
         });
       });
     });
@@ -245,6 +249,29 @@ describe('services', function() {
       ], function(e, d) {
         it('should find the name for <ckey> in <fkey>, '+d, function() {
           expect(factions.casterNameFor(this.coll, e.fkey, e.ckey)).toBe(e.name);
+        });
+      });
+    });
+
+    describe('hueFor(<key>)', function() {
+      beforeEach(function() {
+        this.coll = [
+          { key: 'a', hue: 'alpha' },
+          { key: 'b', hue: 'bravo' },
+          { key: 'c', hue: 'charlie' },
+        ];
+      });
+
+      using([
+        [ 'key' , 'hue'     ],
+        [ 'a'   , 'alpha'   ],
+        [ 'b'   , 'bravo'   ],
+        [ 'c'   , 'charlie' ],
+        // undefined key
+        [ 'd'   , undefined  ],
+      ], function(e, d) {
+        it('should find the hue for <key>, '+d, function() {
+          expect(factions.hueFor(this.coll, e.key)).toBe(e.hue);
         });
       });
     });

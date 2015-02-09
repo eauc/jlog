@@ -1,152 +1,86 @@
 <div id="stats"
      class="container">
-  <div class="section">Total</div>
-  <div pie-chart values="stats.collections[state.entry].all"
-       width="200" height="200"
-       options="stats.ENTRIES[state.entry].factory"></div>
 
-  <div ng-show="state.selector=='my_caster'">
-    <div class="section">Factions</div>
-    <div ng-repeat="(id, f) in stats.collections[state.entry].my_caster"
-         class="pie-chart clickable"
-         ng-click="doShow(id)"
-         pie-chart values="f.all"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{factions[id].name}}</div>
+  <div class="selector-arg"
+       ng-if="
+       state.selector==='my_caster' ||
+       state.selector==='opp_caster'
+       ">
+    <select class="form-control"
+            ng-model="state.selector_arg"
+            ng-options="f.key as f.name for f in factions"
+            ng-change="state.doGenerate()">
+    </select>
+  </div>
+  <div ng-if="
+       state.entry==='result' ||
+       state.entry==='initiative'
+       ">
+    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
+         style="margin:auto;">
+      <div class="col-xs-12 section">{{s.title}}</div>
+      <pie-chart pie-values="s"></pie-chart>
+      <div class="clearfix"></div>
     </div>
-    <div ng-repeat="(id, f) in stats.collections[state.entry].my_caster"
-         ng-show="show(id)">
-      <div class="section">
-        Casters of {{factions[id].name}}
+  </div>
+  <div ng-if="
+       state.entry==='result_time'
+       ">
+    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
+         style="margin:auto;">
+      <div class="col-xs-12 section">{{s.title}}</div>
+      <stack-graphs gph-values="s"></stack-graphs>
+    </div>
+  </div>
+  <div ng-if="
+       state.entry==='opp_name' ||
+       state.entry==='scenario' ||
+       state.entry==='event' ||
+       state.entry==='size' ||
+       state.entry==='tag'
+       ">
+    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
+         style="margin:auto;">
+      <div class="col-xs-12 section"
+           style="margin-bottom:10px;">{{s.title}}</div>
+      <bars bars-values="s.values"></bars>
+    </div>
+  </div>
+  <div ng-if="
+       state.entry==='my_faction' ||
+       state.entry==='opp_faction'
+       ">
+    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
+         style="margin:auto;">
+      <div class="col-xs-12 section"
+           style="margin-bottom:10px;">{{s.title}}</div>
+      <bars bars-values="s.values" bars-hues="s.hues"></bars>
+    </div>
+  </div>
+  <div ng-if="
+       state.entry==='my_caster' ||
+       state.entry==='opp_caster'
+       ">
+    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
+         style="margin:auto;">
+      <div class="col-xs-12 section"
+           style="margin-bottom:10px;">{{s.title}}</div>
+      <div ng-repeat="(f, v) in s.values">
+        <strong>{{::f}}</strong>
+        <bars bars-values="v"
+              bars-hue="{{::s.hues[f][0]}}"
+              bars-saturation="{{::s.hues[f][1]}}"></bars>
       </div>
-      <div ng-repeat="(idc, c) in f.casters"
-           class="pie-chart"
-           pie-chart values="c"
-           width="160" height="160"
-           options="stats.ENTRIES[state.entry].factory">
-        <div class="pie-title">{{factions[id].casters[idc].name}}</div>
-      </div>
     </div>
   </div>
-
-  <div ng-show="state.selector=='opp_name'">
-    <div class="section">Opponents names</div>
-    <div ng-repeat="(id, n) in stats.collections[state.entry].opp_name"
-         class="pie-chart"
-         pie-chart values="n"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{id | capitalise}}</div>
-    </div>
-  </div>
-
-  <div ng-show="state.selector=='opp_caster'">
-    <div class="section">Factions</div>
-    <div ng-repeat="(id, f) in stats.collections[state.entry].opp_caster"
-         class="pie-chart clickable"
-         ng-click="doShow(id)"
-         pie-chart values="f.all"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{factions[id].name}}</div>
-    </div>
-    <div ng-repeat="(id, f) in stats.collections[state.entry].opp_caster"
-         ng-show="show(id)">
-      <div class="section">
-        Casters of {{factions[id].name}}
-      </div>
-      <div ng-repeat="(idc, c) in f.casters"
-           class="pie-chart"
-           pie-chart values="c"
-           width="160" height="160"
-           options="stats.ENTRIES[state.entry].factory">
-        <div class="pie-title">{{factions[id].casters[idc].name}}</div>
-      </div>
-    </div>
-  </div>
-
-  <div ng-show="state.selector=='event'">
-    <div class="section">Events</div>
-    <div ng-repeat="(id, n) in stats.collections[state.entry].event"
-         class="pie-chart"
-         pie-chart values="n"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{id | capitalise}}</div>
-    </div>
-  </div>
-
-  <div ng-show="state.selector=='scenario'">
-    <div class="section">Scenarios</div>
-    <div ng-repeat="(id, n) in stats.collections[state.entry].scenario"
-         class="pie-chart"
-         pie-chart values="n"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{scenarios[id].name}}</div>
-    </div>
-  </div>
-
-  <div ng-show="state.selector=='size'">
-    <div class="section">Battle Size</div>
-    <div ng-repeat="(id, n) in stats.collections[state.entry].size"
-         class="pie-chart"
-         pie-chart values="n"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{id}}</div>
-    </div>
-  </div>
-
-  <div ng-show="state.selector=='result'">
-    <div class="section">Battle Result</div>
-    <div ng-repeat="(id, n) in stats.collections[state.entry].result"
-         class="pie-chart"
-         pie-chart values="n"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{id | scoreType}}</div>
-    </div>
-  </div>
-
-  <div ng-show="state.selector=='tag'">
-    <div class="section">Tags</div>
-    <div ng-repeat="(id, n) in stats.collections[state.entry].tag"
-         class="pie-chart"
-         pie-chart values="n"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">{{id}}</div>
-    </div>
-  </div>
-
-  <div ng-show="state.selector=='init'">
-    <div class="section">Roll</div>
-    <div class="pie-chart"
-         pie-chart values="stats.collections[state.entry].init.rw"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">Won Roll</div>
-    </div>
-    <div class="pie-chart"
-         pie-chart values="stats.collections[state.entry].init.rl"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">Lost Roll</div>
-    </div>
-    <div class="section">Start</div>
-    <div class="pie-chart"
-         pie-chart values="stats.collections[state.entry].init.pf"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">First Player</div>
-    </div>
-    <div class="pie-chart"
-         pie-chart values="stats.collections[state.entry].init.ps"
-         width="160" height="160"
-         options="stats.ENTRIES[state.entry].factory">
-      <div class="pie-title">Second Player</div>
+  <div ng-if="
+       state.entry==='points'
+       ">
+    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
+         style="margin:auto;">
+      <div class="col-xs-12 section"
+           style="margin-bottom:10px;">{{s.title}}</div>
+      <stacks stacks-values="s"></stacks>
     </div>
   </div>
 </div>

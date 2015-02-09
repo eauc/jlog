@@ -1,0 +1,27 @@
+<div>
+  <div class="gph-legend">
+    <div style="display:inline-block;margin:0 5px;"
+         ng-repeat="(i,l) in ::legends">
+      {{::l.label}}
+      <svg width="10px" height="10px">
+        <rect x="0" y="0" width="10" height="10"
+              style="
+              stroke-width:1;
+              stroke:#000;
+              fill: {{::l.color}}
+              " />
+      </svg>
+    </div>
+  </div>
+  <div class="gph-container">
+    <svg ng-attr-width="{{::width}}" ng-attr-height="{{::height}}">
+      <polygon ng-repeat="(i,p) in ::polygons"
+               points="{{::p.points}}"
+               style="
+               stroke:#000;
+               stroke-width:0.5;
+               fill: {{::p.color}};
+               " />
+    </svg>
+  </div>
+</div>

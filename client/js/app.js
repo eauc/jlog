@@ -71,20 +71,20 @@ angular.module('jlogApp', [
           }
         },
         data: {}
-      // })
-      // .state('stats', {
-      //   url: '/stats',
-      //   views: {
-      //     'page': {
-      //       templateUrl: 'partials/stats.html',
-      //       controller: 'statsCtrl'
-      //     },
-      //     'bottom-bar@': {
-      //       templateUrl: 'partials/stats_menu.html',
-      //       controller: 'statsBottomCtrl'
-      //     }
-      //   },
-      //   data: {}
+      })
+      .state('stats', {
+        url: '/stats',
+        views: {
+          'page@': {
+            templateUrl: 'partials/stats.html',
+            controller: 'statsCtrl'
+          },
+          'bottom-bar@': {
+            templateUrl: 'partials/stats_menu.html',
+            controller: 'statsBottomCtrl'
+          }
+        },
+        data: {}
       })
       .state('backup', {
         url: '/backup',

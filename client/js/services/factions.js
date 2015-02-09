@@ -17,6 +17,7 @@ angular.module('jlogApp.services')
                   key:k,
                   name: f.name,
                   icon: f.icon,
+                  hue: f.hue,
                   casters: _.map(f.casters, function(c, k) {
                     var normed_caster_key = factions.normaliseCaster(k);
                     return {
@@ -63,6 +64,13 @@ angular.module('jlogApp.services')
             .apply(function(i) {
               return _.exists(i) ? 'data/img/'+i : i;
             })
+            .value();
+        },
+        hueFor: function(coll, f) {
+          return _.chain(coll)
+            .where({ key: f })
+            .first()
+            .getPath('hue') 
             .value();
         },
         castersFor: function(coll, f) {
