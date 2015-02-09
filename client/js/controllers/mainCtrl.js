@@ -94,7 +94,7 @@ angular.module('jlogApp.controllers')
         // $scope.setBattles(battles.test(100,
         //                                $scope.factions,
         //                                $scope.scores,
-        //                                $scope.battles.scenarios));
+        //                                scenarios.data()));
         console.log('scope', $scope);
       });
       // battles_display.init();

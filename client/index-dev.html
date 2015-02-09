@@ -10,7 +10,8 @@
   </head>
   <!-- <body ng-controller="mainCtrl"
   ng-click="drop_down.clear()"> -->
-  <body ng-controller="mainCtrl">
+  <body ng-controller="mainCtrl"
+        close-all-dropdown>
     <div ng-include="'partials/navbar.html'"></div>
     <div id="page"
          ui-view="page"></div>
@@ -58,7 +59,7 @@
     <script src="js/services/statSelector.js"></script>
     <!-- <script src="js/services/storage.js"></script> -->
     <script src="js/services/tags.js"></script>
-    <script src="js/directives/openDropdown.js"></script>
+    <script src="js/directives/dropdown.js"></script>
     <script src="js/directives/eaFile.js"></script>
     <!-- <script src="js/directives/collapse.js"></script> -->
     <script src="js/directives/bars.js"></script>
