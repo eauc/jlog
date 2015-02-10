@@ -13,9 +13,6 @@ angular.module('jlogApp.controllers')
     'opponents',
     'tags',
     'filter',
-    // '$timeout',
-    // 'battles_display',
-    // 'battle_sort',
     function(
       $scope,
       $state,
@@ -27,11 +24,7 @@ angular.module('jlogApp.controllers')
       events,
       opponents,
       tags,
-      filter
-      // $timeout,
-      // battles_display,
-      // battle_sort,
-    ) {
+      filter) {
       console.log('init mainCtrl');
 
       $scope.stateIs = _.bind($state.is, $state);
@@ -101,71 +94,7 @@ angular.module('jlogApp.controllers')
         //                                scenarios.data()));
         console.log('scope', $scope);
       });
-      // battles_display.init();
-      // opponents.init(battles_display.list);
-      // events.init(battles_display.list);
-      // scenarios.init(battles_display.list);
-      // tags.init(battles_display.list);
-      // filter.init();
 
-      // $scope.battles = battles_display;
-      // $scope.factions = factions;
-      // $scope.scores = scores;
-      // $scope.filter_state = {
-      //   active: false,
-      //   invert: false,
-      //   previous: 'battle',
-      // };
-      // $scope.filter = filter.list;
-      // $scope.sort = battle_sort;
-      // $scope.opponents = opponents.list;
-      // $scope.scenarios = scenarios.list;
-      // $scope.events = events.list;
-      // $scope.tags = tags.list;
-
-      // $scope.$on('newBattles', function(event, data) {
-      //   battles_display.create(data);
-      //   opponents.create($scope.battles.list);
-      //   events.create($scope.battles.list);
-      //   scenarios.create($scope.battles.list);
-      //   tags.create($scope.battles.list);
-
-      //   $scope.opponents = opponents.list;
-      //   $scope.scenarios = scenarios.list;
-      //   $scope.events = events.list;
-      //   $scope.tags = tags.list;
-      // });
-
-      // $scope.bottom_bar = {
-      //   show: false
-      // };
-      // $scope.drop_down = {
-      //   state: null,
-      //   toggle: function(value, event) {
-      //     this.state = this.state === value ? null : value;
-      //     event.stopPropagation();
-      //   },
-      //   clear: function() {
-      //     this.state = null;
-      //   },
-      //   active: function(value) {
-      //     return this.state === value;
-      //   }
-      // };
-
-      // function showMore() {
-      //   $scope.battles.showMore();
-      //   if($scope.battles.more) {
-      //     $timeout(showMore, 100);
-      //   }
-      // }
-      // $scope.resetListDisplay = function() {
-      //   $scope.battles.reset($scope.filter_state.active,
-      //                        $scope.filter_state.invert,
-      //                        $scope.sort);
-      //   $scope.$broadcast('battles_reset');
-      //   $timeout(showMore, 100);
-      // };
       $scope.doToggleFilterActive = function() {
         $scope.battles.filter.active = !$scope.battles.filter.active;
         console.log('setFilterActive = '+$scope.battles.filter.active);
@@ -176,11 +105,5 @@ angular.module('jlogApp.controllers')
         console.log('setFilterInvert = '+$scope.battles.filter.invert);
         $scope.updateBattles();
       };
-      // $scope.setFilterInvert = function(bool) {
-      //   var change = ($scope.filter_state.invert != bool);
-      //   console.log('setFilterInvert('+bool+')->'+change);
-      //   $scope.filter_state.invert = bool;
-      //   if(change) $scope.resetListDisplay();
-      // };
     }
   ]);

@@ -5,8 +5,6 @@ angular.module('jlogApp.controllers')
     '$scope',
     function($scope) {
       console.log('init filterEditCtrl');
-
-      // $scope.bottom_bar.show = true;
     }
   ])
   .controller('filterEditBottomCtrl', [

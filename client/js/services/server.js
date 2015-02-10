@@ -2,13 +2,8 @@
 
 angular.module('jlogApp.services')
   .factory('server', [
-    // '$window',
     '$http',
-    function(
-      // $window,
-      $http
-    ) {
-      // $window.URL = $window.URL || $window.webkitURL;
+    function($http) {
       var server = {
         upload: function(battles) {
           return $http.post('/api/log', { battles: battles }, { timeout: 20000 })

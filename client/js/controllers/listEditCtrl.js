@@ -7,7 +7,6 @@ angular.module('jlogApp.controllers')
     '$stateParams',
     '$window',
     'battle',
-    // 'battles',
     'events',
     'opponents',
     'scenarios',
@@ -20,11 +19,7 @@ angular.module('jlogApp.controllers')
              events,
              opponents,
              scenarios,
-             tags
-             // battles,
-            ) {
-      // $scope.bottom_bar.show = true;
-
+             tags) {
       var index = parseFloat($stateParams.index);
       if(index < $scope.battles.list.length) {
         $scope.battle = _.snapshot($scope.battles.list[index]);

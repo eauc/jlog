@@ -40,8 +40,6 @@ angular.module('jlogApp.directives')
         templateUrl: 'partials/directives/stacks.html',
         scope: {
           values: '=stacksValues',
-          // width: '@pieWidth',
-          // height: '@pieHeight'
         },
         controller: 'stacksCtrl',
         link: function(scope, element, attrs) {

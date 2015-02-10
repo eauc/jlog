@@ -3,24 +3,9 @@
 angular.module('jlogApp.controllers')
   .controller('listViewCtrl', [
     '$scope',
-    // '$state',
     '$stateParams',
-    // '$window',
-    // 'battles',
     function($scope,
-             $stateParams
-             // $state,
-             // $window,
-             // battles
-            ) {
-      // $scope.bottom_bar.show = true;
-
-      // if(undefined === $stateParams.index) {
-      //   // $scope.battle_index = 1;
-      //   // $scope.battle = battles.list[1];
-      //   $state.go('battle');
-      // }
-
+             $stateParams) {
       $scope.battle = $scope.battles.list[$stateParams.index];
       console.log('init listViewCtrl', $stateParams.index, $scope.battle);
     }])
