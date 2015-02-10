@@ -172,6 +172,26 @@ describe('controllers', function() {
         });
       });
     });
+
+    describe('doClearStorage()', function() {
+      beforeEach(inject(function($q) {
+        this.battlesService = spyOnService('battles');
+        this.filterService = spyOnService('filter');
+      }));
+
+      using([
+        ['service'],
+        ['battles'],
+        ['filter' ],
+      ], function(e, d) {
+        it('should clear '+e.service+' storage', function() {
+          this.scope.doClearStorage();
+          
+          expect(this[e.service+'Service'].clearStorage)
+            .toHaveBeenCalled();
+        });
+      });
+    });
   });
 
 });

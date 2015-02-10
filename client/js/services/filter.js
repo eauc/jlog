@@ -158,13 +158,15 @@ angular.module('jlogApp.services')
     }
   ])
   .factory('filter', [
+    '$window',
     'filterMatchSimple',
     'filterMatchComp',
     'filterMatchCaster',
     'filterMatchInitiative',
     'filterMatchTags',
     'compareDate',
-    function(filterMatchSimple,
+    function($window,
+             filterMatchSimple,
              filterMatchComp,
              filterMatchCaster,
              filterMatchInitiative,
@@ -215,6 +217,33 @@ angular.module('jlogApp.services')
         return _.isObject(data) ? data : {};
       }
       var filter = {
+        init: function() {
+          var fs;
+          var fs_store = $window.localStorage.getItem('jlog_filter_v2');
+          if(_.isString(fs_store)) {
+            try {
+              fs = JSON.parse(fs_store);
+              if(_.isObject(fs)) {
+                console.log('retrieve stored filter v2');
+                // $window.localStorage.removeItem('jlog_filter');
+                return filter.create(fs);
+              }
+            }
+            catch(err) {
+              console.log(err);
+            }
+          }
+          return filter.create();
+        },
+        store: function(fs) {
+          console.log('store filter v2');
+          $window.localStorage.setItem('jlog_filter_v2', JSON.stringify(fs));
+        },
+        clearStorage: function() {
+          console.log('clear stored filter');
+          $window.localStorage.removeItem('jlog_filter');
+          $window.localStorage.removeItem('jlog_filter_v2');
+        },          
         create: function(data) {
           data = toObject(data);
           return _.chain(filters)

@@ -3,6 +3,18 @@
 describe('services', function() {
 
   beforeEach(function() {
+    angular.module('jlogApp.services')
+      .factory('$window', [
+        function() {
+          return {
+            localStorage: jasmine.createSpyObj('localStorage', [
+              'setItem',
+              'getItem',
+              'removeItem'
+            ])
+          };
+        }
+      ]);
     module('jlogApp.services');
   });
 
@@ -11,10 +23,79 @@ describe('services', function() {
     var filter;
     beforeEach(inject([
       'filter',
-      function(_filter) {
+      '$window',
+      function(_filter, $window) {
         filter = _filter;
+        this.windowService = $window;
       }
     ]));
+
+    describe('init()', function() {
+      it('should retrieve filter_v2 from localStorage', function() {
+        this.ret = filter.init();
+
+        expect(this.windowService.localStorage.getItem)
+          .toHaveBeenCalledWith('jlog_filter_v2');
+      });
+
+      when('filter_v2 does not exist in localStorage', function() {
+        this.windowService.localStorage.getItem.and.returnValue(null);
+      }, function() {
+        it('should return default filter', function() {
+          expect(filter.init()).toEqual({ 
+            date: { active: false, is: '==', value: { year : 2015, month : 2, day : 10 } },
+            my_army: { active: false, is: 'true', value: { faction : null, caster : [  ] } },
+            opp_name: { active: false, is: 'true', value: [  ] },
+            opp_caster: { active: false, is: 'true', value: { faction : null, caster : [  ] } },
+            result: { active: false, is: 'true', value: [  ] },
+            scenario: { active: false, is: 'true', value : [  ] },
+            initiative: { active: false, is: 'true', value: { won_roll: '', started: '' } },
+            size: { active: false, is: '==', value: 50 },
+            event: { active: false, is: 'true', value: [  ] },
+            tags: { active: false, is: 'any', value: [  ] }
+          });
+        });
+      });
+
+      when('filter_v2 exists in localStorage', function() {
+        this.windowService.localStorage.getItem
+          .and.returnValue('{"event": { "active": true, "is": "false", "value": ["toto"] }}');
+      }, function() {
+        it('should create filter state from stored filter', function() {
+          expect(filter.init()).toEqual({ 
+            date: { active: false, is: '==', value: { year : 2015, month : 2, day : 10 } },
+            my_army: { active: false, is: 'true', value: { faction : null, caster : [  ] } },
+            opp_name: { active: false, is: 'true', value: [  ] },
+            opp_caster: { active: false, is: 'true', value: { faction : null, caster : [  ] } },
+            result: { active: false, is: 'true', value: [  ] },
+            scenario: { active: false, is: 'true', value : [  ] },
+            initiative: { active: false, is: 'true', value: { won_roll: '', started: '' } },
+            size: { active: false, is: '==', value: 50 },
+            // event state has been merged with stored data
+            event: { active: true, is: 'false', value: [ 'toto' ] },
+            tags: { active: false, is: 'any', value: [  ] }
+          });
+        });
+      });
+    });
+
+    describe('store()', function() {
+      it('should store state in localStorage', function() {
+        filter.store(['state']);
+        expect(this.windowService.localStorage.setItem)
+          .toHaveBeenCalledWith('jlog_filter_v2', '["state"]');
+      });
+    });
+
+    describe('clearStorage()', function() {
+      it('should clear filter in localStorage', function() {
+        filter.clearStorage();
+        expect(this.windowService.localStorage.removeItem)
+          .toHaveBeenCalledWith('jlog_filter');
+        expect(this.windowService.localStorage.removeItem)
+          .toHaveBeenCalledWith('jlog_filter_v2');
+      });
+    });
 
     describe('match(<state>, <battle>, <invert>, <cache>)', function() {
       beforeEach(function() {

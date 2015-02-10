@@ -166,11 +166,13 @@ angular.module('jlogApp.services')
     }
   ])
   .service('battles', [ 
+    '$window',
     '$http',
     '$q',
     'battle', 
     'orderByFilter',
-    function($http,
+    function($window,
+             $http,
              $q,
              battle,
              orderByFilter) {
@@ -201,6 +203,46 @@ angular.module('jlogApp.services')
         'comment': 'comment'
       };
       var battles = {
+        init: function() {
+          var bs;
+          var bs_store = $window.localStorage.getItem('jlog_battles_v2');
+          if(_.isString(bs_store)) {
+            try {
+              bs = JSON.parse(bs_store);
+              if(_.isArray(bs)) {
+                console.log('retrieve stored battles v2');
+                // $window.localStorage.removeItem('jlog_battles');
+                return bs;
+              }
+            }
+            catch(err) {
+              console.log(err);
+            }
+          }
+          bs_store = $window.localStorage.getItem('jlog_battles');
+          if(_.isString(bs_store)) {
+            try {
+              bs = JSON.parse(bs_store);
+              if(_.isArray(bs)) {
+                console.log('retrieve stored battles v1');
+                return bs;
+              }
+            }
+            catch(err) {
+              console.log(err);
+            }
+          }
+          return [];
+        },
+        store: function(coll) {
+          console.log('store battles v2');
+          $window.localStorage.setItem('jlog_battles_v2', JSON.stringify(coll));
+        },
+        clearStorage: function() {
+          console.log('clear stored battles');
+          $window.localStorage.removeItem('jlog_battles_v2');
+          $window.localStorage.removeItem('jlog_battles');
+        },
         buildIndex: function(coll) {
           return _.each(coll, function(b, i) {
             b.index = i;

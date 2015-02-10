@@ -7,11 +7,15 @@ angular.module('jlogApp.controllers')
     'igParser',
     'fileExport',
     'server',
+    'battles',
+    'filter',
     function($scope,
              fileImport,
              igParser,
              fileExport,
-             server) {
+             server,
+             battles,
+             filter) {
 
       console.log('init backupCtrl');
 
@@ -78,7 +82,8 @@ angular.module('jlogApp.controllers')
           });
       };
 
-      // $scope.onClearStorage = function() {
-      //   storage.clearJLogKeys();
-      // };
+      $scope.doClearStorage = function() {
+        battles.clearStorage();
+        filter.clearStorage();
+      };
     }]);

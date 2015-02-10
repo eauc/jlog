@@ -64,10 +64,19 @@ describe('controllers', function() {
 
     it('should init filter state', function() {
       expect(this.scope.battles.filter).toEqual({
-        state: 'filter.create.returnValue',
+        state: 'filter.init.returnValue',
+        active: false,
         invert: false,
         cache: {}
       });
+    });
+
+    it('should init battle list', function() {
+      expect(this.battlesService.init).toHaveBeenCalled();
+      expect(this.battlesService.buildIndex)
+        .toHaveBeenCalledWith('battles.init.returnValue');
+      expect(this.scope.battles.list)
+        .toBe('battles.buildIndex.returnValue');
     });
 
     describe('updateBattles()', function() {
@@ -75,6 +84,16 @@ describe('controllers', function() {
         this.scope.battles.list = [ 'battle_list' ];
         this.scope.battles.sort.type = 'sort_type';
         this.scope.battles.sort.reverse = 'sort_reverse';
+        this.scope.battles.filter.state = [ 'filter_state' ];
+      });
+
+      it('should store filter state', function() {
+        this.filterService.store.calls.reset();
+
+        this.scope.updateBattles();
+
+        expect(this.filterService.store)
+          .toHaveBeenCalledWith([ 'filter_state' ]);
       });
 
       when('filter is inactive', function() {
@@ -139,6 +158,7 @@ describe('controllers', function() {
       beforeEach(function() {
         this.scope.battles.list = [ 'battle_list' ];
         spyOn(this.scope, 'updateBattles');
+        this.battlesService.store.calls.reset();
 
         this.scope.setBattles([ 'new_battles' ]);
       });
@@ -148,6 +168,11 @@ describe('controllers', function() {
           .toHaveBeenCalledWith([ 'new_battles' ]);
         expect(this.scope.battles.list)
           .toBe('battles.buildIndex.returnValue');
+      });
+
+      it('should store battle list', function() {
+        expect(this.battlesService.store)
+          .toHaveBeenCalledWith('battles.buildIndex.returnValue');
       });
 
       using([

@@ -17,8 +17,6 @@ describe('service', function() {
     describe('generate(<type>, <data>)', function() {
       beforeEach(inject(function($window) {
         this.window = $window;
-        spyOn($window, 'Blob').and.callFake(function() { this.blob = 'blob'; });
-        spyOn($window.URL, 'createObjectURL').and.returnValue('test_url');
 
         this.csvStringifierService = spyOnService('csvStringifier');
       }));

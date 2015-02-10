@@ -49,12 +49,14 @@ angular.module('jlogApp.controllers')
           reverse: true
         },
         filter: {
-          state: filter.create(),
+          state: filter.init(),
+          active: false,
           invert: false,
           cache: {}
         }
       };
       $scope.updateBattles = function() {
+        filter.store($scope.battles.filter.state);
         var filtered_list = $scope.battles.filter.active ?
           _.filter($scope.battles.list,
                    _.partial(filter.match,
@@ -71,6 +73,7 @@ angular.module('jlogApp.controllers')
       };
       $scope.setBattles = function(bs) {
         $scope.battles.list = battles.buildIndex(bs);
+        battles.store($scope.battles.list);
         $scope.battles.opponents = opponents.fromBattles($scope.battles.list);
         $scope.battles.events = events.fromBattles($scope.battles.list);
         $scope.battles.tags = tags.fromBattles($scope.battles.list);
@@ -90,7 +93,8 @@ angular.module('jlogApp.controllers')
         $scope.sort_types = _sorts;
         return;
       }).then(function() {
-        $scope.setBattles([]);
+        var bs = battles.init();
+        $scope.setBattles(bs);
         // $scope.setBattles(battles.test(100,
         //                                $scope.factions,
         //                                $scope.scores,

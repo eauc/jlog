@@ -3,3 +3,4 @@
 beforeEach(function() {
   console.log = jasmine.createSpy('log');
 });
+

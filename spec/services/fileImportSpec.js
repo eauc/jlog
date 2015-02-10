@@ -23,7 +23,8 @@ describe('service', function() {
             ctxt.reader = this;
           })
         };
-        spyOn($window, 'FileReader').and.returnValue(this.FileReader);
+        $window.FileReader = jasmine.createSpy('FileReader')
+          .and.returnValue(this.FileReader);
       }));
 
       it('should use a file reader to read file', function() {

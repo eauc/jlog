@@ -4,6 +4,23 @@ describe('services', function() {
 
   beforeEach(function() {
     angular.module('jlogApp.services')
+      .factory('$window', [
+        function() {
+          return {
+            localStorage: jasmine.createSpyObj('localStorage', [
+              'setItem',
+              'getItem',
+              'removeItem'
+            ]),
+            Blob: jasmine.createSpy('Blob').and.callFake(function() {
+              this.blob = 'blob';
+            }),
+            URL: {
+              createObjectURL: jasmine.createSpy('createObjectURL').and.returnValue('test_url')
+            },
+          };
+        }
+      ])
       .factory('orderByFilter', [
         function() {
           return jasmine.createSpy('orderByFilter')
@@ -18,10 +35,78 @@ describe('services', function() {
     var battles;
     beforeEach(inject([
       'battles',
-      function(_battles) {
+      '$window',
+      function(_battles, $window) {
         battles = _battles;
+        this.windowService = $window;
       }
     ]));
+
+    describe('init()', function() {
+      it('should retrieve battles_v2 from localStorage', function() {
+        this.ret = battles.init();
+
+        expect(this.windowService.localStorage.getItem)
+          .toHaveBeenCalledWith('jlog_battles_v2');
+      });
+
+      when('battles_v2 do not exist in localStorage', function() {
+        this.windowService.localStorage.getItem.and.returnValue(null);
+      }, function() {
+        it('should retrieve battles_v1 from localStorage', function() {
+          this.ret = battles.init();
+
+          expect(this.windowService.localStorage.getItem)
+            .toHaveBeenCalledWith('jlog_battles');
+        });
+
+        when('battles_v1 do not exist in localStorage', function() {
+          this.windowService.localStorage.getItem.and.returnValue(null);
+        }, function() {
+          it('should return empty list', function() {
+            expect(battles.init()).toEqual([]);
+          });
+        });
+
+        when('battles_v1 exist in localStorage', function() {
+          this.windowService.localStorage.getItem.and.callFake(function(k) {
+            return k === 'jlog_battles' ? '["stored_battles"]' : null;
+          });
+        }, function() {
+          it('should return stored list', function() {
+            expect(battles.init()).toEqual(['stored_battles']);
+          });
+        });
+      });
+
+      when('battles_v2 exist in localStorage', function() {
+        this.windowService.localStorage.getItem.and.callFake(function(k) {
+          return k === 'jlog_battles_v2' ? '["stored_battles_v2"]' : null;
+        });
+      }, function() {
+        it('should return stored list', function() {
+          expect(battles.init()).toEqual(['stored_battles_v2']);
+        });
+      });
+    });
+
+    describe('store()', function() {
+      it('should store collection in localStorage', function() {
+        battles.store(['coll']);
+        expect(this.windowService.localStorage.setItem)
+          .toHaveBeenCalledWith('jlog_battles_v2', '["coll"]');
+      });
+    });
+
+    describe('clearStorage()', function() {
+      it('should clear battles in localStorage', function() {
+        battles.clearStorage();
+        expect(this.windowService.localStorage.removeItem)
+          .toHaveBeenCalledWith('jlog_battles');
+        expect(this.windowService.localStorage.removeItem)
+          .toHaveBeenCalledWith('jlog_battles_v2');
+      });
+    });
 
     describe('buildIndex()', function() {
       it('should set indices in battles', function() {
