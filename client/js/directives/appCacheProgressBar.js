@@ -78,7 +78,8 @@ angular.module('jlogApp.directives')
             $scope.$apply();
           };
           appCache.onUpdateReady = function() {
-            if($window.confirm('A new version of this site is available. Load it?')) {
+            if($window.confirm('A new version of this site is available. Load it?\n\n'+
+                               '(You might want to save your battles first, if so click Cancel)')) {
               $window.location.reload();
             }
           };

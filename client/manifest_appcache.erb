@@ -3,14 +3,15 @@ CACHE MANIFEST
 
 CACHE:
 lib/bootstrap/fonts/glyphicons-halflings-regular.woff
-<% self.class.styles.each do |style| %>
-<%= style %>
-
-<% end %>
-<% self.class.scripts.each do |script| %>
-<%= script %>
-
-<% end %>
+lib/bootstrap/css/bootstrap.min.css
+css/app.css
+lib/underscore/underscore-min.js
+lib/underscore/underscore-contrib.min.js
+lib/underscore.string/underscore.string.min.js
+lib/angular/angular.min.js
+lib/angular-ui-router/angular-ui-router.min.js
+js/app.min.js
+title.html
 partials/backup.html
 partials/battle_edit.html
 partials/battle_edit_menu.html
@@ -22,22 +23,31 @@ partials/filter.html
 partials/filter_menu.html
 partials/info.html
 partials/menu.html
+partials/navbar.html
 partials/selection_edit.html
 partials/stats.html
 partials/stats_menu.html
-img/agplv3.png
-img/circle_50.png
-img/cryx_50.png
-img/cygnar_50.png
-img/cyriss_50.png
-img/khador_50.png
-img/loe_50.png
-img/menoth_50.png
-img/mercs_50.png
-img/minions_50.png
-img/scyrah_50.png
-img/skorne_50.png
-img/troll_50.png
+partials/directives/bars.html
+partials/directives/pieChart.html
+partials/directives/stackGraphs.html
+partials/directives/stacks.html
+data/factions.json
+data/scenarios.json
+data/scores.json
+data/sorts.json
+data/img/agplv3.png
+data/img/circle_50.png
+data/img/cryx_50.png
+data/img/cygnar_50.png
+data/img/cyriss_50.png
+data/img/khador_50.png
+data/img/loe_50.png
+data/img/menoth_50.png
+data/img/mercs_50.png
+data/img/minions_50.png
+data/img/scyrah_50.png
+data/img/skorne_50.png
+data/img/troll_50.png
 
 NETWORK:
 /api
