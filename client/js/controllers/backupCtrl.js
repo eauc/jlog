@@ -33,7 +33,8 @@ angular.module('jlogApp.controllers')
       $scope.read_result = {};
       $scope.doReadFile = function(type, file) {
         console.log('readFile', type, file);
-        $scope.read_result[type] = [];
+        $scope.read_result[type] = [ 'Loading file...' ];
+        $scope.$digest();
         fileImport.read(type, file)
           .then(function(data) {
             var state = data[0];
@@ -56,6 +57,7 @@ angular.module('jlogApp.controllers')
           id: null,
           msg: 'Uploading...'
         };
+        $scope.$digest();
         server.upload($scope.battles.list)
           .then(function(data) {
             $scope.upload = {
@@ -72,6 +74,8 @@ angular.module('jlogApp.controllers')
       $scope.doDownloadData = function() {
         if(!_.isString($scope.download.id) ||
            s.isBlank($scope.download.id)) return;
+        $scope.download.msg = 'Downloading...';
+        $scope.$digest();
         server.download($scope.download.id)
           .then(function(data) {
             $scope.download.msg = data[1];

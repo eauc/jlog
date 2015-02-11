@@ -56,7 +56,7 @@ describe('controllers', function() {
 
         this.scope.doReadFile('type', 'file');
 
-        expect(this.scope.read_result.type).toEqual([]);
+        expect(this.scope.read_result.type).toEqual(['Loading file...']);
       });
 
       it('should import file', function() {
@@ -137,6 +137,13 @@ describe('controllers', function() {
 
         this.scope.download.id = '42';
       }));
+
+      it('should reset  download msg', function() {
+        this.scope.doDownloadData();
+
+        expect(this.scope.download.msg)
+          .toBe('Downloading...');
+      });
 
       it('should download <id>', function() {
         this.scope.doDownloadData();
