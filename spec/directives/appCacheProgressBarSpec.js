@@ -3,16 +3,14 @@
 describe('directive', function() {
 
   beforeEach(function() {
-    angular.module('jlogApp.directives')
-      .factory('$window', [
-        function() {
-          return {
-            applicationCache: jasmine.createSpyObj('applicationCache', [
-              'addEventListener',
-            ]),
-          };
-        }
-      ]);
+    this.windowService = {
+      applicationCache: jasmine.createSpyObj('applicationCache', [
+        'addEventListener',
+      ]),
+    };
+    module({
+      '$window': this.windowService,
+    });
     module('jlogApp.directives');
   });
 
@@ -21,10 +19,8 @@ describe('directive', function() {
     var appCache;
 
     beforeEach(inject([
-      '$window',
       'appCache',
-      function(_window, _appCache) {
-        this.appCacheService = _window.applicationCache;
+      function(_appCache) {
         appCache = _appCache;
       }
     ]));
@@ -34,32 +30,32 @@ describe('directive', function() {
     });
 
     it('should register all events listeners', function() {
-      expect(this.appCacheService.addEventListener.calls.count() > 0).toBe(true);
-      var listener = this.appCacheService.addEventListener.calls.first().args[1];
+      expect(this.windowService.applicationCache.addEventListener.calls.count() > 0).toBe(true);
+      var listener = this.windowService.applicationCache.addEventListener.calls.first().args[1];
       // same listener for all events
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('cached', listener, false);
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('checking', listener, false);
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('downloading', listener, false);
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('error', listener, false);
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('noupdate', listener, false);
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('obsolete', listener, false);
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('progress', listener, false);
       // except for updateready
-      expect(this.appCacheService.addEventListener)
+      expect(this.windowService.applicationCache.addEventListener)
         .toHaveBeenCalledWith('updateready', jasmine.any(Function), false);
     });
 
     describe('generic event listener', function() {
       beforeEach(function() {
         appCache.onProgress = jasmine.createSpy('onProgress');
-        this.listener = this.appCacheService.addEventListener.calls.first().args[1];
+        this.listener = this.windowService.applicationCache.addEventListener.calls.first().args[1];
       });
 
       when('event.type != "progress"', function() {
@@ -97,18 +93,16 @@ describe('directive', function() {
         appCache.onProgress = jasmine.createSpy('onProgress');
         appCache.onUpdateReady = jasmine.createSpy('onUpdateReady');
 
-        var ctxt = this;
-        _.each(this.appCacheService.addEventListener.calls.all(), function(call) {
-          if(call.args[0] === 'updateready') {
-            ctxt.listener = call.args[1];
-          }
-        });
+        this.listener = findCallByArgs(this.windowService.applicationCache.addEventListener,
+                                       function(args) {
+                                         return (args[0] === 'updateready');
+                                       }).args[1];
         expect(this.listener).toBeA('Function');
       });
 
       when('appCache.status !== UPDATEREADY', function() {
-        this.appCacheService.UPDATEREADY = 1;
-        this.appCacheService.status = 0;
+        this.windowService.applicationCache.UPDATEREADY = 1;
+        this.windowService.applicationCache.status = 0;
         appCache.progress = 56;
 
         this.listener({ type: 'updateready' });

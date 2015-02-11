@@ -3,6 +3,17 @@
 describe('service', function() {
 
   beforeEach(function() {
+    this.windowService = {
+      Blob: jasmine.createSpy('Blob').and.callFake(function() {
+        this.blob = 'blob';
+      }),
+      URL: {
+        createObjectURL: jasmine.createSpy('createObjectURL').and.returnValue('test_url')
+      }
+    };
+    module({
+      '$window': this.windowService,
+    });
     module('jlogApp.services');
   });
 
@@ -15,11 +26,9 @@ describe('service', function() {
     }]));
 
     describe('generate(<type>, <data>)', function() {
-      beforeEach(inject(function($window) {
-        this.window = $window;
-
+      beforeEach(function() {
         this.csvStringifierService = spyOnService('csvStringifier');
-      }));
+      });
 
       it('should call <type> stringifier', function() {
         fileExport.generate('csv', 'data');
@@ -31,14 +40,14 @@ describe('service', function() {
       it('should generate URL from string', function() {
         expect(fileExport.generate('csv', 'data')).toBe('test_url');
 
-        expect(this.window.Blob)
+        expect(this.windowService.Blob)
           .toHaveBeenCalledWith(['csvStringifier.stringify.returnValue'],
                                 {type: 'text/plain'});
         // bug in SpecRunner
-        // expect(this.window.URL.createObjectURL)
+        // expect(this.windowService.URL.createObjectURL)
         //   .toHaveBeenCalledWith({ blob: 'blob' });
-        expect(this.window.URL.createObjectURL).toHaveBeenCalled();
-        expect(this.window.URL.createObjectURL.calls.first().args[0].blob).toBe('blob');
+        expect(this.windowService.URL.createObjectURL).toHaveBeenCalled();
+        expect(this.windowService.URL.createObjectURL.calls.first().args[0].blob).toBe('blob');
       });
     });
   });

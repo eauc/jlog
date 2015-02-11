@@ -3,18 +3,16 @@
 describe('services', function() {
 
   beforeEach(function() {
-    angular.module('jlogApp.services')
-      .factory('$window', [
-        function() {
-          return {
-            localStorage: jasmine.createSpyObj('localStorage', [
-              'setItem',
-              'getItem',
-              'removeItem'
-            ])
-          };
-        }
-      ]);
+    this.windowService = {
+      localStorage: jasmine.createSpyObj('localStorage', [
+        'setItem',
+        'getItem',
+        'removeItem'
+      ])
+    };
+    module({
+      '$window': this.windowService
+    });
     module('jlogApp.services');
   });
 
@@ -23,10 +21,15 @@ describe('services', function() {
     var filter;
     beforeEach(inject([
       'filter',
-      '$window',
-      function(_filter, $window) {
+      function(_filter) {
         filter = _filter;
-        this.windowService = $window;
+
+        var today = new Date();
+        this.expected_date = {
+          year: today.getFullYear(),
+          month: today.getMonth() + 1,
+          day: today.getDate()
+        };
       }
     ]));
 
@@ -43,7 +46,7 @@ describe('services', function() {
       }, function() {
         it('should return default filter', function() {
           expect(filter.init()).toEqual({ 
-            date: { active: false, is: '==', value: { year : 2015, month : 2, day : 10 } },
+            date: { active: false, is: '==', value: this.expected_date },
             my_army: { active: false, is: 'true', value: { faction : null, caster : [  ] } },
             opp_name: { active: false, is: 'true', value: [  ] },
             opp_caster: { active: false, is: 'true', value: { faction : null, caster : [  ] } },
@@ -63,7 +66,7 @@ describe('services', function() {
       }, function() {
         it('should create filter state from stored filter', function() {
           expect(filter.init()).toEqual({ 
-            date: { active: false, is: '==', value: { year : 2015, month : 2, day : 10 } },
+            date: { active: false, is: '==', value: this.expected_date },
             my_army: { active: false, is: 'true', value: { faction : null, caster : [  ] } },
             opp_name: { active: false, is: 'true', value: [  ] },
             opp_caster: { active: false, is: 'true', value: { faction : null, caster : [  ] } },

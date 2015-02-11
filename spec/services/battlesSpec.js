@@ -3,30 +3,19 @@
 describe('services', function() {
 
   beforeEach(function() {
-    angular.module('jlogApp.services')
-      .factory('$window', [
-        function() {
-          return {
-            localStorage: jasmine.createSpyObj('localStorage', [
-              'setItem',
-              'getItem',
-              'removeItem'
-            ]),
-            Blob: jasmine.createSpy('Blob').and.callFake(function() {
-              this.blob = 'blob';
-            }),
-            URL: {
-              createObjectURL: jasmine.createSpy('createObjectURL').and.returnValue('test_url')
-            },
-          };
-        }
-      ])
-      .factory('orderByFilter', [
-        function() {
-          return jasmine.createSpy('orderByFilter')
-            .and.returnValue('orderByFilter.returnValue');
-        }
-      ]);
+    this.windowService = {
+      localStorage: jasmine.createSpyObj('localStorage', [
+        'setItem',
+        'getItem',
+        'removeItem'
+      ]),
+    };
+    this.orderByFilter = jasmine.createSpy('orderByFilter')
+      .and.returnValue('orderByFilter.returnValue');
+    module({
+      '$window': this.windowService,
+      'orderByFilter': this.orderByFilter,
+    });
     module('jlogApp.services');
   });
 
@@ -35,10 +24,8 @@ describe('services', function() {
     var battles;
     beforeEach(inject([
       'battles',
-      '$window',
-      function(_battles, $window) {
+      function(_battles) {
         battles = _battles;
-        this.windowService = $window;
       }
     ]));
 
@@ -278,14 +265,12 @@ describe('services', function() {
     });
 
     describe('sort(<sorts>, <type>, <reverse>)', function() {
-      beforeEach(inject(function(orderByFilter) {
-        this.orderByFilter = orderByFilter;
-
+      beforeEach(function() {
         this.battles = [ 'battles' ];
         this.sorts = { 'type': { key: 'type_key' } };
         this.type = 'type';
         this.reverse = 'reverse';
-      }));
+      });
 
       it('should sort battles', function() {
         expect(battles.sort(this.battles, this.sorts, this.type, this.reverse))
