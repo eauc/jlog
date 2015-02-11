@@ -5,6 +5,7 @@ angular.module('jlogApp.controllers')
     '$scope',
     '$state',
     '$q',
+    '$window',
     'scores',
     'factions',
     'scenarios',
@@ -17,6 +18,7 @@ angular.module('jlogApp.controllers')
       $scope,
       $state,
       $q,
+      $window,
       scores,
       factions,
       scenarios,
@@ -104,6 +106,10 @@ angular.module('jlogApp.controllers')
         $scope.battles.filter.invert = !$scope.battles.filter.invert;
         console.log('setFilterInvert = '+$scope.battles.filter.invert);
         $scope.updateBattles();
+      };
+
+      $scope.doReload = function() {
+        $window.location.reload();
       };
     }
   ]);

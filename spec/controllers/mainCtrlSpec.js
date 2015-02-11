@@ -3,6 +3,14 @@
 describe('controllers', function() {
 
   beforeEach(function() {
+    this.windowService = {
+      location: jasmine.createSpyObj('location', [
+        'reload',
+      ]),
+    };
+    module({
+      '$window': this.windowService
+    });
     module('ui.router');
     module('jlogApp.services');
     module('jlogApp.controllers');
@@ -217,6 +225,14 @@ describe('controllers', function() {
         this.scope.battles.filter.invert = true;
         this.scope.doToggleFilterInvert();
         expect(this.scope.battles.filter.invert).toBe(false);
+      });
+    });
+
+    describe('doReload()', function() {
+      it('should reload current page', function() {
+        this.scope.doReload();
+
+        expect(this.windowService.location.reload).toHaveBeenCalled();
       });
     });
   });
