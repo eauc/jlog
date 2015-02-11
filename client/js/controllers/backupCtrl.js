@@ -57,7 +57,7 @@ angular.module('jlogApp.controllers')
           id: null,
           msg: 'Uploading...'
         };
-        $scope.$digest();
+        // $scope.$digest();
         server.upload($scope.battles.list)
           .then(function(data) {
             $scope.upload = {
@@ -75,7 +75,7 @@ angular.module('jlogApp.controllers')
         if(!_.isString($scope.download.id) ||
            s.isBlank($scope.download.id)) return;
         $scope.download.msg = 'Downloading...';
-        $scope.$digest();
+        // $scope.$digest();
         server.download($scope.download.id)
           .then(function(data) {
             $scope.download.msg = data[1];
