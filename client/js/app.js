@@ -19,10 +19,10 @@ angular.module('jlogApp', [
       .state('battle', {
         url: '/battle',
         views: {
-          'page@': {
-            templateUrl: 'partials/battle_list.html',
-            controller: 'listCtrl'
-          },
+          // 'page@': {
+          //   templateUrl: 'partials/battle_list.html',
+          //   controller: 'listCtrl'
+          // },
           'bottom-bar@': {
             templateUrl: 'partials/battle_list_menu.html',
             controller: 'listBottomCtrl'

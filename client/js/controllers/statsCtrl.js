@@ -19,14 +19,14 @@ angular.module('jlogApp.controllers')
         selector_arg: null,
         doGenerate: function() {
           $scope.stats = stats.generate($scope.stats,
-                                        $scope.battles.display_list,
+                                        $scope.battles.sorted_list,
                                         this.entry, this.selector, this.selector_arg);
         }
       };
 
       $scope.state = $state.current.data;
 
-      $scope.$watch('battles.display_list', function(l) {
+      $scope.$watch('battles.sorted_list', function(l) {
         if(_.isEmpty(l)) return;
         $scope.state.doGenerate();
       });

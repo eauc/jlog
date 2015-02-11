@@ -55,7 +55,7 @@ describe('controllers', function() {
       beforeEach(function() {
         this.scope.battles = {
             list: [ 'b1','b2','b3','b4' ],
-            display_list: [ 'b2','b4' ]
+            sorted_list: [ 'b2','b4' ]
         };
       });
 
@@ -93,14 +93,14 @@ describe('controllers', function() {
       beforeEach(function() {
         this.fileExportService = spyOnService('fileExport');
         this.battlesService = spyOnService('battles');
-        this.scope.battles = { display_list: ['display_list'] };
+        this.scope.battles = { sorted_list: ['sorted_list'] };
 
         this.scope.doExportOpen();
       });
 
       it('should create JSON export', function() {
         expect(this.fileExportService.generate)
-          .toHaveBeenCalledWith('json', ['display_list']);
+          .toHaveBeenCalledWith('json', ['sorted_list']);
 
         expect(this.scope.exports.json.name).toMatch(/battles_\d+\.json/);
         expect(this.scope.exports.json.label).toBe('JSON');
@@ -110,7 +110,7 @@ describe('controllers', function() {
 
       it('should create CSV export', function() {
         expect(this.battlesService.toTable)
-          .toHaveBeenCalledWith(['display_list']);
+          .toHaveBeenCalledWith(['sorted_list']);
         expect(this.fileExportService.generate)
           .toHaveBeenCalledWith('csv', 'battles.toTable.returnValue');
 
@@ -122,7 +122,7 @@ describe('controllers', function() {
 
       it('should create BBCode export', function() {
         expect(this.battlesService.toTable)
-          .toHaveBeenCalledWith(['display_list']);
+          .toHaveBeenCalledWith(['sorted_list']);
         expect(this.fileExportService.generate)
           .toHaveBeenCalledWith('bb', 'battles.toTable.returnValue');
 

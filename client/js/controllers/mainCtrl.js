@@ -6,6 +6,7 @@ angular.module('jlogApp.controllers')
     '$state',
     '$q',
     '$window',
+    '$timeout',
     'scores',
     'factions',
     'scenarios',
@@ -19,6 +20,7 @@ angular.module('jlogApp.controllers')
       $state,
       $q,
       $window,
+      $timeout,
       scores,
       factions,
       scenarios,
@@ -34,6 +36,7 @@ angular.module('jlogApp.controllers')
 
       $scope.battles = {
         list: [],
+        sorted_list: [],
         display_list: [],
         events: [],
         opponents: [],
@@ -50,6 +53,34 @@ angular.module('jlogApp.controllers')
           cache: {}
         }
       };
+
+      var timeout;
+      function updateDisplayList() {
+        if(_.exists(timeout)) {
+          console.log('updateDisplayList cancel');
+          $timeout.cancel(timeout);
+          timeout = null;
+        }
+
+        // console.log('updateDisplayList sorted', $scope.battles.sorted_list);
+        var chunked_list = _.chunkAll($scope.battles.sorted_list, 20);
+        // console.log('updateDisplayList chunked', chunked_list);
+        $scope.battles.display_list = [];
+
+        var updateChunk = function() {
+          $scope.battles.display_list = _.cat($scope.battles.display_list,
+                                              _.first(chunked_list));
+          chunked_list = _.rest(chunked_list);
+          if(!_.isEmpty(chunked_list)) {
+            timeout = $timeout(updateChunk, 200);
+          }
+          // else {
+          //   console.log('updateDisplayList display', $scope.battles.display_list);
+          // }
+        };
+        timeout = $timeout(updateChunk, 200);
+      }
+
       $scope.updateBattles = function() {
         filter.store($scope.battles.filter.state);
         var filtered_list = $scope.battles.filter.active ?
@@ -60,11 +91,11 @@ angular.module('jlogApp.controllers')
                              $scope.battles.filter.invert,
                              $scope.battles.filter.cache)) :
           $scope.battles.list;
-        $scope.battles.display_list = battles.sort(filtered_list,
-                                                   $scope.sort_types,
-                                                   $scope.battles.sort.type,
-                                                   $scope.battles.sort.reverse);
-        $scope.battles.size = $scope.battles.display_list.length;
+        $scope.battles.sorted_list = battles.sort(filtered_list,
+                                                  $scope.sort_types,
+                                                  $scope.battles.sort.type,
+                                                  $scope.battles.sort.reverse);
+        updateDisplayList();
       };
       $scope.setBattles = function(bs) {
         $scope.battles.list = battles.buildIndex(bs);

@@ -140,6 +140,17 @@ angular.module('jlogApp.services')
         'tags': function(b) { return b.tags.join('|'); },
         'comment': 'comment'
       };
+      function hashCode(str) {
+        return _.chain(str)
+          .apply(s.chars)
+          .map(function(c) { return c.charCodeAt(0); })
+          .reduce(function(hash, c) {
+	          hash = ((hash<<5)-hash)+c;
+	          hash = hash & hash; // Convert to 32bit integer
+            return hash;
+	        }, 0)
+          .value();
+      }   
       var battles = {
         init: function() {
           var bs;
@@ -185,6 +196,7 @@ angular.module('jlogApp.services')
         buildIndex: function(coll) {
           return _.each(coll, function(b, i) {
             b.index = i;
+            b.hash = hashCode(jsonStringifier.stringify(b));
           });
         },
         save: function(coll, i, b) {

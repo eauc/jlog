@@ -42,20 +42,20 @@ describe('controllers', function() {
       expect(this.scope.state).toBe(this.state.current.data);
     });
 
-    it('should watch battles display list', function() {
+    it('should watch battles sorted list', function() {
       expect(this.scope.$watch)
-        .toHaveBeenCalledWith('battles.display_list', jasmine.any(Function));
+        .toHaveBeenCalledWith('battles.sorted_list', jasmine.any(Function));
     });
-    describe('on display list change', function() {
+    describe('on sorted list change', function() {
       beforeEach(function() {
         this.watcher = findCallByArgs(this.scope.$watch, function(args) {
-          return args[0] === 'battles.display_list';
+          return args[0] === 'battles.sorted_list';
         }).args[1];
         spyOn(this.state.current.data, 'doGenerate');
       });
 
       it('should re-generate current stats', function() {
-        this.watcher('display_list');
+        this.watcher('sorted_list');
 
         expect(this.state.current.data.doGenerate)
           .toHaveBeenCalled();
@@ -68,12 +68,12 @@ describe('controllers', function() {
         this.state.current.data.selector = 'selector';
         this.state.current.data.selector_arg = 'selector_arg';
         this.scope.stats = [ 'stats' ];
-        this.scope.battles = { display_list: [ 'display_list' ] };
+        this.scope.battles = { sorted_list: [ 'sorted_list' ] };
 
         this.state.current.data.doGenerate();
 
         expect(this.statsService.generate)
-          .toHaveBeenCalledWith([ 'stats' ], [ 'display_list' ],
+          .toHaveBeenCalledWith([ 'stats' ], [ 'sorted_list' ],
                                 'entry', 'selector', 'selector_arg');
         expect(this.scope.stats).toBe('stats.generate.returnValue');
       });

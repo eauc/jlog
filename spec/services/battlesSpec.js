@@ -109,16 +109,23 @@ describe('services', function() {
     });
 
     describe('buildIndex()', function() {
-      it('should set indices in battles', function() {
-        expect(battles.buildIndex([
+      it('should set indices and hashed in battles', function() {
+        var bs = battles.buildIndex([
           { name: 'battle1' },
           { name: 'battle2' },
           { name: 'battle3' },
-        ])).toEqual([
-          { index: 0, name: 'battle1' },
-          { index: 1, name: 'battle2' },
-          { index: 2, name: 'battle3' },
         ]);
+      expect(bs[0].name).toBe('battle1');
+      expect(bs[0].index).toEqual(0);
+      expect(bs[0].hash).toBeA('Number');
+
+      expect(bs[1].name).toBe('battle2');
+      expect(bs[1].index).toEqual(1);
+      expect(bs[1].hash).toBeA('Number');
+
+      expect(bs[2].name).toBe('battle3');
+      expect(bs[2].index).toEqual(2);
+      expect(bs[2].hash).toBeA('Number');
       });
     });
 

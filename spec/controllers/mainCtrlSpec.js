@@ -114,7 +114,7 @@ describe('controllers', function() {
             .toHaveBeenCalledWith([ 'battle_list' ],
                                   'battles.sortTypes.returnValue',
                                   'sort_type', 'sort_reverse');
-          expect(this.scope.battles.display_list)
+          expect(this.scope.battles.sorted_list)
             .toBe('battles.sort.returnValue');
         });
       });
@@ -156,7 +156,7 @@ describe('controllers', function() {
             .toHaveBeenCalledWith([ 'battle1', 'battle3' ],
                                   'battles.sortTypes.returnValue',
                                   'sort_type', 'sort_reverse');
-          expect(this.scope.battles.display_list)
+          expect(this.scope.battles.sorted_list)
             .toBe('battles.sort.returnValue');
         });
       });

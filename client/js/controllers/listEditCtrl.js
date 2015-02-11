@@ -29,7 +29,7 @@ angular.module('jlogApp.controllers')
       }
       $state.current.data.index = index;
       $state.current.data.battle = $scope.battle;
-      // $scope.$watch('battles.display_list', function(val) {
+      // $scope.$watch('battles.sorted_list', function(val) {
       //   if(val.length > 0) {
       //     $scope.battle = battle.test(index,
       //                                 $scope.factions,
@@ -74,8 +74,8 @@ angular.module('jlogApp.controllers')
                                       ' will be deleted.');
         if(!confirm) return;
 
-        // $scope.battles.display_list = battles['drop'+s.capitalize(type)]($scope.battles.display_list,
-        //                                                    name);
+        // $scope.setBattles(battles['drop'+s.capitalize(type)]($scope.battles.list,
+        //                                                      name));
         $scope.battles[type+'s'] = services[type].drop($scope.battles[type+'s'],
                                                        name);
         $scope.battle = _.setPath($scope.battle, null, keys[type], {});
@@ -100,8 +100,8 @@ angular.module('jlogApp.controllers')
                                       ' will be deleted.');
         if(!confirm) return;
 
-        // $scope.battles.display_list = battles.dropTags($scope.battles.display_list,
-        //                                                tags);
+        // $scope.setBattles(battles.dropTags($scope.battles.list,
+        //                                    tags));
         $scope.battles.tags = tags.drop($scope.battles.tags,
                                         ts);
         $scope.battle.tags = [];

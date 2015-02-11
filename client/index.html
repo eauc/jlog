@@ -13,7 +13,11 @@
         close-all-dropdown>
     <div ng-include="'partials/navbar.html'"></div>
     <div id="page"
+         ng-hide="stateIs('battle')"
          ui-view="page"></div>
+    <div id="page"
+         ng-show="stateIs('battle')"
+         ng-include="'partials/battle_list.html'"></div>
     <nav id="bottom-bar"
          class="navbar navbar-default navbar-fixed-bottom">
       <div class="container text-center"
