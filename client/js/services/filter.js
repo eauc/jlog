@@ -159,6 +159,7 @@ angular.module('jlogApp.services')
   ])
   .factory('filter', [
     '$window',
+    'jsonStringifier',
     'filterMatchSimple',
     'filterMatchComp',
     'filterMatchCaster',
@@ -166,6 +167,7 @@ angular.module('jlogApp.services')
     'filterMatchTags',
     'compareDate',
     function($window,
+             jsonStringifier,
              filterMatchSimple,
              filterMatchComp,
              filterMatchCaster,
@@ -237,7 +239,8 @@ angular.module('jlogApp.services')
         },
         store: function(fs) {
           console.log('store filter v2');
-          $window.localStorage.setItem('jlog_filter_v2', JSON.stringify(fs));
+          $window.localStorage.setItem('jlog_filter_v2',
+                                       jsonStringifier.stringify(fs));
         },
         clearStorage: function() {
           console.log('clear stored filter');

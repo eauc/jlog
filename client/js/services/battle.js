@@ -107,11 +107,13 @@ angular.module('jlogApp.services')
     '$q',
     'battle', 
     'orderByFilter',
+    'jsonStringifier',
     function($window,
              $http,
              $q,
              battle,
-             orderByFilter) {
+             orderByFilter,
+             jsonStringifier) {
       var sort_types;
       var TABLE_KEYS = {
         'date': function(b) { return b.date.year+'-'+b.date.month+'-'+b.date.day; },
@@ -172,7 +174,8 @@ angular.module('jlogApp.services')
         },
         store: function(coll) {
           console.log('store battles v2');
-          $window.localStorage.setItem('jlog_battles_v2', JSON.stringify(coll));
+          $window.localStorage.setItem('jlog_battles_v2',
+                                       jsonStringifier.stringify(coll));
         },
         clearStorage: function() {
           console.log('clear stored battles');
