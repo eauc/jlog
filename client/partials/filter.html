@@ -81,6 +81,8 @@
           <select class="form-control"
                   ng-model="battles.filter.state.my_army.value.faction"
                   ng-options="f.key as f.name for f in factions">
+            <option value=""
+                    ng-if="!battles.filter.state.my_army.value.faction">Please select</option>
           </select>
         </div>
         <div class="col-xs-3"></div>
@@ -156,6 +158,8 @@
           <select class="form-control"
                   ng-model="battles.filter.state.opp_caster.value.faction"
                   ng-options="f.key as f.name for f in factions">
+            <option value=""
+                    ng-if="!battles.filter.state.opp_caster.value.faction">Please select</option>
           </select>
         </div>
         <div class="col-xs-3">

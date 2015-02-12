@@ -15,6 +15,7 @@
                   ng-model="battle.my_army.faction"
                   ng-options="f.key as f.name for f in factions"
                   required>
+            <option value="" ng-if="!battle.my_army.faction">Please select</option>
           </select>
         </div>
         <div ng-class="{ 'has-error':battle_edit.my_army_caster.$invalid }">
@@ -25,6 +26,7 @@
                   c.key as c.key | capitalise
                   for c in factions | factions:'castersFor':battle.my_army.faction"
                   required>
+            <option value="" ng-if="!battle.my_army.caster">Please select</option>
           </select>
         </div>
       </div>
@@ -45,6 +47,7 @@
                     ng-model="battle.opponent.name"
                     ng-options="o as o|capitalise for o in battles.opponents"
                     required>
+              <option value="" ng-if="!battle.opponent.name">Please select</option>
             </select>
           </div>
           <span class="input-group-btn">
@@ -66,6 +69,7 @@
                   ng-model="battle.opponent.faction"
                   ng-options="f.key as f.name for f in factions"
                   required>
+            <option value="" ng-if="!battle.opponent.faction">Please select</option>
           </select>
         </div>
         <div ng-class="{ 'has-error':battle_edit.opponent_caster.$invalid }">
@@ -76,6 +80,7 @@
                   c.key as c.key|capitalise
                   for c in factions | factions:'castersFor':battle.opponent.faction"
                   required>
+            <option value="" ng-if="!battle.opponent.caster">Please select</option>
           </select>
         </div>
       </div>
@@ -118,6 +123,7 @@
           <select class="form-control input-sm"
                   ng-model="battle.setup.event"
                   ng-options="e for e in battles.events">
+            <option value="" ng-if="!battle.setup.event">Please select</option>
           </select>
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
@@ -142,6 +148,7 @@
                   s.key as s.name
                   for s in battles.scenarios | orderBy:'-key'
                   ">
+            <option value="" ng-if="!battle.setup.scenario">Please select</option>
           </select>
           <span class="input-group-btn">
             <button class="btn btn-sm btn-default"
@@ -187,6 +194,7 @@
                   for (id, s) in scores
                   "
                   required>
+            <option value="" ng-if="!battle.score">Please select</option>
           </select>
         </div>
       </div>

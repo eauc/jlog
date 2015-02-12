@@ -10,6 +10,7 @@
             ng-model="state.selector_arg"
             ng-options="f.key as f.name for f in factions"
             ng-change="state.doGenerate()">
+      <option value="" ng-if="!state.selector_arg">Please select</option>
     </select>
   </div>
   <div ng-if="
