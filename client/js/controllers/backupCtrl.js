@@ -3,6 +3,7 @@
 angular.module('jlogApp.controllers')
   .controller('backupCtrl', [
     '$scope',
+    '$window',
     'fileImport',
     'igParser',
     'fileExport',
@@ -10,6 +11,7 @@ angular.module('jlogApp.controllers')
     'battles',
     'filter',
     function($scope,
+             $window,
              fileImport,
              igParser,
              fileExport,
@@ -89,5 +91,10 @@ angular.module('jlogApp.controllers')
       $scope.doClearStorage = function() {
         battles.clearStorage();
         filter.clearStorage();
+      };
+
+      $scope.old_data = null;
+      $scope.doReadOldDatabase = function() {
+        $scope.old_data = $window.localStorage.getItem('jlog_battles');
       };
     }]);

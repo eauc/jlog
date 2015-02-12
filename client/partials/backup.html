@@ -161,5 +161,15 @@ LEFT JOIN event ON battle.eventId=event._id;</code>
       This will clear all data stored in memory.
       You can then reload the data from a backup file to restart in a clean state.
     </div>
+    <div class="col-xs-6">
+      <button class="btn btn-default"
+              ng-click="doReadOldDatabase()">
+        Read Old Database
+      </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12">
+      {{old_data}}
+    </div>
   </div>
 </div>
