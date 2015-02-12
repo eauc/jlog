@@ -69,19 +69,22 @@ angular.module('jlogApp.directives')
       controller: [
         '$scope',
         '$window',
+        'prompt',
         'appCache',
         function($scope,
                  $window,
+                 prompt,
                  appCache) {
           $scope.appCache = appCache;
           appCache.onProgress = function() {
             $scope.$apply();
           };
           appCache.onUpdateReady = function() {
-            if($window.confirm('A new version of this site is available. Load it?\n\n'+
-                               '(You might want to save your battles first, if so click Cancel)')) {
-              $window.location.reload();
-            }
+            prompt.prompt('confirm', ['A new version of this site is available. Load it?',
+                                      '(You might want to save your battles first, if so click Cancel)'])
+              .then(function() {
+                $window.location.reload();
+              });
           };
         }
       ],

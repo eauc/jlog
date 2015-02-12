@@ -10,6 +10,8 @@
   </head>
   <body ng-controller="mainCtrl"
         close-all-dropdown>
+    <prompt>
+    </prompt>
     <div ng-include="'partials/navbar.html'"></div>
     <div id="page"
          ng-hide="stateIs('battle')"
@@ -69,6 +71,7 @@
     <script src="js/directives/stacks.js"></script>
     <script src="js/directives/pieChart.js"></script>
     <script src="js/directives/stackGraphs.js"></script>
+    <script src="js/directives/prompt.js"></script>
 
     <script src="js/filters/capitaliseFilter.js"></script>
     <script src="js/filters/servicesFilter.js"></script>

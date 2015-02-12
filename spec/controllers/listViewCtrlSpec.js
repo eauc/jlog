@@ -4,6 +4,7 @@ describe('controllers', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
+    module('jlogApp.directives');
     module('jlogApp.controllers');
   });
 
@@ -40,10 +41,8 @@ describe('controllers', function() {
     beforeEach(inject([
       '$rootScope',
       '$controller',
-      '$window',
       function($rootScope,
-               $controller,
-               $window) {
+               $controller) {
         this.scope = $rootScope.$new();
         this.scope.stateGo = jasmine.createSpy('stateGo');
         this.scope.setBattles = jasmine.createSpy('setBattles');
@@ -53,9 +52,9 @@ describe('controllers', function() {
         };
 
         this.stateParams = { index: '2' };
-        this.window = $window;
-        spyOn($window, 'confirm');
-        this.battles = spyOnService('battles');
+        this.battlesService = spyOnService('battles');
+        this.promptService = spyOnService('prompt');
+        mockReturnPromise(this.promptService.prompt);
 
         $controller('listViewBottomCtrl', { 
           '$scope': this.scope,
@@ -81,16 +80,17 @@ describe('controllers', function() {
 
       it('should ask for confirmation', function() {
         this.scope.doDeleteBattle();
-        expect(this.window.confirm).toHaveBeenCalled();
+        expect(this.promptService.prompt)
+          .toHaveBeenCalledWith('confirm', jasmine.any(String));
       });
 
       when('user changes his mind', function() {
-        this.window.confirm.and.returnValue(false);
-
         this.scope.doDeleteBattle();
+
+        this.promptService.prompt.reject();
       }, function() {
         it('shouldn\'t delete the battle', function() {
-          expect(this.battles.drop).not.toHaveBeenCalled();
+          expect(this.battlesService.drop).not.toHaveBeenCalled();
         });
 
         it('shouldn\'t close the view', function() {
@@ -99,12 +99,12 @@ describe('controllers', function() {
       });
 
       when('user confirms', function() {
-        this.window.confirm.and.returnValue(true);
-
         this.scope.doDeleteBattle();
+
+        this.promptService.prompt.resolve();
       }, function() {
         it('should delete the battle', function() {
-          expect(this.battles.drop)
+          expect(this.battlesService.drop)
             .toHaveBeenCalledWith(['battles_list'], 2);
           expect(this.scope.setBattles)
             .toHaveBeenCalledWith('battles.drop.returnValue');

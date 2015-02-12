@@ -21,6 +21,7 @@
     "jasmine": false,
     "spyOn": false,
     "spyOnService": false,
+    "mockReturnPromise": false,
     "filterCallsByArgs": false,
     "findCallByArgs": false,
     "using": false

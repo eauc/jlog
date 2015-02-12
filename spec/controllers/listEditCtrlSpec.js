@@ -4,6 +4,7 @@ describe('controllers', function() {
 
   beforeEach(function() {
     module('jlogApp.services');
+    module('jlogApp.directives');
     module('jlogApp.controllers');
   });
 
@@ -16,11 +17,11 @@ describe('controllers', function() {
       function($rootScope,
                $controller,
                $window) {
-        this.window = $window;
-        spyOn($window, 'prompt');
-        spyOn($window, 'confirm');
-
         var ctxt = this;
+
+        this.promptService = spyOnService('prompt');
+        mockReturnPromise(this.promptService.prompt);
+
         this.initCtrlWith = function(index) {
           ctxt.scope = $rootScope.$new();
           spyOn(ctxt.scope, '$watch');
@@ -108,13 +109,14 @@ describe('controllers', function() {
         it('should prompt the user for new '+e.type+' name', function() {
           this.scope.doAdd(e.type);
           
-          expect(this.window.prompt).toHaveBeenCalled();
+          expect(this.promptService.prompt)
+            .toHaveBeenCalledWith('prompt', jasmine.any(String));
         });
 
         when('user enters valid name', function() {
-          this.window.prompt.and.returnValue('  valid  name ');
-
           this.scope.doAdd(e.type);
+
+          this.promptService.prompt.resolve('  valid  name ');
         }, function() {
           it('should add name to '+e.type+'s', function() {
             expect(this.typeService.add)
@@ -145,13 +147,14 @@ describe('controllers', function() {
         it('should ask the user for confirmation', function() {
           this.scope.doDelete(e.type);
           
-          expect(this.window.confirm).toHaveBeenCalled();
+          expect(this.promptService.prompt)
+            .toHaveBeenCalledWith('confirm', jasmine.any(String));
         });
 
         when('user does not confirms', function() {
-          this.window.confirm.and.returnValue(false);
-
           this.scope.doDelete(e.type);
+
+          this.promptService.prompt.reject();
         }, function() {
           it('should do nothing', function() {
             expect(this.scope.battles[e.type+'s'])
@@ -162,9 +165,9 @@ describe('controllers', function() {
         });
 
         when('user confirms', function() {
-          this.window.confirm.and.returnValue(true);
-
           this.scope.doDelete(e.type);
+
+          this.promptService.prompt.resolve();
         }, function() {
           it('should drop name from '+e.type+'s', function() {
             expect(this.typeService.drop)
@@ -196,13 +199,14 @@ describe('controllers', function() {
       it('should prompt the user for new tag name', function() {
         this.scope.doAddTag();
         
-        expect(this.window.prompt).toHaveBeenCalled();
+        expect(this.promptService.prompt)
+          .toHaveBeenCalledWith('prompt', jasmine.any(String));
       });
 
       when('user enters valid name', function() {
-        this.window.prompt.and.returnValue('  valid  name ');
-
         this.scope.doAddTag();
+
+        this.promptService.prompt.resolve('  valid  name ');
       }, function() {
         it('should add name to tags', function() {
           expect(this.tagsService.add)
@@ -235,13 +239,14 @@ describe('controllers', function() {
       it('should ask the user for confirmation', function() {
         this.scope.doDeleteTag();
         
-        expect(this.window.confirm).toHaveBeenCalled();
+        expect(this.promptService.prompt)
+          .toHaveBeenCalledWith('confirm', jasmine.any(String));
       });
 
       when('user does not confirms', function() {
-        this.window.confirm.and.returnValue(false);
-
         this.scope.doDeleteTag();
+
+        this.promptService.prompt.reject();
       }, function() {
         it('should do nothing', function() {
           expect(this.scope.battles.tags)
@@ -252,9 +257,9 @@ describe('controllers', function() {
       });
       
       when('user confirms', function() {
-        this.window.confirm.and.returnValue(true);
-
         this.scope.doDeleteTag();
+
+        this.promptService.prompt.resolve();
       }, function() {
         it('should drop all current tags from tags', function() {
           expect(this.tagsService.drop)

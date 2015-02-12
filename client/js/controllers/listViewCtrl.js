@@ -12,11 +12,11 @@ angular.module('jlogApp.controllers')
   .controller('listViewBottomCtrl', [
     '$scope',
     '$stateParams',
-    '$window',
+    'prompt',
     'battles',
     function($scope,
              $stateParams,
-             $window,
+             prompt,
              battles) {
       console.log('init listViewBottomCtrl');
 
@@ -24,11 +24,12 @@ angular.module('jlogApp.controllers')
         $scope.stateGo('battle.edit', { index: $stateParams.index });
       };
       $scope.doDeleteBattle = function() {
-        var confirm = $window.confirm('You sure you wanna delete this battle ?');
-        if(!confirm) return;
-        $scope.setBattles(battles.drop($scope.battles.list,
-                                       parseFloat($stateParams.index)));
-        $scope.doClose();
+        prompt.prompt('confirm', 'You sure you wanna delete this battle ?')
+          .then(function() {
+            $scope.setBattles(battles.drop($scope.battles.list,
+                                           parseFloat($stateParams.index)));
+            $scope.doClose();
+          });
       };
       $scope.doClose = function() {
         $scope.stateGo('battle');

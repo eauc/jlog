@@ -5,7 +5,7 @@ angular.module('jlogApp.controllers')
     '$scope',
     '$state',
     '$stateParams',
-    '$window',
+    'prompt',
     'battle',
     'events',
     'opponents',
@@ -14,7 +14,7 @@ angular.module('jlogApp.controllers')
     function($scope,
              $state,
              $stateParams,
-             $window,
+             prompt,
              battle,
              events,
              opponents,
@@ -57,54 +57,54 @@ angular.module('jlogApp.controllers')
         scenario: ['setup','scenario'],
       };
       $scope.doAdd = function(type) {
-        var name = $window.prompt('Enter new '+type+' name :');
-        if(!_.exists(name)) return;
-        name = s(name).clean().toLowerCase().value();
-        if(s.isBlank(name)) return;
-        $scope.battles[type+'s'] = services[type].add($scope.battles[type+'s'], name);
-        $scope.battle = _.setPath($scope.battle, name, keys[type], {});
-        $state.current.data.battle = $scope.battle;
+        prompt.prompt('prompt', 'Enter new '+type+' name :')
+          .then(function(name) {
+            if(!_.exists(name)) return;
+            name = s(name).clean().toLowerCase().value();
+            if(s.isBlank(name)) return;
+            $scope.battles[type+'s'] = services[type].add($scope.battles[type+'s'], name);
+            $scope.battle = _.setPath($scope.battle, name, keys[type], {});
+            $state.current.data.battle = $scope.battle;
+          });
       };
       $scope.doDelete = function(type) {
         var name = _.getPath($scope.battle, keys[type]);
         if(!_.exists(name)) return;
 
-        var confirm = $window.confirm('All references to '+
-                                      name+
-                                      ' will be deleted.');
-        if(!confirm) return;
-
-        // $scope.setBattles(battles['drop'+s.capitalize(type)]($scope.battles.list,
-        //                                                      name));
-        $scope.battles[type+'s'] = services[type].drop($scope.battles[type+'s'],
-                                                       name);
-        $scope.battle = _.setPath($scope.battle, null, keys[type], {});
-        $state.current.data.battle = $scope.battle;
+        prompt.prompt('confirm', 'All references to '+name+' will be deleted.')
+          .then(function() {
+            // $scope.setBattles(battles['drop'+s.capitalize(type)]($scope.battles.list,
+            //                                                      name));
+            $scope.battles[type+'s'] = services[type].drop($scope.battles[type+'s'],
+                                                           name);
+            $scope.battle = _.setPath($scope.battle, null, keys[type], {});
+            $state.current.data.battle = $scope.battle;
+          });
       };
 
       $scope.doAddTag = function() {
-        var name = $window.prompt('Enter new tag name :');
-        if(!_.exists(name)) return;
-        name = s(name).clean().toLowerCase().value();
-        if(s.isBlank(name)) return;
-        $scope.battles.tags = tags.add($scope.battles.tags, name);
-        $scope.battle = battle.addTag($scope.battle, name);
-        $state.current.data.battle = $scope.battle;
+        prompt.prompt('prompt', 'Enter new tag name :')
+          .then(function(name) {
+            if(!_.exists(name)) return;
+            name = s(name).clean().toLowerCase().value();
+            if(s.isBlank(name)) return;
+            $scope.battles.tags = tags.add($scope.battles.tags, name);
+            $scope.battle = battle.addTag($scope.battle, name);
+            $state.current.data.battle = $scope.battle;
+          });
       };
       $scope.doDeleteTag = function() {
         var ts = $scope.battle.tags;
         if(_.isEmpty(ts)) return;
 
-        var confirm = $window.confirm('All references to '+
-                                      ts.join(',')+
-                                      ' will be deleted.');
-        if(!confirm) return;
-
-        // $scope.setBattles(battles.dropTags($scope.battles.list,
-        //                                    tags));
-        $scope.battles.tags = tags.drop($scope.battles.tags,
-                                        ts);
-        $scope.battle.tags = [];
+        prompt.prompt('confirm', 'All references to "'+ts.join(',')+'" will be deleted.')
+          .then(function() {
+            // $scope.setBattles(battles.dropTags($scope.battles.list,
+            //                                    tags));
+            $scope.battles.tags = tags.drop($scope.battles.tags,
+                                            ts);
+            $scope.battle.tags = [];
+          });
       };
     }
   ])
