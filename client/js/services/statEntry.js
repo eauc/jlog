@@ -274,6 +274,7 @@ angular.module('jlogApp.services')
                 return mem;
               }, { Scenario:[0,0,0], Army:[0,0,0], Kill:[0,0,0] })
               .reduce(function(mem, value, key) {
+                value[2] = (0 === value[2]) ? 1 : value[2];
                 mem[key] = [Math.round(value[0]/value[2]*100)/100,
                             Math.round(value[1]/value[2]*100)/100];
                 return mem;

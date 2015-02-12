@@ -17,7 +17,9 @@ angular.module('jlogApp.directives')
           return {
             name: name,
             layers: _.map(s, function(v, i) {
-              var width = $scope.width * v / totals[name];
+              var width = (0 < totals[name]) ?
+                $scope.width * v / totals[name] :
+                $scope.width / s.length;
               var layer = {
                 x: x,
                 width: width,
