@@ -1,0 +1,152 @@
+<div id="help-stats"
+     style="height:3em;">
+</div>
+<div>
+  <h3>Statistics</h3>
+  <img class="img-responsive img-thumbnail hidden-xs"
+       src="data/sample/stats_pie_lg.png"
+       style="max-height:500px" /><br />
+  <img class="img-responsive img-thumbnail visible-xs"
+       src="data/sample/stats_sm.png" /><br />
+  <p>
+    This page allows visualization of battles statistics.
+  </p>
+  <p>
+    <b>Tip :</b> You can get there by clicking on "Statistics" button in the Main Menu.
+  </p>
+  <p>Available actions :</p>
+  <dl class="dl-horizontal">
+    <dt>
+      <span style="font-weight:bold">%</span>
+      &lt;stats criterion&gt;
+    </dt>
+    <dd>
+      display the stats type. You can compute various statistics about your battles.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-sort"></span>
+      &lt;group by criterion&gt;
+    </dt>
+    <dd>
+      display the stats groups. You can group the computed statistics by various values.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-filter"></span>
+      Filter
+    </dt>
+    <dd>
+      You can filter the battles used for computing the stats, according to multiple settings.
+    </dd>
+  </dl>
+
+  <h5>Statistics Type</h5>
+  <p>
+    You can choose which statistic to compute from your battles.<br />
+    Basically, the app is able to count (almost) each of the informations available for battles<br />
+    The default type is "Result".
+  </p>
+  <dl class="dl-horizontal">
+    <dt>Event</dt>
+    <dd>count references to each event (bar graph).</dd>
+    <dt>Initiative</dt>
+    <dd>count references to each initiative combination (pie chart).</dd>
+    <dt>My Caster/Opp. Caster</dt>
+    <dd>count references to each caster for all factions (bar graph).</dd>
+    <dt>My Faction/Opp. Faction</dt>
+    <dd>count references to each faction (bar graph).</dd>
+    <dt>Opp. Name</dt>
+    <dd>count references to each opponent name (bar graph).</dd>
+    <dt>Points</dt>
+    <dd>count the mean points scored by you and your opponents (balance graph).</dd>
+    <dt>Result</dt>
+    <dd>count your victories/defeats (pie chart).</dd>
+    <dt>Result Over Time</dt>
+    <dd>accumulate your victories/defeats over time (chart).</dd>
+    <dt>Scenario</dt>
+    <dd>count references to each scenario (bar graph).</dd>
+    <dt>Size</dt>
+    <dd>count references to each size (bar graph).</dd>
+    <dt>Tags</dt>
+    <dd>count references to each tag (bar graph).</dd>
+  </dl>
+
+  <h5>Statistics Group By</h5>
+  <p>
+    You can choose to compute group statistics from your battles.<br />
+    Basically, the app is able to group battles by (almost) each information available<br />
+    The default group is "Total".
+  </p>
+  <dl class="dl-horizontal">
+    <dt>Event</dt>
+    <dd>group battles by event.</dd>
+    <dt>Initiative</dt>
+    <dd>group battle by each initiative combination.</dd>
+    <dt>My Caster/Opp. Caster</dt>
+    <dd>group battles by each caster (you must first select a faction a the top of the page).</dd>
+    <dt>My Faction/Opp. Faction</dt>
+    <dd>group battles by faction.</dd>
+    <dt>Opp. Name</dt>
+    <dd>group battle by opponent name (bar graph).</dd>
+    <dt>Result</dt>
+    <dd>group battles by game result.</dd>
+    <dt>Scenario</dt>
+    <dd>group battles by scenario.</dd>
+    <dt>Size</dt>
+    <dd>group battles by game size.</dd>
+    <dt>Tags</dt>
+    <dd>group battles by tag reference.</dd>
+    <dt>Total</dt>
+    <dd>one group, all battles.</dd>
+  </dl>
+
+  <h5>Filter Action</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/battle_list_filter.png" />
+  <dl class="dl-horizontal"
+      style="display:inline-block;">
+    <dt>
+      <span class="glyphicon glyphicon-edit"></span>
+      Edit
+    </dt>
+    <dd>
+      Brings you to the <a ng-click="scrollTo('help-filter-edition')">Filter Settings Edition</a> page.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-random"></span>
+      Invert
+    </dt>
+    <dd>
+      use battles that do NOT match the current filter.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-refresh"></span>
+      Restore
+    </dt>
+    <dd>
+      undo "Invert" filter.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-ok-circle"></span>
+      Enable
+    </dt>
+    <dd>
+      activate filter.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Disable
+    </dt>
+    <dd>
+      disactivate filter (the current filter settings are not lost, just disabled).
+    </dd>
+  </dl>      
+  <p>The filter button color change depending on the state of the filter :</p>
+  <dl class="dl-horizontal">
+    <dt>white</dt>
+    <dd>filter inactive</dd>
+    <dt>green</dt>
+    <dd>filter active</dd>
+    <dt>blue</dt>
+    <dd>filter active and inverted</dd>
+  </ul>
+</div>

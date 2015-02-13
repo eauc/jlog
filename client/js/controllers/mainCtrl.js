@@ -7,6 +7,8 @@ angular.module('jlogApp.controllers')
     '$q',
     '$window',
     '$timeout',
+    '$location',
+    '$anchorScroll',
     'scores',
     'factions',
     'scenarios',
@@ -21,6 +23,8 @@ angular.module('jlogApp.controllers')
       $q,
       $window,
       $timeout,
+      $location,
+      $anchorScroll,
       scores,
       factions,
       scenarios,
@@ -141,6 +145,11 @@ angular.module('jlogApp.controllers')
 
       $scope.doReload = function() {
         $window.location.reload();
+      };
+      $scope.scrollTo = function(id) {
+        // console.log('scrollTo', id);
+        $location.hash(id);
+        $anchorScroll();
       };
     }
   ]);

@@ -27,7 +27,12 @@
          ng-show="stateIs('battle')"
          ng-include="'partials/battle_list.html'"></div>
     <nav id="bottom-bar"
-         class="navbar navbar-default navbar-fixed-bottom">
+         class="navbar navbar-default navbar-fixed-bottom"
+         ng-show="
+         !stateIs('backup') &&
+         !stateIs('info') &&
+         !stateIs('help')
+         ">
       <div class="container text-center"
            ui-view="bottom-bar"></div>
     </nav>

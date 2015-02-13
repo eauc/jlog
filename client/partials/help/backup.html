@@ -1,0 +1,163 @@
+<div id="help-backup"
+     style="height:3em;">
+</div>
+<div>
+  <h3>Backup</h3>
+  <img class="img-responsive img-thumbnail hidden-xs"
+       src="data/sample/backup_lg.png"
+       style="max-height:400px;" />
+  <img class="img-responsive img-thumbnail visible-xs"
+       src="data/sample/backup_sm.png"
+       style="max-height:400px;" />
+  <h4>Where is your data ?</h4>
+  <p>
+    The data representing your current battle list is stored <b>in your browser cache</b>.<br />
+    This allows the app to "remember" your battles each time you visit the website.<br />
+    Also, the app can work offline while you are not connected to the internet.<br />
+    <b>Your data is NOT stored in the webserver</b>, it is purely local to your device.<br />
+  </p>
+  <p>
+    The app can be seen as a simple "battle editor".<br />
+    Although it remembers your current battles between each session,<br />
+    it can also open/save files containing all your battles data.<br />
+    Those "backup files" are the primary backup mecanism for your battle list.
+  </p>
+  <p>
+    The app is also capable of synchronizing the current battle list<br />
+    between to instances of the app running on to different devices<br />
+    through the web server (of course you need to be online at that time).
+  </p>
+  <p>
+    It is recommended to regularly backup your data<br />
+    since a lot of things can go wrong with a browser cache :P
+  </p>
+  <p>
+    <b>Note for IPhone users :</b> it is strongly recommended to backup your data before a firmware upgrade.
+  </p>
+
+  <h4>Open / Save Backup files</h4>
+  <p>
+    The app can be seen as a simple "battle editor", juste like any document editor.<br />
+    You can open and save files to the local filesystem, containing your battles list.
+  </p>
+  <p>
+    <b>Note for IPhone users :</b> the IPhone does not allow access to its filesystem from the browser.<br/>
+    Thus, you cannot Open / Save Backup files from your IPhone.<br />
+    (but you can still backup by synchronizing your data with another, filesytem-enabled device, like a PC).<br />
+  </p>
+  <h5>Open file</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/backup_open.png" />
+  <p>
+    This section allows you to open a file stored on the local filesystem, containing a battle list.<br />
+    Click on the file selection input and choose a file.<br />
+    The app should switch to the Battle List page after loading the new battles.
+  </p>
+  <p>
+    <b>Note :</b> if the file is not read correctly, an error message should appear besides the file selector input.<br />
+    <b>Note :</b> when you open a backup file, the current battle list is discarded, and all its data are lost !<br />
+  </p>
+  <h5>Save file</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/backup_save.png" />
+  <p>
+    This section allows you to save a file to the local filesystem, containing a battle list.<br />
+    Click on the file link on the left.<br />
+    Your browser should open a file manager window to save the file.
+  </p>
+
+  <h4>Synchronize</h4>
+  <p>
+    The app is also capable of synchronizing the current battle list<br />
+    between to instances of the app running on to different devices.<br />
+  </p>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/sync.jpeg" />
+  <p>
+    Basically, one device (say, a smartphone) can upload its battle list to the server.<br />
+    Then another device (say, a PC) can download this battle list from the server.<br />
+    Of cource, both devices need to visit the app webpage with a web browser :)
+  </p>
+  <p>
+    <b>Note for IPhone users :</b> see ! You can upload your battle list from your Iphone,<br />
+    then download it to your PC or whatever, and save a backup file there.<br />
+    To restore data to your IPhone, open the backup file on your PC, <br />
+    upload the freshly read battle list from your PC, and download it to your IPhone.<br />
+    If you find this difficult, curse Apple for all this :P
+  <h5>Upload file</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/backup_upload.png" />
+  <p>
+    This section allows you to upload your current battle list to the webserver.<br />
+    Just click on the big nice button.
+  </p>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/backup_upload_ok.png" />
+  <p>
+    A <b>Sync ID number</b> should appear when the upload is complete.<br />
+    You'll need this Sync ID number to download your data on the other device.
+  </p>
+  <p>
+    <b>Note :</b> data uploaded to the server is only stored temporarily.<br />
+    The Sync ID number is only valid for a few hours after the upload.<br />
+  </p>
+  <h5>Download</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/backup_download.png" />
+  <p>
+    This section allows you to download a battle list from the server.<br />
+    Type the <b>Sync ID number</b> you got when uploading, then click on the button.<br />
+    The app should switch to the Battle List page after loading the new battles.
+  </p>
+  <p>
+    <b>Note :</b> if the ID is not correct, an error message should appear besides the input.<br />
+    <b>Note :</b> when you download a battle list, the current battle list is discarded, and all its data are lost !<br />
+  </p>
+
+  <h4>Import Iron Grudge data</h4>
+  <p>
+    The app can import your Iron Grudge data so you don't lose your last 2 years of victories !<br />
+    You can also see this app as just a glorified statistics viewer and continue to use Iron Grude.
+  </p>
+  <p>
+    The import process is a bit convoluted because the Iron Grudge backup file is a SQLite database.<br />
+    And loading an SQLite data base file directly into a WebApp is not possible AFAIK.<br />
+    So you'll need to convert your backup file to a Text-CSV file, before importing it into this app.
+  </p>
+  <h5>Converting to CSV file</h5>
+  <p>
+    First you need to get an SQLite Manager tool.<br />
+    Personnally I use <a href="https://addons.mozilla.org/en-us/firefox/addon/sqlite-manager/">the Firefox SQLite Manager plugin</a>.
+  </p>
+  <p>
+    The plugin is available through Tools > SQLite Manager in FirefoxMenu.<br />
+    In the Manager choose the menu Database > Connect database, choose your Iron Grudge backup file.<br />
+    The tables for the backup file should appear in the tree view on the left.<br />
+    In the panel on the right, choose the Execute SQL tab.<br />
+    Paste the following SQL into the Enter SQL input :
+  </p>
+  <code>
+    SELECT battle.date, my_faction.name, my_caster.shortname, player.name, opp_faction.name, opp_caster.shortname, battle.result, battle.controlPoints, battle.armyPoints, battle.killPoints, battle.opponentControlPoints, battle.opponentArmyPoints, battle.opponentKillPoints, scenario.name, battle.points, event.name, battle.initiative, battle.comment FROM battle LEFT JOIN army my_army ON battle.armyId=my_army._id LEFT JOIN faction my_faction ON my_army.factionId=my_faction._id LEFT JOIN caster my_caster ON my_army.casterId=my_caster._id LEFT JOIN player ON battle.opponentId=player._id LEFT JOIN army opp_army ON battle.opponentArmyId=opp_army._id LEFT JOIN faction opp_faction ON opp_army.factionId=opp_faction._id LEFT JOIN caster opp_caster ON opp_army.casterId=opp_caster._id LEFT JOIN scenario ON battle.scenarioId=scenario._id LEFT JOIN event ON battle.eventId=event._id;
+  </code>
+  <p>
+    Click on Execute SQL.<br />
+    You should see the following result :
+  </p>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/sqlite_import.png" />
+  <p>
+    Click on Actions > Save Result (CSV) to file.<br />
+    And save your CSV file !
+  </p>
+  <h5>Import the CSV file</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/backup_import_ig.png" />
+  <p>
+    Click on the file selection input and choose your Iron Grudge CSV file (see above).<br />
+    The app should switch to the Battle List page after loading the new battles.
+  </p>
+  <p>
+    <b>Note :</b> if the file is not read correctly, an error message should appear besides the file selector input.<br />
+    <b>Note :</b> when you import a CSV file, the current battle list is discarded, and all its data are lost !<br />
+  </p>
+</div>

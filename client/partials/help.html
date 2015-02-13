@@ -1,0 +1,20 @@
+<div id="help"
+     class="container">
+  <h4>Table Of Contents</h4>
+  <ul>
+    <li><a ng-click="scrollTo('help-general')">General</a></li>
+    <li><a ng-click="scrollTo('help-battle-list')">Battle List</a></li>
+    <li><a ng-click="scrollTo('help-battle-view')">Battle View</a></li>
+    <li><a ng-click="scrollTo('help-battle-edition')">Battle Edition</a></li>
+    <li><a ng-click="scrollTo('help-stats')">Statistics</a></li>
+    <li><a ng-click="scrollTo('help-filter-edition')">Filter Settings Edition</a></li>
+    <li><a ng-click="scrollTo('help-backup')">Backup</a></li>
+  </ul>
+  <div ng-include="'partials/help/general.html'"></div>
+  <div ng-include="'partials/help/battle_list.html'"></div>
+  <div ng-include="'partials/help/battle_view.html'"></div>
+  <div ng-include="'partials/help/battle_edition.html'"></div>
+  <div ng-include="'partials/help/stats.html'"></div>
+  <div ng-include="'partials/help/filter_edition.html'"></div>
+  <div ng-include="'partials/help/backup.html'"></div>
+</div>

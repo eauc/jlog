@@ -1,0 +1,42 @@
+<div id="help-battle-view"
+     style="height:3em;">
+</div>
+<div>
+  <h3>Battle View</h3>
+  <img class="img-responsive img-thumbnail hidden-xs"
+       src="data/sample/battle_view_lg.png" /><br />
+  <img class="img-responsive img-thumbnail visible-xs"
+       src="data/sample/battle_view_sm.png" /><br />
+  <p>
+    This page displays detailed information about a battle.
+  </p>
+  <p>
+    <b>Tip :</b> You can get there by clicking on a battle row in the
+    <a ng-click="scrollTo('help-battle-list')">Battle List</a> page.
+  </p>
+  <p>Available actions :</p>
+  <dl class="dl-horizontal">
+    <dt>
+      <span class="glyphicon glyphicon-edit"></span>
+      Edit
+    </dt>
+    <dd>
+      go to <a ng-click="scrollTo('help-battle-edition')">Battle Edition</a> page.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-trash"></span>
+      Delete
+    </dt>
+    <dd>
+      drop the battle from your battle list.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-remove"></span>
+      Close
+    </dt>
+    <dd>
+      go back to <a ng-click="scrollTo('help-battle-list')">Battle List</a> page.
+    </dd>
+  </dl>
+
+</div>

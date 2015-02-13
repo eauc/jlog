@@ -1,0 +1,76 @@
+<div id="help-battle-edition"
+     style="height:3em;">
+</div>
+<div>
+  <h3>Battle Edition</h3>
+  <img class="img-responsive img-thumbnail hidden-xs"
+       src="data/sample/battle_edition_lg.png"
+       style="max-height:500px" /><br />
+  <img class="img-responsive img-thumbnail visible-xs"
+       src="data/sample/battle_edition_sm.png" /><br />
+  <p>
+    This page allows full edition of a battle information.
+  </p>
+  <p>
+    <b>Tip :</b> You can get there by clicking on "Edit" button in the
+    <a ng-click="scrollTo('help-battle-view')">Battle View</a> page,<br />
+    or by clicking the "Add Battle" in the
+    <a ng-click="scrollTo('help-battle-list')">Battle List</a> page.
+  </p>
+  <p>Available actions :</p>
+  <dl class="dl-horizontal">
+    <dt>
+      <span class="glyphicon glyphicon-save"></span>
+      Save
+    </dt>
+    <dd>
+      save/create battle and go back to <a ng-click="scrollTo('help-battle-list')">Battle List</a> page.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-remove"></span>
+      Close
+    </dt>
+    <dd>
+      discard changes and go back to <a ng-click="scrollTo('help-battle-list')">Battle List</a> page.
+    </dd>
+  </dl>
+
+  <h5>User Lists</h5>
+  <p>
+    When you see an input that looks like this :
+  </p>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/battle_edition_user_list.png" /><br />
+  <p>
+    it means the value can be selected amongst a list defined by the user (you).
+  </p>
+  <p>
+    The <span class="glyphicon glyphicon-plus"></span> button on left allows you to enter a new value for the list.
+  </p>
+  <p>The dropbox list in the middle allows the selection of a previously defined value.</p>
+  <p>
+    The <span class="glyphicon glyphicon-minus"></span> button on right allows you to delete the currently selected value from the list.
+  </p>
+  <p>
+    <b>Note :</b> lists are computed from the current battle list.<br />
+    This means that values that are no longer referenced by any battle<br />
+    (either after a battle edition or deletion) will automatically be removed from the list
+  </p>
+
+  <h5>Scenarios</h5>
+  <p>The scenario list automatically includes Steam Roller scenarios names</p>
+
+  <h5>Tags</h5>
+  <p>
+    Tags are user-defined labels that can be attached to any battle.
+  </p>
+  <p>
+    The app extract all tags names from the current battle list,
+    and can use them to filter or compute statistics.
+  </p>
+
+  <h5>Comment</h5>
+  <p>
+    Comment is for free text information.
+  </p>
+</div>

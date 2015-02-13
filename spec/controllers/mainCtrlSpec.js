@@ -8,8 +8,10 @@ describe('controllers', function() {
         'reload',
       ]),
     };
+    this.anchorScrollService = jasmine.createSpy('anchorScroll');
     module({
-      '$window': this.windowService
+      '$window': this.windowService,
+      '$anchorScroll': this.anchorScrollService
     });
     module('ui.router');
     module('jlogApp.services');
@@ -233,6 +235,24 @@ describe('controllers', function() {
         this.scope.doReload();
 
         expect(this.windowService.location.reload).toHaveBeenCalled();
+      });
+    });
+
+    describe('scrollTo(<id>)', function() {
+      beforeEach(inject(function($location) {
+        this.locationService = $location;
+        spyOn($location, 'hash');
+        this.scope.scrollTo('id');
+      }));
+
+      it('should change location hash', function() {
+        expect(this.locationService.hash)
+          .toHaveBeenCalledWith('id');
+      });
+
+      it('should scroll page', function() {
+        expect(this.anchorScrollService)
+          .toHaveBeenCalled();
       });
     });
   });

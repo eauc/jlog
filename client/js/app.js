@@ -95,6 +95,15 @@ angular.module('jlogApp', [
           }
         }
       })
+      .state('help', {
+        url: '/help',
+        views: {
+          'page@': {
+            templateUrl: 'partials/help.html',
+            // controller: 'infoCtrl'
+          }
+        }
+      })
       .state('info', {
         url: '/info',
         views: {

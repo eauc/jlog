@@ -1,0 +1,135 @@
+<div id="help-filter-edition"
+     style="height:3em;">
+</div>
+<div>
+  <h3>Filter Settings Edition</h3>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/filter_edition.png" /><br />
+  <p>
+    On this page you can see/edit your current filter settings.
+  </p>
+  <p>
+    <b>Tip :</b> You can get there through "Filter" menus in the
+    <a ng-click="scrollTo('help-battle-list')">Battle List</a> and
+    <a ng-click="scrollTo('help-stats')">Statistics</a> pages.
+  </p>
+  <p>
+    A filter is composed of a list of <b>criterions</b>.
+    Each criterion can be enabled/disabled indepently.<br />
+    In the image above, the "My Caster" criterion is enabled,
+    while all other criterions are disabled.<br />
+    You can <b>enable/disable</b> criterion by <b>clicking on their label line</b>.
+  </p>
+  <p>
+    To match the filter, a battle must match <b>ALL</b> active criterions (logical AND).
+  </p>
+  <p>
+    Disabled criterions settings are not forgotten, they're just, well, disabled when matching battles.
+  </p>
+  <p>
+    <b>Note :</b> the application remembers the filter state between sessions.
+  </p>
+
+  <h5>Date</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/filter_edition_date.png" /><br />
+  <p>
+    You can see a select box for the matching criterion,
+    and 3 input boxes for the reference date
+  </p>
+  <p>
+    You can filter battles by date relative to the reference date.
+    <ul>
+      <li>superior (&gt;),</li>
+      <li>superior or equal (&gt;=),</li>
+      <li>equal (==),</li>
+      <li>not equal (!=),</li>
+      <li>inferior or equal (&lt;=),</li>
+      <li>inferior (&gt;)</li>
+    </ul>
+  </p>
+
+  <h5>My Caster / Opp. Caster</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/filter_edition_mycaster.png" /><br />
+  <p>
+    You can see a select box for the matching criterion,
+    a select box for the faction, and a multiple selection for the caster.
+  </p>
+  <p>
+    You can filter battles by your army's / your opponent's faction / caster.<br />
+    If multiple casters are selected, the filter will match <b>ANY</b> of these (logical OR).<br />
+    If no caster is selected, the filter will match <b>the whole faction</b>
+  </p>
+  <p>
+    <b>Note :</b> the multiple selection for the caster is empty until a faction is selected.
+  </p>
+
+  <h5>Opponent / Result / Scenario / Event</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/filter_edition_opponent.png" /><br />
+  <p>
+    For all those criterion, you see a select box for the matching criterion,
+    and a multiple selection for the value.
+  </p>
+  <p>
+    You can filter battles by your opponent's name / the result / the scenario / the event.<br />
+    If multiple values are selected, the filter will match <b>ANY</b> of these (logical OR).<br />
+    If no value is selected, the filter will match any battle (ie, it's useless).
+  </p>
+
+  <h5>Size</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/filter_edition_size.png" /><br />
+  <p>
+    You see a select box for the matching criterion,
+    and an input for the reference size.
+  </p>
+  <p>
+    You can filter battles by game size relative to the reference size.
+    <ul>
+      <li>superior (&gt;),</li>
+      <li>superior or equal (&gt;=),</li>
+      <li>equal (==),</li>
+      <li>not equal (!=),</li>
+      <li>inferior or equal (&lt;=),</li>
+      <li>inferior (&gt;)</li>
+    </ul>
+  </p>
+
+  <h5>Initiative</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/filter_edition_init.png" /><br />
+  <p>
+    You see a select box for the matching criterion,
+    a select box for the starting roll, and a select box for the first player.
+  </p>
+  <p>
+    You can filter battles by intitiative.<br />
+    When both values are selected, the filter match battles with the exact same initiative (logical AND).<br />
+    If no starting roll is selected, the filter match battle with any starting roll, and the selected first player.<br />
+    Idem for the first player.
+  </p>
+
+  <h5>Tags</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/filter_edition_tags.png" /><br />
+  <p>
+    You see a select box for the matching criterion,
+    and a multiple select box for the tag values.
+  </p>
+  <p>
+    You can filter battles by tags.<br />
+    <dl class="dl-horizontal">
+      <dt>include any of</dt>
+      <dd>the filter match battles that include <b>at least one</b> of the selected tags.</dd>
+      <dt>include all of</dt>
+      <dd>the filter match battles that include <b>all</b> the selected tags (they can include other tags).</dd>
+      <dt>do not include all of</dt>
+      <dd>the filter match battles that <b>do not</b> include <b>at least one</b> of the selected tags.</dd>
+      <dt>include none of</dt>
+      <dd>the filter match battles that <b>do not</b> include <b>any</b> of the selected tags.</dd>
+    </dl>
+    (fun, right ?)
+  </p>
+</div>

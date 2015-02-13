@@ -1,0 +1,167 @@
+<div id="help-battle-list"
+     style="height:3em;">
+</div>
+<div>
+  <h3>Battles List</h3>
+  <img class="img-responsive img-thumbnail hidden-xs"
+       src="data/sample/battle_list_lg.png"
+       style="max-height:400px;" />
+  <img class="img-responsive img-thumbnail visible-xs"
+       src="data/sample/battle_list_sm.png"
+       style="max-height:400px;" />
+  <p>The battles list display all your recorded battles.</p>
+  <p>
+    <b>Tip :</b> You can get there by clicking on "Battle list" button in the Main Menu.
+  </p>
+  <p>The last column display the result of the game :</p>
+  <dl class="dl-horizontal">
+    <dt>Red</dt>
+    <dd>Defeat</dd>
+    <dt>Yellow</dt>
+    <dd>Draw</dd>
+    <dt>Green</dt>
+    <dd>Victory</dd>
+    <dt>A</dt>
+    <dd>by assassination</dd>
+    <dt>S</dt>
+    <dd>by scenario</dd>
+    <dt>C</dt>
+    <dd>by clock</dd>
+    <dt>T</dt>
+    <dd>by tiebreaker</dd>
+  </ul>
+  <p>Available actions :</p>
+  <dl class="dl-horizontal">
+    <dt>
+      &lt;click on battle row&gt;
+    </dt>
+    <dd>display/edit battle information.</dd>
+    <dt>
+      <span class="glyphicon glyphicon-plus"></span>
+      Add Battle
+    </dt>
+    <dd>
+      enter new battle.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-filter"></span>
+      Filter
+    </dt>
+    <dd>
+      You can filter the displayed battles according to multiple settings.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-sort"></span>
+      Sort By
+    </dt>
+    <dd>
+      You can choose the sort settings for the displayed battles.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-export"></span>
+      Export
+    </dt>
+    <dd>
+      You can export the displayed battle list (ie after filtering and sorting)
+      to various file formats.
+    </dd>
+  </dl>
+
+  <h5>Filter Action</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/battle_list_filter.png" />
+  <dl class="dl-horizontal"
+      style="display:inline-block;">
+    <dt>
+      <span class="glyphicon glyphicon-edit"></span>
+      Edit
+    </dt>
+    <dd>
+      Brings you to the <a ng-click="scrollTo('help-filter-edition')">Filter Settings Edition</a> page.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-random"></span>
+      Invert
+    </dt>
+    <dd>
+      display battles that do NOT match the current filter.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-refresh"></span>
+      Restore
+    </dt>
+    <dd>
+      undo "Invert" filter.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-ok-circle"></span>
+      Enable
+    </dt>
+    <dd>
+      activate filter.
+    </dd>
+    <dt>
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      Disable
+    </dt>
+    <dd>
+      disactivate filter (the current filter settings are not lost, just disabled).
+    </dd>
+  </dl>      
+  <p>The filter button color change depending on the state of the filter :</p>
+  <dl class="dl-horizontal">
+    <dt>white</dt>
+    <dd>filter inactive</dd>
+    <dt>green</dt>
+    <dd>filter active</dd>
+    <dt>blue</dt>
+    <dd>filter active and inverted</dd>
+  </ul>
+
+  <h5>Sort Action</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/battle_list_sort.png" />
+  <p>You can sort the displayed battle according to different criterions</p>
+  <p>
+    The active sort is marked with a chevron
+    <span class="glyphicon glyphicon-collapse-down"></span>
+  </p>
+  <p>
+    The default sort is by "Date, descending" (newest battles at the top).
+  </p>
+  <p>
+    <b>Tip :</b> You can revert the sort order by clicking on the active criterion.
+    The chevron will change orientation.
+  </p>
+  <dl class="dl-horizontal">
+    <dt>
+      <span class="glyphicon glyphicon-collapse-down"></span>
+    </dt>
+    <dd>sort ascending</dd>
+    <dt>
+      <span class="glyphicon glyphicon-collapse-up"></span>
+    </dt>
+    <dd>sort descending</dd>
+  </ul>
+
+  <h5>Export Action</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/battle_list_export.png" />
+  <p>You can export the currently displayed battles to different file formats.</p>
+  <dl class="dl-horizontal">
+    <dt>BB Code</dt>
+    <dd>convert to internet forums table</dd>
+    <dt>CSV</dt>
+    <dd>Comma Separated Values text file, for use in spreadsheet editors</dd>
+    <dt>JSon</dt>
+    <dd>JSON text file, for use in other web applications</dd>
+  </ul>
+  <p>
+    The export take into account filtering and sorting,
+    so you can export only the set of battles you want.
+  </p>
+  <p>
+    <b>Note :</b> this is not the correct way to backup your battle list.
+    Backup options are in the <a ng-click="scrollTo('help-backup')">Backup</a> page.
+  </p>
+</div>
