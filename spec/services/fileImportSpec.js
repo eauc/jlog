@@ -14,7 +14,7 @@ describe('service', function() {
       fileImport = _fileImport;
     }]));
 
-    describe('read(<type>, <file>, <factions>)', function() {
+    describe('read(<type>, <file>)', function() {
       beforeEach(inject(function($window) {
         var ctxt = this;
         this.window = $window;
@@ -28,7 +28,7 @@ describe('service', function() {
       }));
 
       it('should use a file reader to read file', function() {
-        fileImport.read('json', 'file', 'factions');
+        fileImport.read('json', 'file');
 
         expect(this.window.FileReader).toHaveBeenCalled();
         expect(this.FileReader.readAsText).toHaveBeenCalledWith('file');
@@ -38,7 +38,7 @@ describe('service', function() {
         beforeEach(inject(function($rootScope) {
           this.successCbk = jasmine.createSpy('successCbk');
           this.errorCbk = jasmine.createSpy('errorCbk');
-          fileImport.read('json', 'file', 'factions')
+          fileImport.read('json', 'file')
             .then(this.successCbk, this.errorCbk);
 
           this.reader.onerror('error');
@@ -55,7 +55,7 @@ describe('service', function() {
         beforeEach(inject(function($rootScope) {
           this.successCbk = jasmine.createSpy('successCbk');
           this.errorCbk = jasmine.createSpy('errorCbk');
-          fileImport.read('json', 'file', 'factions')
+          fileImport.read('json', 'file')
             .then(this.successCbk, this.errorCbk);
 
           this.reader.onabort('error');
@@ -76,7 +76,7 @@ describe('service', function() {
 
           this.successCbk = jasmine.createSpy('successCbk');
           this.errorCbk = jasmine.createSpy('errorCbk');
-          fileImport.read('json', 'file', 'factions')
+          fileImport.read('json', 'file')
             .then(this.successCbk, this.errorCbk);
 
           this.testOnLoad = function() {
@@ -91,13 +91,13 @@ describe('service', function() {
         ], function(e, d) {
           it('should try to parse file using <type> parser, '+d, function() {
             this[e.type+'ParserService'].parse.calls.reset();
-            fileImport.read(e.type, 'file', 'factions')
+            fileImport.read(e.type, 'file')
               .then(this.successCbk, this.errorCbk);
 
             this.testOnLoad();
 
             expect(this[e.type+'ParserService'].parse)
-              .toHaveBeenCalledWith('result', 'factions');
+              .toHaveBeenCalledWith('result');
           });
         });
 

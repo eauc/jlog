@@ -103,7 +103,7 @@ angular.module('jlogApp.services')
               });
             })
             .without(undefined)
-            .spy('ig battles')
+            .spy('ig battles', errors)
             .value();
           return [battles, errors];
         }

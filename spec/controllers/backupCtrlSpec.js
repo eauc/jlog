@@ -22,8 +22,10 @@ describe('controllers', function() {
         };
 
         this.fileImportService = spyOnService('fileImport');
+        this.textImportService = spyOnService('textImport');
         this.igParserService = spyOnService('igParser');
         this.fileExportService = spyOnService('fileExport');
+        this.textExportService = spyOnService('textExport');
         this.serverService = spyOnService('server');
 
         $controller('backupCtrl', { 
@@ -34,6 +36,10 @@ describe('controllers', function() {
     ]));
 
     it('should generate backup file', function() {
+      expect(this.textExportService.generate)
+        .toHaveBeenCalledWith('json', this.scope.battles.list);
+      expect(this.scope.backup.text)
+        .toBe('textExport.generate.returnValue');
       expect(this.fileExportService.generate)
         .toHaveBeenCalledWith('json', this.scope.battles.list);
       expect(this.scope.backup.url)
@@ -45,52 +51,92 @@ describe('controllers', function() {
       expect(this.igParserService.init).toHaveBeenCalled();
     });
 
-    describe('doReadFile(<type>, <file>)', function() {
-      beforeEach(inject(function($q) {
-        this.read_defer = $q.defer();
-        this.fileImportService.read._retVal = this.read_defer.promise;
-      }));
+    using([
+      [ 'method', 'type', 'loading' ],
+      [ 'doReadFile', 'file', 'Loading file...' ],
+      [ 'doReadText', 'text', 'Reading text...' ],
+    ], function(e, d) {
+      describe(e.method+'(<type>, <file>)', function() {
+        beforeEach(inject(function($q) {
+          this.read_defer = $q.defer();
+          this[e.type+'ImportService'].read._retVal = this.read_defer.promise;
+        }));
 
-      it('should reset read_result', function() {
-        this.scope.read_result.type = ['previous'];
+        it('should reset read_result', function() {
+          this.scope.read_result.type = ['previous'];
 
-        this.scope.doReadFile('type', 'file');
+          this.scope[e.method]('type', e.type);
 
-        expect(this.scope.read_result.type).toEqual(['Loading file...']);
-      });
-
-      it('should import file', function() {
-        this.scope.doReadFile('type', 'file');
-
-        expect(this.fileImportService.read)
-          .toHaveBeenCalledWith('type', 'file');
-      });
-
-      when('import fails', inject(function($rootScope) {
-        this.scope.doReadFile('type', 'file');
-
-        this.read_defer.reject(['errors']);
-        $rootScope.$digest();
-      }), function() {
-        it('should update errors list', function() {
-          expect(this.scope.read_result.type).toEqual(['errors']);
+          expect(this.scope.read_result.type).toEqual([e.loading]);
         });
-      });
 
-      when('import succeeds', inject(function($rootScope) {
-        this.scope.doReadFile('type', 'file');
+        it('should import file', function() {
+          this.scope[e.method]('type', e.type);
 
-        this.read_defer.resolve([['battles'], ['errors']]);
-        $rootScope.$digest();
-      }), function() {
-        it('should update battles list', function() {
-          expect(this.scope.setBattles).toHaveBeenCalledWith(['battles']);
+          expect(this[e.type+'ImportService'].read)
+            .toHaveBeenCalledWith('type', e.type);
         });
-        it('should update errors list', function() {
-          expect(this.scope.read_result.type).toEqual(['errors', 'imported 1 battles']);
+
+        when('import fails', inject(function($rootScope) {
+          this.scope[e.method]('type', e.type);
+
+          this.read_defer.reject(['errors']);
+          $rootScope.$digest();
+        }), function() {
+          it('should update errors list', function() {
+            expect(this.scope.read_result.type).toEqual(['errors']);
+          });
         });
-        it('should show battles list', function() {
-          expect(this.scope.stateGo).toHaveBeenCalledWith('battle');
+
+        when('import succeeds with no error', inject(function($rootScope) {
+          this.scope[e.method]('type', e.type);
+
+          this.read_defer.resolve([['battles'], []]);
+          $rootScope.$digest();
+        }), function() {
+          it('should update battles list', function() {
+            expect(this.scope.setBattles).toHaveBeenCalledWith(['battles']);
+          });
+          it('should update errors list', function() {
+            expect(this.scope.read_result.type).toEqual(['imported 1 battles']);
+          });
+          it('should show battles list', function() {
+            expect(this.scope.stateGo).toHaveBeenCalledWith('battle');
+          });
+        });
+
+        when('import succeeds with errors', inject(function($rootScope) {
+          this.scope[e.method]('type', e.type);
+
+          this.read_defer.resolve([['battles'], ['errors']]);
+          $rootScope.$digest();
+        }), function() {
+          it('should update battles list', function() {
+            expect(this.scope.setBattles).toHaveBeenCalledWith(['battles']);
+          });
+          it('should update errors list', function() {
+            expect(this.scope.read_result.type).toEqual(['errors','imported 1 battles']);
+          });
+          it('should not show battles list', function() {
+            expect(this.scope.stateGo).not.toHaveBeenCalled();
+          });
+        });
+
+        when('import fails with errors', inject(function($rootScope) {
+          this.scope[e.method]('type', e.type);
+
+          this.read_defer.resolve([[], ['errors']]);
+          $rootScope.$digest();
+        }), function() {
+          it('should not update battles list', function() {
+            expect(this.scope.setBattles).not.toHaveBeenCalled();
+          });
+          it('should update errors list', function() {
+            expect(this.scope.read_result.type).toEqual(['errors','imported 0 battles']);
+          });
+          it('should not show battles list', function() {
+            expect(this.scope.stateGo).not.toHaveBeenCalled();
+          });
         });
       });
     });

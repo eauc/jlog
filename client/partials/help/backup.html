@@ -29,7 +29,7 @@
   </p>
   <p>
     It is recommended to regularly backup your data<br />
-    since a lot of things can go wrong with a browser cache :P
+    since a lot of things can go wrong with a browser's cache :P
   </p>
   <p>
     <b>Note for IPhone users :</b> it is strongly recommended to backup your data before a firmware upgrade.
@@ -43,7 +43,20 @@
   <p>
     <b>Note for IPhone users :</b> the IPhone does not allow access to its filesystem from the browser.<br/>
     Thus, you cannot Open / Save Backup files from your IPhone.<br />
-    (but you can still backup by synchronizing your data with another, filesytem-enabled device, like a PC).<br />
+    Instead, you can directly copy/paste the JSON text from/to the text inputs,<br />
+    or Synchronize/Upload you IPhone data to a PC.
+  </p>
+  <h5>Save file</h5>
+  <img class="img-responsive img-thumbnail"
+       src="data/sample/backup_save.png" />
+  <p>
+    This section allows you to save a file to the local filesystem, containing a battle list.<br />
+    Click on the file link on the top right.<br />
+    Your browser should open a file manager window to save the file.
+  </p>
+  <p>
+    You can also directly copy the JSON text in the text input bellow,<br />
+    then save it somewhere convenient (emails, notes, whatever).
   </p>
   <h5>Open file</h5>
   <img class="img-responsive img-thumbnail"
@@ -54,16 +67,11 @@
     The app should switch to the Battle List page after loading the new battles.
   </p>
   <p>
+    You can also directly paste the JSON string into the text input, then click "Read JSON".
+  </p>
+  <p>
     <b>Note :</b> if the file is not read correctly, an error message should appear besides the file selector input.<br />
     <b>Note :</b> when you open a backup file, the current battle list is discarded, and all its data are lost !<br />
-  </p>
-  <h5>Save file</h5>
-  <img class="img-responsive img-thumbnail"
-       src="data/sample/backup_save.png" />
-  <p>
-    This section allows you to save a file to the local filesystem, containing a battle list.<br />
-    Click on the file link on the left.<br />
-    Your browser should open a file manager window to save the file.
   </p>
 
   <h4>Synchronize</h4>
@@ -78,12 +86,14 @@
     Then another device (say, a PC) can download this battle list from the server.<br />
     Of cource, both devices need to visit the app webpage with a web browser :)
   </p>
-  <p>
-    <b>Note for IPhone users :</b> see ! You can upload your battle list from your Iphone,<br />
-    then download it to your PC or whatever, and save a backup file there.<br />
-    To restore data to your IPhone, open the backup file on your PC, <br />
-    upload the freshly read battle list from your PC, and download it to your IPhone.<br />
-    If you find this difficult, curse Apple for all this :P
+  <!-- <p>
+  <b>Note for IPhone users :</b> see ! You can upload your battle list from your Iphone,<br />
+  then download it to your PC or whatever, and save a backup file there.<br />
+  To restore data to your IPhone, open the backup file on your PC, <br />
+  upload the freshly read battle list from your PC, and download it to your IPhone.<br />
+  If you find this difficult, curse Apple for all this :P
+  </p> -->
+
   <h5>Upload file</h5>
   <img class="img-responsive img-thumbnail"
        src="data/sample/backup_upload.png" />
@@ -154,6 +164,7 @@
        src="data/sample/backup_import_ig.png" />
   <p>
     Click on the file selection input and choose your Iron Grudge CSV file (see above).<br />
+    You can also directly paste the CSV text in the input bellow.<br />
     The app should switch to the Battle List page after loading the new battles.
   </p>
   <p>

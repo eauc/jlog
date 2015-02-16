@@ -16,6 +16,30 @@ angular.module('jlogApp.services')
       return jsonStringifier;
     }
   ])
+  .factory('textExport', [
+    '$window',
+    'csvStringifier',
+    'bbStringifier',
+    'jsonStringifier',
+    function($window,
+             csvStringifier,
+             bbStringifier,
+             jsonStringifier) {
+      $window.URL = $window.URL || $window.webkitURL;
+      var stringifiers = {
+        csv: csvStringifier,
+        bb: bbStringifier,
+        json: jsonStringifier
+      };
+      return {
+        generate: function(type, data) {
+          return _.chain(data)
+            .apply(stringifiers[type].stringify)
+            .value();
+        }
+      };
+    }
+  ])
   .factory('fileExport', [
     '$window',
     'csvStringifier',
