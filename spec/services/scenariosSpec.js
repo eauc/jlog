@@ -127,9 +127,9 @@ describe('services', function() {
           { toto: 'scenario1' },
         ])).toEqual([
           { key : 'sr15des', name : 'SR15 Destruction' }, 
-          { key : 'scenario3', name : 'Scenario3' },
-          { key : 'scenario1', name : 'Scenario1' },
-          { key : 'scenario2', name : 'Scenario2' }
+          { key : 'scenario3', name : 'scenario3' },
+          { key : 'scenario1', name : 'scenario1' },
+          { key : 'scenario2', name : 'scenario2' }
         ]);
       });
     });
@@ -137,22 +137,22 @@ describe('services', function() {
     describe('add(<key>)', function() {
       beforeEach(function() {
         this.coll = [
-          { key: 'sc1', name: 'Sc1' },
-          { key: 'sc2', name: 'Sc2' },
+          { key: 'sc1', name: 'sc1' },
+          { key: 'Sc2', name: 'Sc2' },
         ];
       });
 
       using([
         [ 'key' , 'result' ],
-        [ 'sc3' , [ { key: 'sc1', name: 'Sc1' },
-                    { key: 'sc2', name: 'Sc2' },
-                    { key: 'sc3', name: 'Sc3' }, ] ],
+        [ 'sC3' , [ { key: 'sc1', name: 'sc1' },
+                    { key: 'Sc2', name: 'Sc2' },
+                    { key: 'sC3', name: 'sC3' }, ] ],
         // uniq
-        [ 'sc2' , [ { key: 'sc1', name: 'Sc1' },
-                    { key: 'sc2', name: 'Sc2' }, ] ],
+        [ 'Sc2' , [ { key: 'sc1', name: 'sc1' },
+                    { key: 'Sc2', name: 'Sc2' }, ] ],
         // without null
-        [ null  , [ { key: 'sc1', name: 'Sc1' },
-                    { key: 'sc2', name: 'Sc2' }, ] ],
+        [ null  , [ { key: 'sc1', name: 'sc1' },
+                    { key: 'Sc2', name: 'Sc2' }, ] ],
       ], function(e, d) {
         it('should add <key> to list, '+d, function() {
           expect(scenarios.add(this.coll, e.key)).toEqual(e.result);

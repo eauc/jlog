@@ -116,18 +116,18 @@ describe('controllers', function() {
         when('user enters valid name', function() {
           this.scope.doAdd(e.type);
 
-          this.promptService.prompt.resolve('  valid  name ');
+          this.promptService.prompt.resolve('  vaLid  naMe ');
         }, function() {
           it('should add name to '+e.type+'s', function() {
             expect(this.typeService.add)
-              .toHaveBeenCalledWith([ e.type+'s' ], 'valid name');
+              .toHaveBeenCalledWith([ e.type+'s' ], 'vaLid naMe');
             expect(this.scope.battles[e.type+'s'])
               .toBe(e.type+'s.add.returnValue');
           });
 
           it('should update '+e.type+' in battle', function() {
             expect(_.getPath(this.scope.battle, e.keys))
-              .toBe('valid name');
+              .toBe('vaLid naMe');
           });
 
           it('should update current state data battle', function() {
@@ -206,18 +206,18 @@ describe('controllers', function() {
       when('user enters valid name', function() {
         this.scope.doAddTag();
 
-        this.promptService.prompt.resolve('  valid  name ');
+        this.promptService.prompt.resolve('  vaLid  naMe ');
       }, function() {
         it('should add name to tags', function() {
           expect(this.tagsService.add)
-            .toHaveBeenCalledWith([ 'tags' ], 'valid name');
+            .toHaveBeenCalledWith([ 'tags' ], 'vaLid naMe');
           expect(this.scope.battles.tags)
             .toBe('tags.add.returnValue');
         });
 
         it('should update tag in battle', function() {
           expect(_.getPath(this.scope.battle, 'tags'))
-            .toEqual([ 'tag1', 'tag2', 'valid name']);
+            .toEqual([ 'tag1', 'tag2', 'vaLid naMe']);
         });
 
         it('should update current state data battle', function() {

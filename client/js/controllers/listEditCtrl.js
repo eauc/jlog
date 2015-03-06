@@ -60,7 +60,7 @@ angular.module('jlogApp.controllers')
         prompt.prompt('prompt', 'Enter new '+type+' name :')
           .then(function(name) {
             if(!_.exists(name)) return;
-            name = s(name).clean().toLowerCase().value();
+            name = s(name).clean().value();
             if(s.isBlank(name)) return;
             $scope.battles[type+'s'] = services[type].add($scope.battles[type+'s'], name);
             $scope.battle = _.setPath($scope.battle, name, keys[type], {});
@@ -86,7 +86,7 @@ angular.module('jlogApp.controllers')
         prompt.prompt('prompt', 'Enter new tag name :')
           .then(function(name) {
             if(!_.exists(name)) return;
-            name = s(name).clean().toLowerCase().value();
+            name = s(name).clean().value();
             if(s.isBlank(name)) return;
             $scope.battles.tags = tags.add($scope.battles.tags, name);
             $scope.battle = battle.addTag($scope.battle, name);

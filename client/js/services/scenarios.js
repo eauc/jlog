@@ -41,7 +41,7 @@ angular.module('jlogApp.services')
         },
         add: function(coll, sc) {
           return _.chain(coll)
-            .cat({ key: sc, name: s.capitalize(sc) })
+            .cat({ key: sc, name: sc })
             .filter(function(s) { return _.exists(_.getPath(s, 'key')); })
             .uniq(false, _.partial(_.getPath, _, 'key'))
             .value();
