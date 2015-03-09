@@ -35,7 +35,8 @@ angular.module('jlogApp.services')
           });
         },
         normaliseCaster: function(caster) {
-          if (!angular.isString(caster)) return null;
+          if (!_.isString(caster) ||
+              s.isBlank(caster)) return null;
           var last_char = caster.charAt(caster.length - 1);
           if ('0' > last_char || '9' < last_char) {
             caster += '1';

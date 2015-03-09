@@ -123,6 +123,13 @@ describe('services', function() {
         expect(factions.normaliseCaster('Vayl1')).toBe('vayl1');
       });
 
+      it('should return null if <caster> is invalid', function() {
+        // not a string
+        expect(factions.normaliseCaster(123)).toBe(null);
+        // blank string
+        expect(factions.normaliseCaster(' ')).toBe(null);
+      });
+
       it('should append "1" to <caster> if necessary', function() {
         expect(factions.normaliseCaster('saeryn')).toBe('saeryn1');
       });

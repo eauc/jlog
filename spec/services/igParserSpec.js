@@ -37,6 +37,28 @@ describe('services', function() {
           .toEqual([ [ { index : 0, date : { year : 1970, month : 1, day : 1 }, my_army : { faction : 'cryx', caster : 'terminus1' }, opponent : { name : 'kevin', faction : 'khador', caster : 'vlad1' }, setup : { size : 50, scenario : 'scenar', event : 'amical', initiative : { won_roll : 'true', started : 'true' } }, score : 'va', points : { my_army : { scenario : 2, army : 3, kill : 4 }, opponent : { scenario : 5, army : 6, kill : 7 } }, tags : [  ], comment : 'comment' } ], [] ]);
       });
 
+      it('should ignore NULL fields', function() {
+        var ret = igParser.parse('"0", NULL , null,Null ,NulL,"vlad1",, NULL , null,Null ,nUlL,,,Null,,null,,NULL\r\n');
+
+        expect(ret[0][0].my_army).toEqual({
+          faction: null,
+          caster: null
+        });
+        expect(ret[0][0].opponent).toEqual({
+          name: '',
+          faction: null,
+          caster: "vlad1"
+        });
+        expect(ret[0][0].points.opponent).toEqual({
+          scenario: null,
+          army: null,
+          kill: null
+        });
+        expect(ret[0][0].setup.scenario).toBe(null);
+        expect(ret[0][0].setup.event).toBe('');
+        expect(ret[0][0].comment).toBe('');
+      });
+
       it('should parse factions correctly', function() {
         var ret = igParser.parse('"0","Toto","terminus","kevin","Khador","vlad1","-7",,,,,,,,,,,\r\n'+
                                  '"0","Cryx","terminus","kevin","Toto","vlad1","-7",,,,,,,,,,,\r\n'+

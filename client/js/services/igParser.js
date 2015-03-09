@@ -40,8 +40,12 @@ angular.module('jlogApp.services')
             .map(function(l, i) {
               if(s.isBlank(l)) return undefined;
               var fields = _.chain(l.split(','))
-                .mapWith(s.trim, '"')
-                .value();
+                  .mapWith(_.unary(s.trim))
+                  .map(function(field) {
+                    return field.match(/null/i) ? null : field;
+                  })
+                  .mapWith(s.trim, '"')
+                  .value();
               if(fields.length != 18) {
                 errors.push('line '+(i+1)+
                             ': invalid nb of fields ('+fields.length+', expected 18)');
