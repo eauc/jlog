@@ -23,9 +23,11 @@ describe('service', function() {
           [ 'field1', 'field2', 'field3' ],
           [ '11', '12', 3 ],
           [ '21', '22', 4 ],
-        ])).toBe('field1,field2,field3\r\n'+
-                 '11,12,3\r\n'+
-                 '21,22,4');
+          [ 'hello, world', 'qu"ote', null ],
+        ])).toBe('"field1","field2","field3"\r\n'+
+                 '"11","12","3"\r\n'+
+                 '"21","22","4"\r\n'+
+                 '"hello, world","qu""ote",""');
       });
     });
   });
