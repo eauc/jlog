@@ -34,7 +34,20 @@ describe('services', function() {
     describe('parse(<string>)', function() {
       it('should return battles list', function() {
         expect(igParser.parse('"0","Cryx","terminus","kevin","Khador","vlad1","1","2","3","4","5","6","7","scenar","50","amical","1","comment"\r\n'))
-          .toEqual([ [ { index : 0, date : { year : 1970, month : 1, day : 1 }, my_army : { faction : 'cryx', caster : 'terminus1' }, opponent : { name : 'kevin', faction : 'khador', caster : 'vlad1' }, setup : { size : 50, scenario : 'scenar', event : 'amical', initiative : { won_roll : 'true', started : 'true' } }, score : 'va', points : { my_army : { scenario : 2, army : 3, kill : 4 }, opponent : { scenario : 5, army : 6, kill : 7 } }, tags : [  ], comment : 'comment' } ], [] ]);
+          .toEqual([
+            [ { index : 0,
+                date : { year : 1970, month : 1, day : 1 },
+                my_army : { faction : 'cryx', caster : 'terminus1' },
+                opponent : { name : 'kevin', faction : 'khador', caster : 'vlad1' },
+                setup : { size : 50, scenario : 'scenar', event : 'amical',
+                          initiative : { won_roll : 'true', started : 'true' } },
+                score : 'va',
+                points : { my_army : { scenario : 2, army : 3, kill : 4 },
+                           opponent : { scenario : 5, army : 6, kill : 7 } },
+                tags : [  ],
+                comment : 'comment' }
+            ], []
+          ]);
       });
 
       it('should ignore NULL fields', function() {
@@ -57,6 +70,15 @@ describe('services', function() {
         expect(ret[0][0].setup.scenario).toBe(null);
         expect(ret[0][0].setup.event).toBe('');
         expect(ret[0][0].comment).toBe('');
+      });
+
+      it('should correctly parse quoted fields', function() {
+        var ret = igParser.parse('"0","Cryx","terminus","","Khador","vlad1","1","2","3","4","5","6","7","""quote""","50","amical ""quote"" toto","1","hello, world"\r\n');
+
+        expect(ret[0][0].opponent.name).toBe('');
+        expect(ret[0][0].setup.scenario).toBe('"quote"');
+        expect(ret[0][0].setup.event).toBe('amical "quote" toto');
+        expect(ret[0][0].comment).toBe('hello, world');
       });
 
       it('should parse factions correctly', function() {
