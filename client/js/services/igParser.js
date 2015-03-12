@@ -36,10 +36,10 @@ angular.module('jlogApp.services')
           var errors = [];
           var new_sc = _.clone(sc);
           var battles = _.chain(string)
-              .apply(s.lines)
-              .mapWith(CSVToArray)
+              .apply(CSVToArray)
               .map(function(fields, i) {
-                if(_.isEmpty(fields)) return undefined;
+                if(_.isEmpty(fields) ||
+                   (_.size(fields) === 1 && s.isBlank(fields[0]))) return undefined;
                 fields = _.map(fields, function(field) {
                   return ( !_.isString(field) ||
                            field.match(/null/i) ) ? '' : field;
@@ -112,11 +112,10 @@ angular.module('jlogApp.services')
       };
 	    function CSVToArray(strData){
         if(s.isBlank(strData)) return [];
-
+		    // Check to see if the delimiter is defined. If not,
+		    // then default to comma.
 		    var strDelimiter = ',';
-		    var arrData = [];
-		    // Keep looping over the regular expression matches
-		    // until we can no longer find a match.
+		    // Create a regular expression to parse the CSV values.
 		    var csvPattern = new RegExp(
 			    (
 				    // Delimiters.
@@ -128,12 +127,23 @@ angular.module('jlogApp.services')
 			    ),
 			    "gi"
 			  );
-        var arrMatches = csvPattern.exec(strData);
-		    while(_.exists(arrMatches)) {
-          var strMatchedValue;
+		    var arrData = [[]];
+		    var arrMatches = csvPattern.exec(strData);
+		    while(arrMatches) {
+			    // Get the delimiter that was found.
+			    var strMatchedDelimiter = arrMatches[1];
+			    // Check to see if the given delimiter has a length
+			    // (is not the start of string) and if it matches
+			    // field delimiter. If id does not, then we know
+			    // that this delimiter is a row delimiter.
+			    if( strMatchedDelimiter.length &&
+				      (strMatchedDelimiter != strDelimiter) ) {
+				    arrData.push([]);
+			    }
 			    // let's check to see which kind of value we
 			    // captured (quoted or unquoted).
-			    if(arrMatches[2]) {
+          var strMatchedValue;
+			    if(arrMatches[2]){
 				    // We found a quoted value. When we capture
 				    // this value, unescape any double quotes.
 				    strMatchedValue = arrMatches[2].replace(/\"\"/g, '"');
@@ -142,10 +152,10 @@ angular.module('jlogApp.services')
 				    // We found a non-quoted value.
 				    strMatchedValue = arrMatches[3];
 			    }
-			    arrData.push(strMatchedValue);
-          arrMatches = csvPattern.exec(strData);
+			    _.last(arrData).push(strMatchedValue);
+		      arrMatches = csvPattern.exec(strData);
 		    }
-		    return arrData;
+		    return( arrData );
 	    }
       return igParser;
     }

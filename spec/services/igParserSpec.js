@@ -73,12 +73,12 @@ describe('services', function() {
       });
 
       it('should correctly parse quoted fields', function() {
-        var ret = igParser.parse('"0","Cryx","terminus","","Khador","vlad1","1","2","3","4","5","6","7","""quote""","50","amical ""quote"" toto","1","hello, world"\r\n');
+        var ret = igParser.parse('"0","Cryx","terminus","","Khador","vlad1","1","2","3","4","5","6","7","""qu\rote""","50","amical ""quo\nte"" toto","1","hello, \r\nworld"\r\n');
 
         expect(ret[0][0].opponent.name).toBe('');
-        expect(ret[0][0].setup.scenario).toBe('"quote"');
-        expect(ret[0][0].setup.event).toBe('amical "quote" toto');
-        expect(ret[0][0].comment).toBe('hello, world');
+        expect(ret[0][0].setup.scenario).toBe('"qu\rote"');
+        expect(ret[0][0].setup.event).toBe('amical "quo\nte" toto');
+        expect(ret[0][0].comment).toBe('hello, \r\nworld');
       });
 
       it('should parse factions correctly', function() {
