@@ -107,7 +107,8 @@
       "ravyn": {"name": "Ravyn,  Eternal Light"},
       "vyros1": {"name": "Dawnlord Vyros"},
       "vyros2": {"name": "Vyros,  Incissar of the Dawnguard"},
-      "issyria": {"name": "Issyria,  Sibyl of Dawn"}
+      "issyria": {"name": "Issyria,  Sibyl of Dawn"},
+      "thyron1": {"name": "Thyron, Sword of truth"}
     },
     "icon": "scyrah_50.png",
     "hue": [180,75]
