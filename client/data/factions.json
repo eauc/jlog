@@ -2,6 +2,7 @@
   "cephalyx": {
     "name": "Cephalyx",
     "casters": {
+      "cyphon1": {"name": "Cognifex Cyphon"},
       "thexus1": {"name": "Exulon Thexus"}
     },
     "icon": "mercs_50.png",
@@ -17,6 +18,7 @@
       "darius": {"name": "Captain E. Dominic Darius"},
       "haley1": {"name": "Captain Victoria Haley"},
       "haley2": {"name": "Major Victoria Haley"},
+      "haley3": {"name": "Major Prime Victoria Haley"},
       "kraye": {"name": "Captain Jeremiah Kraye"},
       "nemo1": {"name": "Commander Adept Sebastian Nemo"},
       "nemo2": {"name": "General Adept Sebastian Nemo"},
@@ -33,6 +35,7 @@
   "menoth": {
     "name": "The Protectorate of Menoth",
     "casters": {
+      "anson1": {"name": "Anson Durst, Rock of the Faith"},
       "kreoss1": {"name": "High Exemplar Kreoss"},
       "kreoss2": {"name": "Grand Exemplar Kreoss"},
       "kreoss3": {"name": "Intercessor Kreoss"},
@@ -65,6 +68,7 @@
       "irusk1": {"name": "Kommandant Irusk"},
       "irusk2": {"name": "Supreme Kommandant Irusk"},
       "zerkova": {"name": "Koldun Kommander Aleksandra Zerkova"},
+      "zerkova2": {"name": "Obavnik Kommander Zerkova & Reaver Guard"},
       "karchev": {"name": "Karchev the Terrible"},
       "the old witch": {"name": "Zevanna Agha,  Old Witch of Khador"},
       "strakhov": {"name": "Kommander Strakhov"},
@@ -82,6 +86,7 @@
       "asphyxious3": {"name": "Asphyxious the Hellbringer"},
       "deneghra1": {"name": "War Witch Deneghra"},
       "deneghra2": {"name": "Wraith Witch Deneghra"},
+      "deneghra3": {"name": "Deneghra, The Soul Weaver"},
       "goreshade1": {"name": "Goreshade the Bastard"},
       "goreshade2": {"name": "Goreshade the Cursed"},
       "goreshade3": {"name": "Goreshade, Lord of Ruin"},
