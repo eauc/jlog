@@ -9,7 +9,7 @@ angular.module('jlogApp.services')
             .mapWith(_.getPath, 'setup.event')
             .without(null, undefined)
             .uniq()
-            .sort()
+            .sortBy(function(e) { return e.toUpperCase(); })
             .value();
         },
         add: function(coll, e) {

@@ -16,27 +16,35 @@ describe('services', function() {
                $httpBackend) {
         scenarios = _scenarios;
         this.httpBackend = $httpBackend;
+
+        this.data = {
+          "sr14": {
+            "sr14des": {
+              "name": "SR14 Destruction"
+            },
+            "sr14cq": {
+              "name": "SR14 Close Quarters"
+            },
+          },
+          "sr15": {
+            "sr15des": {
+              "name": "SR15 Destruction"
+            },
+            "sr15tf": {
+              "name": "SR15 Two Fronts"
+            },
+            "sr15cq": {
+              "name": "SR15 Close Quarters"
+            },
+            "sr15fs": {
+              "name": "SR15 Fire Support"
+            },
+          },
+        };
       }
     ]));
 
     describe('data()', function() {
-      beforeEach(function() {
-        this.data = {
-          "sr15des": {
-            "name": "SR15 Destruction"
-          },
-          "sr15tf": {
-            "name": "SR15 Two Fronts"
-          },
-          "sr15cq": {
-            "name": "SR15 Close Quarters"
-          },
-          "sr15fs": {
-            "name": "SR15 Fire Support"
-          },
-        };
-      });
-
       it('should get scenarios data', function() {
         this.httpBackend.expectGET('data/scenarios.json')
           .respond(200, this.data);
@@ -74,22 +82,12 @@ describe('services', function() {
         it('should normalize scenarios entries', function() {
           var data = this.successCbk.calls.first().args[0];
           expect(data).toEqual([
-            { 
-              "key": "sr15des",
-              "name": "SR15 Destruction"
-            },
-            { 
-              "key": "sr15tf",
-              "name": "SR15 Two Fronts"
-            },
-            { 
-              "key": "sr15cq",
-              "name": "SR15 Close Quarters"
-            },
-            { 
-              "key": "sr15fs",
-              "name": "SR15 Fire Support"
-            },
+            { key : 'sr15cq', name : 'SR15 Close Quarters' },
+            { key : 'sr15des', name : 'SR15 Destruction' },
+            { key : 'sr15fs', name : 'SR15 Fire Support' },
+            { key : 'sr15tf', name : 'SR15 Two Fronts' },
+            { key : 'sr14cq', name : 'SR14 Close Quarters' },
+            { key : 'sr14des', name : 'SR14 Destruction' }
           ]);
         });
 
@@ -103,11 +101,7 @@ describe('services', function() {
     describe('fromBattles(<battles>)', function() {
       beforeEach(function() {
         this.httpBackend.expectGET('data/scenarios.json')
-          .respond(200, {
-            "sr15des": {
-              "name": "SR15 Destruction"
-            } 
-          });
+          .respond(200, this.data);
         scenarios.data();
         this.httpBackend.flush();
       });
@@ -126,10 +120,15 @@ describe('services', function() {
           { setup: { titi: 'scenario1' } },
           { toto: 'scenario1' },
         ])).toEqual([
-          { key : 'sr15des', name : 'SR15 Destruction' }, 
-          { key : 'scenario3', name : 'scenario3' },
+          { key : 'sr15cq', name : 'SR15 Close Quarters' },
+          { key : 'sr15des', name : 'SR15 Destruction' },
+          { key : 'sr15fs', name : 'SR15 Fire Support' },
+          { key : 'sr15tf', name : 'SR15 Two Fronts' },
+          { key : 'sr14cq', name : 'SR14 Close Quarters' },
+          { key : 'sr14des', name : 'SR14 Destruction' },
           { key : 'scenario1', name : 'scenario1' },
-          { key : 'scenario2', name : 'scenario2' }
+          { key : 'scenario2', name : 'scenario2' },
+          { key : 'scenario3', name : 'scenario3' },
         ]);
       });
     });

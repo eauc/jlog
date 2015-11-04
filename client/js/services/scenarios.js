@@ -12,12 +12,23 @@ angular.module('jlogApp.services')
           if(_.exists(data)) return data;
           return $http.get('data/scenarios.json').then(function(response) {
             data = _.chain(response.data)
-              .map(function(s, k) {
+              .map(function(y, k) {
                 return {
                   key: k,
-                  name: s.name
+                  scenars: _.chain(y)
+                    .map(function(s, k) {
+                      return {
+                        key: k,
+                        name: s.name
+                      };
+                    })
+                    .sortBy(_.accessor('name'))
+                    .value()
                 };
               })
+              .sortBy(_.accessor('key'))
+              .reverse()
+              .mapcat(_.accessor('scenars'))
               .value();
             return _.clone(data);
           }, function(response) {
@@ -31,6 +42,7 @@ angular.module('jlogApp.services')
             .mapWith(_.getPath, 'setup.scenario')
             .uniq()
             .without(undefined, null)
+            .sort()
             .each(function(s) {
               if(!_.exists(scenarios.nameFor(ret, s))) {
                 ret = scenarios.add(ret, s);
