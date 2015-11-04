@@ -1,274 +1,288 @@
 <div class="container"
      id="battle-edit">
   <form class="form-horizontal" name="battle_edit" novalidate>
-    <div class="form-group">
-      <div class="col-xs-12"><label>My army :</label></div>
-      <div class="col-xs-2">
-        <img class="faction-icon"
-             width="50px"
-             ng-src="{{factions | factions:'iconFor':battle.my_army.faction}}" />
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h5 class="panel-title">My army :</h5>
       </div>
-      <div class="col-xs-10">
-        <div ng-class="{ 'has-error':battle_edit.my_army_faction.$invalid }">
-          <select class="form-control input-sm"
-                  name="my_army_faction"
-                  ng-model="battle.my_army.faction"
-                  ng-options="f.key as f.name for f in factions"
-                  required>
-            <option value="" ng-if="!battle.my_army.faction">Please select</option>
-          </select>
+      <div class="panel-body row">
+        <div class="col-xs-2">
+          <div class="faction-sprite faction-{{battle.my_army.faction}}"></div>
         </div>
-        <div ng-class="{ 'has-error':battle_edit.my_army_caster.$invalid }">
-          <select class="form-control input-sm"
-                  name="my_army_caster"
-                  ng-model="battle.my_army.caster"
-                  ng-options="
-                  c.key as c.key | capitalise
-                  for c in factions | factions:'castersFor':battle.my_army.faction"
-                  required>
-            <option value="" ng-if="!battle.my_army.caster">Please select</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-xs-12"><label>Opponent :</label></div>
-      <div class="col-xs-12">
-        <div class="input-group">
-          <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
-                    ng-click="doAdd('opponent')">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </span>
-          <div ng-class="{ 'has-error':battle_edit.opponent_name.$invalid }">
-            <select class="form-control input-sm"
-                    name="opponent_name"
-                    ng-model="battle.opponent.name"
-                    ng-options="o as o|capitalise for o in battles.opponents"
+        <div class="col-xs-10">
+          <div ng-class="{ 'has-error':battle_edit.my_army_faction.$invalid }">
+            <select class="form-control"
+                    name="my_army_faction"
+                    ng-model="battle.my_army.faction"
+                    ng-options="f.key as f.name for f in factions"
                     required>
-              <option value="" ng-if="!battle.opponent.name">Please select</option>
+              <option value="" ng-if="!battle.my_army.faction">Please select</option>
             </select>
           </div>
-          <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
+          <div ng-class="{ 'has-error':battle_edit.my_army_caster.$invalid }">
+            <select class="form-control"
+                    name="my_army_caster"
+                    ng-model="battle.my_army.caster"
+                    ng-options="c.key as c.key | capitalise
+                                for c in factions | factions:'castersFor':battle.my_army.faction"
+                    required>
+              <option value="" ng-if="!battle.my_army.caster">Please select</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h5 class="panel-title">Opponent :</h5>
+      </div>
+      <div class="panel-body row">
+        <div class="col-xs-12">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-default"
+                      ng-click="doAdd('opponent')">
+                <div class="icon-sprite icon-add"></div>
+              </button>
+            </span>
+            <div ng-class="{ 'has-error':battle_edit.opponent_name.$invalid }">
+              <select class="form-control"
+                      name="opponent_name"
+                      ng-model="battle.opponent.name"
+                      ng-options="o as o|capitalise for o in battles.opponents"
+                      required>
+                <option value="" ng-if="!battle.opponent.name">Please select</option>
+              </select>
+            </div>
+            <span class="input-group-btn">
+              <button class="btn btn-default"
                     ng-click="doDelete('opponent')">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-          </span>
+                <div class="icon-sprite icon-remove"></div>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          <div class="faction-sprite faction-{{battle.opponent.faction}}"></div>
+        </div>
+        <div class="col-xs-10">
+          <div ng-class="{ 'has-error':battle_edit.opponent_faction.$invalid }">
+            <select class="form-control"
+                    name="opponent_faction"
+                    ng-model="battle.opponent.faction"
+                    ng-options="f.key as f.name for f in factions"
+                    required>
+              <option value="" ng-if="!battle.opponent.faction">Please select</option>
+            </select>
+          </div>
+          <div ng-class="{ 'has-error':battle_edit.opponent_caster.$invalid }">
+            <select class="form-control"
+                    name="opponent_caster"
+                    ng-model="battle.opponent.caster"
+                    ng-options="c.key as c.key|capitalise
+                                for c in factions | factions:'castersFor':battle.opponent.faction"
+                    required>
+              <option value="" ng-if="!battle.opponent.caster">Please select</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="col-xs-2">
-        <img class="faction-icon"
-             ng-src="{{factions | factions:'iconFor':battle.opponent.faction}}" />
+    </div>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h5 class="panel-title">Settings :</h5>
       </div>
-      <div class="col-xs-10">
-        <div ng-class="{ 'has-error':battle_edit.opponent_faction.$invalid }">
-          <select class="form-control input-sm"
-                  name="opponent_faction"
-                  ng-model="battle.opponent.faction"
-                  ng-options="f.key as f.name for f in factions"
-                  required>
-            <option value="" ng-if="!battle.opponent.faction">Please select</option>
+      <div class="panel-body row">
+        <div class="col-xs-2 control-label">Date</div>
+        <div class="col-xs-10">
+          <input class="form-control"
+                 style="display:inline-block;width:40%;max-width:6em;"
+                 type="number"
+                 ng-model="battle.date.year"
+                 min="1999"
+                 max="2050"
+                 required />
+          <input class="form-control"
+                 style="display:inline-block;max-width:25%;max-width:6em;"
+                 type="number"
+                 ng-model="battle.date.month"
+                 min="1"
+                 max="12"
+                 required />
+          <input class="form-control"
+                 style="display:inline-block;max-width:25%;max-width:6em;"
+                 type="number"
+                 ng-model="battle.date.day"
+                 min="1"
+                 max="31"
+                 required />
+        </div>
+        <div class="col-xs-2 control-label">Event</div>
+        <div class="col-xs-10">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-default"
+                      ng-click="doAdd('event')">
+                <div class="icon-sprite icon-add"></div>
+              </button>
+            </span>
+            <select class="form-control"
+                    ng-model="battle.setup.event"
+                    ng-options="e for e in battles.events">
+              <option value="" ng-if="!battle.setup.event">Please select</option>
+            </select>
+            <span class="input-group-btn">
+              <button class="btn btn-default"
+                      ng-click="doDelete('event')">
+                <div class="icon-sprite icon-remove"></div>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-2 control-label">Scenario</div>
+        <div class="col-xs-10">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-default"
+                      ng-click="doAdd('scenario')">
+                <div class="icon-sprite icon-add"></div>
+              </button>
+            </span>
+            <select class="form-control"
+                    ng-model="battle.setup.scenario"
+                    ng-options="s.key as s.name
+                                for s in battles.scenarios
+                                ">
+              <option value="" ng-if="!battle.setup.scenario">Please select</option>
+            </select>
+            <span class="input-group-btn">
+              <button class="btn btn-default"
+                      ng-click="doDelete('scenario')">
+                <div class="icon-sprite icon-remove"></div>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-2 control-label">Size</div>
+        <div class="col-xs-10">
+          <input class="form-control"
+                 style="display:inline-block;width:40%;max-width:6em;"
+                 type="number" 
+                 ng-model="battle.setup.size" />
+        </div>
+        <div class="col-xs-2 control-label">Initiative</div>
+        <div class="col-xs-5">
+          <select class="form-control"
+                  ng-model="battle.setup.initiative.won_roll">
+            <option selected value="true">Won roll</option>
+            <option selected value="false">Lost roll</option>
           </select>
         </div>
-        <div ng-class="{ 'has-error':battle_edit.opponent_caster.$invalid }">
-          <select class="form-control input-sm"
-                  name="opponent_caster"
-                  ng-model="battle.opponent.caster"
-                  ng-options="
-                  c.key as c.key|capitalise
-                  for c in factions | factions:'castersFor':battle.opponent.faction"
-                  required>
-            <option value="" ng-if="!battle.opponent.caster">Please select</option>
+        <div class="col-xs-5">
+          <select class="form-control"
+                  ng-model="battle.setup.initiative.started">
+            <option selected value="true">started game</option>
+            <option selected value="false">chose side</option>
           </select>
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-xs-12"><label>Settings :</label></div>
-      <div class="col-xs-2 control-label">Date</div>
-      <div class="col-xs-10">
-        <input class="form-control input-sm"
-               style="display:inline-block;width:40%;max-width:6em;"
-               type="number"
-               ng-model="battle.date.year"
-               min="1999"
-               max="2050"
-               required />
-        <input class="form-control input-sm"
-               style="display:inline-block;max-width:25%;max-width:6em;"
-               type="number"
-               ng-model="battle.date.month"
-               min="1"
-               max="12"
-               required />
-        <input class="form-control input-sm"
-               style="display:inline-block;max-width:25%;max-width:6em;"
-               type="number"
-               ng-model="battle.date.day"
-               min="1"
-               max="31"
-               required />
-      </div>
-      <div class="col-xs-2 control-label">Event</div>
-      <div class="col-xs-10">
-        <div class="input-group">
-          <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
-                    ng-click="doAdd('event')">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </span>
-          <select class="form-control input-sm"
-                  ng-model="battle.setup.event"
-                  ng-options="e for e in battles.events">
-            <option value="" ng-if="!battle.setup.event">Please select</option>
-          </select>
-          <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
-                    ng-click="doDelete('event')">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-          </span>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="row">
+          <h5 class="col-xs-6 panel-title">Game Result :</h5>
         </div>
       </div>
-      <div class="col-xs-2 control-label">Scenario</div>
-      <div class="col-xs-10">
-        <div class="input-group">
-          <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
-                    ng-click="doAdd('scenario')">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </span>
-          <select class="form-control input-sm"
-                  ng-model="battle.setup.scenario"
-                  ng-options="
-                  s.key as s.name
-                  for s in battles.scenarios | orderBy:'-key'
-                  ">
-            <option value="" ng-if="!battle.setup.scenario">Please select</option>
-          </select>
-          <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
-                    ng-click="doDelete('scenario')">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-          </span>
-        </div>
-      </div>
-      <div class="col-xs-2 control-label">Size</div>
-      <div class="col-xs-10">
-        <input class="form-control input-sm"
-               style="display:inline-block;width:40%;max-width:6em;"
-               type="number" 
-               ng-model="battle.setup.size" />
-      </div>
-      <div class="col-xs-2 control-label">Initiative</div>
-      <div class="col-xs-5">
-        <select class="form-control input-sm"
-                ng-model="battle.setup.initiative.won_roll">
-          <option selected value="true">Won roll</option>
-          <option selected value="false">Lost roll</option>
-        </select>
-      </div>
-      <div class="col-xs-5">
-        <select class="form-control input-sm"
-                ng-model="battle.setup.initiative.started">
-          <option selected value="true">started game</option>
-          <option selected value="false">chose side</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-xs-12"><label>Game Result :</label></div>
-      <div class="col-xs-6">
-        <div ng-class="{ 'has-error':battle_edit.result.$invalid }">
-          <select class="form-control input-sm"
+      <div class="panel-body row">
+        <div class="col-xs-6"
+             ng-class="{ 'has-error':battle_edit.result.$invalid }">
+          <select class="form-control"
                   name="result"
                   ng-model="battle.score"
-                  ng-options="
-                  id as s.type|capitalise
-                  group by s.result|capitalise
-                  for (id, s) in scores
-                  "
+                  ng-options="id as s.type|capitalise
+                              group by s.result|capitalise
+                              for (id, s) in scores
+                              "
                   required>
             <option value="" ng-if="!battle.score">Please select</option>
           </select>
         </div>
-      </div>
-      <div class="col-xs-6 control-label">
-        <strong class="text-{{scores | scores:'classFor':battle.score}}">
-          {{ scores | scores:'resultFor':battle.score | capitalise }}
-        </strong>
-      </div>
-      <div class="clearfix"></div>
-      <div class="col-xs-2 control-label"></div>
-      <div class="col-xs-5 control-label">My Army</div>
-      <div class="col-xs-5 control-label">Opponent</div>
-      <div class="col-xs-2 control-label">Control</div>
-      <div class="col-xs-5">
-        <input class="form-control input-sm"
-               type="number" 
-               ng-model="battle.points.my_army.scenario" />
-      </div>
-      <div class="col-xs-5">
-        <input class="form-control input-sm"
-               type="number" 
-               ng-model="battle.points.opponent.scenario" />
-      </div>
-      <div class="col-xs-2 control-label">Army</div>
-      <div class="col-xs-5">
-        <input class="form-control input-sm"
-               type="number" 
-               ng-model="battle.points.my_army.army" />
-      </div>
-      <div class="col-xs-5">
-        <input class="form-control input-sm"
-               type="number" 
-               ng-model="battle.points.opponent.army" />
-      </div>
-      <div class="col-xs-2 control-label">Kill</div>
-      <div class="col-xs-5">
-        <input class="form-control input-sm"
-               type="number" 
-               ng-model="battle.points.my_army.kill" />
-      </div>
-      <div class="col-xs-5">
-        <input class="form-control input-sm"
-               type="number" 
-               ng-model="battle.points.opponent.kill" />
+        <div class="col-xs-6 control-label">
+          <strong class="text-{{scores | scores:'classFor':battle.score}}">
+            {{ scores | scores:'resultFor':battle.score | capitalise }}
+          </strong>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-2 control-label"></div>
+        <div class="col-xs-5 control-label">My Army</div>
+        <div class="col-xs-5 control-label">Opponent</div>
+        <div class="col-xs-2 control-label">Control</div>
+        <div class="col-xs-5">
+          <input class="form-control"
+                 type="number" 
+                 ng-model="battle.points.my_army.scenario" />
+        </div>
+        <div class="col-xs-5">
+          <input class="form-control"
+                 type="number" 
+                 ng-model="battle.points.opponent.scenario" />
+        </div>
+        <div class="col-xs-2 control-label">Army</div>
+        <div class="col-xs-5">
+          <input class="form-control"
+                 type="number" 
+                 ng-model="battle.points.my_army.army" />
+        </div>
+        <div class="col-xs-5">
+          <input class="form-control"
+                 type="number" 
+                 ng-model="battle.points.opponent.army" />
+        </div>
+        <div class="col-xs-2 control-label">Kill</div>
+        <div class="col-xs-5">
+          <input class="form-control"
+                 type="number" 
+                 ng-model="battle.points.my_army.kill" />
+        </div>
+        <div class="col-xs-5">
+          <input class="form-control"
+                 type="number" 
+                 ng-model="battle.points.opponent.kill" />
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-xs-12"><label>Tags :</label></div>
-      <div class="col-xs-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h5 class="panel-title">Tags :</h5>
+      </div>
+      <div class="panel-body">
         <div class="input-group">
           <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
+            <button class="btn btn-default"
                     ng-click="doAddTag()">
-              <span class="glyphicon glyphicon-plus"></span>
+              <div class="icon-sprite icon-add"></div>
             </button>
           </span>
-          <select class="form-control input-sm multiple"
+          <select class="form-control multiple"
                   ng-model="battle.tags"
                   ng-options="t for t in battles.tags"
                   multiple>
           </select>
           <span class="input-group-btn">
-            <button class="btn btn-sm btn-default"
+            <button class="btn btn-default"
                     ng-click="doDeleteTag()">
-              <span class="glyphicon glyphicon-minus"></span>
+              <div class="icon-sprite icon-remove"></div>
             </button>
           </span>
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-xs-12"><label>Comment :</label></div>
-      <div class="col-xs-12">
-        <textarea class="form-control input-sm"
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h5 class="panel-title">Comment :</h5>
+      </div>
+      <div class="panel-body">
+        <textarea class="form-control"
                   ng-model="battle.comment"></textarea>
       </div>
     </div>

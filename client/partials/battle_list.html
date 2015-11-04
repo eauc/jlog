@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="table-body">
-      <div class="row text-center clickable table-row"
+      <div class="row text-left clickable table-row"
            ng-repeat="
            (bi,battle)
            in battles.display_list
@@ -41,16 +41,14 @@
           </span>
         </div>
         <div class="col-xs-4 col-sm-4">
-          <img class="faction-icon"
-               ng-src="{{::factions | factions:'iconFor':battle.my_army.faction}}" />
+          <div class="faction-sprite faction-{{battle.my_army.faction}} small"></div>
           <span>{{::battle.my_army.caster | capitalise}}</span>
         </div>
         <div class="col-xs-3 col-sm-3">
           <span>{{::battle.opponent.name | capitalise}}</span>
         </div>
         <div class="col-xs-4 col-sm-4">
-          <img class="faction-icon"
-               ng-src="{{::factions | factions:'iconFor':battle.opponent.faction}}" />
+          <div class="faction-sprite faction-{{battle.opponent.faction}} small"></div>
           <span>{{::battle.opponent.caster | capitalise}}</span>
         </div>
         <div class="hidden-xs col-sm-1">

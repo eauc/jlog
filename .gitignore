@@ -3,4 +3,5 @@ data/*.json
 data/*.txt
 node_modules/
 .grunt/
+.sass-cache/
 SpecRunner.html

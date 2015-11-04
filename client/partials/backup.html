@@ -1,212 +1,216 @@
 <div class="container"
      id="backup">
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Save to file</label>
-    </div>
-    <div class="col-xs-4">
-      <label>Save backup file</label>
-    </div>
-    <div class="col-xs-8">
-      <a ng-show="backup.url"
-         ng-href="{{backup.url}}"
-         download="{{backup.name}}">
-        {{backup.name}}
-      </a>
-    </div>
-    <div class="col-xs-12">
-      <strong>Or copy JSON text :</strong>
-      <textarea class="form-control"
-                ng-model="backup.text">
-      </textarea>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Open File</label>
-    </div>
-    <div class="col-xs-12">
-      <label>Choose a JLog json backup file :</label>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-6"
-         style="overflow:hidden">
-      <input id="import-file"
-             type="file"
-             ea-file="doReadFile('json', file)" />
-    </div>
-    <div class="col-xs-6"
-         style="
-         max-height:100px;
-         overflow-y:auto;
-         ">
-      <div class="text-warning"
-           ng-repeat="e in read_result.json">
-        {{::e}}
+  <ul class="nav nav-tabs"
+      ng-init="panel='file'">
+    <li ng-class="{ 'active': panel==='file' }">
+      <a ng-click="panel='file'">File</a>
+    </li>
+    <li ng-class="{ 'active': panel==='online' }">
+      <a ng-click="panel='online'">Online</a>
+    </li>
+    <li ng-class="{ 'active': panel==='ig' }">
+      <a ng-click="panel='ig'">IronGrudge</a>
+    </li>
+    <li ng-class="{ 'active': panel==='debug' }">
+      <a ng-click="panel='debug'">Debug</a>
+    </li>
+  </ul>
+  <div ng-show="panel==='file'">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">Save to file</h4>
       </div>
-    </div>
-    <div class="col-xs-12">
-      <strong>Or paste JSON text :</strong>
-      <form name="read-text"
-            ng-submit="doReadText('json', read_text)">
-        <textarea class="form-control"
-                  ng-model="read_text">
-        </textarea>
-        <button class="btn btn-default"
-                type="submit">
-          <span class="glyphicon glyphicon-paste"></span>
-          Read JSON
-        </button>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Sync / Upload</label>
-    </div>
-    <div class="col-xs-7">
-      <button class="btn btn-default"
-              ng-click="doUploadData()">
-        Upload current data to server
-        <span class="glyphicon glyphicon-cloud-upload"></span>
-      </button>
-    </div>
-    <div class="col-xs-5 result">
-      <strong class="text-{{upload.id === null ? 'warning' : 'success'}}">
-        {{upload.msg | capitalise }}
-      </strong>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-12"
-         ng-hide="upload.id">
-      You can temporarily upload your current data to the web server.
-      This will generate an Id that you can use in the Sync / Download section
-      on another device to synchronize your data.
-      The generated Id and the uploaded data are not permanent and
-      will be cleared after a given period of time.
-    </div>
-    <div class="col-xs-12"
-         ng-show="upload.id">
-      <label>Sync Id : </label>
-      <span>{{upload.id}}</span><br/>
-      Use this Sync ID on your other device, in the download input below.
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Sync / Download</label>
-    </div>
-    <div class="col-xs-12"
-         ng-hide="upload.id !== null">
-      Enter below the Sync ID given to you after uploading from another device.
-    </div>
-    <div class="col-xs-7">
-      <div class="input-group">
-        <form name="upload" ng-submit="doDownloadData()">
-          <input type="text"
-                 class="form-control"
-                 ng-model="download.id"
-                 placeholder="Sync Id..." />
-          <span class="input-group-btn">
-            <button style="min-width:30px"
-                    class="btn btn-default"
-                    type="submit">
-              <span class="glyphicon glyphicon-cloud-download"></span>
-            </button>
-          </span>
+      <div class="panel-body">
+        <form>
+          <div class="form-group">
+            <label>Save backup file</label>
+            <a class="form-control"
+               ng-show="backup.url"
+               ng-href="{{backup.url}}"
+               download="{{backup.name}}">
+              {{backup.name}}
+            </a>
+          </div>
+          <div class="form-group">
+            <label>Or copy JSON text :</label>
+            <textarea class="form-control"
+                      ng-model="backup.text">
+            </textarea>
+          </div>
         </form>
       </div>
     </div>
-    <div class="col-xs-5 result">
-      <strong class="text-warning">
-        {{download.msg | capitalise}}
-      </strong>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Import IronGrudge</label>
-    </div>
-    <div class="col-xs-12">
-      <label>Choose an IronGrudge CSV file :</label>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-6"
-         style="overflow:hidden">
-      <input id="import-ig-file"
-             type="file"
-             ea-file="doReadFile('ig', file)" />
-    </div>
-    <div class="col-xs-6"
-         style="
-         max-height:100px;
-         overflow-y:auto;
-         ">
-      <div class="text-warning"
-           ng-repeat="e in read_result.ig">
-        {{::e}}
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">Load from File</h4>
+      </div>
+      <div class="panel-body">
+        <form>
+          <div class="form-group">
+            <label>Choose a JLog json backup file :</label>
+            <input class="form-control"
+                   id="import-file"
+                   type="file"
+                   ea-file="doReadFile('json', file)" />
+          </div>
+          <div class="form-group">
+            <div class="text-warning"
+                 ng-repeat="e in read_result.json">
+              {{::e}}
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Or paste JSON text :</label>
+            <textarea class="form-control"
+                      ng-model="read_text">
+            </textarea>
+          </div>
+          <button class="btn btn-default"
+                  type="button"
+                  ng-click="doReadText('json', read_text)">
+            <div class="icon-sprite icon-file"></div>
+            Read JSON
+          </button>
+        </form>
       </div>
     </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-12">
-      <strong>Or paste CSV text :</strong>
-      <form name="import-text"
-            ng-submit="doReadText('ig', import_text)">
-        <textarea class="form-control"
-                  ng-model="import_text">
-        </textarea>
+  </div>
+  <div ng-show="panel==='online'">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">Sync / Upload</h4>
+      </div>
+      <div class="panel-body">
         <button class="btn btn-default"
-                type="submit">
-          <span class="glyphicon glyphicon-paste"></span>
-          Read CSV
+                type="button"
+                ng-click="doUploadData()">
+          Upload current data to server
+          <span class="icon-sprite icon-upload"></span>
         </button>
-      </form>
+        <p class="result">
+          <strong class="text-{{upload.id === null ? 'warning' : 'success'}}">
+            {{upload.msg | capitalise }}
+          </strong>
+        </p>
+        <p ng-hide="upload.id">
+          You can temporarily upload your current data to the web server.
+          This will generate an Id that you can use in the Sync / Download section
+          on another device to synchronize your data.
+          The generated Id and the uploaded data are not permanent and
+          will be cleared after a given period of time.
+        </p>
+        <p ng-show="upload.id">
+          <strong>Sync Id :</strong> {{upload.id}}<br/>
+          Use this Sync ID on your other device, in the download input below.
+        </p>
+      </div>
     </div>
-    <div>
-      <p>Iron Grudge CSV files are generated by exporting the SQLite backup file from IrongGrudge.</p>
-      <p>
-        You can use the SQLite Manager firefox plugin to perform this operation.
-        The SQL query you need to use in order to generate the correct CSV file is :
-      </p>
-      <a ng-hide="_show_sql"
-         ng-click="_show_sql=true">Click to show SQL query...</a>
-      <code ng-show="_show_sql">SELECT battle.date, my_faction.name, my_caster.shortname, player.name, opp_faction.name, opp_caster.shortname, battle.result, battle.controlPoints, battle.armyPoints, battle.killPoints, battle.opponentControlPoints, battle.opponentArmyPoints, battle.opponentKillPoints, scenario.name, battle.points, event.name, battle.initiative, battle.comment
-FROM battle
-LEFT JOIN army my_army ON battle.armyId=my_army._id
-LEFT JOIN faction my_faction ON my_army.factionId=my_faction._id
-LEFT JOIN caster my_caster ON my_army.casterId=my_caster._id
-LEFT JOIN player ON battle.opponentId=player._id
-LEFT JOIN army opp_army ON battle.opponentArmyId=opp_army._id
-LEFT JOIN faction opp_faction ON opp_army.factionId=opp_faction._id
-LEFT JOIN caster opp_caster ON opp_army.casterId=opp_caster._id
-LEFT JOIN scenario ON battle.scenarioId=scenario._id
-LEFT JOIN event ON battle.eventId=event._id;</code>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">Sync / Download</h4>
+      </div>
+      <div class="panel-body">
+        <p>
+          Enter below the Sync ID given to you after uploading from another device.
+        </p>
+        <form name="upload" ng-submit="doDownloadData()">
+          <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   ng-model="download.id"
+                   placeholder="Sync Id..." />
+            <span class="input-group-btn">
+              <button style="min-width:30px"
+                      class="btn btn-default"
+                      type="submit">
+                <span class="icon-sprite icon-download"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+        <p class="result">
+          <strong class="text-warning">
+            {{download.msg | capitalise}}
+          </strong>
+        </p>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Debug</label>
+  <div ng-show="panel==='ig'">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">Import IronGrudge</h4>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="doReadText('ig', import_text)">
+          <div class="form-group">
+            <label>Choose an IronGrudge CSV file :</label>
+            <input class="form-control"
+                   id="import-ig-file"
+                   type="file"
+                   ea-file="doReadFile('ig', file)" />
+          </div>
+          <div class="text-warning"
+               ng-repeat="e in read_result.ig">
+            {{::e}}
+          </div>
+          <div class="form-group">
+            <label>Or paste CSV text :</label>
+            <textarea class="form-control"
+                      ng-model="import_text">
+            </textarea>
+            <button class="btn btn-default"
+                    type="submit">
+              <span class="icon-sprite icon-file"></span>
+              Read CSV
+            </button>
+          </div>
+        </form>
+        <p>Iron Grudge CSV files are generated by exporting the SQLite backup file from IrongGrudge.</p>
+        <p>
+          You can use the SQLite Manager firefox plugin to perform this operation.
+          The SQL query you need to use in order to generate the correct CSV file is :
+        </p>
+        <a ng-hide="_show_sql"
+           ng-click="_show_sql=true">Click to show SQL query...</a>
+        <code ng-show="_show_sql">
+          SELECT battle.date, my_faction.name, my_caster.shortname, player.name, opp_faction.name, opp_caster.shortname, battle.result, battle.controlPoints, battle.armyPoints, battle.killPoints, battle.opponentControlPoints, battle.opponentArmyPoints, battle.opponentKillPoints, scenario.name, battle.points, event.name, battle.initiative, battle.comment
+          FROM battle
+          LEFT JOIN army my_army ON battle.armyId=my_army._id
+          LEFT JOIN faction my_faction ON my_army.factionId=my_faction._id
+          LEFT JOIN caster my_caster ON my_army.casterId=my_caster._id
+          LEFT JOIN player ON battle.opponentId=player._id
+          LEFT JOIN army opp_army ON battle.opponentArmyId=opp_army._id
+          LEFT JOIN faction opp_faction ON opp_army.factionId=opp_faction._id
+          LEFT JOIN caster opp_caster ON opp_army.casterId=opp_caster._id
+          LEFT JOIN scenario ON battle.scenarioId=scenario._id
+          LEFT JOIN event ON battle.eventId=event._id;
+        </code>
+      </div>
     </div>
-    <div class="col-xs-6">
-      <button class="btn btn-default"
-              ng-click="doClearStorage()">
-        Clear Local Storage
-      </button>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-12">
-      This will clear all data stored in memory.
-      You can then reload the data from a backup file to restart in a clean state.
-    </div>
-    <div class="col-xs-6">
-      <button class="btn btn-default"
-              ng-click="doReadOldDatabase()">
-        Read Old Database
-      </button>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-12">
-      {{old_data}}
+  </div>
+  <div ng-show="panel==='debug'">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">Debug</h4>
+      </div>
+      <div class="panel-body">
+        <button class="btn btn-default"
+                ng-click="doClearStorage()">
+          Clear Local Storage
+        </button>
+        <p>
+          This will clear all data stored in memory.
+          You can then reload the data from a backup file to restart in a clean state.
+        </p>
+        <!-- <button class="btn btn-default" -->
+        <!--         ng-click="doReadOldDatabase()"> -->
+        <!--   Read Old Database -->
+        <!-- </button> -->
+        <!-- <p> -->
+        <!--   {{old_data}} -->
+        <!-- </p> -->
+      </div>
     </div>
   </div>
 </div>

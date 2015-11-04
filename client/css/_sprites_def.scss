@@ -1,0 +1,20 @@
+@mixin icon-sprites($size) {
+    $icons: add filter sort save menu
+            list pie backup help info
+            edit enable disable up down
+            invert delete close remove checked
+            unchecked upload download file;
+    .icon {
+        &-sprite {
+            width: $size;
+            height: $size;
+            background-size: $size*length($icons) $size;
+            background-position: $size 0px;
+        }
+        @each $icon in $icons {
+            &-#{$icon} {
+                background-position: ($size - $size * index($icons, $icon)) 0px;
+            }
+        }
+    }
+}

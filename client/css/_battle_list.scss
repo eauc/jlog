@@ -1,0 +1,83 @@
+#battle-list {
+    .table-header {
+        z-index: 10;
+        position: fixed;
+        width: 100%;
+        font-weight: bold;
+        height: 30px;
+        line-height: 30px;
+        background-color: #d9edf7;
+        white-space: nowrap;
+    }
+    .table-row {
+        border-top: 1px solid #CCC;
+        vertical-align: middle;
+        line-height: 40px;
+        white-space: nowrap;
+        div {
+            overflow: hidden;
+        }
+    }
+    .score-result {
+        font-size: 1.5em;
+    }
+
+    @media (max-width: 767px) {
+        .table-header {
+            z-index: 10;
+            height: 20px;
+            line-height: 20px;
+            .sort-indicator {
+                display: none;
+            }
+        }
+        .table-body {
+            padding-top: 20px;
+        }
+        .table-row {
+            line-height: 30px;
+        }
+        .col-xs-1 {
+            width: 8%;
+        }
+        .col-xs-2 {
+            width: 16%;
+        }
+        .col-xs-3 {
+            width: 24%;
+        }
+        .col-xs-4 {
+            width: 33%;
+        }
+    }
+    @media (min-width: 768px) {
+        .table-header {
+            max-width: 750px;
+        }
+        .table-body {
+            padding-top: 30px;
+        }
+        .col-sm-1 {
+            width: 4.5%;
+        }
+        .col-sm-2 {
+            width: 9.0%;
+        }
+        .col-sm-3 {
+            width: 13.5%;
+        }
+        .col-sm-4 {
+            width: 18.0%;
+        }
+    }
+    @media (min-width: 992px) {
+        .table-header {
+            max-width: 970px;
+        }
+    }
+    @media (min-width: 1200px) {
+        .table-header {
+            max-width: 1170px;
+        }
+    }
+}

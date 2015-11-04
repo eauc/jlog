@@ -1,0 +1,41 @@
+@mixin faction-sprites($large-size, $small-size) {
+    $factions: (circle),
+    (cryx),
+    (cygnar),
+    (cyriss),
+    (khador),
+    (loe),
+    (menoth),
+    (cephalyx fourstar highborn mercs seaforge talion),
+    (blindwater minions thornfall),
+    (scyrah),
+    (skorne),
+    (troll);
+    
+    .faction {
+        &-sprite {
+            width: $large-size;
+            height: $large-size;
+            background-size: $large-size*length($factions) $large-size;
+            background-position: $large-size 0px;
+        }
+        &-sprite.small {
+            width: $small-size;
+            height: $small-size;
+            background-size: $small-size*length($factions) $small-size;
+            background-position: $small-size 0px;
+        }
+        @each $faction-names in $factions {
+            @each $name in $faction-names {
+                &-#{$name} {
+                background-position: ($large-size - $large-size * index($factions, $faction-names))
+                                     0px;
+                }
+                &-#{$name}.small {
+                background-position: ($small-size - $small-size * index($factions, $faction-names))
+                                     0px;
+                }
+            }
+        }
+    }
+}

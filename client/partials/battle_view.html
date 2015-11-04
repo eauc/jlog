@@ -1,16 +1,14 @@
 <div class="container"
      id="battle-view">
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>My army</label>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h5 class="panel-title">My army</h5>
     </div>
-    <div class="col-xs-2">
-      <img class="faction-icon"
-           alt="{{::battle.my_army.faction}}"
-           ng-src="{{::factions | factions:'iconFor':battle.my_army.faction}}" />
-    </div>
-    <div class="col-xs-10">
-      <div class="row">
+    <div class="panel-body row">
+      <div class="col-xs-2">
+        <div class="faction-sprite faction-{{battle.my_army.faction}}"></div>
+      </div>
+      <div class="col-xs-10 row">
         <div class="col-xs-3">
           <em>Faction:</em>
         </div>
@@ -27,17 +25,15 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Opponent</label>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h5 class="panel-title">Opponent</h5>
     </div>
-    <div class="col-xs-2">
-      <img class="faction-icon"
-           alt="{{::battle.opponent.faction}}"
-           ng-src="{{::factions | factions:'iconFor':battle.opponent.faction}}" />
-    </div>
-    <div class="col-xs-10">
-      <div class="row">
+    <div class="panel-body row">
+      <div class="col-xs-2">
+        <div class="faction-sprite faction-{{battle.opponent.faction}}"></div>
+      </div>
+      <div class="col-xs-10 row">
         <div class="col-xs-3">
           <em>Name:</em>
         </div>
@@ -61,41 +57,43 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Settings</label>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h5 class="panel-title">Settings</h5>
     </div>
-    <div class="col-xs-3"><em>Date:</em></div>
-    <div class="col-xs-9">
-      {{::battle.date.year+'/'+battle.date.month+'/'+battle.date.day}}
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-3"><em>Event:</em></div>
-    <div class="col-xs-9">
-      {{::battle.setup.event}}
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-3"><em>Scenario:</em></div>
-    <div class="col-xs-9">
-      {{::battles.scenarios | scenarios:'nameFor':battle.setup.scenario}}
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-3"><em>Size:</em></div>
-    <div class="col-xs-9">
-      {{::battle.setup.size}}
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-3"><em>Initiative:</em></div>
-    <div class="col-xs-9">
-      {{:: battle | battle:'initRollDescFor'}} -
-      {{:: battle | battle:'initStartDescFor'}}
+    <div class="panel-body row">
+      <div class="col-xs-3"><em>Date:</em></div>
+      <div class="col-xs-9">
+        {{battle.date.year+'/'+battle.date.month+'/'+battle.date.day}}
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-xs-3"><em>Event:</em></div>
+      <div class="col-xs-9">
+        {{::battle.setup.event}}
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-xs-3"><em>Scenario:</em></div>
+      <div class="col-xs-9">
+        {{::battles.scenarios | scenarios:'nameFor':battle.setup.scenario}}
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-xs-3"><em>Size:</em></div>
+      <div class="col-xs-9">
+        {{::battle.setup.size}}
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-xs-3"><em>Initiative:</em></div>
+      <div class="col-xs-9">
+        {{:: battle | battle:'initRollDescFor'}} -
+        {{:: battle | battle:'initStartDescFor'}}
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12 section">
+  <div class="panel panel-info">
+    <div class="panel-heading">
       <div class="row">
         <div class="col-xs-5">
-          <label>Game Result</label>
+          <h5 class="panel-title">Game Result</h5>
         </div>
         <div class="col-xs-7">
           <strong  class="text-{{::scores | scores:'classFor':battle.score}}">
@@ -105,49 +103,51 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-2"></div>
-    <div class="col-xs-5"><em>My Army</em></div>
-    <div class="col-xs-5"><em>Opponent</em></div>
-    <div class="clearfix"></div>
-    <div class="col-xs-2"><em>Control</em></div>
-    <div class="col-xs-5">
-      {{::battle.points.my_army.scenario}}
-    </div>
-    <div class="col-xs-5">
-      {{::battle.points.opponent.scenario}}
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-2"><em>Army</em></div>
-    <div class="col-xs-5">
-      {{::battle.points.my_army.army}}
-    </div>
-    <div class="col-xs-5">
-      {{::battle.points.opponent.army}}
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-xs-2"><em>Kill</em></div>
-    <div class="col-xs-5">
-      {{::battle.points.my_army.kill}}
-    </div>
-    <div class="col-xs-5">
-      {{::battle.points.opponent.kill}}
+    <div class="panel-body row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-5"><em>My Army</em></div>
+      <div class="col-xs-5"><em>Opponent</em></div>
+      <div class="clearfix"></div>
+      <div class="col-xs-2"><em>Control</em></div>
+      <div class="col-xs-5">
+        {{::battle.points.my_army.scenario}}
+      </div>
+      <div class="col-xs-5">
+        {{::battle.points.opponent.scenario}}
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-xs-2"><em>Army</em></div>
+      <div class="col-xs-5">
+        {{::battle.points.my_army.army}}
+      </div>
+      <div class="col-xs-5">
+        {{::battle.points.opponent.army}}
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-xs-2"><em>Kill</em></div>
+      <div class="col-xs-5">
+        {{::battle.points.my_army.kill}}
+      </div>
+      <div class="col-xs-5">
+        {{::battle.points.opponent.kill}}
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Tags</label>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h5 class="panel-title">Tags</h5>
     </div>
-    <div class="col-xs-12">
+    <div class="panel-body">
       <ul>
         <li ng-repeat="t in ::battle.tags">{{::t}}</li>
       </ul>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12 section">
-      <label>Comment</label>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h5 class="panel-title">Comment</h5>
     </div>
-    <div class="col-xs-12">
+    <div class="panel-body">
       {{::battle.comment}}
     </div>
   </div>

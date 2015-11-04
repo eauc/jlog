@@ -1,0 +1,28 @@
+#filter-edit {
+    .title {
+        font-weight: bold;
+        line-height: 30px;
+        background-color: darken(#d9edf7, 10%);
+        padding: 5px;
+    }
+    .first {
+        margin-top: 5px;
+    }
+    .panel-heading {
+        cursor: pointer;
+        &.active {
+            background-color: #d9edf7;
+        }
+    }
+    .panel-title {
+        display: inline-block;
+    }
+    .header.active {
+        background-color: #EEE;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
+    .is {
+        padding-right: 0px;
+    }
+}

@@ -1,0 +1,44 @@
+@import 'sprites_def';
+@import 'sprites_factions_def.scss';
+
+.sprite-test {
+    display: inline-block;
+    .icon-sprite {
+        border: 1px solid #999;
+        background-color: #9CF;
+    }
+    .faction-sprite {
+        border: 1px solid #999;
+        background-color: #9CF;
+    }
+}
+
+%sprite {
+    display: inline-block;
+    box-sizing: content-box;
+    vertical-align: middle;
+    padding: 0px;
+    background-repeat: no-repeat;
+}
+    
+.icon-sprite {
+    @extend %sprite;
+    background-image: url('/data/icons/all_icons.png');
+}
+
+@include icon-sprites($size: 12px);
+
+@media (min-width: 768px) {
+    @include icon-sprites($size: 16px);
+}
+
+.faction-sprite {
+    @extend %sprite;
+    background-image: url('/data/img/all_factions.png');
+}
+
+@include faction-sprites($large-size: 40px, $small-size: 24px);
+
+@media (min-width: 768px) {
+    @include faction-sprites($large-size: 50px, $small-size: 30px);
+}

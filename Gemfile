@@ -10,6 +10,7 @@ group :development do
   gem 'rspec'
   gem 'cucumber'
   gem 'jasmine'
+  gem 'sass'
   gem 'capybara'
   gem 'selenium-webdriver'
 end

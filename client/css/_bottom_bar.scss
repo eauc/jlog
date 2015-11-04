@@ -1,0 +1,113 @@
+$bottom-bar-height: 50px;
+
+#page {
+    padding-bottom: $bottom-bar-height;
+}
+#bottom-bar {
+    background-color: white;
+    height: $bottom-bar-height;
+    .container {
+        border-top: 1px solid #CCC;
+        padding-top: 8px;
+    }
+    button {
+        min-width:100px;
+    }
+    .drop {
+        display: inline-block;
+        position: relative;
+    }
+    .drop-mask {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .open .drop-mask {
+        display: initial;
+    }
+    .drop-menu {
+        display: block;
+        position: absolute;
+        top: auto;
+        bottom: 100%;
+        left: 0;
+        z-index: 1000;
+        min-width: 160px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 5px 0;
+        margin: 2px 0;
+        font-size: 14px;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, .15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    }
+    .drop-menu a {
+        display: block;
+        line-height: 2em;
+        padding: 5px 20px;
+        color: #555;
+        &:hover, &:active {
+             background-color: #dedede;
+             text-decoration: none;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    $bottom-bar-height: 40px;
+    
+    #page {
+        padding-bottom: $bottom-bar-height;
+    }
+    #bottom-bar {
+        height: $bottom-bar-height;
+        .container {
+            padding: 4px 0px 0px 0px;
+        }
+        button {
+            height: 28px;
+            min-width: 50px;
+            padding-left: 5px;
+            padding-right: 5px;
+            font-size: $small-font-size;
+            .lbl {
+                display: none;
+            }
+        }
+        .drop-mask {
+            @include page-mask;
+            z-index: $mask-zindex;
+            text-align: center;
+            display: none;
+        }
+        .drop-menu {
+            display: inline-block;
+            position: static;
+            margin-top: 10%;
+            width: 300px;
+            max-height: 80%;
+            overflow-y: auto;
+            padding: 5px 0;
+            font-size: 14px;
+            text-align: left;
+            list-style: none;
+            background-color: #fff;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            border: 1px solid #ccc;
+            border: 1px solid rgba(0, 0, 0, .15);
+            border-radius: 4px;
+            -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        }
+    }
+}

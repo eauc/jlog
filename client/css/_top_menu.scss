@@ -1,0 +1,71 @@
+.navbar-version {
+    position: absolute;
+    bottom: 0;
+    left: 2em;
+    font-size: 0.8em;
+    color: #666;
+}
+
+@media (max-width: 767px) {
+    $top-bar-height: 40px;
+    
+    #page {
+        padding-top: $top-bar-height;
+    }
+    .navbar {
+        height: $top-bar-height;
+        min-height: $top-bar-height;
+    }
+    .navbar-brand {
+        height: $top-bar-height;
+        line-height:12px;
+        font-size: 15px;
+    }
+    .top-menu {
+        position: absolute;
+        right: 5px;
+        top: 0px;
+    }
+    .top-menu > button {
+        height: 28px;
+        padding: 6px 10px;
+        font-size: $small-font-size;
+    }
+    .top-menu-mask {
+        @include page-mask;
+        display: none;
+    }
+    .top-menu-mask > ul {
+        max-width: 300px;
+        margin-top: $top-bar-height+10px;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    }
+
+    .top-menu-opened {
+        .top-menu-mask {
+            display: initial;
+        }
+        #bottom-bar {
+            display: none;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    $top-bar-height: 50px;
+
+    #page {
+        padding-top: $top-bar-height;
+    }
+    .top-menu > button {
+        display: none;
+    }
+}

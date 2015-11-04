@@ -2,6 +2,8 @@
 <html lang="en"
       ng-app="jlogApp"
       manifest="manifest.appcache">
+<!-- <html lang="en" -->
+<!--       ng-app="jlogApp"> -->
   <head>
     <meta charset="utf-8">
     <title>Journey Log</title>
@@ -15,11 +17,75 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
   </head>
-  <body ng-controller="mainCtrl"
-        close-all-dropdown>
+  <body ng-controller="mainCtrl">
     <prompt>
     </prompt>
-    <div ng-include="'partials/navbar.html'"></div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <span ng-include="'version.html'"
+              class="navbar-version">
+        </span>
+        <a class="navbar-brand"
+           ng-click="doReload()"
+           style="white-space:nowrap;">
+          Journey Log
+        </a>
+      </div>
+      <div>
+        <div class="top-menu" top-menu>
+          <button class="btn btn-default navbar-btn">
+            <div class="icon-sprite icon-menu"></div>
+            Menu
+          </button>
+          <div class="top-menu-mask">
+            <ul class="nav navbar-nav">
+              <li ng-class="{
+                            'active': stateIs('battle')
+                            }">
+                <a href="#/battle">
+                  <div class="icon-sprite icon-list"></div>
+                  Battle List
+                </a>
+              </li>
+              <li ng-class="{
+                            'active': stateIs('stats')
+                            }">
+                <a href="#/stats">
+                  <div class="icon-sprite icon-pie"></div>
+                  Statistics
+                </a>
+              </li>
+              <li ng-class="{
+                            'active': stateIs('backup')
+                            }">
+                <a href="#/backup">
+                  <div class="icon-sprite icon-backup"></div>
+                  Backup
+                </a>
+              </li>
+              <li ng-class="{
+                            'active': stateIs('help')
+                            }">
+                <a href="#/help">
+                  <div class="icon-sprite icon-help"></div>
+                  Help
+                </a>
+              </li>
+              <li ng-class="{
+                            'active': stateIs('info')
+                            }">
+                <a href="#/info">
+                  <div class="icon-sprite icon-info"></div>
+                  Info
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <app-cache-progress-bar>
+      </app-cache-progress-bar>
+    </nav>
     <div id="page"
          ng-hide="stateIs('battle')"
          ui-view="page"></div>

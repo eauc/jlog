@@ -36,8 +36,8 @@ class JLogApp < Sinatra::Base
     erb :manifest_appcache
   end
 
-  get '/title.html' do
-    erb :title
+  get '/version.html' do
+    erb :version
   end
 
   get '/api/status' do

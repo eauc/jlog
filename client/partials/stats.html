@@ -1,87 +1,96 @@
 <div id="stats"
      class="container">
-
-  <div class="selector-arg"
-       ng-if="
-       state.selector==='my_caster' ||
-       state.selector==='opp_caster'
-       ">
+  <form ng-if="state.selector==='my_caster' ||
+               state.selector==='opp_caster'
+               ">
     <select class="form-control"
             ng-model="state.selector_arg"
             ng-options="f.key as f.name for f in factions"
             ng-change="state.doGenerate()">
       <option value="" ng-if="!state.selector_arg">Please select</option>
     </select>
-  </div>
+  </form>
   <div ng-if="
        state.entry==='result' ||
        state.entry==='initiative'
        ">
-    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
-         style="margin:auto;">
-      <div class="col-xs-12 section">{{s.title}}</div>
-      <pie-chart pie-values="s"></pie-chart>
-      <div class="clearfix"></div>
-    </div>
-  </div>
-  <div ng-if="
-       state.entry==='result_time'
-       ">
-    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
-         style="margin:auto;">
-      <div class="col-xs-12 section">{{s.title}}</div>
-      <stack-graphs gph-values="s"></stack-graphs>
-    </div>
-  </div>
-  <div ng-if="
-       state.entry==='opp_name' ||
-       state.entry==='scenario' ||
-       state.entry==='event' ||
-       state.entry==='size' ||
-       state.entry==='tag'
-       ">
-    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
-         style="margin:auto;">
-      <div class="col-xs-12 section"
-           style="margin-bottom:10px;">{{s.title}}</div>
-      <bars bars-values="s.values"></bars>
-    </div>
-  </div>
-  <div ng-if="
-       state.entry==='my_faction' ||
-       state.entry==='opp_faction'
-       ">
-    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
-         style="margin:auto;">
-      <div class="col-xs-12 section"
-           style="margin-bottom:10px;">{{s.title}}</div>
-      <bars bars-values="s.values" bars-hues="s.hues"></bars>
-    </div>
-  </div>
-  <div ng-if="
-       state.entry==='my_caster' ||
-       state.entry==='opp_caster'
-       ">
-    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
-         style="margin:auto;">
-      <div class="col-xs-12 section"
-           style="margin-bottom:10px;">{{s.title}}</div>
-      <div ng-repeat="(f, v) in s.values">
-        <strong>{{::f}}</strong>
-        <bars bars-values="v"
-              bars-hue="{{::s.hues[f][0]}}"
-              bars-saturation="{{::s.hues[f][1]}}"></bars>
+    <div class="panel panel-info"
+         ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{s.title}}</h4>
+      </div>
+      <div class="panel-body">
+        <pie-chart pie-values="s"></pie-chart>
       </div>
     </div>
   </div>
-  <div ng-if="
-       state.entry==='points'
-       ">
-    <div ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]"
-         style="margin:auto;">
-      <div class="col-xs-12 section"
-           style="margin-bottom:10px;">{{s.title}}</div>
-      <stacks stacks-values="s"></stacks>
+  <div ng-if="state.entry==='result_time'">
+    <div class="panel panel-info"
+         ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{s.title}}</h4>
+      </div>
+      <div class="panel-body">
+        <stack-graphs gph-values="s"></stack-graphs>
+      </div>
+    </div>
+  </div>
+  <div ng-if="state.entry==='opp_name' ||
+              state.entry==='scenario' ||
+              state.entry==='event' ||
+              state.entry==='size' ||
+              state.entry==='tag'
+              ">
+    <div class="panel panel-info"
+         ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{s.title}}</h4>
+      </div>
+      <div class="panel-body">
+        <bars bars-values="s.values"></bars>
+      </div>
+    </div>
+  </div>
+  <div ng-if="state.entry==='my_faction' ||
+              state.entry==='opp_faction'
+              ">
+    <div class="panel panel-info"
+         ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{s.title}}</h4>
+      </div>
+      <div class="panel-body">
+        <bars bars-values="s.values" bars-hues="s.hues"></bars>
+      </div>
+    </div>
+  </div>
+  <div ng-if="state.entry==='my_caster' ||
+              state.entry==='opp_caster'
+              ">
+    <div class="panel panel-info"
+         ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{s.title}}</h4>
+      </div>
+      <div class="panel-body">
+        <div ng-repeat="(f, v) in s.values">
+          <strong>{{::f}}</strong>
+          <bars bars-values="v"
+                bars-hue="{{::s.hues[f][0]}}"
+                bars-saturation="{{::s.hues[f][1]}}"></bars>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="state.entry==='points'">
+    <div class="panel panel-info"
+         ng-repeat="s in stats[state.entry][state.selector+'.'+state.selector_arg]">
+      <div class="panel-heading">
+        <h4 class="panel-title">{{s.title}}</h4>
+      </div>
+      <div class="panel-body">
+        <stacks stacks-values="s"></stacks>
+      </div>
     </div>
   </div>
 </div>

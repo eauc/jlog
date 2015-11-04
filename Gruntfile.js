@@ -38,6 +38,13 @@ module.exports = function(grunt) {
         }
       }
     },
+    sass: {
+      dist: {
+        files: {
+          'client/css/app.css': 'client/css/app.scss'
+        }
+      }
+    },
     jasmine: {
       spec: {
         src: js_src,
@@ -86,4 +93,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 };
