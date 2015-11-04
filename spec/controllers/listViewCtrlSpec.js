@@ -20,7 +20,8 @@ describe('controllers', function() {
           list: [ 'battle1','battle2','battle3','battle4','battle5' ],
           display_list: [ 'battle1','battle3','battle5' ]
         };
-
+        this.scope.ready = true;
+        
         this.stateParams = { index: 2 };
 
         $controller('listViewCtrl', { 

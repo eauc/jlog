@@ -2,6 +2,7 @@
 
 angular.module('jlogApp.controllers')
   .controller('listEditCtrl', [
+    '$q',
     '$scope',
     '$state',
     '$stateParams',
@@ -11,7 +12,8 @@ angular.module('jlogApp.controllers')
     'opponents',
     'scenarios',
     'tags',
-    function($scope,
+    function($q,
+             $scope,
              $state,
              $stateParams,
              prompt,
@@ -21,31 +23,24 @@ angular.module('jlogApp.controllers')
              scenarios,
              tags) {
       var index = parseFloat($stateParams.index);
-      if(index < $scope.battles.list.length) {
-        $scope.battle = _.snapshot($scope.battles.list[index]);
-      }
-      else {
-        $scope.battle = battle.create({ index: index });
-      }
-      $state.current.data.index = index;
-      $state.current.data.battle = $scope.battle;
-      // $scope.$watch('battles.sorted_list', function(val) {
-      //   if(val.length > 0) {
-      //     $scope.battle = battle.test(index,
-      //                                 $scope.factions,
-      //                                 $scope.scores,
-      //                                 $scope.battles.scenarios);
-      //     $state.current.data.battle = $scope.battle;
-      //     console.log('init listEditCtrl test', index, $scope.battle);
-      //   }
-      // });
-      console.log('init listEditCtrl', index, $scope.battle);
+      $q.when($scope.ready).then(function() {
+        if(index < $scope.battles.list.length) {
+          $scope.battle = _.snapshot($scope.battles.list[index]);
+        }
+        else {
+          $scope.battle = battle.create({ index: index });
+        }
+        $state.current.data.index = index;
+        $state.current.data.battle = $scope.battle;
 
-      $state.current.data.save_enable = false;
-      $scope.$watch('battle_edit.$valid', function(value) {
-        $state.current.data.save_enable = value;
+        console.log('init listEditCtrl', index, $scope.battle);
+
+        $state.current.data.save_enable = false;
+        $scope.$watch('battle_edit.$valid', function(value) {
+          $state.current.data.save_enable = value;
+        });
       });
-
+      
       var services = {
         opponent: opponents,
         event: events,

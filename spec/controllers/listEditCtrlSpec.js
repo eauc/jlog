@@ -29,6 +29,7 @@ describe('controllers', function() {
             list: [ 'battle1','battle2','battle3','battle4','battle5' ],
             display_list: [ 'battle1','battle3','battle5' ]
           };
+          ctxt.scope.ready = true;
           
           ctxt.state = {
             current: { data: {} }

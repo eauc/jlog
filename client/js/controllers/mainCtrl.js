@@ -17,22 +17,21 @@ angular.module('jlogApp.controllers')
     'opponents',
     'tags',
     'filter',
-    function(
-      $scope,
-      $state,
-      $q,
-      $window,
-      $timeout,
-      $location,
-      $anchorScroll,
-      scores,
-      factions,
-      scenarios,
-      battles,
-      events,
-      opponents,
-      tags,
-      filter) {
+    function($scope,
+             $state,
+             $q,
+             $window,
+             $timeout,
+             $location,
+             $anchorScroll,
+             scores,
+             factions,
+             scenarios,
+             battles,
+             events,
+             opponents,
+             tags,
+             filter) {
       console.log('init mainCtrl');
 
       $scope.stateIs = _.bind($state.is, $state);
@@ -111,26 +110,27 @@ angular.module('jlogApp.controllers')
         $scope.updateBattles();
       };
 
-      $q.when(scores.data()).then(function(_scores) {
-        $scope.scores = _scores;
-        return $q.when(factions.data());
-      }).then(function(_factions) {
-        $scope.factions = _factions;
-        return $q.when(scenarios.data());
-      }).then(function(_scenarios) {
-        return $q.when(battles.sortTypes());
-      }).then(function(_sorts) {
-        $scope.sort_types = _sorts;
-        return;
-      }).then(function() {
-        var bs = battles.init();
-        $scope.setBattles(bs);
-        // $scope.setBattles(battles.test(100,
-        //                                $scope.factions,
-        //                                $scope.scores,
-        //                                scenarios.data()));
-        console.log('scope', $scope);
-      });
+      $scope.ready = $q.when(scores.data())
+        .then(function(_scores) {
+          $scope.scores = _scores;
+          return $q.when(factions.data());
+        }).then(function(_factions) {
+          $scope.factions = _factions;
+          return $q.when(scenarios.data());
+        }).then(function(_scenarios) {
+          return $q.when(battles.sortTypes());
+        }).then(function(_sorts) {
+          $scope.sort_types = _sorts;
+          return;
+        }).then(function() {
+          var bs = battles.init();
+          $scope.setBattles(bs);
+          // $scope.setBattles(battles.test(100,
+          //                                $scope.factions,
+          //                                $scope.scores,
+          //                                scenarios.data()));
+          console.log('scope', $scope);
+        });
 
       $scope.doToggleFilterActive = function() {
         $scope.battles.filter.active = !$scope.battles.filter.active;

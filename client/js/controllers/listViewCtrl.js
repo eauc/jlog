@@ -2,12 +2,16 @@
 
 angular.module('jlogApp.controllers')
   .controller('listViewCtrl', [
+    '$q',
     '$scope',
     '$stateParams',
-    function($scope,
+    function($q,
+             $scope,
              $stateParams) {
-      $scope.battle = $scope.battles.list[$stateParams.index];
-      console.log('init listViewCtrl', $stateParams.index, $scope.battle);
+      $q.when($scope.ready).then(function() {
+        $scope.battle = $scope.battles.list[$stateParams.index];
+        console.log('init listViewCtrl', $stateParams.index, $scope.battle);
+      });
     }])
   .controller('listViewBottomCtrl', [
     '$scope',
