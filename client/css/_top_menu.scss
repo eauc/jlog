@@ -21,6 +21,9 @@
         line-height:12px;
         font-size: 15px;
     }
+    .navbar-header .navbar-nav > li > a {
+        padding: 3px 5px;
+    }
     .top-menu {
         position: absolute;
         right: 5px;
@@ -64,6 +67,9 @@
 
     #page {
         padding-top: $top-bar-height;
+    }
+    .top-menu {
+        float: right;
     }
     .top-menu > button {
         display: none;

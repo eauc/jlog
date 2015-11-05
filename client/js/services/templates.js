@@ -61,6 +61,11 @@ angular.module('jlogApp.services').run(['$templateCache', function($templateCach
   );
 
 
+  $templateCache.put('partials/directives/appCacheProgressBar.html',
+    "<div class=appcache-progress ng-show=\"appCache.progress != 0\"><div class=appcache-progress-bar ng-style=\"{ 'width': appCache.progress + '%' }\"></div></div>"
+  );
+
+
   $templateCache.put('partials/directives/bars.html',
     "<table class=col-xs-12 style=width:100%><tr ng-repeat=\"b in ::bars\" style=\"vertical-align:middle;\n" +
     "      padding:0;\n" +
@@ -70,6 +75,11 @@ angular.module('jlogApp.services').run(['$templateCache', function($templateCach
     "        width:{{::width+40}}px\"><svg ng-attr-width={{::width+40}}px height=25px><rect x=0 y=0 ng-attr-width={{::b.width}} height=25 style=\"fill:{{::b.color}};\n" +
     "              stroke:#000;\n" +
     "              stroke-width:0.5\"><text ng-attr-x={{::b.width+5}} y=20>{{::b.value}}</text></svg></td></tr></table>"
+  );
+
+
+  $templateCache.put('partials/directives/onlineIndicator.html',
+    "<li><a ng-click=checkOnlineStatus()>{{appCache.online}}</a></li>"
   );
 
 

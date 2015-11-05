@@ -404,6 +404,9 @@ select.multiple {
     line-height: 12px;
     font-size: 15px; }
 
+  .navbar-header .navbar-nav > li > a {
+    padding: 3px 5px; }
+
   .top-menu {
     position: absolute;
     right: 5px;
@@ -443,6 +446,9 @@ select.multiple {
 @media (min-width: 768px) {
   #page {
     padding-top: 50px; }
+
+  .top-menu {
+    float: right; }
 
   .top-menu > button {
     display: none; } }

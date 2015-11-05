@@ -1,4 +1,7 @@
 <!doctype html>
+<!-- <html lang="en" -->
+<!--       ng-app="jlogApp" -->
+<!--       manifest="manifest.appcache"> -->
 <html lang="en"
       ng-app="jlogApp">
   <head>
@@ -27,6 +30,9 @@
            style="white-space:nowrap;">
           Journey Log
         </a>
+        <ul online-indicator
+            class="nav navbar-nav">
+        </ul>
       </div>
       <div>
         <div class="top-menu" top-menu>
@@ -91,11 +97,10 @@
          ng-include="'partials/battle_list.html'"></div>
     <nav id="bottom-bar"
          class="navbar navbar-default navbar-fixed-bottom"
-         ng-show="
-         !stateIs('backup') &&
-         !stateIs('info') &&
-         !stateIs('help')
-         ">
+         ng-show="!stateIs('backup') &&
+                  !stateIs('info') &&
+                  !stateIs('help')
+                  ">
       <div class="container text-center"
            ui-view="bottom-bar"></div>
     </nav>
@@ -122,6 +127,7 @@
     <script src="js/controllers/backupCtrl.js"></script>
     <script src="js/controllers/statsCtrl.js"></script>
 
+    <script src="js/services/appCache.js"></script>
     <script src="js/services/battle.js"></script>
     <script src="js/services/events.js"></script>
     <script src="js/services/fileExport.js"></script>
@@ -132,6 +138,7 @@
     <script src="js/services/factions.js"></script>
     <script src="js/services/filter.js"></script>
     <script src="js/services/opponents.js"></script>
+    <script src="js/services/pubsub.js"></script>
     <script src="js/services/scenarios.js"></script>
     <script src="js/services/scores.js"></script>
     <script src="js/services/server.js"></script>
@@ -140,13 +147,15 @@
     <script src="js/services/statSelector.js"></script>
     <script src="js/services/tags.js"></script>
 
+    <script src="js/directives/appCacheProgressBar.js"></script>
+    <script src="js/directives/bars.js"></script>
     <script src="js/directives/dropdown.js"></script>
     <script src="js/directives/eaFile.js"></script>
-    <script src="js/directives/bars.js"></script>
-    <script src="js/directives/stacks.js"></script>
+    <script src="js/directives/onlineIndicator.js"></script>
     <script src="js/directives/pieChart.js"></script>
-    <script src="js/directives/stackGraphs.js"></script>
     <script src="js/directives/prompt.js"></script>
+    <script src="js/directives/stacks.js"></script>
+    <script src="js/directives/stackGraphs.js"></script>
     <script src="js/directives/topMenu.js"></script>
 
     <script src="js/filters/capitaliseFilter.js"></script>
