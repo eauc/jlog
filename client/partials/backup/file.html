@@ -1,0 +1,60 @@
+<div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4 class="panel-title">Save to file</h4>
+    </div>
+    <div class="panel-body">
+      <form>
+        <div class="form-group">
+          <label>Save backup file</label>
+          <a class="form-control"
+             ng-show="backup.url"
+             ng-href="{{backup.url}}"
+             download="{{backup.name}}">
+            {{backup.name}}
+          </a>
+        </div>
+        <div class="form-group">
+          <label>Or copy JSON text :</label>
+          <textarea class="form-control"
+                    ng-model="backup.text">
+          </textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4 class="panel-title">Load from File</h4>
+    </div>
+    <div class="panel-body">
+      <form>
+        <div class="form-group">
+          <label>Choose a JLog json backup file :</label>
+          <input class="form-control"
+                 id="import-file"
+                 type="file"
+                 ea-file="doReadFile('json', file)" />
+        </div>
+        <div class="form-group">
+          <div class="text-warning"
+               ng-repeat="e in read_result.json">
+            {{::e}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Or paste JSON text :</label>
+          <textarea class="form-control"
+                    ng-model="read_text">
+          </textarea>
+        </div>
+        <button class="btn btn-default"
+                type="button"
+                ng-click="doReadText('json', read_text)">
+          <div class="icon-sprite icon-file"></div>
+          Read JSON
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

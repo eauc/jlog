@@ -17,6 +17,10 @@ angular.module('jlogApp.controllers')
     'opponents',
     'tags',
     'filter',
+    'pubsub',
+    'parseUser',
+    'parseSync',
+    'parseLog',
     function($scope,
              $state,
              $q,
@@ -31,7 +35,11 @@ angular.module('jlogApp.controllers')
              events,
              opponents,
              tags,
-             filter) {
+             filter,
+             pubsub,
+             parseUser,
+             parseSync,
+             parseLog) {
       console.log('init mainCtrl');
 
       $scope.stateIs = _.bind($state.is, $state);
@@ -100,7 +108,7 @@ angular.module('jlogApp.controllers')
                                                   $scope.battles.sort.reverse);
         updateDisplayList();
       };
-      $scope.setBattles = function(bs) {
+      $scope.setBattles = function(bs, onLoad) {
         $scope.battles.list = battles.buildIndex(bs);
         battles.store($scope.battles.list);
         $scope.battles.opponents = opponents.fromBattles($scope.battles.list);
@@ -108,6 +116,7 @@ angular.module('jlogApp.controllers')
         $scope.battles.tags = tags.fromBattles($scope.battles.list);
         $scope.battles.scenarios = scenarios.fromBattles($scope.battles.list);
         $scope.updateBattles();
+        $scope.initParseSync(onLoad);
       };
 
       $scope.ready = $q.when(scores.data())
@@ -124,7 +133,7 @@ angular.module('jlogApp.controllers')
           return;
         }).then(function() {
           var bs = battles.init();
-          $scope.setBattles(bs);
+          $scope.setBattles(bs, true);
           // $scope.setBattles(battles.test(100,
           //                                $scope.factions,
           //                                $scope.scores,
@@ -132,6 +141,61 @@ angular.module('jlogApp.controllers')
           console.log('scope', $scope);
         });
 
+      $scope.parse = {
+        channel: pubsub('parse'),
+        state: null,
+        user: null,
+        sync: null,
+      };
+      $scope.initParseSync = function(onLoad) {
+        $scope.parse.state = 'Init Sync';
+        $scope.parse.state_class = null;
+        $scope.parse.user = null;
+        $scope.parse.sync = null;
+        parseSync.init()
+          .then(function(sync) {
+            $scope.parse.sync = sync;
+            if(!onLoad) {
+              $scope.parse.sync = parseSync.unvalidate($scope.parse.sync);
+            }
+            $scope.parse.state = 'LogIn Sync';
+            $scope.parse.state_class = 'info';
+            return parseUser.init();
+          })
+          .then(function(user) {
+            $scope.parse.user = user;
+            $scope.parse.channel.publish('login');
+          })
+          .catch(function(error) {
+            $scope.parse.channel.publish('logout');
+          });
+      };
+      $scope.parse.channel.subscribe('login', function() {
+        $scope.parse.state = 'Syncing...';
+        $scope.parse.state_class = 'info';
+        parseLog.sync($scope.parse.user, $scope.parse.sync, $scope.battles.list)
+          .then(function(result) {
+            var log = result[0];
+            var data = result[1];
+            console.log('Parse Sync: result: ', log, data);
+            
+            $scope.parse.sync = parseSync.validate(log.updatedAt);
+            $scope.parse.state = 'Synced';
+            $scope.parse.state_class = 'success';
+            if(data) {
+              $scope.setBattles(data, true);
+            }
+          })
+          .catch(function() {
+            $scope.parse.state = 'Sync Failed';
+            $scope.parse.state_class = 'danger';
+          });
+      });
+      $scope.parse.channel.subscribe('logout', function() {
+        $scope.parse.state = 'Sync Off';
+        $scope.parse.state_class = null;
+      });
+      
       $scope.doToggleFilterActive = function() {
         $scope.battles.filter.active = !$scope.battles.filter.active;
         console.log('setFilterActive = '+$scope.battles.filter.active);

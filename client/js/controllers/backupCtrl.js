@@ -12,6 +12,8 @@ angular.module('jlogApp.controllers')
     'server',
     'battles',
     'filter',
+    'parseUser',
+    'parseSync',
     function($scope,
              $window,
              textImport,
@@ -21,7 +23,9 @@ angular.module('jlogApp.controllers')
              fileExport,
              server,
              battles,
-             filter) {
+             filter,
+             parseUser,
+             parseSync) {
 
       console.log('init backupCtrl');
 
@@ -125,4 +129,60 @@ angular.module('jlogApp.controllers')
       $scope.doReadOldDatabase = function() {
         $scope.old_data = $window.localStorage.getItem('jlog_battles');
       };
-    }]);
+
+      $scope.signup = {};
+      $scope.doSignUp = function doSignUp() {
+        $scope.parse.user = {};
+        $scope.signup.error = 'Signing up...';
+        parseUser.signup($scope.signup)
+          .then(function(user) {
+            $scope.parse.user = user;
+            $scope.parse.channel.publish('login');
+            $scope.signup.error = null;
+          })
+          .catch(function(error) {
+            $scope.parse.user = {};
+            $scope.parse.channel.publish('logout');
+            $scope.signup.error = error;
+          })
+          .then(function() {
+            $scope.signup.password = null;
+          });
+      };
+      $scope.login = {};
+      $scope.doLogIn = function doLogIn() {
+        $scope.parse.user = {};
+        $scope.login.error = 'Loging in...';
+        parseUser.login($scope.login)
+          .then(function(user) {
+            $scope.parse.user = user;
+            $scope.initParseSync(true);
+            $scope.login.error = null;
+          })
+          .catch(function(error) {
+            $scope.parse.user = {};
+            $scope.parse.channel.publish('logout');
+            $scope.login.error = error;
+          })
+          .then(function() {
+            $scope.login.password = null;
+          });
+      };
+      $scope.logout = {};
+      $scope.doLogOut = function doLogOut() {
+        $scope.logout.error = 'Loging out...';
+        parseUser.logout($scope.parse.user)
+          .then(function(user) {
+            $scope.parse.user = user;
+            $scope.parse.channel.publish('logout');
+            $scope.logout.error = null;
+          })
+          .catch(function(error) {
+            $scope.logout.error = error;
+          });
+      };
+      $scope.doClearSync = function() {
+        parseSync.clear();
+      };
+    }
+  ]);

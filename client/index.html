@@ -30,8 +30,11 @@
            style="white-space:nowrap;">
           Journey Log
         </a>
-        <ul online-indicator
-            class="nav navbar-nav">
+        <ul class="nav navbar-nav {{parse.state ? 'show' : 'hide'}}">
+          <li><a class="text-{{parse.state_class}}"
+                 ng-click="initParseSync(true)">
+            {{parse.state}}
+          </a></li>
         </ul>
       </div>
       <div>
@@ -109,6 +112,7 @@
     <script src="lib/underscore/underscore-min.js"></script>
     <script src="lib/underscore/underscore-contrib.min.js"></script>
     <script src="lib/underscore.string/underscore.string.min.js"></script>
+    <script src="lib/lz-string/lz-string.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-ui-router/angular-ui-router.min.js"></script>
     <script src="js/app.min.js"></script>

@@ -30,8 +30,11 @@
            style="white-space:nowrap;">
           Journey Log
         </a>
-        <ul online-indicator
-            class="nav navbar-nav">
+        <ul class="nav navbar-nav {{parse.state ? 'show' : 'hide'}}">
+          <li><a class="text-{{parse.state_class}}"
+                 ng-click="initParseSync(true)">
+            {{parse.state}}
+          </a></li>
         </ul>
       </div>
       <div>
@@ -108,6 +111,7 @@
     <script src="lib/underscore/underscore.js"></script>
     <script src="lib/underscore/underscore-contrib.js"></script>
     <script src="lib/underscore.string/underscore.string.js"></script>
+    <script src="lib/lz-string/lz-string.js"></script>
 
     <script src="js/mixins/apply.js"></script>
     <script src="js/mixins/deepExtend.js"></script>
@@ -138,6 +142,10 @@
     <script src="js/services/factions.js"></script>
     <script src="js/services/filter.js"></script>
     <script src="js/services/opponents.js"></script>
+    <script src="js/services/parse/config.js"></script>
+    <script src="js/services/parse/log.js"></script>
+    <script src="js/services/parse/sync.js"></script>
+    <script src="js/services/parse/user.js"></script>
     <script src="js/services/pubsub.js"></script>
     <script src="js/services/scenarios.js"></script>
     <script src="js/services/scores.js"></script>

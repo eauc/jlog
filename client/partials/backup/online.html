@@ -1,0 +1,159 @@
+<div>
+  <div ng-hide="parse.user.sessionToken"
+       class="panel panel-info"> 
+    <div class="panel-heading"> 
+      <h5 class="panel-title"> 
+        Log In 
+      </h5> 
+    </div> 
+    <div class="panel-body"> 
+      <form ng-submit="doLogIn()"> 
+        <div class="form-group"> 
+          <label for="username">Name</label> 
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="name" 
+                 ng-model="login.username"
+                 required  /> 
+        </div> 
+        <div class="form-group"> 
+          <label for="username">Password</label> 
+          <input type="password" 
+                 class="form-control" 
+                 ng-model="login.password" 
+                 required  /> 
+        </div> 
+        <button type="submit" 
+                class="btn btn-primary"> 
+          Log In 
+        </button> 
+      </form> 
+      <p class="text-danger"> 
+        {{login.error}}
+      </p> 
+    </div> 
+  </div>
+  <div ng-hide="parse.user.sessionToken" 
+       class="panel panel-info"> 
+    <div class="panel-heading"> 
+      <h5 class="panel-title"> 
+        Sign up 
+      </h5> 
+    </div> 
+    <div class="panel-body"> 
+      <form ng-submit="doSignUp()"> 
+        <div class="form-group"> 
+          <label for="username">Name</label> 
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="name" 
+                 ng-model="signup.username" 
+                 required  /> 
+        </div> 
+        <div class="form-group"> 
+          <label for="username">Password</label> 
+          <input type="password" 
+                 class="form-control" 
+                 ng-model="signup.password" 
+                 required  /> 
+        </div> 
+        <div class="form-group"> 
+          <label for="username">EMail</label> 
+          <input type="email" 
+                 class="form-control" 
+                 ng-model="signup.email" 
+                 required  /> 
+        </div> 
+        <button type="submit" 
+                class="btn btn-primary"> 
+          Sign Up 
+        </button> 
+      </form> 
+      <p class="text-danger"> 
+        {{signup.error}} 
+      </p> 
+    </div> 
+  </div> 
+  <div ng-show="parse.user.sessionToken"
+       class="panel panel-info">
+    <div class="panel-heading">
+      <h5 class="panel-title">
+        Log Out
+      </h5>
+    </div>
+    <div class="panel-body">
+      <!-- <p><strong>ObjectId : </strong>{{parse.user.objectId}}</p> -->
+      <p><strong>Name : </strong>{{parse.user.username}}</p>
+      <p><strong>EMail : </strong>{{parse.user.email}}</p>
+      <!-- <p><strong>SessionToken : </strong>{{parse.user.sessionToken}}</p> -->
+      <form ng-submit="doLogOut()">
+        <button type="submit"
+                class="btn btn-primary">
+          Log Out
+        </button>
+      </form>
+      <p class="text-danger">
+        {{logout.error}}
+      </p>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4 class="panel-title">Sync / Upload</h4>
+    </div>
+    <div class="panel-body">
+      <button class="btn btn-default"
+              type="button"
+              ng-click="doUploadData()">
+        Upload current data to server
+        <span class="icon-sprite icon-upload"></span>
+      </button>
+      <p class="result">
+        <strong class="text-{{upload.id === null ? 'warning' : 'success'}}">
+          {{upload.msg | capitalise }}
+        </strong>
+      </p>
+      <p ng-hide="upload.id">
+        You can temporarily upload your current data to the web server.
+        This will generate an Id that you can use in the Sync / Download section
+        on another device to synchronize your data.
+        The generated Id and the uploaded data are not permanent and
+        will be cleared after a given period of time.
+      </p>
+      <p ng-show="upload.id">
+        <strong>Sync Id :</strong> {{upload.id}}<br/>
+        Use this Sync ID on your other device, in the download input below.
+      </p>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4 class="panel-title">Sync / Download</h4>
+    </div>
+    <div class="panel-body">
+      <p>
+        Enter below the Sync ID given to you after uploading from another device.
+      </p>
+      <form name="upload" ng-submit="doDownloadData()">
+        <div class="input-group">
+          <input type="text"
+                 class="form-control"
+                 ng-model="download.id"
+                 placeholder="Sync Id..." />
+          <span class="input-group-btn">
+            <button style="min-width:30px"
+                    class="btn btn-default"
+                    type="submit">
+              <span class="icon-sprite icon-download"></span>
+            </button>
+          </span>
+        </div>
+      </form>
+      <p class="result">
+        <strong class="text-warning">
+          {{download.msg | capitalise}}
+        </strong>
+      </p>
+    </div>
+  </div>
+</div>

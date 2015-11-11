@@ -391,6 +391,24 @@ select.multiple {
   font-size: 0.8em;
   color: #666; }
 
+.navbar-header .navbar-nav {
+  display: none; }
+
+.navbar-header .navbar-nav.show {
+  display: initial; }
+
+.navbar-header .navbar-nav > li > a.text-info {
+  color: #31708F;
+  font-weight: bold; }
+
+.navbar-header .navbar-nav > li > a.text-success {
+  color: #3C763D;
+  font-weight: bold; }
+
+.navbar-header .navbar-nav > li > a.text-danger {
+  color: #A94442;
+  font-weight: bold; }
+
 @media (max-width: 767px) {
   #page {
     padding-top: 40px; }
