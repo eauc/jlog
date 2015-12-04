@@ -6,11 +6,6 @@ gem 'sinatra'
 gem 'thin'
 
 group :development do
-  gem 'rake'
-  gem 'rspec'
-  gem 'cucumber'
-  gem 'jasmine'
   gem 'sass'
-  gem 'capybara'
-  gem 'selenium-webdriver'
+  gem 'rerun'
 end

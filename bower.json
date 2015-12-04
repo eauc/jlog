@@ -1,0 +1,26 @@
+{
+  "name": "eauc-jlog",
+  "description": "",
+  "main": "client/index.html",
+  "authors": [
+    "Auclair Emmanuel <auclair.emmanuel@gmail.com>"
+  ],
+  "license": "AGPLv3",
+  "homepage": "https://github.com/eauc/jlog",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules"
+  ],
+  "dependencies": {
+    "angular": "~1.3",
+    "angular-mocks": "~1.3",
+    "angular-ui-router": "~0.2",
+    "bootstrap": "~3.3",
+    "lz-string": "~1.4",
+    "underscore": "~1.6",
+    "underscore-contrib": "~0.3",
+    "underscore.string": "~3.0"
+  }
+}

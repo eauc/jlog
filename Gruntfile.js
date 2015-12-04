@@ -26,16 +26,44 @@ module.exports = function(grunt) {
         }
       }
     },
-    uglify: {
-      app_src: {
-        options: {
-          compress: {
-            drop_console: true
+    useminPrepare: {
+      html: 'client/index-dev.html',
+      options: {
+        dest: 'client',
+        flow: {
+          steps: {
+            js: ['uglify']
+          },
+          post: {
+            js: [{
+              name: 'uglify',
+              createConfig: function (context, block) {
+                var generated = context.options.generated;
+                generated.options = {
+                  sourceMap: true,
+                  compress: {
+                    drop_console: true
+                  }
+                };
+              }
+            }]
           }
-        },
-        files: {
-          'client/js/app.min.js': js_src
         }
+      }
+    },
+    usemin: {
+      html: ['client/index.html']
+    },
+    copy: {
+      html: {
+	src: 'client/index-dev.html',
+        dest: 'client/index.html'
+      }
+    },
+    concat: {
+      appendTemplates: {
+        src: [ 'client/js/app.min.js', 'client/js/services/htmlTemplates.js' ],
+        dest: 'client/js/app.min.js'
       }
     },
     sass: {
@@ -43,6 +71,9 @@ module.exports = function(grunt) {
         files: {
           'client/css/app.css': 'client/css/app.scss'
         }
+      },
+      options: {
+        style: 'compressed'
       }
     },
     ngtemplates: {
@@ -91,16 +122,16 @@ module.exports = function(grunt) {
           spawn: true
         }
       },
-      uglify: {
-        files: js_src,
-        tasks: [ 'uglify:app_src' ],
+      spec_src: {
+        files: spec_js.concat(js_src),
+        tasks: [ 'jshint:app_src', 'jshint:spec_src', 'jasmine:spec' ],
         options: {
           spawn: true
         }
       },
-      spec_src: {
+      jshint: {
         files: spec_js.concat(js_src),
-        tasks: [ 'jshint:app_src', 'jshint:spec_src', 'jasmine:spec' ],
+        tasks: [ 'jshint' ],
         options: {
           spawn: true
         }
@@ -108,12 +139,23 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-copy');
+  grunt.loadNpmTasks('grunt-usemin');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-angular-templates');
 
-  grunt.registerTask('build', [ 'ngtemplates', 'uglify', 'sass' ]);
+  grunt.registerTask('build', [
+    'ngtemplates',
+    'copy:html',
+    'useminPrepare',
+    'uglify:generated',
+    'usemin',
+    'concat:appendTemplates',
+    'sass'
+  ]);
 };
