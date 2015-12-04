@@ -182,6 +182,7 @@
       "gunnbjorn": {"name": "Captain Gunnbjorn"},
       "doomshaper1": {"name": "Hoarluk Doomshaper,  Shaman of the Gnarls"},
       "doomshaper2": {"name": "Hoarluk Doomshaper,  Rage of Dhunia"},
+      "doomshaper3": {"name": "Hoarluk Doomshaper,  Dire Prophet"},
       "jarl": {"name": "Jarl Skuld,  Devil of the Thornwood"},
       "madrak1": {"name": "Chief Madrak Ironhide"},
       "madrak2": {"name": "Madrak Ironhide,  World Ender"},
@@ -226,6 +227,7 @@
       "xerxis1": {"name": "Tyrant Xerxis"},
       "xerxis2": {"name": "Xerxis Fury of Halaak"},
       "zaal": {"name": "Supreme Aptimus Zaal"},
+      "zaal2": {"name": "Zaal, The Ancestral Advocate"},
       "makeda3": {"name": "Makeda & the Exalted Court"}
     },
     "icon": "skorne_50.png",
