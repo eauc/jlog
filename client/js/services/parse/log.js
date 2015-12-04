@@ -152,7 +152,12 @@ angular.module('jlogApp.services')
                   return server_log;
                 });
               }
-              return doUpdate;
+              return promptService.prompt('confirm', [
+                'Online data is newer than Local data.',
+                'Do you want to update Local with Online data ?'
+              ]).then(function() {
+                return server_log;
+              });
             })
             .then(function(log) {
               var request = {
