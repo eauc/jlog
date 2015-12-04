@@ -8,7 +8,7 @@ describe('controllers', function() {
     module('jlogApp.controllers');
   });
 
-  describe('statsCtrl', function(c) {
+  describe('statsCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',
@@ -80,7 +80,7 @@ describe('controllers', function() {
     });
   });
 
-  describe('statsBottomCtrl', function(c) {
+  describe('statsBottomCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

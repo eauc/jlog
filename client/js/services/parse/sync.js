@@ -27,7 +27,7 @@ angular.module('jlogApp.services')
               console.log('Parse Sync: invalid data in storage', error);
             })
             .then(function(sync) {
-              var sync = sync || {};
+              sync = sync || {};
               sync = _.extend({ last: null, current: null }, sync);
               console.log('Parse Sync: load data: ', sync);
               return sync;

@@ -54,8 +54,8 @@ angular.module('jlogApp.services')
             });
         },
         create: function(user, data) {
-          var data = {
-            log: LZString.compressToUTF16(JSON.stringify(data)),
+          data = {
+            log: self.LZString.compressToUTF16(JSON.stringify(data)),
             owner: {
               __type: "Pointer",
               className: "_User",
@@ -105,7 +105,7 @@ angular.module('jlogApp.services')
               return doUpdate;
             })
             .then(function(log) {
-              data = { log: LZString.compressToUTF16(JSON.stringify(data)) };
+              data = { log: self.LZString.compressToUTF16(JSON.stringify(data)) };
               var request = {
                 method: 'PUT',
                 url: [ 'https://api.parse.com/1/classes/Log/',
@@ -181,7 +181,7 @@ angular.module('jlogApp.services')
                   return [ {
                     objectId: data.objectId,
                     updatedAt: data.updatedAt,
-                  }, JSON.parse(LZString.decompressFromUTF16(data.log)) ];
+                  }, JSON.parse(self.LZString.decompressFromUTF16(data.log)) ];
                 });
             });
         },

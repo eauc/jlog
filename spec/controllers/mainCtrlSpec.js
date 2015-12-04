@@ -18,7 +18,7 @@ describe('controllers', function() {
     module('jlogApp.controllers');
   });
 
-  describe('mainCtrl', function(c) {
+  describe('mainCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

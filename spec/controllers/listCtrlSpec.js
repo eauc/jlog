@@ -7,7 +7,7 @@ describe('controllers', function() {
     module('jlogApp.controllers');
   });
 
-  describe('listCtrl', function(c) {
+  describe('listCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',
@@ -33,7 +33,7 @@ describe('controllers', function() {
     });
   });
 
-  describe('listBottomCtrl', function(c) {
+  describe('listBottomCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

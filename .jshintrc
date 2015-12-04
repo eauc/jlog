@@ -7,7 +7,8 @@
     "s": false,
     "angular": false,
     "console": false,
-    "document": false
+    "document": false,
+    "self": false
   },
   "-W097": true, // "use strict function form"
   "-W040": true, // "possible strict violation"

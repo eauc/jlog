@@ -67,7 +67,7 @@ angular.module('jlogApp.services')
             .then(function(response) {
               console.log('Parse User: Sign Up: success', response);
               var user = _.extend(signup, response.data);
-              localStorage.setItem(parseStorageKeys.sessionToken, user.sessionToken);
+              $window.localStorage.setItem(parseStorageKeys.sessionToken, user.sessionToken);
               return user;
             })
             .catch(function(error) {

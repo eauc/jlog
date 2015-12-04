@@ -7,7 +7,7 @@ describe('controllers', function() {
     module('jlogApp.controllers');
   });
 
-  describe('filterEditCtrl', function(c) {
+  describe('filterEditCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',
@@ -25,7 +25,7 @@ describe('controllers', function() {
 
   });
 
-  describe('filterEditBottomCtrl', function(c) {
+  describe('filterEditBottomCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

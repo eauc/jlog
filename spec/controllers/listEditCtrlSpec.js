@@ -8,7 +8,7 @@ describe('controllers', function() {
     module('jlogApp.controllers');
   });
 
-  describe('listEditCtrl', function(c) {
+  describe('listEditCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',
@@ -277,7 +277,7 @@ describe('controllers', function() {
     });
   });
 
-  describe('listEditBottomCtrl', function(c) {
+  describe('listEditBottomCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

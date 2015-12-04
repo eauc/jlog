@@ -7,7 +7,7 @@ describe('controllers', function() {
     module('jlogApp.controllers');
   });
 
-  describe('backupCtrl', function(c) {
+  describe('backupCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

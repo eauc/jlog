@@ -9,6 +9,7 @@
     "window": false,
     "console": false,
     "document": false,
+    "self": false,
     "describe": false,
     "xdescribe": false,
     "when": false,

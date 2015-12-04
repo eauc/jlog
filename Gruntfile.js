@@ -103,11 +103,11 @@ module.exports = function(grunt) {
           helpers: spec_js_helpers,
           vendor: [
               'client/lib/underscore/underscore.js',
-              'client/lib/underscore/underscore-contrib.js',
-              'client/lib/underscore.string/underscore.string.js',
+              'client/lib/underscore-contrib/dist/underscore-contrib.js',
+              'client/lib/underscore.string/dist/underscore.string.js',
               'client/lib/angular/angular.js',
-              'client/lib/angular-ui-router/angular-ui-router.min.js',
-              'client/lib/angular/angular-mocks.js',
+              'client/lib/angular-ui-router/release/angular-ui-router.min.js',
+              'client/lib/angular-mocks/angular-mocks.js',
           ],
           outfile: 'spec/SpecRunner.html',
           keepRunner: true
