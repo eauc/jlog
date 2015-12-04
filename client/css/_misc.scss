@@ -29,6 +29,19 @@ select.multiple {
     height: auto !important;
 }
 
+.ie-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    margin: 0px;
+    padding: 5px 20px;
+    z-index: 100000;
+}
+
 @media (max-width: 767px) {
     #page div {
         font-size: $small-font-size;
