@@ -62,7 +62,7 @@ module.exports = function(grunt) {
     },
     concat: {
       appendTemplates: {
-        src: [ 'client/js/app.min.js', 'client/js/services/htmlTemplates.js' ],
+        src: [ 'client/js/app.min.js', 'client/js/services/templates.js' ],
         dest: 'client/js/app.min.js'
       }
     },
