@@ -1,16 +1,16 @@
-<div>
+<div class="btn-group">
   <button class="btn btn-default"
           ng-click="doAddBattle()">
     <span class="icon-sprite icon-add"></span>
     <span class="lbl">Add Battle</span>
   </button>
-  <div class="drop">
+  <div class="drop btn-group">
     <button class="btn"
             ng-class="{
-            'btn-default': !battles.filter.active,
-            'btn-success': battles.filter.active && !battles.filter.invert,
-            'btn-primary': battles.filter.active && battles.filter.invert
-            }"
+                      'btn-default': !battles.filter.active,
+                      'btn-success': battles.filter.active && !battles.filter.invert,
+                      'btn-primary': battles.filter.active && battles.filter.invert
+                      }"
             open-dropdown>
       <div class="icon-sprite icon-filter"></div>
       <span class="lbl">Filter</span>
@@ -55,7 +55,7 @@
       </ul>
     </div>
   </div>
-  <div class="drop">
+  <div class="drop btn-group">
     <button class="btn btn-default"
             open-dropdown>
       <div class="icon-sprite icon-sort"></div>
@@ -78,7 +78,7 @@
       </ul>
     </div>
   </div>
-  <div class="drop">
+  <div class="drop btn-group">
     <button class="btn btn-default"
             ng-click="doExportOpen()"
             open-dropdown="drop-list-export">
