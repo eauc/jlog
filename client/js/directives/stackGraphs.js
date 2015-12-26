@@ -7,6 +7,9 @@ angular.module('jlogApp.directives')
       $scope.$watch('values', function(values) {
         if(!_.exists(values)) return;
         // console.log('sg values', values);
+        if(values.values.length === 1) {
+          values.values[1] = values.values[0];
+        }
         var dx = $scope.width / (values.values.length-1);
         $scope.legends = _.chain(values.legends)
           .map(function(l,i) {
