@@ -53,18 +53,18 @@ angular.module('jlogApp.services').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('partials/battle_list_menu.html',
-    "<div><button class=\"btn btn-default\" ng-click=doAddBattle()><span class=\"icon-sprite icon-add\"></span> <span class=lbl>Add Battle</span></button><div class=drop><button class=btn ng-class=\"{\n" +
-    "            'btn-default': !battles.filter.active,\n" +
-    "            'btn-success': battles.filter.active && !battles.filter.invert,\n" +
-    "            'btn-primary': battles.filter.active && battles.filter.invert\n" +
-    "            }\" open-dropdown><div class=\"icon-sprite icon-filter\"></div><span class=lbl>Filter</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Filter</li><li><a href=#/filter><div class=\"icon-sprite icon-edit\"></div>Edit</a></li><li ng-show=\"battles.filter.active &&\n" +
+    "<div class=btn-group><button class=\"btn btn-default\" ng-click=doAddBattle()><span class=\"icon-sprite icon-add\"></span> <span class=lbl>Add Battle</span></button><div class=\"drop btn-group\"><button class=btn ng-class=\"{\n" +
+    "                      'btn-default': !battles.filter.active,\n" +
+    "                      'btn-success': battles.filter.active && !battles.filter.invert,\n" +
+    "                      'btn-primary': battles.filter.active && battles.filter.invert\n" +
+    "                      }\" open-dropdown><div class=\"icon-sprite icon-filter\"></div><span class=lbl>Filter</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Filter</li><li><a href=#/filter><div class=\"icon-sprite icon-edit\"></div>Edit</a></li><li ng-show=\"battles.filter.active &&\n" +
     "                     !battles.filter.invert\n" +
     "                     \"><a ng-click=doToggleFilterInvert()><div class=\"icon-sprite icon-invert\"></div>Invert</a></li><li ng-show=\"battles.filter.active &&\n" +
     "                     battles.filter.invert\n" +
-    "                     \"><a ng-click=doToggleFilterInvert()><div class=\"icon-sprite icon-invert\"></div>Restore</a></li><li ng-hide=battles.filter.active><a ng-click=doToggleFilterActive()><div class=\"icon-sprite icon-enable\"></div>Enable</a></li><li ng-show=battles.filter.active><a ng-click=doToggleFilterActive()><div class=\"icon-sprite icon-disable\"></div>Disable</a></li></ul></div></div><div class=drop><button class=\"btn btn-default\" open-dropdown><div class=\"icon-sprite icon-sort\"></div><span class=lbl>Sort By</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Sort By</li><li ng-repeat=\"(key, type) in sort_types\"><a ng-click=doSortBy(key)><div class=icon-sprite ng-class=\"{\n" +
+    "                     \"><a ng-click=doToggleFilterInvert()><div class=\"icon-sprite icon-invert\"></div>Restore</a></li><li ng-hide=battles.filter.active><a ng-click=doToggleFilterActive()><div class=\"icon-sprite icon-enable\"></div>Enable</a></li><li ng-show=battles.filter.active><a ng-click=doToggleFilterActive()><div class=\"icon-sprite icon-disable\"></div>Disable</a></li></ul></div></div><div class=\"drop btn-group\"><button class=\"btn btn-default\" open-dropdown><div class=\"icon-sprite icon-sort\"></div><span class=lbl>Sort By</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Sort By</li><li ng-repeat=\"(key, type) in sort_types\"><a ng-click=doSortBy(key)><div class=icon-sprite ng-class=\"{\n" +
     "                           'icon-down': (battles.sort.type === key) && !battles.sort.reverse,\n" +
     "                           'icon-up': (battles.sort.type === key) && battles.sort.reverse\n" +
-    "                           }\"></div>{{type.name}}</a></li></ul></div></div><div class=drop><button class=\"btn btn-default\" ng-click=doExportOpen() open-dropdown=drop-list-export><div class=\"icon-sprite icon-save\"></div><span class=lbl>Export</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Export to</li><li ng-repeat=\"(k,v) in exports\"><a ng-href={{::v.url}} download={{::v.name}}>{{::v.label}}</a></li></ul></div></div></div>"
+    "                           }\"></div>{{type.name}}</a></li></ul></div></div><div class=\"drop btn-group\"><button class=\"btn btn-default\" ng-click=doExportOpen() open-dropdown=drop-list-export><div class=\"icon-sprite icon-save\"></div><span class=lbl>Export</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Export to</li><li ng-repeat=\"(k,v) in exports\"><a ng-href={{::v.url}} download={{::v.name}}>{{::v.label}}</a></li></ul></div></div></div>"
   );
 
 
@@ -271,7 +271,7 @@ angular.module('jlogApp.services').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('partials/stats_menu.html',
-    "<div><div class=\"btn-group drop\"><button class=\"btn btn-default\" open-dropdown><span style=font-weight:bold>%</span> <span>{{ENTRIES[state.entry].desc}}</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Show</li><li ng-repeat=\"(id, e) in ::ENTRIES\"><a ng-click=::doSetEntry(id)>{{::e.desc}}</a></li></ul></div></div><div class=\"btn-group drop\"><button class=\"btn btn-default\" open-dropdown><div class=\"icon-sprite icon-sort\"></div><span>{{SELECTORS[state.selector].desc}}</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Sorted By</li><li ng-repeat=\"(id, s) in ::SELECTORS\"><a ng-click=::doSetSelector(id)>{{::s.desc}}</a></li></ul></div></div><div class=\"btn-group drop\"><button class=btn ng-class=\"{\n" +
+    "<div class=btn-group><div class=\"btn-group drop\"><button class=\"btn btn-default\" open-dropdown><span style=font-weight:bold>%</span> <span>{{ENTRIES[state.entry].desc}}</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Show</li><li ng-repeat=\"(id, e) in ::ENTRIES\"><a ng-click=::doSetEntry(id)>{{::e.desc}}</a></li></ul></div></div><div class=\"btn-group drop\"><button class=\"btn btn-default\" open-dropdown><div class=\"icon-sprite icon-sort\"></div><span>{{SELECTORS[state.selector].desc}}</span></button><div class=drop-mask><ul class=drop-menu><li class=dropdown-header>Sorted By</li><li ng-repeat=\"(id, s) in ::SELECTORS\"><a ng-click=::doSetSelector(id)>{{::s.desc}}</a></li></ul></div></div><div class=\"btn-group drop\"><button class=btn ng-class=\"{\n" +
     "            'btn-default': !battles.filter.active,\n" +
     "            'btn-success': battles.filter.active && !battles.filter.invert,\n" +
     "            'btn-primary': battles.filter.active && battles.filter.invert\n" +

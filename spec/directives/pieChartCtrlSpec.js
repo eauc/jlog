@@ -6,7 +6,7 @@ describe('controllers', function() {
     module('jlogApp.directives');
   });
 
-  describe('pieChartCtrl', function(c) {
+  describe('pieChartCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

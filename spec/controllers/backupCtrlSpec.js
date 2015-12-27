@@ -20,13 +20,20 @@ describe('controllers', function() {
         this.scope.battles = {
           list: [ 'battles_list' ]
         };
-
+        this.scope.parse = {
+          channel: jasmine.createSpyObj('channel', ['publish'])
+        };
+        
         this.fileImportService = spyOnService('fileImport');
         this.textImportService = spyOnService('textImport');
         this.igParserService = spyOnService('igParser');
         this.fileExportService = spyOnService('fileExport');
         this.textExportService = spyOnService('textExport');
         this.serverService = spyOnService('server');
+        this.parseUserService = spyOnService('parseUser');
+        mockReturnPromise(this.parseUserService.signup);
+        mockReturnPromise(this.parseUserService.login);
+        mockReturnPromise(this.parseUserService.logout);
 
         $controller('backupCtrl', { 
           '$scope': this.scope,
@@ -245,6 +252,174 @@ describe('controllers', function() {
         });
       });
     });
-  });
 
+    describe('doSignUp()', function() {
+      beforeEach(function() {
+        this.scope.signup = { signup: 'signup' };
+        this.scope.doSignUp();
+      });
+
+      it('should sign up parse user', function() {
+        expect(this.scope.parse.user)
+          .toEqual({});
+        expect(this.scope.signup.error)
+          .toBe('Signing up...');
+
+        expect(this.parseUserService.signup)
+          .toHaveBeenCalledWith(this.scope.signup);
+      });
+
+      describe('when sign up succeeds', function() {
+        beforeEach(function() {
+          this.parseUserService.signup.resolve('user');
+        });
+        
+        it('should log in parse user', function() {
+          expect(this.scope.parse.user)
+            .toBe('user');
+          expect(this.scope.signup.error)
+            .toBe(null);
+          
+          expect(this.scope.parse.channel.publish)
+            .toHaveBeenCalledWith('login');
+        });
+
+        it('should reset signup password', function() {
+          expect(this.scope.signup.password)
+            .toBe(null);
+        });
+      });
+
+      describe('when sign up fails', function() {
+        beforeEach(function() {
+          this.parseUserService.signup.reject('error');
+        });
+        
+        it('should log out parse user', function() {
+          expect(this.scope.parse.user)
+            .toEqual({});
+          expect(this.scope.signup.error)
+            .toBe('error');
+          
+          expect(this.scope.parse.channel.publish)
+            .toHaveBeenCalledWith('logout');
+        });
+
+        it('should reset signup password', function() {
+          expect(this.scope.signup.password)
+            .toBe(null);
+        });
+      });
+    });
+
+    describe('doLogIn()', function() {
+      beforeEach(function() {
+        this.scope.login = { login: 'login' };
+        this.scope.initParseSync = jasmine.createSpy('initParseSync');
+        
+        this.scope.doLogIn();
+      });
+
+      it('should sign up parse user', function() {
+        expect(this.scope.parse.user)
+          .toEqual({});
+        expect(this.scope.login.error)
+          .toBe('Loging in...');
+
+        expect(this.parseUserService.login)
+          .toHaveBeenCalledWith(this.scope.login);
+      });
+
+      describe('when log in succeeds', function() {
+        beforeEach(function() {
+          this.parseUserService.login.resolve('user');
+        });
+        
+        it('should log in parse user', function() {
+          expect(this.scope.parse.user)
+            .toBe('user');
+          expect(this.scope.login.error)
+            .toBe(null);
+          
+          expect(this.scope.initParseSync)
+            .toHaveBeenCalledWith(true);
+        });
+
+        it('should reset login password', function() {
+          expect(this.scope.login.password)
+            .toBe(null);
+        });
+      });
+
+      describe('when log in fails', function() {
+        beforeEach(function() {
+          this.parseUserService.login.reject('error');
+        });
+        
+        it('should log out parse user', function() {
+          expect(this.scope.parse.user)
+            .toEqual({});
+          expect(this.scope.login.error)
+            .toBe('error');
+          
+          expect(this.scope.parse.channel.publish)
+            .toHaveBeenCalledWith('logout');
+        });
+
+        it('should reset login password', function() {
+          expect(this.scope.login.password)
+            .toBe(null);
+        });
+      });
+    });
+
+    describe('doLogOut()', function() {
+      beforeEach(function() {
+        this.scope.logout = { };
+        this.scope.parse.user = 'user';
+
+        this.scope.doLogOut();
+      });
+
+      it('should log out parse user', function() {
+        expect(this.scope.logout.error)
+          .toBe('Loging out...');
+
+        expect(this.parseUserService.logout)
+          .toHaveBeenCalledWith('user');
+      });
+
+      describe('when log out succeeds', function() {
+        beforeEach(function() {
+          this.parseUserService.logout.resolve('logoutUser');
+        });
+        
+        it('should log out parse user', function() {
+          expect(this.scope.parse.user)
+            .toBe('logoutUser');
+          expect(this.scope.logout.error)
+            .toBe(null);
+          
+          expect(this.scope.parse.channel.publish)
+            .toHaveBeenCalledWith('logout');
+        });
+      });
+
+      describe('when logout fails', function() {
+        beforeEach(function() {
+          this.parseUserService.logout.reject('error');
+        });
+        
+        it('should log out parse user', function() {
+          expect(this.scope.parse.user)
+            .toBe('user');
+          expect(this.scope.logout.error)
+            .toBe('error');
+          
+          expect(this.scope.parse.channel.publish)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
 });

@@ -14,7 +14,7 @@ describe('service', function() {
     module('jlogApp.services');
   });
 
-  describe('appCache', function(c) {
+  describe('appCache', function() {
 
     beforeEach(inject([
       'appCache',

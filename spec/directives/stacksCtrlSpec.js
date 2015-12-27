@@ -6,7 +6,7 @@ describe('controllers', function() {
     module('jlogApp.directives');
   });
 
-  describe('stacksCtrl', function(c) {
+  describe('stacksCtrl', function() {
 
     beforeEach(inject([
       '$rootScope',

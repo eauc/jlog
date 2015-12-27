@@ -64,7 +64,7 @@ angular.module('jlogApp.services')
           };
           var request = {
             method: 'POST',
-            url: 'https://api.parse.com/1/classes/Log',
+            url: parseUrls.root+'/classes/Log',
             headers: _.extend({
               'X-Parse-Session-Token': user.sessionToken,
             }, parseHeaders),

@@ -7,11 +7,15 @@ describe('controllers', function() {
       location: jasmine.createSpyObj('location', [
         'reload',
       ]),
+      // localStorage: jasmine.createSpyObj('localStorage', [
+      //   'getItem', 'setItem'
+      // ]),
     };
     this.anchorScrollService = jasmine.createSpy('anchorScroll');
     module({
       '$window': this.windowService,
-      '$anchorScroll': this.anchorScrollService
+      '$anchorScroll': this.anchorScrollService,
+      'prompt': this.promptService,
     });
     module('ui.router');
     module('jlogApp.services');
@@ -19,7 +23,6 @@ describe('controllers', function() {
   });
 
   describe('mainCtrl', function() {
-
     beforeEach(inject([
       '$rootScope',
       '$controller',
@@ -44,6 +47,9 @@ describe('controllers', function() {
 
         this.filterService = spyOnService('filter');
 
+        this.parseSyncService = spyOnService('parseSync');
+        mockReturnPromise(this.parseSyncService.init);
+        
         $controller('mainCtrl', { 
           '$scope': this.scope,
         });
@@ -164,13 +170,14 @@ describe('controllers', function() {
       });
     });
 
-    describe('setBattles()', function() {
+    describe('setBattles(<battles>, <onLoad>)', function() {
       beforeEach(function() {
         this.scope.battles.list = [ 'battle_list' ];
         spyOn(this.scope, 'updateBattles');
         this.battlesService.store.calls.reset();
+        spyOn(this.scope, 'initParseSync');
 
-        this.scope.setBattles([ 'new_battles' ]);
+        this.scope.setBattles([ 'new_battles' ], 'onLoad');
       });
 
       it('should build index and set list', function() {
@@ -203,6 +210,11 @@ describe('controllers', function() {
       it('should update battles data', function() {
         expect(this.scope.updateBattles)
           .toHaveBeenCalled();
+      });
+
+      it('should init parse sync', function() {
+        expect(this.scope.initParseSync)
+          .toHaveBeenCalledWith('onLoad');
       });
     });
 
@@ -255,6 +267,127 @@ describe('controllers', function() {
           .toHaveBeenCalled();
       });
     });
-  });
 
+    describe('parse', function() {
+      it('should init parte state', function() {
+        expect(this.scope.parse.state).toBe('Init Sync');
+        expect(this.scope.parse.state_class).toBe(null);
+        expect(this.scope.parse.user).toBe(null);
+        expect(this.scope.parse.sync).toBe(null);
+      });
+
+      describe('when parseSync init is resolved', function() {
+        beforeEach(function() {
+          this.parseUserService = spyOnService('parseUser');
+          mockReturnPromise(this.parseUserService.init);
+          spyOn(this.scope.parse.channel, 'publish');
+          
+          this.parseSyncService.init.resolve('sync');
+        });
+
+        it('should init parse user', function() {
+          expect(this.scope.parse.sync).toBe('sync');
+          expect(this.scope.parse.state).toBe('LogIn Sync');
+          expect(this.scope.parse.state_class).toBe('info');
+
+          expect(this.parseUserService.init)
+            .toHaveBeenCalled();
+        });
+
+        describe('when user logs in', function() {
+          beforeEach(function() {
+            this.parseUserService.init.resolve('user');
+          });
+
+          it('should emit "login" event', function() {
+            expect(this.scope.parse.channel.publish)
+              .toHaveBeenCalledWith('login');
+            expect(this.scope.parse.user)
+              .toBe('user');
+          });
+        });
+
+        describe('when user log in fails', function() {
+          beforeEach(function() {
+            this.parseUserService.init.reject('oups');
+          });
+
+          it('should emit "logout" event', function() {
+            expect(this.scope.parse.channel.publish)
+              .toHaveBeenCalledWith('logout');
+            expect(this.scope.parse.user)
+              .toBe(null);
+          });
+        });
+      });
+
+      describe('when user logs in', function() {
+        beforeEach(function() {
+          this.parseLogService = spyOnService('parseLog');
+          mockReturnPromise(this.parseLogService.sync);
+
+          this.scope.parse.user = 'user';
+          this.scope.parse.sync = 'sync';
+          this.scope.battles = { list: 'list' };
+          
+          this.scope.parse.channel.publish('login');
+        });
+
+        it('should attempts parse sync', function() {
+          expect(this.scope.parse.state).toBe('Syncing...');
+          expect(this.scope.parse.state_class).toBe('info');
+
+          expect(this.parseLogService.sync)
+            .toHaveBeenCalledWith('user', 'sync', 'list');
+        });
+
+        describe('when parse sync succeeds', function() {
+          beforeEach(function() {
+            spyOn(this.scope, 'setBattles');
+            
+            this.parseLogService.sync.resolve([
+              { updatedAt: 'updatedAt' }, 'data'
+            ]);
+          });
+
+          it('should update parse state', function() {
+            expect(this.parseSyncService.validate)
+              .toHaveBeenCalledWith('updatedAt');
+            expect(this.scope.parse.sync)
+              .toBe('parseSync.validate.returnValue');
+
+            expect(this.scope.parse.state).toBe('Synced');
+            expect(this.scope.parse.state_class).toBe('success');
+          });
+
+          it('should update battles with sync result', function() {
+            expect(this.scope.setBattles)
+              .toHaveBeenCalledWith('data', true);
+          });
+        });
+
+        describe('when parse sync fails', function() {
+          beforeEach(function() {
+            this.parseLogService.sync.reject('oups');
+          });
+
+          it('should update parse state', function() {
+            expect(this.scope.parse.state).toBe('Sync Failed');
+            expect(this.scope.parse.state_class).toBe('danger');
+          });
+        });
+      });
+
+      describe('when user logs out', function() {
+        beforeEach(function() {
+          this.scope.parse.channel.publish('logout');
+        });
+
+        it('should update parse state', function() {
+          expect(this.scope.parse.state).toBe('Sync Off');
+          expect(this.scope.parse.state_class).toBe(null);
+        });
+      });
+    });
+  });
 });

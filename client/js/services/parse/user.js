@@ -115,7 +115,7 @@ angular.module('jlogApp.services')
             })
             .catch(function(error) {
               console.log('Parse User: Log Out: error', error.data.error);
-              return error.data.error;
+              return $q.reject(error.data.error);
             });
         },
         users: function() {
