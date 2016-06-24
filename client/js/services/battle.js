@@ -2,7 +2,8 @@
 
 angular.module('jlogApp.services')
   .factory('battle', [
-    function() {
+    'factions',
+    function(factionsService) {
       var battle = {
         create: function(data) {
           data = _.exists(data) ? data : {};
@@ -39,6 +40,13 @@ angular.module('jlogApp.services')
             tags: [],
             comment: null
           }, data);
+        },
+        normalise: function(battle) {
+          battle.my_army.faction = factionsService
+            .normaliseFaction(battle.my_army.faction);
+          battle.opponent.faction = factionsService
+            .normaliseFaction(battle.opponent.faction);
+          return battle;
         },
         test: function(i, factions, scores, scenarios) {
           var my_faction = _.chain(factions).shuffle().first().value();
@@ -198,6 +206,9 @@ angular.module('jlogApp.services')
             b.index = i;
             b.hash = hashCode(jsonStringifier.stringify(b));
           });
+        },
+        normalise: function(coll) {
+          return _.map(coll, battle.normalise);
         },
         save: function(coll, i, b) {
           var ret = _.clone(coll);

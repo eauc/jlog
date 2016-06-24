@@ -41,6 +41,24 @@ angular.module('jlogApp.services')
               return $q.reject(response);
             });
         },
+        normaliseFaction: function(faction) {
+          if(_.contains([
+            'cephalyx',
+            'highborn',
+            'seaforge',
+            'talion',
+            'fourstar'
+          ], faction)) {
+            return 'mercs';
+          }
+          if(_.contains([
+            'blindwater',
+            'thornfall'
+          ], faction)) {
+            return 'minions';
+          }
+          return faction;
+        },
         normaliseCaster: function(caster) {
           if (!_.isString(caster) ||
               s.isBlank(caster)) return null;

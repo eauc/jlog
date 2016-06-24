@@ -1,4 +1,30 @@
 {
+  "sr16": {
+    "sr16ent": {
+      "name": "SR16 Entrenched"
+    },
+    "sr16ext": {
+      "name": "SR16 Extraction"
+    },
+    "sr16incu": {
+      "name": "SR16 Incursion"
+    },
+    "sr16lb": {
+      "name": "SR16 Line Breaker"
+    },
+    "sr16ol": {
+      "name": "SR16 Outlast"
+    },
+    "sr16rec": {
+      "name": "SR16 Recon"
+    },
+    "sr16tah": {
+      "name": "SR16 Take and Hold"
+    },
+    "sr16tp": {
+      "name": "SR16 The Pit"
+    }
+  },
   "sr15": {
     "sr15des": {
       "name": "SR15 Destruction"

@@ -109,7 +109,8 @@ angular.module('jlogApp.controllers')
         updateDisplayList();
       };
       $scope.setBattles = function(bs, onLoad) {
-        $scope.battles.list = battles.buildIndex(bs);
+        $scope.battles.list = battles.normalise(bs);
+        $scope.battles.list = battles.buildIndex($scope.battles.list);
         battles.store($scope.battles.list);
         $scope.battles.opponents = opponents.fromBattles($scope.battles.list);
         $scope.battles.events = events.fromBattles($scope.battles.list);
@@ -178,7 +179,7 @@ angular.module('jlogApp.controllers')
             var log = result[0];
             var data = result[1];
             console.log('Parse Sync: result: ', log, data);
-            
+
             $scope.parse.sync = parseSync.validate(log.updatedAt);
             $scope.parse.state = 'Synced';
             $scope.parse.state_class = 'success';
@@ -195,7 +196,7 @@ angular.module('jlogApp.controllers')
         $scope.parse.state = 'Sync Off';
         $scope.parse.state_class = null;
       });
-      
+
       $scope.doToggleFilterActive = function() {
         $scope.battles.filter.active = !$scope.battles.filter.active;
         console.log('setFilterActive = '+$scope.battles.filter.active);
